@@ -4,6 +4,7 @@ import 'package:apis/network/remote/products/custom_collection/freezed_model/req
 import 'package:apis/network/remote/products/custom_collection/freezed_model/request/create_custom_collection_uploaded_image_request.dart';
 import 'package:apis/network/remote/products/custom_collection/freezed_model/request/create_custom_collection_with_metafield_request.dart';
 import 'package:apis/network/remote/products/custom_collection/freezed_model/request/create_unpublished_custom_collection_request.dart';
+import 'package:apis/network/remote/products/custom_collection/freezed_model/request/update_custom_collection_description_request.dart';
 import 'package:apis/network/remote/products/custom_collection/freezed_model/response/count_custom_collections_response.dart';
 import 'package:apis/network/remote/products/custom_collection/freezed_model/response/create_collection_with_collect_response.dart';
 import 'package:apis/network/remote/products/custom_collection/freezed_model/response/create_custom_collection_base_image_response.dart';
@@ -13,6 +14,7 @@ import 'package:apis/network/remote/products/custom_collection/freezed_model/res
 import 'package:apis/network/remote/products/custom_collection/freezed_model/response/create_unpublished_custom_collection_response.dart';
 import 'package:apis/network/remote/products/custom_collection/freezed_model/response/list_all_custom_collections_response.dart';
 import 'package:apis/network/remote/products/custom_collection/freezed_model/response/specific_custom_collections_response.dart';
+import 'package:apis/network/remote/products/custom_collection/freezed_model/response/update_custom_collection_description_response.dart';
 
 abstract class CustomCollectionsService {
   // 📋 List all custom collections
@@ -52,38 +54,44 @@ abstract class CustomCollectionsService {
   });
 
   // ➕ Create Custom Collection
-  Future<CreateCustomCollectionResponse> createCustomCollection({
-    required String apiVersion,
-    required CreateCustomCollectionRequest model
-  });
+  Future<CreateCustomCollectionResponse> createCustomCollection(
+      {required String apiVersion,
+      required CreateCustomCollectionRequest model});
 
   // ➕ Create Unpublished Custom Collection
-  Future<CreateUnpublishedCustomCollectionResponse> createUnpublishedCustomCollection({
-    required String apiVersion,
-    required CreateUnpublishedCustomCollectionRequest model
-  });
+  Future<CreateUnpublishedCustomCollectionResponse>
+      createUnpublishedCustomCollection(
+          {required String apiVersion,
+          required CreateUnpublishedCustomCollectionRequest model});
 
   // ➕ Create Collection With Collect
-  Future<CreateCollectionWithCollectResponse> createCollectionWithCollect({
-    required String apiVersion,
-    required CreateCollectionWithCollectRequest model
-  });
+  Future<CreateCollectionWithCollectResponse> createCollectionWithCollect(
+      {required String apiVersion,
+      required CreateCollectionWithCollectRequest model});
 
   // ➕ Create Custom Collection Base Image
-  Future<CreateCustomCollectionBaseImageResponse> createCustomCollectionBaseImage({
-    required String apiVersion,
-    required CreateCustomCollectionBaseImageRequest model
-  });
+  Future<CreateCustomCollectionBaseImageResponse>
+      createCustomCollectionBaseImage(
+          {required String apiVersion,
+          required CreateCustomCollectionBaseImageRequest model});
 
   // ➕ Create Custom Collection With Metafield
-  Future<CreateCustomCollectionWithMetafieldResponse> createCustomCollectionWithMetafield({
-    required String apiVersion,
-    required CreateCustomCollectionWithMetafieldRequest model
-  });
+  Future<CreateCustomCollectionWithMetafieldResponse>
+      createCustomCollectionWithMetafield(
+          {required String apiVersion,
+          required CreateCustomCollectionWithMetafieldRequest model});
 
   // ➕ Create Custom Collection Uploaded Image
-  Future<CreateCustomCollectionUploadedImageResponse> createCustomCollectionUploadedImage({
+  Future<CreateCustomCollectionUploadedImageResponse>
+      createCustomCollectionUploadedImage(
+          {required String apiVersion,
+          required CreateCustomCollectionUploadedImageRequest model});
+
+  // 📝 Update Custom Collection Description
+  Future<UpdateCustomCollectionDescriptionResponse>
+      updateCustomCollectionDescription({
     required String apiVersion,
-    required CreateCustomCollectionUploadedImageRequest model
+    required int customCollectionId,
+    required UpdateCustomCollectionDescriptionRequest model,
   });
 }

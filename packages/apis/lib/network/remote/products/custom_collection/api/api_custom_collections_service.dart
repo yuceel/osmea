@@ -7,6 +7,7 @@ import 'package:apis/network/remote/products/custom_collection/freezed_model/req
 import 'package:apis/network/remote/products/custom_collection/freezed_model/request/create_custom_collection_uploaded_image_request.dart';
 import 'package:apis/network/remote/products/custom_collection/freezed_model/request/create_custom_collection_with_metafield_request.dart';
 import 'package:apis/network/remote/products/custom_collection/freezed_model/request/create_unpublished_custom_collection_request.dart';
+import 'package:apis/network/remote/products/custom_collection/freezed_model/request/update_custom_collection_description_request.dart';
 import 'package:apis/network/remote/products/custom_collection/freezed_model/response/count_custom_collections_response.dart';
 import 'package:apis/network/remote/products/custom_collection/freezed_model/response/create_collection_with_collect_response.dart';
 import 'package:apis/network/remote/products/custom_collection/freezed_model/response/create_custom_collection_base_image_response.dart';
@@ -16,6 +17,7 @@ import 'package:apis/network/remote/products/custom_collection/freezed_model/res
 import 'package:apis/network/remote/products/custom_collection/freezed_model/response/create_unpublished_custom_collection_response.dart';
 import 'package:apis/network/remote/products/custom_collection/freezed_model/response/list_all_custom_collections_response.dart';
 import 'package:apis/network/remote/products/custom_collection/freezed_model/response/specific_custom_collections_response.dart';
+import 'package:apis/network/remote/products/custom_collection/freezed_model/response/update_custom_collection_description_response.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/http.dart';
@@ -84,7 +86,8 @@ abstract class CustomCollectionsServiceClient
 
   // ➕ Create Unpublished Custom Collection
   @POST('/api/{api_version}/custom_collections.json')
-  Future<CreateUnpublishedCustomCollectionResponse> createUnpublishedCustomCollection({
+  Future<CreateUnpublishedCustomCollectionResponse>
+      createUnpublishedCustomCollection({
     @Path('api_version') required String apiVersion,
     @Body() required CreateUnpublishedCustomCollectionRequest model,
   });
@@ -98,22 +101,34 @@ abstract class CustomCollectionsServiceClient
 
   // ➕ Create Custom Collection Base Image
   @POST('/api/{api_version}/custom_collections.json')
-  Future<CreateCustomCollectionBaseImageResponse> createCustomCollectionBaseImage({
+  Future<CreateCustomCollectionBaseImageResponse>
+      createCustomCollectionBaseImage({
     @Path('api_version') required String apiVersion,
     @Body() required CreateCustomCollectionBaseImageRequest model,
   });
 
   // ➕ Create Custom Collection With Metafield
   @POST('/api/{api_version}/custom_collections.json')
-  Future<CreateCustomCollectionWithMetafieldResponse> createCustomCollectionWithMetafield({
+  Future<CreateCustomCollectionWithMetafieldResponse>
+      createCustomCollectionWithMetafield({
     @Path('api_version') required String apiVersion,
     @Body() required CreateCustomCollectionWithMetafieldRequest model,
   });
 
   // ➕ Create Custom Collection Uploaded Image
   @POST('/api/{api_version}/custom_collections.json')
-  Future<CreateCustomCollectionUploadedImageResponse> createCustomCollectionUploadedImage({
+  Future<CreateCustomCollectionUploadedImageResponse>
+      createCustomCollectionUploadedImage({
     @Path('api_version') required String apiVersion,
     @Body() required CreateCustomCollectionUploadedImageRequest model,
+  });
+
+  // 📝 Update Custom Collection Description
+  @PUT('/api/{api_version}/custom_collections/{custom_collection_id}.json')
+  Future<UpdateCustomCollectionDescriptionResponse>
+      updateCustomCollectionDescription({
+    @Path('api_version') required String apiVersion,
+    @Path('custom_collection_id') required int customCollectionId,
+    @Body() required UpdateCustomCollectionDescriptionRequest model,
   });
 }
