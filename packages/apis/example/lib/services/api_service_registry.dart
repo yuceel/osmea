@@ -200,6 +200,13 @@ import 'package:example/services/handlers/webhooks_handlers/webhook_handlers/ret
 import 'package:example/services/handlers/webhooks_handlers/webhook_handlers/create_webhook_handler.dart';
 import 'package:example/services/handlers/webhooks_handlers/webhook_handlers/update_webhook_handler.dart';
 import 'package:example/services/handlers/webhooks_handlers/webhook_handlers/delete_webhook_handler.dart';
+import 'package:example/services/handlers/smart_collection_handlers/retrieves_list_of_smart_collections_handler.dart';
+import 'package:example/services/handlers/smart_collection_handlers/retrieves_single_smart_collection_handler.dart';
+import 'package:example/services/handlers/smart_collection_handlers/retrieves_count_of_smart_collections_handler.dart';
+import 'package:example/services/handlers/smart_collection_handlers/updates_existing_smart_collection_handler.dart';
+import 'package:example/services/handlers/smart_collection_handlers/updates_ordering_type_of_products_smart_collection_handler.dart';
+import 'package:example/services/handlers/smart_collection_handlers/delete_smart_collection_handler.dart';
+import 'package:example/services/handlers/smart_collection_handlers/create_smart_collection_handler.dart';
 
 enum ApiCategory {
   access,
@@ -218,7 +225,8 @@ enum ApiCategory {
   products,
   storeProperties,
   tendertransaction,
-  webhooks
+  webhooks,
+  Products
 }
 
 extension ApiCategoryExtension on ApiCategory {
@@ -258,6 +266,9 @@ extension ApiCategoryExtension on ApiCategory {
         return 'Tender Transaction APIs';
       case ApiCategory.webhooks:
         return 'Webhooks APIs';
+        case ApiCategory.Products:
+        return 'Products APIs';
+        
     }
   }
 }
@@ -1992,6 +2003,61 @@ class ApiServiceRegistry {
       subcategory: 'Webhook',
       handler: DeleteWebhookHandler(),
     ),
+
+    ApiService(
+  name: 'List Smart Collections',
+  endpoint: '/smart_collections',
+  category: ApiCategory.Products,
+  subcategory: 'Smart Collection',
+  handler: RetrievesAllSmartCollectionsHandler(),
+),
+
+ApiService(
+  name: 'Get Single Smart Collection',
+  endpoint: '/smart_collections/:id',
+  category: ApiCategory.Products,
+  subcategory: 'Smart Collection', 
+  handler: RetrievesSingleSmartCollectionHandler(),
+),
+
+ApiService(
+  name: 'Count Smart Collections',
+  endpoint: '/smart_collections/count',
+  category: ApiCategory.Products,
+  subcategory: 'Smart Collection',
+  handler: RetrieveCountOfSmartCollectionsHandler(),
+),
+
+ApiService(
+  name: 'Update Smart Collection',
+  endpoint: '/smart_collections/:id',
+  category: ApiCategory.Products,
+  subcategory: 'Smart Collection',
+  handler: UpdatesSmartCollectionHandler(),
+),
+ApiService(
+  name: 'Update Product Order in Smart Collection',
+  endpoint: '/smart_collections/:id/order',
+  category: ApiCategory.Products,
+  subcategory: 'Smart Collection',
+  handler: UpdateProductOrderHandler(),
+),
+
+ApiService(
+  name: 'Delete Smart Collection',
+  endpoint: '/smart_collections/:id',
+  category: ApiCategory.Products,
+  subcategory: 'Smart Collection',
+  handler: DeletesSmartCollectionHandler(),
+),
+
+ApiService(
+  name: 'Create Smart Collection',
+  endpoint: '/smart_collections',
+  category: ApiCategory.Products,
+  subcategory: 'Smart Collection',  
+  handler: CreatesSmartCollectionHandler(),
+),
   ];
 
   static void initialize() {}
@@ -2054,6 +2120,8 @@ class ApiServiceRegistry {
         return 'Tender Transaction';
       case ApiCategory.webhooks:
         return 'Webhooks';
+        case ApiCategory.Products:
+        return 'Smart Collection';
     }
   }
 }
