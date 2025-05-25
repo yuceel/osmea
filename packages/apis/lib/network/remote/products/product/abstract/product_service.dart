@@ -6,6 +6,7 @@ import 'package:apis/network/remote/products/product/freezed_model/request/creat
 import 'package:apis/network/remote/products/product/freezed_model/request/create_product_downloaded_image_request.dart';
 import 'package:apis/network/remote/products/product/freezed_model/request/create_unpublished_product_request.dart';
 import 'package:apis/network/remote/products/product/freezed_model/request/add_metafield_to_product_request.dart';
+import 'package:apis/network/remote/products/product/freezed_model/request/update_product_add_image_request.dart';
 import 'package:apis/network/remote/products/product/freezed_model/response/count_products_collection_response.dart';
 import 'package:apis/network/remote/products/product/freezed_model/response/create_product_base_image_response.dart';
 import 'package:apis/network/remote/products/product/freezed_model/response/create_product_multi_variants_options_response.dart';
@@ -15,6 +16,7 @@ import 'package:apis/network/remote/products/product/freezed_model/response/crea
 import 'package:apis/network/remote/products/product/freezed_model/response/create_product_downloaded_image_response.dart';
 import 'package:apis/network/remote/products/product/freezed_model/response/create_unpublished_product_response.dart';
 import 'package:apis/network/remote/products/product/freezed_model/response/add_metafield_to_product_response.dart';
+import 'package:apis/network/remote/products/product/freezed_model/response/update_product_add_image_response.dart';
 import 'package:apis/network/remote/products/product/freezed_model/response/list_of_products_response.dart';
 import 'package:apis/network/remote/products/product/freezed_model/response/single_product_response.dart';
 
@@ -113,5 +115,12 @@ abstract class ProductService {
     required String apiVersion,
     required String productId,
     required AddMetafieldToProductRequest request,
+  });
+
+  /// 🖼️ Update product add image
+  Future<UpdateProductAddImageResponse> updateProductAddImage({
+    required String apiVersion,
+    required String productId,
+    required UpdateProductAddImageRequest request,
   });
 }
