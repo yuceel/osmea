@@ -5,6 +5,7 @@ import 'package:apis/network/remote/smart_collections/freezed_model/request/upda
 import 'package:apis/network/remote/smart_collections/freezed_model/response/updates_existing_smart_collection_response.dart';
 import 'package:apis/network/remote/smart_collections/freezed_model/request/updates_ordering_type_of_products_smart_collection_request.dart';
 import 'package:apis/network/remote/smart_collections/freezed_model/response/updates_ordering_type_of_products_smart_collection_response.dart';
+import 'package:apis/network/remote/smart_collections/freezed_model/request/create_smart_collection_request.dart';
 
 
 /// 🌐 SmartCollectionService
@@ -47,6 +48,12 @@ abstract class SmartCollectionService {
   Future<void> deleteSmartCollection({
     required String apiVersion,
     required String id,
+  });
+
+  /// 🆕 Creates a new smart collection
+  Future<RetrievesSingleSmartCollectionsResponse> createSmartCollection({
+    required String apiVersion,
+    required CreateSmartCollectionRequest request,
   });
 
  

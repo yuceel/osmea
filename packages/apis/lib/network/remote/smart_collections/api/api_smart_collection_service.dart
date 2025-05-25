@@ -8,6 +8,8 @@ import 'package:apis/network/remote/smart_collections/freezed_model/request/upda
 import 'package:apis/network/remote/smart_collections/freezed_model/response/updates_existing_smart_collection_response.dart';
 import 'package:apis/network/remote/smart_collections/freezed_model/request/updates_ordering_type_of_products_smart_collection_request.dart';
 import 'package:apis/network/remote/smart_collections/freezed_model/response/updates_ordering_type_of_products_smart_collection_response.dart';
+import 'package:apis/network/remote/smart_collections/freezed_model/request/create_smart_collection_request.dart';
+
 
 
 
@@ -78,6 +80,14 @@ abstract class ApiSmartCollectionService implements SmartCollectionService {
   Future<void> deleteSmartCollection({
     @Path('api_version') required String apiVersion,
     @Path('id') required String id,
+  });
+
+  /// 🆕 Creates a new smart collection
+  @POST('/api/{api_version}/smart_collections.json')
+  @override
+  Future<RetrievesSingleSmartCollectionsResponse> createSmartCollection({
+    @Path('api_version') required String apiVersion,
+    @Body() required CreateSmartCollectionRequest request,
   });
 
 
