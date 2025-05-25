@@ -77,6 +77,7 @@ import 'package:example/services/handlers/products_handlers/custom_collections_h
 import 'package:example/services/handlers/products_handlers/custom_collections_handlers/update_custom_collection_description_handler.dart';
 import 'package:example/services/handlers/products_handlers/custom_collections_handlers/update_custom_collection_new_image_handler.dart';
 import 'package:example/services/handlers/products_handlers/custom_collections_handlers/update_remove_image_handler.dart';
+import 'package:example/services/handlers/products_handlers/product_handlers/list_of_products_handler.dart';
 import 'package:example/services/handlers/store_properties_handlers/country_handlers/receive_list_of_countries_handler.dart';
 import 'package:example/services/handlers/store_properties_handlers/country_handlers/retrieves_count_of_countries_handler.dart';
 import 'package:example/services/handlers/store_properties_handlers/country_handlers/creates_new_country_handler.dart';
@@ -1843,8 +1844,6 @@ class ApiServiceRegistry {
       handler: HidePublishedCustomCollectionHandler(),
     ),
 
-
-
     // ➕ ADD COLLECT TO COLLECTION BY PRODUCT ID
     ApiService(
       name: 'Add Collect to Collection by Product ID',
@@ -1879,6 +1878,15 @@ class ApiServiceRegistry {
       category: ApiCategory.products,
       subcategory: 'Custom Collection',
       handler: DeleteCustomCollectionHandler(),
+    ),
+
+    // 📋 LIST ALL PRODUCTS HANDLER 📋
+    ApiService(
+      name: 'List All Products',
+      endpoint: '/products',
+      category: ApiCategory.products,
+      subcategory: 'Product',
+      handler: ListOfProductsHandler(),
     ),
 
     // 🔔 Webhooks APIs
