@@ -3,6 +3,7 @@ import 'package:apis/dio_config/api_dio_client.dart';
 import 'package:apis/network/remote/orders/transaction/abstract/transaction.dart';
 import 'package:apis/network/remote/orders/transaction/freezed_model/request/create_transaction_request.dart';
 import 'package:apis/network/remote/orders/transaction/freezed_model/response/create_transaction_response.dart';
+import 'package:apis/network/remote/orders/transaction/freezed_model/response/get_transaction_count_response.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/http.dart';
@@ -24,5 +25,11 @@ abstract class TransactionServiceClient implements TransactionService {
     @Path('api_version') required String apiVersion,
     @Path('order_id') required String orderId,
     @Body() required CreateTransactionRequest model,
+  });
+
+  @GET('/api/{api_version}/orders/{order_id}/transactions/count.json')
+  Future<GetTransactionCountResponse> getTransactionCount({
+    @Path('api_version') required String apiVersion,
+    @Path('order_id') required String orderId,
   });
 }
