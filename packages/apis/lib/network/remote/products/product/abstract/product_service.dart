@@ -3,12 +3,14 @@ import 'package:apis/network/remote/products/product/freezed_model/request/creat
 import 'package:apis/network/remote/products/product/freezed_model/request/create_product_multi_variants_request.dart';
 import 'package:apis/network/remote/products/product/freezed_model/request/create_product_with_metafield_request.dart';
 import 'package:apis/network/remote/products/product/freezed_model/request/create_default_product_variant_request.dart';
+import 'package:apis/network/remote/products/product/freezed_model/request/create_product_downloaded_image_request.dart';
 import 'package:apis/network/remote/products/product/freezed_model/response/count_products_collection_response.dart';
 import 'package:apis/network/remote/products/product/freezed_model/response/create_product_base_image_response.dart';
 import 'package:apis/network/remote/products/product/freezed_model/response/create_product_multi_variants_options_response.dart';
 import 'package:apis/network/remote/products/product/freezed_model/response/create_product_multi_variants_response.dart';
 import 'package:apis/network/remote/products/product/freezed_model/response/create_product_with_metafield_response.dart';
 import 'package:apis/network/remote/products/product/freezed_model/response/create_default_product_variant_response.dart';
+import 'package:apis/network/remote/products/product/freezed_model/response/create_product_downloaded_image_response.dart';
 import 'package:apis/network/remote/products/product/freezed_model/response/list_of_products_response.dart';
 import 'package:apis/network/remote/products/product/freezed_model/response/single_product_response.dart';
 
@@ -88,5 +90,11 @@ abstract class ProductService {
   Future<CreateDefaultProductVariantResponse> createDefaultProductVariant({
     required String apiVersion,
     required CreateDefaultProductVariantRequest request,
+  });
+
+  /// 📥 Create product with downloaded image
+  Future<CreateProductDownloadedImageResponse> createProductDownloadedImage({
+    required String apiVersion,
+    required CreateProductDownloadedImageRequest request,
   });
 }
