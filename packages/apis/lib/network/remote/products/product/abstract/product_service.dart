@@ -1,10 +1,12 @@
 import 'package:apis/network/remote/products/product/freezed_model/request/create_product_base_image_request.dart';
 import 'package:apis/network/remote/products/product/freezed_model/request/create_product_multi_variants_options_request.dart';
 import 'package:apis/network/remote/products/product/freezed_model/request/create_product_multi_variants_request.dart';
+import 'package:apis/network/remote/products/product/freezed_model/request/create_product_with_metafield_request.dart';
 import 'package:apis/network/remote/products/product/freezed_model/response/count_products_collection_response.dart';
 import 'package:apis/network/remote/products/product/freezed_model/response/create_product_base_image_response.dart';
 import 'package:apis/network/remote/products/product/freezed_model/response/create_product_multi_variants_options_response.dart';
 import 'package:apis/network/remote/products/product/freezed_model/response/create_product_multi_variants_response.dart';
+import 'package:apis/network/remote/products/product/freezed_model/response/create_product_with_metafield_response.dart';
 import 'package:apis/network/remote/products/product/freezed_model/response/list_of_products_response.dart';
 import 'package:apis/network/remote/products/product/freezed_model/response/single_product_response.dart';
 
@@ -72,5 +74,11 @@ abstract class ProductService {
   Future<CreateProductMultiVariantsResponse> createProductMultiVariants({
     required String apiVersion,
     required CreateProductMultiVariantsRequest request,
+  });
+
+  /// 🏷️ Create product with metafield
+  Future<CreateProductWithMetafieldResponse> createProductWithMetafield({
+    required String apiVersion,
+    required CreateProductWithMetafieldRequest request,
   });
 }
