@@ -1,5 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
+import 'package:example/services/handlers/products_handlers/collection_handlers/products_belonging_to_collection_handler.dart';
 import 'package:example/services/handlers/customers_handlers/customer/searches_for_customers_that_match_supplied_query_handler.dart';
 import 'package:example/services/handlers/online_store_handlers/article_handlers/create_article_base_image_handler.dart';
 import 'package:example/services/handlers/online_store_handlers/article_handlers/create_article_html_markup_handler.dart';
@@ -1708,6 +1709,15 @@ class ApiServiceRegistry {
       category: ApiCategory.products,
       subcategory: 'Collection',
       handler: SingleCollectionHandler(),
+    ),
+
+    // 📦 GET PRODUCTS BELONGING TO COLLECTION
+    ApiService(
+      name: 'Get Products Belonging to Collection',
+      endpoint: '/collections/:collection_id/products',
+      category: ApiCategory.products,
+      subcategory: 'Collection',
+      handler: ProductsBelongingToCollectionHandler(),
     ),
 
     // 🔔 Webhooks APIs
