@@ -5,6 +5,7 @@ import 'package:apis/network/remote/products/custom_collection/freezed_model/req
 import 'package:apis/network/remote/products/custom_collection/freezed_model/request/create_custom_collection_with_metafield_request.dart';
 import 'package:apis/network/remote/products/custom_collection/freezed_model/request/create_unpublished_custom_collection_request.dart';
 import 'package:apis/network/remote/products/custom_collection/freezed_model/request/update_custom_collection_description_request.dart';
+import 'package:apis/network/remote/products/custom_collection/freezed_model/request/update_custom_collection_new_image_request.dart';
 import 'package:apis/network/remote/products/custom_collection/freezed_model/request/update_remove_image_request.dart';
 import 'package:apis/network/remote/products/custom_collection/freezed_model/response/count_custom_collections_response.dart';
 import 'package:apis/network/remote/products/custom_collection/freezed_model/response/create_collection_with_collect_response.dart';
@@ -16,6 +17,7 @@ import 'package:apis/network/remote/products/custom_collection/freezed_model/res
 import 'package:apis/network/remote/products/custom_collection/freezed_model/response/list_all_custom_collections_response.dart';
 import 'package:apis/network/remote/products/custom_collection/freezed_model/response/specific_custom_collections_response.dart';
 import 'package:apis/network/remote/products/custom_collection/freezed_model/response/update_custom_collection_description_response.dart';
+import 'package:apis/network/remote/products/custom_collection/freezed_model/response/update_custom_collection_new_image_response.dart';
 import 'package:apis/network/remote/products/custom_collection/freezed_model/response/update_remove_image_response.dart';
 
 abstract class CustomCollectionsService {
@@ -102,5 +104,13 @@ abstract class CustomCollectionsService {
     required String apiVersion,
     required int customCollectionId,
     required UpdateRemoveImageRequest model,
+  });
+
+  // 🖼️ Update Custom Collection New Image
+  Future<UpdateCustomCollectionNewImageResponse>
+      updateCustomCollectionNewImage({
+    required String apiVersion,
+    required int customCollectionId,
+    required UpdateCustomCollectionNewImageRequest model,
   });
 }
