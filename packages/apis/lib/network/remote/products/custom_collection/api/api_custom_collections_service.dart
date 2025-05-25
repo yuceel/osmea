@@ -8,6 +8,7 @@ import 'package:apis/network/remote/products/custom_collection/freezed_model/req
 import 'package:apis/network/remote/products/custom_collection/freezed_model/request/create_custom_collection_with_metafield_request.dart';
 import 'package:apis/network/remote/products/custom_collection/freezed_model/request/create_unpublished_custom_collection_request.dart';
 import 'package:apis/network/remote/products/custom_collection/freezed_model/request/update_custom_collection_description_request.dart';
+import 'package:apis/network/remote/products/custom_collection/freezed_model/request/update_remove_image_request.dart';
 import 'package:apis/network/remote/products/custom_collection/freezed_model/response/count_custom_collections_response.dart';
 import 'package:apis/network/remote/products/custom_collection/freezed_model/response/create_collection_with_collect_response.dart';
 import 'package:apis/network/remote/products/custom_collection/freezed_model/response/create_custom_collection_base_image_response.dart';
@@ -18,6 +19,7 @@ import 'package:apis/network/remote/products/custom_collection/freezed_model/res
 import 'package:apis/network/remote/products/custom_collection/freezed_model/response/list_all_custom_collections_response.dart';
 import 'package:apis/network/remote/products/custom_collection/freezed_model/response/specific_custom_collections_response.dart';
 import 'package:apis/network/remote/products/custom_collection/freezed_model/response/update_custom_collection_description_response.dart';
+import 'package:apis/network/remote/products/custom_collection/freezed_model/response/update_remove_image_response.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/http.dart';
@@ -130,5 +132,13 @@ abstract class CustomCollectionsServiceClient
     @Path('api_version') required String apiVersion,
     @Path('custom_collection_id') required int customCollectionId,
     @Body() required UpdateCustomCollectionDescriptionRequest model,
+  });
+
+  // 🗑️ Update Remove Image from Custom Collection
+  @PUT('/api/{api_version}/custom_collections/{custom_collection_id}.json')
+  Future<UpdateRemoveImageResponse> updateRemoveImage({
+    @Path('api_version') required String apiVersion,
+    @Path('custom_collection_id') required int customCollectionId,
+    @Body() required UpdateRemoveImageRequest model,
   });
 }
