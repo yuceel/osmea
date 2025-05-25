@@ -61,7 +61,6 @@ class CreateRefundHandler implements ApiRequestHandler {
           final String? locationIdStr =
               params['refund_line_items[$index].location_id'];
 
-          // line_item_id ve quantity zorunlu, diğerleri opsiyonel
           if (quantityStr == null) {
             return {
               "status": "error",
