@@ -57,8 +57,9 @@ class SingleProductHandler implements ApiRequestHandler {
         };
       }
 
-      // Extract optional parameters
-      final fields = params['fields'];
+      // Extract optional parameters and filter out empty values
+      final fields =
+          params['fields']?.isNotEmpty == true ? params['fields'] : null;
 
       // Call the API method to get single product
       final response = await GetIt.I<ProductService>().getProduct(

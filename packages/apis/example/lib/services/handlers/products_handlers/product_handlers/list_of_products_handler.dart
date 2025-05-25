@@ -24,25 +24,51 @@ class ListOfProductsHandler implements ApiRequestHandler {
     }
 
     try {
-      // Extract optional parameters
+      // Extract optional parameters and filter out empty values
       final limit =
           params['limit'] != null ? int.tryParse(params['limit']!) : null;
-      final ids = params['ids'];
-      final sinceId = params['since_id'];
-      final title = params['title'];
-      final vendor = params['vendor'];
-      final handle = params['handle'];
-      final productType = params['product_type'];
-      final publishedStatus = params['published_status'];
-      final publishedAtMin = params['published_at_min'];
-      final publishedAtMax = params['published_at_max'];
-      final updatedAtMin = params['updated_at_min'];
-      final updatedAtMax = params['updated_at_max'];
-      final createdAtMin = params['created_at_min'];
-      final createdAtMax = params['created_at_max'];
-      final fields = params['fields'];
-      final collectionId = params['collection_id'];
-      final presentmentCurrencies = params['presentment_currencies'];
+      final ids = params['ids']?.isNotEmpty == true ? params['ids'] : null;
+      final sinceId =
+          params['since_id']?.isNotEmpty == true ? params['since_id'] : null;
+      final title =
+          params['title']?.isNotEmpty == true ? params['title'] : null;
+      final vendor =
+          params['vendor']?.isNotEmpty == true ? params['vendor'] : null;
+      final handle =
+          params['handle']?.isNotEmpty == true ? params['handle'] : null;
+      final productType = params['product_type']?.isNotEmpty == true
+          ? params['product_type']
+          : null;
+      final publishedStatus = params['published_status']?.isNotEmpty == true
+          ? params['published_status']
+          : null;
+      final publishedAtMin = params['published_at_min']?.isNotEmpty == true
+          ? params['published_at_min']
+          : null;
+      final publishedAtMax = params['published_at_max']?.isNotEmpty == true
+          ? params['published_at_max']
+          : null;
+      final updatedAtMin = params['updated_at_min']?.isNotEmpty == true
+          ? params['updated_at_min']
+          : null;
+      final updatedAtMax = params['updated_at_max']?.isNotEmpty == true
+          ? params['updated_at_max']
+          : null;
+      final createdAtMin = params['created_at_min']?.isNotEmpty == true
+          ? params['created_at_min']
+          : null;
+      final createdAtMax = params['created_at_max']?.isNotEmpty == true
+          ? params['created_at_max']
+          : null;
+      final fields =
+          params['fields']?.isNotEmpty == true ? params['fields'] : null;
+      final collectionId = params['collection_id']?.isNotEmpty == true
+          ? params['collection_id']
+          : null;
+      final presentmentCurrencies =
+          params['presentment_currencies']?.isNotEmpty == true
+              ? params['presentment_currencies']
+              : null;
 
       // Call the API method to list products
       final response = await GetIt.I<ProductService>().listProducts(
