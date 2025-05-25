@@ -181,6 +181,7 @@ import 'package:example/services/handlers/smart_collection_handlers/retrieves_co
 import 'package:example/services/handlers/smart_collection_handlers/updates_existing_smart_collection_handler.dart';
 import 'package:example/services/handlers/smart_collection_handlers/updates_ordering_type_of_products_smart_collection_handler.dart';
 import 'package:example/services/handlers/smart_collection_handlers/delete_smart_collection_handler.dart';
+import 'package:example/services/handlers/smart_collection_handlers/create_smart_collection_handler.dart';
 
 enum ApiCategory {
   access,
@@ -1795,6 +1796,14 @@ ApiService(
   category: ApiCategory.Products,
   subcategory: 'Smart Collection',
   handler: DeletesSmartCollectionHandler(),
+),
+
+ApiService(
+  name: 'Create Smart Collection',
+  endpoint: '/smart_collections',
+  category: ApiCategory.Products,
+  subcategory: 'Smart Collection',  
+  handler: CreatesSmartCollectionHandler(),
 ),
   ];
 
