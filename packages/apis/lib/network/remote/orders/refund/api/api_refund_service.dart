@@ -1,6 +1,11 @@
 import 'package:apis/apis.dart';
 import 'package:apis/dio_config/api_dio_client.dart';
 import 'package:apis/network/remote/orders/refund/abstract/refund.dart';
+import 'package:apis/network/remote/orders/refund/freezed_model/request/create_refund_calculate_request.dart';
+import 'package:apis/network/remote/orders/refund/freezed_model/request/create_refund_request.dart';
+import 'package:apis/network/remote/orders/refund/freezed_model/response/create_refund_calculate_response.dart';
+import 'package:apis/network/remote/orders/refund/freezed_model/response/create_refund_response.dart';
+
 import 'package:apis/network/remote/orders/refund/freezed_model/response/get_list_refund_response.dart';
 import 'package:apis/network/remote/orders/refund/freezed_model/response/get_single_refund_response.dart';
 import 'package:dio/dio.dart';
@@ -30,5 +35,19 @@ abstract class RefundServiceClient implements RefundService {
   Future<GetListRefundResponse> getListRefund({
     @Path('api_version') required String apiVersion,
     @Path('order_id') required String orderId,
+  });
+
+  @POST('/api/{api_version}/orders/{order_id}/refunds/calculate.json')
+  Future<CreateRefundCalculateResponse> createRefundCalculate({
+    @Path('api_version') required String apiVersion,
+    @Path('order_id') required String orderId,
+    @Body() required CreateRefundCalculateRequest model,
+  });
+
+  @POST('/api/{api_version}/orders/{order_id}/refunds.json')
+  Future<CreateRefundResponse> createRefund({
+    @Path('api_version') required String apiVersion,
+    @Path('order_id') required String orderId,
+    @Body() required CreateRefundRequest model,
   });
 }

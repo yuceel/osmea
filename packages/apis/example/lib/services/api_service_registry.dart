@@ -74,6 +74,9 @@ import 'package:example/services/handlers/orders/order/order_handler.dart';
 import 'package:example/services/handlers/orders/order_risk/get_list_order_risks_handler.dart';
 
 import 'package:example/services/handlers/orders/order_risk/order_risk_handler.dart';
+import 'package:example/services/handlers/orders/refund/create_refund_calculate_handler.dart';
+import 'package:example/services/handlers/orders/refund/create_refund_handler.dart';
+
 import 'package:example/services/handlers/orders/refund/get_list_refunds_handler.dart';
 import 'package:example/services/handlers/orders/refund/refund_handler.dart';
 
@@ -828,6 +831,20 @@ class ApiServiceRegistry {
       category: ApiCategory.orders,
       subcategory: 'Refund',
       handler: GetListRefundHandler(),
+    ),
+    ApiService(
+      name: 'Create Calculate Refund',
+      endpoint: '/orders/order',
+      category: ApiCategory.orders,
+      subcategory: 'Refund',
+      handler: CreateRefundCalculateHandler(),
+    ),
+    ApiService(
+      name: 'Create Refund',
+      endpoint: '/orders/order',
+      category: ApiCategory.orders,
+      subcategory: 'Refund',
+      handler: CreateRefundHandler(),
     ),
   ];
 
