@@ -39,7 +39,6 @@ class CreateRefundCalculateHandler implements ApiRequestHandler {
           };
         }
 
-        // Line items kontrolü
         bool hasLineItems = false;
         for (String key in params.keys) {
           if (key.startsWith('refund_line_items[') &&
