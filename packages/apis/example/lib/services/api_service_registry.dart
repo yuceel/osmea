@@ -86,6 +86,7 @@ import 'package:example/services/handlers/products_handlers/product_handlers/cre
 import 'package:example/services/handlers/products_handlers/product_handlers/create_product_base_image_handler.dart';
 import 'package:example/services/handlers/products_handlers/product_handlers/create_product_with_metafield_handler.dart';
 import 'package:example/services/handlers/products_handlers/product_handlers/create_default_product_variant_handler.dart';
+import 'package:example/services/handlers/products_handlers/product_handlers/create_product_downloaded_image_handler.dart';
 import 'package:example/services/handlers/products_handlers/collection_handlers/single_collection_handler.dart';
 import 'package:example/services/handlers/store_properties_handlers/country_handlers/receive_list_of_countries_handler.dart';
 import 'package:example/services/handlers/store_properties_handlers/country_handlers/retrieves_count_of_countries_handler.dart';
@@ -2054,6 +2055,14 @@ class ApiServiceRegistry {
       category: ApiCategory.products,
       subcategory: 'Product',
       handler: CreateDefaultProductVariantHandler(),
+    ),
+    // 📥 CREATE PRODUCT DOWNLOADED IMAGE HANDLER
+    ApiService(
+      name: 'Create Product Downloaded Image',
+      endpoint: '/products',
+      category: ApiCategory.products,
+      subcategory: 'Product',
+      handler: CreateProductDownloadedImageHandler(),
     ),
     // 📋 GET SINGLE COLLECTION HANDLER
     ApiService(
