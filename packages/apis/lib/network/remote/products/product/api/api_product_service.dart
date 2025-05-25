@@ -1,6 +1,7 @@
 import 'package:apis/apis.dart';
 import 'package:apis/dio_config/api_dio_client.dart';
 import 'package:apis/network/remote/products/product/abstract/product_service.dart';
+import 'package:apis/network/remote/products/product/freezed_model/response/count_products_collection_response.dart';
 import 'package:apis/network/remote/products/product/freezed_model/response/list_of_products_response.dart';
 import 'package:apis/network/remote/products/product/freezed_model/response/single_product_response.dart';
 import 'package:dio/dio.dart';
@@ -52,5 +53,22 @@ abstract class ProductServiceClient implements ProductService {
     @Path('api_version') required String apiVersion,
     @Path('product_id') required String productId,
     @Query('fields') String? fields,
+  });
+
+  /// 🔢 Count product collection
+  @override
+  @GET('/api/{api_version}/products/count.json')
+  Future<CountProductsCollectionResponse> countProducts({
+    @Path('api_version') required String apiVersion,
+    @Query('vendor') String? vendor,
+    @Query('product_type') String? productType,
+    @Query('collection_id') String? collectionId,
+    @Query('created_at_min') String? createdAtMin,
+    @Query('created_at_max') String? createdAtMax,
+    @Query('updated_at_min') String? updatedAtMin,
+    @Query('updated_at_max') String? updatedAtMax,
+    @Query('published_at_min') String? publishedAtMin,
+    @Query('published_at_max') String? publishedAtMax,
+    @Query('published_status') String? publishedStatus,
   });
 }

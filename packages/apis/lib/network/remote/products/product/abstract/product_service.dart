@@ -1,3 +1,4 @@
+import 'package:apis/network/remote/products/product/freezed_model/response/count_products_collection_response.dart';
 import 'package:apis/network/remote/products/product/freezed_model/response/list_of_products_response.dart';
 import 'package:apis/network/remote/products/product/freezed_model/response/single_product_response.dart';
 
@@ -31,5 +32,20 @@ abstract class ProductService {
     required String apiVersion,
     required String productId,
     String? fields,
+  });
+
+  /// 🔢 Count product collection
+  Future<CountProductsCollectionResponse> countProducts({
+    required String apiVersion,
+    String? vendor,
+    String? productType,
+    String? collectionId,
+    String? createdAtMin,
+    String? createdAtMax,
+    String? updatedAtMin,
+    String? updatedAtMax,
+    String? publishedAtMin,
+    String? publishedAtMax,
+    String? publishedStatus,
   });
 }
