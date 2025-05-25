@@ -66,6 +66,7 @@ import 'package:example/services/handlers/products_handlers/custom_collections_h
 import 'package:example/services/handlers/products_handlers/custom_collections_handlers/create_custom_collection_uploaded_image_handler.dart';
 import 'package:example/services/handlers/products_handlers/custom_collections_handlers/create_custom_collection_with_metafield_handler.dart';
 import 'package:example/services/handlers/products_handlers/custom_collections_handlers/create_unpublished_custom_collection_handler.dart';
+import 'package:example/services/handlers/products_handlers/custom_collections_handlers/hide_published_custom_collection_handler.dart';
 import 'package:example/services/handlers/products_handlers/custom_collections_handlers/list_all_custom_collections_handler.dart';
 import 'package:example/services/handlers/products_handlers/custom_collections_handlers/publish_hidden_custom_collection_handler.dart';
 import 'package:example/services/handlers/products_handlers/custom_collections_handlers/specific_custom_collections_handler.dart';
@@ -1830,6 +1831,15 @@ class ApiServiceRegistry {
       category: ApiCategory.products,
       subcategory: 'Custom Collection',
       handler: PublishHiddenCustomCollectionHandler(),
+    ),
+
+    // 🫥 HIDE PUBLISHED CUSTOM COLLECTION
+    ApiService(
+      name: 'Hide Published Custom Collection',
+      endpoint: '/custom_collections/:id',
+      category: ApiCategory.products,
+      subcategory: 'Custom Collection',
+      handler: HidePublishedCustomCollectionHandler(),
     ),
 
     // ➕ ADD COLLECT TO COLLECTION BY PRODUCT ID
