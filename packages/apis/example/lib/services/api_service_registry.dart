@@ -69,6 +69,7 @@ import 'package:example/services/handlers/products_handlers/custom_collections_h
 import 'package:example/services/handlers/products_handlers/custom_collections_handlers/list_all_custom_collections_handler.dart';
 import 'package:example/services/handlers/products_handlers/custom_collections_handlers/publish_hidden_custom_collection_handler.dart';
 import 'package:example/services/handlers/products_handlers/custom_collections_handlers/specific_custom_collections_handler.dart';
+import 'package:example/services/handlers/products_handlers/custom_collections_handlers/add_collect_to_collection_by_product_id_handler.dart';
 import 'package:example/services/handlers/products_handlers/custom_collections_handlers/update_custom_collection_alt_text_handler.dart';
 import 'package:example/services/handlers/products_handlers/custom_collections_handlers/update_custom_collection_description_handler.dart';
 import 'package:example/services/handlers/products_handlers/custom_collections_handlers/update_custom_collection_new_image_handler.dart';
@@ -1828,6 +1829,15 @@ class ApiServiceRegistry {
       category: ApiCategory.products,
       subcategory: 'Custom Collection',
       handler: PublishHiddenCustomCollectionHandler(),
+    ),
+
+    // ➕ ADD COLLECT TO COLLECTION BY PRODUCT ID
+    ApiService(
+      name: 'Add Collect to Collection by Product ID',
+      endpoint: '/custom_collections',
+      category: ApiCategory.products,
+      subcategory: 'Custom Collection',
+      handler: AddCollectToCollectionByProductIdHandler(),
     ),
 
     // 🗑️ UPDATE REMOVE IMAGE FROM CUSTOM COLLECTION
