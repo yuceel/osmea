@@ -92,6 +92,7 @@ import 'package:example/services/handlers/products_handlers/product_handlers/add
 import 'package:example/services/handlers/products_handlers/product_handlers/update_product_add_image_handler.dart';
 import 'package:example/services/handlers/products_handlers/product_handlers/update_product_reorder_image_handler.dart';
 import 'package:example/services/handlers/products_handlers/collection_handlers/single_collection_handler.dart';
+import 'package:example/services/handlers/products_handlers/product_handlers/update_product_title_handler.dart';
 import 'package:example/services/handlers/store_properties_handlers/country_handlers/receive_list_of_countries_handler.dart';
 import 'package:example/services/handlers/store_properties_handlers/country_handlers/retrieves_count_of_countries_handler.dart';
 import 'package:example/services/handlers/store_properties_handlers/country_handlers/creates_new_country_handler.dart';
@@ -2099,6 +2100,15 @@ class ApiServiceRegistry {
       category: ApiCategory.products,
       subcategory: 'Product',
       handler: UpdateProductReorderImageHandler(),
+    ),
+
+    // 📝 UPDATE PRODUCT TITLE HANDLER
+    ApiService(
+      name: 'Update Product Title',
+      endpoint: '/products/:product_id',
+      category: ApiCategory.products,
+      subcategory: 'Product',
+      handler: UpdateProductTitleHandler(),
     ),
     // 📋 GET SINGLE COLLECTION HANDLER
     ApiService(
