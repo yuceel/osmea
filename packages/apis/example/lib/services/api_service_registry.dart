@@ -3,6 +3,7 @@
 import 'package:example/services/handlers/orders/order/update_add_note_handler.dart';
 import 'package:example/services/handlers/orders/order/update_note_attributes_handler.dart';
 import 'package:example/services/handlers/orders/order/update_order_tag_handler.dart';
+import 'package:example/services/handlers/orders/order/update_phone_number_handler.dart';
 import 'package:example/services/handlers/orders/order/update_shipping_address_handler.dart';
 import 'package:example/services/handlers/customers_handlers/customer/searches_for_customers_that_match_supplied_query_handler.dart';
 import 'package:example/services/handlers/customers_handlers/customer/customer_url_handler.dart';
@@ -908,6 +909,13 @@ class ApiServiceRegistry {
       category: ApiCategory.orders,
       subcategory: 'Order',
       handler: UpdateAddNoteHandler(),
+    ),
+    ApiService(
+      name: 'Update Order Phone Number',
+      endpoint: '/orders/:order_id',
+      category: ApiCategory.orders,
+      subcategory: 'Order',
+      handler: UpdatePhoneNumberHandler(),
     ),
   ];
 
