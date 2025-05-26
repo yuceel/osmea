@@ -1,6 +1,7 @@
 import 'package:apis/apis.dart';
 import 'package:apis/dio_config/api_dio_client.dart';
 import 'package:apis/network/remote/orders/draft_order/abstract/draft_order.dart';
+import 'package:apis/network/remote/orders/draft_order/freezed_model/request/update_set_discount_on_draft_order_request.dart';
 import 'package:apis/network/remote/orders/draft_order/freezed_model/response/get_draft_order_count_response.dart';
 import 'package:apis/network/remote/orders/draft_order/freezed_model/request/create_draft_order_custom_request.dart';
 import 'package:apis/network/remote/orders/draft_order/freezed_model/request/create_draft_order_discounted_item_request.dart';
@@ -12,6 +13,7 @@ import 'package:apis/network/remote/orders/draft_order/freezed_model/request/cre
 import 'package:apis/network/remote/orders/draft_order/freezed_model/request/create_invoice_default_request.dart';
 import 'package:apis/network/remote/orders/draft_order/freezed_model/request/update_draft_order_complete_request.dart';
 import 'package:apis/network/remote/orders/draft_order/freezed_model/request/update_draft_order_modify_existing_request.dart';
+import 'package:apis/network/remote/orders/draft_order/freezed_model/response/update_set_discount_on_draft_order_response.dart';
 import 'package:apis/network/remote/orders/draft_order/freezed_model/response/create_draft_order_custom_response.dart';
 import 'package:apis/network/remote/orders/draft_order/freezed_model/response/create_draft_order_discounted_item_response.dart';
 import 'package:apis/network/remote/orders/draft_order/freezed_model/response/create_draft_order_percent_discount_item_response.dart';
@@ -106,6 +108,14 @@ abstract class DraftOrderServiceClient implements DraftOrderService {
     @Path('api_version') required String apiVersion,
     @Path('draft_order_id') required String draftOrderId,
     @Body() required UpdateDraftOrderCompleteRequest model,
+  });
+
+  @override
+  @PUT('/api/{api_version}/draft_orders/{draft_order_id}.json')
+  Future<UpdateSetDiscountOnDraftOrderResponse> updateSetDiscountOnDraftOrder({
+    @Path('api_version') required String apiVersion,
+    @Path('draft_order_id') required String draftOrderId,
+    @Body() required UpdateSetDiscountOnDraftOrderRequest model,
   });
 
   @override

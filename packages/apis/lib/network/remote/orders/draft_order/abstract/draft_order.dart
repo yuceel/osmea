@@ -7,6 +7,7 @@ import 'package:apis/network/remote/orders/draft_order/freezed_model/request/cre
 import 'package:apis/network/remote/orders/draft_order/freezed_model/request/create_draft_order_with_discount_request.dart';
 import 'package:apis/network/remote/orders/draft_order/freezed_model/request/create_invoice_customized_request.dart';
 import 'package:apis/network/remote/orders/draft_order/freezed_model/request/create_invoice_default_request.dart';
+import 'package:apis/network/remote/orders/draft_order/freezed_model/request/update_set_discount_on_draft_order_request.dart';
 import 'package:apis/network/remote/orders/draft_order/freezed_model/request/update_draft_order_complete_request.dart';
 import 'package:apis/network/remote/orders/draft_order/freezed_model/request/update_draft_order_modify_existing_request.dart';
 import 'package:apis/network/remote/orders/draft_order/freezed_model/response/create_draft_order_custom_response.dart';
@@ -21,6 +22,7 @@ import 'package:apis/network/remote/orders/draft_order/freezed_model/response/ge
 import 'package:apis/network/remote/orders/draft_order/freezed_model/response/get_draft_order_single_response.dart';
 import 'package:apis/network/remote/orders/draft_order/freezed_model/response/update_draft_order_complete_response.dart';
 import 'package:apis/network/remote/orders/draft_order/freezed_model/response/update_draft_order_modify_existing_response.dart';
+import 'package:apis/network/remote/orders/draft_order/freezed_model/response/update_set_discount_on_draft_order_response.dart';
 
 abstract class DraftOrderService {
   Future<CreateDraftOrderPercentDiscountItemResponse>
@@ -103,5 +105,11 @@ abstract class DraftOrderService {
   Future<void> deleteDraftOrder({
     required String apiVersion,
     required String draftOrderId,
+  });
+
+  Future<UpdateSetDiscountOnDraftOrderResponse> updateSetDiscountOnDraftOrder({
+    required String apiVersion,
+    required String draftOrderId,
+    required UpdateSetDiscountOnDraftOrderRequest model,
   });
 }

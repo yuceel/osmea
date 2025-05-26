@@ -4,6 +4,7 @@ import 'package:example/services/handlers/orders/order/get_order_after_timestamp
 import 'package:example/services/handlers/orders/order/update_add_metafield_handler.dart';
 import 'package:example/services/handlers/orders/order/update_add_note_handler.dart';
 import 'package:example/services/handlers/orders/order/update_email_address_handler.dart';
+import 'package:example/services/handlers/orders/draft_order_handlers/update_set_discount_on_draft_order_handler.dart';
 import 'package:example/services/handlers/orders/order/update_note_attributes_handler.dart';
 import 'package:example/services/handlers/orders/order/update_remove_customer_handler.dart';
 import 'package:example/services/handlers/orders/order/update_change_whether_handler.dart';
@@ -708,11 +709,25 @@ class ApiServiceRegistry {
       handler: UpdateDraftOrderCompleteHandler(),
     ),
     ApiService(
+      name: 'Update Set Discount on Draft Order',
+      endpoint: '/draft_orders/:draft_order_id',
+      category: ApiCategory.orders,
+      subcategory: 'Draft Order',
+      handler: UpdateSetDiscountOnDraftOrderHandler(),
+    ),
+    ApiService(
       name: 'Update Draft Order Complete',
       endpoint: '/draft_orders/:draft_order_id/complete',
       category: ApiCategory.orders,
       subcategory: 'Draft Order',
       handler: GetDraftOrderCountHandler(),
+    ),
+    ApiService(
+      name: 'Update Set Discount on Draft Order',
+      endpoint: '/draft_orders/:draft_order_id',
+      category: ApiCategory.orders,
+      subcategory: 'Draft Order',
+      handler: UpdateSetDiscountOnDraftOrderHandler(),
     ),
     ApiService(
       name: 'Get Draft Order Count',
@@ -972,6 +987,13 @@ class ApiServiceRegistry {
       category: ApiCategory.orders,
       subcategory: 'Order',
       handler: GetOrderAfterTimestampHandler(),
+    ),
+    ApiService(
+      name: 'Update Set Discount on Draft Order',
+      endpoint: '/draft_orders/:draft_order_id',
+      category: ApiCategory.orders,
+      subcategory: 'Draft Order',
+      handler: UpdateSetDiscountOnDraftOrderHandler(),
     ),
   ];
 
