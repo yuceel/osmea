@@ -6,6 +6,7 @@ import 'package:example/services/handlers/orders/order/update_email_address_hand
 import 'package:example/services/handlers/orders/order/update_note_attributes_handler.dart';
 import 'package:example/services/handlers/orders/order/update_remove_customer_handler.dart';
 import 'package:example/services/handlers/orders/order/update_change_whether_handler.dart';
+import 'package:example/services/handlers/orders/order/get_orders_with_properties_handler.dart';
 import 'package:example/services/handlers/orders/order/update_order_tag_handler.dart';
 import 'package:example/services/handlers/orders/order/update_phone_number_handler.dart';
 import 'package:example/services/handlers/orders/order/update_shipping_address_handler.dart';
@@ -948,6 +949,13 @@ class ApiServiceRegistry {
       category: ApiCategory.orders,
       subcategory: 'Order',
       handler: UpdateChangeWhetherHandler(),
+    ),
+    ApiService(
+      name: 'Get Orders with Properties',
+      endpoint: '/orders',
+      category: ApiCategory.orders,
+      subcategory: 'Order',
+      handler: GetOrdersWithPropertiesHandler(),
     ),
   ];
 

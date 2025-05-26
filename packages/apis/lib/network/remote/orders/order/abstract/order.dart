@@ -37,6 +37,7 @@ import 'package:apis/network/remote/orders/order/freezed_model/response/create_r
 import 'package:apis/network/remote/orders/order/freezed_model/response/get_count_order_response.dart';
 import 'package:apis/network/remote/orders/order/freezed_model/response/get_list_order_response.dart';
 import 'package:apis/network/remote/orders/order/freezed_model/response/get_list_order_risks_response.dart';
+import 'package:apis/network/remote/orders/order/freezed_model/response/get_orders_with_properties_response.dart';
 import 'package:apis/network/remote/orders/order/freezed_model/response/get_single_order_response.dart';
 import 'package:apis/network/remote/orders/order/freezed_model/response/get_single_order_risk_response.dart';
 import 'package:apis/network/remote/orders/order/freezed_model/response/update_change_whether_response.dart';
@@ -246,5 +247,13 @@ abstract class OrderService {
     required String apiVersion,
     required String orderId,
     required UpdateChangeWhetherRequest model,
+  });
+
+  Future<GetOrdersWithPropertiesResponse> getOrdersWithProperties({
+    required String apiVersion,
+    String? createdAtMin,
+    String? createdAtMax,
+    int? limit,
+    String? fields,
   });
 }

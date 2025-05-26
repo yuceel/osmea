@@ -40,6 +40,7 @@ import 'package:apis/network/remote/orders/order/freezed_model/response/create_r
 import 'package:apis/network/remote/orders/order/freezed_model/response/get_count_order_response.dart';
 import 'package:apis/network/remote/orders/order/freezed_model/response/get_list_order_response.dart';
 import 'package:apis/network/remote/orders/order/freezed_model/response/get_list_order_risks_response.dart';
+import 'package:apis/network/remote/orders/order/freezed_model/response/get_orders_with_properties_response.dart';
 import 'package:apis/network/remote/orders/order/freezed_model/response/get_single_order_response.dart';
 import 'package:apis/network/remote/orders/order/freezed_model/response/get_single_order_risk_response.dart';
 import 'package:apis/network/remote/orders/order/freezed_model/response/update_change_whether_response.dart';
@@ -326,5 +327,15 @@ abstract class OrderServiceClient implements OrderService {
     @Path('api_version') required String apiVersion,
     @Path('order_id') required String orderId,
     @Body() required UpdateChangeWhetherRequest model,
+  });
+
+  @override
+  @GET('/api/{api_version}/orders.json')
+  Future<GetOrdersWithPropertiesResponse> getOrdersWithProperties({
+    @Path('api_version') required String apiVersion,
+    @Query('created_at_min') String? createdAtMin,
+    @Query('created_at_max') String? createdAtMax,
+    @Query('limit') int? limit,
+    @Query('fields') String? fields,
   });
 }
