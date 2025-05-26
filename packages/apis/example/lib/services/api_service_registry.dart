@@ -1,6 +1,8 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:example/services/handlers/orders/order/update_note_attributes_handler.dart';
+import 'package:example/services/handlers/orders/order/update_order_tag_handler.dart';
+import 'package:example/services/handlers/orders/order/update_shipping_address_handler.dart';
 import 'package:example/services/handlers/customers_handlers/customer/searches_for_customers_that_match_supplied_query_handler.dart';
 import 'package:example/services/handlers/customers_handlers/customer/customer_url_handler.dart';
 import 'package:example/services/handlers/customers_handlers/customer/retrieves_single_customer_handler.dart';
@@ -880,10 +882,24 @@ class ApiServiceRegistry {
     ),
     ApiService(
       name: 'Update Note Attributes',
-      endpoint: '/orders/:order_id/note_attributes',
+      endpoint: '/orders/:order_id',
       category: ApiCategory.orders,
       subcategory: 'Order',
       handler: UpdateNoteAttributesHandler(),
+    ),
+    ApiService(
+      name: 'Update Shipping Address',
+      endpoint: '/orders/:order_id',
+      category: ApiCategory.orders,
+      subcategory: 'Order',
+      handler: UpdateShippingAddressHandler(),
+    ),
+    ApiService(
+      name: 'Update Order Tags',
+      endpoint: '/orders/:order_id',
+      category: ApiCategory.orders,
+      subcategory: 'Order',
+      handler: UpdateOrderTagHandler(),
     ),
   ];
 

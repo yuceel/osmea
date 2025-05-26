@@ -17,6 +17,8 @@ import 'package:apis/network/remote/orders/order/freezed_model/request/create_re
 import 'package:apis/network/remote/orders/order/freezed_model/request/update_order_request.dart';
 import 'package:apis/network/remote/orders/order/freezed_model/request/update_order_risk_request.dart';
 import 'package:apis/network/remote/orders/order/freezed_model/request/update_note_attributes_request.dart';
+import 'package:apis/network/remote/orders/order/freezed_model/request/update_order_tag_request.dart';
+import 'package:apis/network/remote/orders/order/freezed_model/request/update_shipping_address_request.dart';
 import 'package:apis/network/remote/orders/order/freezed_model/response/create_cancel_order_response.dart';
 import 'package:apis/network/remote/orders/order/freezed_model/response/create_close_order_response.dart';
 import 'package:apis/network/remote/orders/order/freezed_model/response/create_order_comprehensive_response.dart';
@@ -38,6 +40,8 @@ import 'package:apis/network/remote/orders/order/freezed_model/response/get_sing
 import 'package:apis/network/remote/orders/order/freezed_model/response/update_order_response.dart';
 import 'package:apis/network/remote/orders/order/freezed_model/response/update_order_risk_response.dart';
 import 'package:apis/network/remote/orders/order/freezed_model/response/update_note_attributes_response.dart';
+import 'package:apis/network/remote/orders/order/freezed_model/response/update_order_tag_response.dart';
+import 'package:apis/network/remote/orders/order/freezed_model/response/update_shipping_address_response.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/http.dart';
@@ -246,5 +250,21 @@ abstract class OrderServiceClient implements OrderService {
     @Path('api_version') required String apiVersion,
     @Path('order_id') required String orderId,
     @Body() required UpdateNoteAttributesRequest model,
+  });
+
+  @override
+  @PUT('/api/{api_version}/orders/{order_id}.json')
+  Future<UpdateShippingAddressResponse> updateShippingAddress({
+    @Path('api_version') required String apiVersion,
+    @Path('order_id') required String orderId,
+    @Body() required UpdateShippingAddressRequest model,
+  });
+
+  @override
+  @PUT('/api/{api_version}/orders/{order_id}.json')
+  Future<UpdateOrderTagResponse> updateOrderTags({
+    @Path('api_version') required String apiVersion,
+    @Path('order_id') required String orderId,
+    @Body() required UpdateOrderTagRequest model,
   });
 }
