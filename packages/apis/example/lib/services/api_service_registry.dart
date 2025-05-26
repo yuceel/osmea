@@ -99,6 +99,7 @@ import 'package:example/services/handlers/products_handlers/product_handlers/upd
 import 'package:example/services/handlers/products_handlers/product_handlers/update_product_reorder_variants_handler.dart';
 import 'package:example/services/handlers/products_handlers/product_handlers/update_product_tags_handler.dart';
 import 'package:example/services/handlers/products_handlers/product_handlers/show_hidden_product_handler.dart';
+import 'package:example/services/handlers/products_handlers/product_handlers/delete_product_handler.dart';
 import 'package:example/services/handlers/store_properties_handlers/country_handlers/receive_list_of_countries_handler.dart';
 import 'package:example/services/handlers/store_properties_handlers/country_handlers/retrieves_count_of_countries_handler.dart';
 import 'package:example/services/handlers/store_properties_handlers/country_handlers/creates_new_country_handler.dart';
@@ -2160,6 +2161,15 @@ class ApiServiceRegistry {
       category: ApiCategory.products,
       subcategory: 'Product',
       handler: ShowHiddenProductHandler(),
+    ),
+
+    // 🗑️ DELETE PRODUCT HANDLER
+    ApiService(
+      name: 'Delete Product',
+      endpoint: '/products/:id',
+      category: ApiCategory.products,
+      subcategory: 'Product',
+      handler: DeleteProductHandler(),
     ),
 
     // 🏷️ UPDATE PRODUCT TAGS HANDLER
