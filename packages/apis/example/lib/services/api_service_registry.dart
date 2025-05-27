@@ -284,6 +284,16 @@ import 'package:example/services/handlers/products_handlers/collect_handlers/get
 import 'package:example/services/handlers/products_handlers/collect_handlers/get_collects_by_product_handler.dart';
 import 'package:example/services/handlers/products_handlers/collect_handlers/get_collects_count_by_collection_handler.dart';
 import 'package:example/services/handlers/products_handlers/collect_handlers/get_collects_count_by_product_handler.dart';
+import 'package:example/services/handlers/products_handlers/product_variant_handlers/retrieves_list_of_product_variants_handler.dart';
+import 'package:example/services/handlers/products_handlers/product_variant_handlers/retrieves_single_product_variant_handler.dart';
+import 'package:example/services/handlers/products_handlers/product_variant_handlers/retrieves_count_of_product_variants_handler.dart';
+import 'package:example/services/handlers/products_handlers/product_variant_handlers/create_product_variant_handler.dart';
+import 'package:example/services/handlers/products_handlers/product_variant_handlers/create_product_variant_with_metafield_handler.dart';
+import 'package:example/services/handlers/products_handlers/product_variant_handlers/create_product_variant_with_image_handler.dart';
+import 'package:example/services/handlers/products_handlers/product_variant_handlers/add_metafield_to_product_variant_handler.dart';
+import 'package:example/services/handlers/products_handlers/product_variant_handlers/add_image_to_product_variant_handler.dart';
+import 'package:example/services/handlers/products_handlers/product_variant_handlers/update_variant_title_and_price_handler.dart';
+import 'package:example/services/handlers/products_handlers/product_variant_handlers/delete_product_variant_handler.dart';
 
 enum ApiCategory {
   access,
@@ -2240,6 +2250,91 @@ class ApiServiceRegistry {
       category: ApiCategory.products,
       subcategory: 'Collects',
       handler: DeleteCollectHandler(),
+    ),
+
+    // 📦 Products - Product Variant APIs
+    // GET Operations
+    ApiService(
+      name: 'List Product Variants',
+      endpoint: '/products/:product_id/variants',
+      category: ApiCategory.products,
+      subcategory: 'Product Variants',
+      handler: RetrievesListOfProductVariantsHandler(),
+    ),
+
+    ApiService(
+      name: 'Get Single Product Variant',
+      endpoint: '/variants/:variant_id',
+      category: ApiCategory.products,
+      subcategory: 'Product Variants',
+      handler: RetrievesSingleProductVariantHandler(),
+    ),
+
+    ApiService(
+      name: 'Count Product Variants',
+      endpoint: '/products/:product_id/variants/count',
+      category: ApiCategory.products,
+      subcategory: 'Product Variants',
+      handler: RetrievesCountOfProductVariantsHandler(),
+    ),
+
+    // POST Operations
+    ApiService(
+      name: 'Create Product Variant',
+      endpoint: '/products/:product_id/variants',
+      category: ApiCategory.products,
+      subcategory: 'Product Variants',
+      handler: CreateProductVariantHandler(),
+    ),
+
+    ApiService(
+      name: 'Create Product Variant with Metafield',
+      endpoint: '/products/:product_id/variants',
+      category: ApiCategory.products,
+      subcategory: 'Product Variants',
+      handler: CreateProductVariantWithMetafieldHandler(),
+    ),
+
+    ApiService(
+      name: 'Create Product Variant with Image',
+      endpoint: '/products/:product_id/variants',
+      category: ApiCategory.products,
+      subcategory: 'Product Variants',
+      handler: CreateProductVariantWithImageHandler(),
+    ),
+
+    ApiService(
+      name: 'Add Metafield to Product Variant',
+      endpoint: '/variants/:variant_id',
+      category: ApiCategory.products,
+      subcategory: 'Product Variants',
+      handler: AddMetafieldToProductVariantHandler(),
+    ),
+
+    ApiService(
+      name: 'Add Image to Product Variant',
+      endpoint: '/variants/:variant_id',
+      category: ApiCategory.products,
+      subcategory: 'Product Variants',
+      handler: AddImageToProductVariantHandler(),
+    ),
+
+    // PUT Operations
+    ApiService(
+      name: 'Update Variant Title and Price',
+      endpoint: '/variants/:variant_id',
+      category: ApiCategory.products,
+      subcategory: 'Product Variants',
+      handler: UpdateVariantTitleAndPriceHandler(),
+    ),
+
+    // DELETE Operations
+    ApiService(
+      name: 'Delete Product Variant',
+      endpoint: '/variants/:variant_id',
+      category: ApiCategory.products,
+      subcategory: 'Product Variants',
+      handler: DeleteProductVariantHandler(),
     ),
 
     // 💰 Tender Transaction APIs
