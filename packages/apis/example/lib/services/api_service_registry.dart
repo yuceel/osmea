@@ -232,6 +232,13 @@ import 'package:example/services/handlers/products_handlers/collect_handlers/get
 import 'package:example/services/handlers/products_handlers/collect_handlers/get_collects_by_product_handler.dart';
 import 'package:example/services/handlers/products_handlers/collect_handlers/get_collects_count_by_collection_handler.dart';
 import 'package:example/services/handlers/products_handlers/collect_handlers/get_collects_count_by_product_handler.dart';
+import 'handlers/products_handlers/product_image_handlers/receive_list_of_product_images_handler.dart';
+import 'handlers/products_handlers/product_image_handlers/receive_a_single_product_image_handler.dart';
+import 'handlers/products_handlers/product_image_handlers/receive_a_count_of_all_product_images_handler.dart';
+import 'handlers/products_handlers/product_image_handlers/create_a_new_product_image_handler.dart';
+import 'handlers/products_handlers/product_image_handlers/modify_an_existing_product_image_handler.dart';
+import 'handlers/products_handlers/product_image_handlers/delete_product_image_handler.dart';
+
 
 enum ApiCategory {
   access,
@@ -1936,7 +1943,7 @@ class ApiServiceRegistry {
 
     // 🏷️ UPDATE CUSTOM COLLECTION ALT TEXT
     ApiService(
-      name: 'Update Custom Collection Alt Text',
+           name: 'Update Custom Collection Alt Text',
       endpoint: '/custom_collections',
       category: ApiCategory.products,
       subcategory: 'Custom Collection',
@@ -1946,7 +1953,11 @@ class ApiServiceRegistry {
     // 📢 PUBLISH HIDDEN CUSTOM COLLECTION
     ApiService(
       name: 'Publish Hidden Custom Collection',
-      endpoint: '/custom_collections',
+          
+
+          
+
+           endpoint: '/custom_collections',
       category: ApiCategory.products,
       subcategory: 'Custom Collection',
       handler: PublishHiddenCustomCollectionHandler(),
@@ -2296,7 +2307,56 @@ class ApiServiceRegistry {
       category: ApiCategory.Products,
       subcategory: 'Smart Collection',
       handler: CreatesSmartCollectionHandler(),
+    ),   
+    
+      ApiService(
+      name: 'List Product Images',
+      endpoint: '/products/:product_id/images',
+      category: ApiCategory.Products,
+      subcategory: 'Product Images',
+      handler: RetrieveListOfProductImagesHandler(),
     ),
+
+    ApiService(
+      name: 'Create Product Image',
+      endpoint: '/products/:product_id/images',
+      category: ApiCategory.Products,
+      subcategory: 'Product Images',
+      handler: CreateANewProductImageHandler(),
+    ),
+    
+    ApiService(
+      name: 'Get Single Product Image',
+      endpoint: '/products/:product_id/images/:image_id',
+      category: ApiCategory.Products,
+      subcategory: 'Product Images',
+      handler: GetSingleProductImageHandler(),
+    ),
+
+    ApiService(
+      name: 'Delete Product Image',
+      endpoint: '/products/:product_id/images/:image_id',
+      category: ApiCategory.Products,
+      subcategory: 'Product Images',
+      handler: DeleteProductImageHandler(),
+    ),
+
+    ApiService(
+  name: 'Count Product Images',
+  endpoint: '/products/:product_id/images/count.json',
+  category: ApiCategory.Products,
+  subcategory: 'Product Images',
+  handler: ReceiveCountOfProductImagesHandler(),
+),
+
+ApiService(
+  name: 'Modify Product Image',
+  endpoint: '/products/:product_id/images/:image_id',
+  category: ApiCategory.Products,
+  subcategory: 'Product Images',
+  handler: ModifyAnExistingProductImageHandler(),
+),
+
   ];
 
   static void initialize() {}
