@@ -114,6 +114,10 @@ import 'package:example/services/handlers/products_handlers/product_handlers/upd
 import 'package:example/services/handlers/products_handlers/product_handlers/update_product_tags_handler.dart';
 import 'package:example/services/handlers/products_handlers/product_handlers/show_hidden_product_handler.dart';
 import 'package:example/services/handlers/products_handlers/product_handlers/delete_product_handler.dart';
+import 'package:example/services/handlers/products_handlers/product_image_handlers/create_product_image_metafield_handler.dart';
+import 'package:example/services/handlers/products_handlers/product_image_handlers/modify_product_image_add_metafield_handler.dart';
+import 'package:example/services/handlers/products_handlers/product_image_handlers/modify_product_image_attach_variants_handler.dart';
+import 'package:example/services/handlers/products_handlers/product_image_handlers/modify_product_image_position_alt_handler.dart';
 import 'package:example/services/handlers/store_properties_handlers/country_handlers/receive_list_of_countries_handler.dart';
 import 'package:example/services/handlers/store_properties_handlers/country_handlers/retrieves_count_of_countries_handler.dart';
 import 'package:example/services/handlers/store_properties_handlers/country_handlers/creates_new_country_handler.dart';
@@ -284,6 +288,17 @@ import 'package:example/services/handlers/products_handlers/collect_handlers/get
 import 'package:example/services/handlers/products_handlers/collect_handlers/get_collects_by_product_handler.dart';
 import 'package:example/services/handlers/products_handlers/collect_handlers/get_collects_count_by_collection_handler.dart';
 import 'package:example/services/handlers/products_handlers/collect_handlers/get_collects_count_by_product_handler.dart';
+import 'handlers/products_handlers/product_image_handlers/receive_list_of_product_images_handler.dart';
+import 'handlers/products_handlers/product_image_handlers/receive_a_single_product_image_handler.dart';
+import 'handlers/products_handlers/product_image_handlers/receive_a_count_of_all_product_images_handler.dart';
+import 'handlers/products_handlers/product_image_handlers/create_a_new_product_image_handler.dart';
+import 'handlers/products_handlers/product_image_handlers/create_product_image_attachment_handler.dart';
+import 'handlers/products_handlers/product_image_handlers/create_product_image_main_handler.dart';
+import 'handlers/products_handlers/product_image_handlers/modify_an_existing_product_image_handler.dart';
+import 'handlers/products_handlers/product_image_handlers/delete_product_image_handler.dart';
+import 'handlers/products_handlers/product_image_handlers/create_product_image_variant_handler.dart';
+import 'handlers/products_handlers/product_image_handlers/create_product_image_source_url_handler.dart';
+
 import 'package:example/services/handlers/products_handlers/product_variant_handlers/retrieves_list_of_product_variants_handler.dart';
 import 'package:example/services/handlers/products_handlers/product_variant_handlers/retrieves_single_product_variant_handler.dart';
 import 'package:example/services/handlers/products_handlers/product_variant_handlers/retrieves_count_of_product_variants_handler.dart';
@@ -406,6 +421,8 @@ class ApiService {
 
   Map<String, List<ApiField>> get requiredFields => handler.requiredFields;
 }
+
+
 
 class ApiServiceRegistry {
   static final List<ApiService> _services = [
@@ -2440,14 +2457,14 @@ class ApiServiceRegistry {
     ApiService(
       name: 'Update Custom Collection New Image',
       endpoint: '/custom_collections',
-      category: ApiCategory.products,
+           category: ApiCategory.products,
       subcategory: 'Custom Collection',
       handler: UpdateCustomCollectionNewImageHandler(),
     ),
 
     // 🏷️ UPDATE CUSTOM COLLECTION ALT TEXT
     ApiService(
-      name: 'Update Custom Collection Alt Text',
+           name: 'Update Custom Collection Alt Text',
       endpoint: '/custom_collections',
       category: ApiCategory.products,
       subcategory: 'Custom Collection',
@@ -2457,7 +2474,11 @@ class ApiServiceRegistry {
     // 📢 PUBLISH HIDDEN CUSTOM COLLECTION
     ApiService(
       name: 'Publish Hidden Custom Collection',
-      endpoint: '/custom_collections',
+          
+
+          
+
+           endpoint: '/custom_collections',
       category: ApiCategory.products,
       subcategory: 'Custom Collection',
       handler: PublishHiddenCustomCollectionHandler(),
@@ -2807,7 +2828,122 @@ class ApiServiceRegistry {
       category: ApiCategory.Products,
       subcategory: 'Smart Collection',
       handler: CreatesSmartCollectionHandler(),
+    ),   
+    
+      ApiService(
+      name: 'List Product Images',
+      endpoint: '/products/:product_id/images',
+      category: ApiCategory.Products,
+      subcategory: 'Product Images',
+      handler: RetrieveListOfProductImagesHandler(),
     ),
+
+    ApiService(
+      name: 'Create Product Image',
+      endpoint: '/products/:product_id/images',
+      category: ApiCategory.Products,
+      subcategory: 'Product Images',
+      handler: CreateANewProductImageHandler(),
+    ),
+    
+    ApiService(
+      name: 'Get Single Product Image',
+      endpoint: '/products/:product_id/images/:image_id',
+      category: ApiCategory.Products,
+      subcategory: 'Product Images',
+      handler: GetSingleProductImageHandler(),
+    ),
+
+    ApiService(
+      name: 'Delete Product Image',
+      endpoint: '/products/:product_id/images/:image_id',
+      category: ApiCategory.Products,
+      subcategory: 'Product Images',
+      handler: DeleteProductImageHandler(),
+    ),
+
+    ApiService(
+  name: 'Count Product Images',
+  endpoint: '/products/:product_id/images/count.json',
+  category: ApiCategory.Products,
+  subcategory: 'Product Images',
+  handler: ReceiveCountOfProductImagesHandler(),
+),
+
+ApiService(
+  name: 'Modify Product Image',
+  endpoint: '/products/:product_id/images/:image_id',
+  category: ApiCategory.Products,
+  subcategory: 'Product Images',
+  handler: ModifyAnExistingProductImageHandler(),
+),
+
+    ApiService(
+      name: 'Create Product Image With Attachment',
+      endpoint: '/products/:product_id/images/attachment',
+      category: ApiCategory.Products,
+      subcategory: 'Product Images',
+      handler: CreateProductImageAttachmentHandler(),
+    ),
+
+    ApiService(
+  name: 'Create Product Image Main',
+  endpoint: '/products/:product_id/images/main',
+  category: ApiCategory.Products,
+  subcategory: 'Product Images',
+  handler: CreateProductImageMainHandler(),
+),
+
+ApiService(
+  name: 'Create Product Image With Variant',
+  endpoint: '/products/:product_id/images/variant',
+  category: ApiCategory.Products,
+  subcategory: 'Product Images',
+  handler: CreateProductImageVariantHandler(),
+),
+
+ApiService(
+  name: 'Create Product Image From Source URL',
+  endpoint: '/products/:product_id/images/source_url',
+  category: ApiCategory.Products,
+  subcategory: 'Product Images',
+  handler: CreateProductImageSourceUrlHandler(),
+),
+
+ApiService(
+  name: 'Modify Product Image Alt & Position',
+  endpoint: '/products/:product_id/images/:image_id',
+  category: ApiCategory.Products,
+  subcategory: 'Product Images',
+  handler: ModifyProductImagePositionAltHandler(),
+),
+
+ApiService(
+  name: 'Modify Product Image - Attach Variants',
+  endpoint: '/products/:product_id/images/:image_id/attach_variants',
+  category: ApiCategory.Products,
+  subcategory: 'Product Images',
+  handler: ModifyProductImageAttachVariantsHandler(),
+),
+
+ApiService(
+  name: 'Create Product Image Metafield',
+  endpoint: '/products/:product_id/images/metafields',
+  category: ApiCategory.Products,
+  subcategory: 'Product Images',
+  handler: CreateProductImageMetafieldHandler(),
+),
+
+ApiService(
+  name: 'Modify Product Image - Add Metafield',
+  endpoint: '/products/:product_id/images/:image_id/metafields',
+  category: ApiCategory.Products,
+  subcategory: 'Product Images',
+  handler: ModifyProductImageAddMetafieldHandler(),
+),
+
+
+
   ];
 
   static void initialize() {}
