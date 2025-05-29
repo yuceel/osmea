@@ -236,9 +236,11 @@ import 'handlers/products_handlers/product_image_handlers/receive_list_of_produc
 import 'handlers/products_handlers/product_image_handlers/receive_a_single_product_image_handler.dart';
 import 'handlers/products_handlers/product_image_handlers/receive_a_count_of_all_product_images_handler.dart';
 import 'handlers/products_handlers/product_image_handlers/create_a_new_product_image_handler.dart';
+import 'handlers/products_handlers/product_image_handlers/create_product_image_attachment_handler.dart';
+import 'handlers/products_handlers/product_image_handlers/create_product_image_main_handler.dart';
 import 'handlers/products_handlers/product_image_handlers/modify_an_existing_product_image_handler.dart';
 import 'handlers/products_handlers/product_image_handlers/delete_product_image_handler.dart';
-
+import 'handlers/products_handlers/product_image_handlers/create_product_image_variant_handler.dart';
 
 enum ApiCategory {
   access,
@@ -1936,7 +1938,7 @@ class ApiServiceRegistry {
     ApiService(
       name: 'Update Custom Collection New Image',
       endpoint: '/custom_collections',
-      category: ApiCategory.products,
+           category: ApiCategory.products,
       subcategory: 'Custom Collection',
       handler: UpdateCustomCollectionNewImageHandler(),
     ),
@@ -2356,6 +2358,32 @@ ApiService(
   subcategory: 'Product Images',
   handler: ModifyAnExistingProductImageHandler(),
 ),
+
+    ApiService(
+      name: 'Create Product Image With Attachment',
+      endpoint: '/products/:product_id/images/attachment',
+      category: ApiCategory.Products,
+      subcategory: 'Product Images',
+      handler: CreateProductImageAttachmentHandler(),
+    ),
+
+    ApiService(
+  name: 'Create Product Image Main',
+  endpoint: '/products/:product_id/images/main',
+  category: ApiCategory.Products,
+  subcategory: 'Product Images',
+  handler: CreateProductImageMainHandler(),
+),
+
+ApiService(
+  name: 'Create Product Image With Variant',
+  endpoint: '/products/:product_id/images/variant',
+  category: ApiCategory.Products,
+  subcategory: 'Product Images',
+  handler: CreateProductImageVariantHandler(),
+),
+
+
 
   ];
 
