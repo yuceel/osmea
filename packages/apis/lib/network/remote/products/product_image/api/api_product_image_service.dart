@@ -1,6 +1,11 @@
 import 'package:apis/dio_config/api_dio_client.dart';
 import 'package:apis/network/remote/products/product_image/abstract/product_image_service.dart';
+import 'package:apis/network/remote/products/product_image/freezed_model/request/create_product_image_metafield_request.dart';
+import 'package:apis/network/remote/products/product_image/freezed_model/request/modify_product_image_add_metafield_request.dart';
 import 'package:apis/network/remote/products/product_image/freezed_model/response/create_a_new_product_image_response.dart';
+import 'package:apis/network/remote/products/product_image/freezed_model/response/create_product_image_metafield_response.dart';
+import 'package:apis/network/remote/products/product_image/freezed_model/response/modify_product_image_add_metafield_response.dart';
+import 'package:apis/network/remote/products/product_image/freezed_model/response/modify_product_image_attach_variants_response.dart';
 import 'package:apis/network/remote/products/product_image/freezed_model/response/receive_a_list_of_all_product_image_response.dart';
 import 'package:apis/network/remote/products/product_image/freezed_model/response/receive_a_single_product_image_response.dart';
 import 'package:apis/network/remote/products/product_image/freezed_model/response/receive_a_count_of_all_product_images_response.dart';
@@ -9,6 +14,10 @@ import 'package:apis/network/remote/products/product_image/freezed_model/request
 import 'package:apis/network/remote/products/product_image/freezed_model/response/modify_an_existing_product_image_response.dart';
 import 'package:apis/network/remote/products/product_image/freezed_model/response/create_product_image_main_response.dart';
 import 'package:apis/network/remote/products/product_image/freezed_model/response/create_product_image_variant_response.dart';
+import 'package:apis/network/remote/products/product_image/freezed_model/response/create_product_image_source_url_response.dart';
+import 'package:apis/network/remote/products/product_image/freezed_model/request/modify_product_image_position_alt_request.dart';
+import 'package:apis/network/remote/products/product_image/freezed_model/response/modify_product_image_position_alt_response.dart';
+
 
 import 'package:apis/apis.dart';
 import 'package:dio/dio.dart';
@@ -105,6 +114,52 @@ Future<CreateProductImageVariantResponse> createProductImageVariant({
   @Body() required Map<String, dynamic> body,
 });
 
+/// ➕ Create product image with source URL
+@override
+  @POST('/api/{api_version}/products/{product_id}/images.json')
+  Future<CreateProductImageSourceUrlResponse> createProductImageSourceUrl({
+    @Path('api_version') required String apiVersion,
+    @Path('product_id') required String productId,
+    @Body() required Map<String, dynamic> body,
+    @Query("fields") String? fields,
+  });
+
+/// ✅ Modify product image position and alt text
+  @PUT('/api/{api_version}/products/{product_id}/images/{image_id}.json')
+  Future<ModifyProductImagePositionAltResponse> modifyProductImagePositionAlt({
+    @Path('api_version') required String apiVersion,
+    @Path('product_id') required String productId,
+    @Path('image_id') required String imageId,
+    @Body() required ModifyProductImagePositionAltRequest request,
+  });
+
+@override
+@PUT('/api/{api_version}/products/{product_id}/images/{image_id}.json')
+Future<ModifyProductImageAttachVariantsResponse> attachVariantsToProductImage({
+  @Path('api_version') required String apiVersion,
+  @Path('product_id') required String productId,
+  @Path('image_id') required String imageId,
+  @Body() required Map<String, dynamic> body,
+});
+
+
+
+@override
+@POST('/api/{api_version}/products/{product_id}/metafields.json')
+Future<CreateProductImageMetafieldResponse> createProductImageMetafield({
+  @Path('api_version') required String apiVersion,
+  @Path('product_id') required String productId,
+  @Body() required CreateProductImageMetafieldRequest body,
+});
+
+@override
+@PUT('/api/{api_version}/products/{product_id}/images/{image_id}.json')
+Future<ModifyProductImageAddMetafieldResponse> modifyProductImageAddMetafield({
+  @Path('api_version') required String apiVersion,
+  @Path('product_id') required String productId,
+  @Path('image_id') required String imageId,
+  @Body() required ModifyProductImageAddMetafieldRequest request,
+});
 
 
 
@@ -112,3 +167,4 @@ Future<CreateProductImageVariantResponse> createProductImageVariant({
 
 
 }
+

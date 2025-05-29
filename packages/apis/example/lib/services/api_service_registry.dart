@@ -100,6 +100,10 @@ import 'package:example/services/handlers/products_handlers/product_handlers/upd
 import 'package:example/services/handlers/products_handlers/product_handlers/update_product_tags_handler.dart';
 import 'package:example/services/handlers/products_handlers/product_handlers/show_hidden_product_handler.dart';
 import 'package:example/services/handlers/products_handlers/product_handlers/delete_product_handler.dart';
+import 'package:example/services/handlers/products_handlers/product_image_handlers/create_product_image_metafield_handler.dart';
+import 'package:example/services/handlers/products_handlers/product_image_handlers/modify_product_image_add_metafield_handler.dart';
+import 'package:example/services/handlers/products_handlers/product_image_handlers/modify_product_image_attach_variants_handler.dart';
+import 'package:example/services/handlers/products_handlers/product_image_handlers/modify_product_image_position_alt_handler.dart';
 import 'package:example/services/handlers/store_properties_handlers/country_handlers/receive_list_of_countries_handler.dart';
 import 'package:example/services/handlers/store_properties_handlers/country_handlers/retrieves_count_of_countries_handler.dart';
 import 'package:example/services/handlers/store_properties_handlers/country_handlers/creates_new_country_handler.dart';
@@ -241,6 +245,8 @@ import 'handlers/products_handlers/product_image_handlers/create_product_image_m
 import 'handlers/products_handlers/product_image_handlers/modify_an_existing_product_image_handler.dart';
 import 'handlers/products_handlers/product_image_handlers/delete_product_image_handler.dart';
 import 'handlers/products_handlers/product_image_handlers/create_product_image_variant_handler.dart';
+import 'handlers/products_handlers/product_image_handlers/create_product_image_source_url_handler.dart';
+
 
 enum ApiCategory {
   access,
@@ -350,6 +356,8 @@ class ApiService {
 
   Map<String, List<ApiField>> get requiredFields => handler.requiredFields;
 }
+
+
 
 class ApiServiceRegistry {
   static final List<ApiService> _services = [
@@ -2381,6 +2389,46 @@ ApiService(
   category: ApiCategory.Products,
   subcategory: 'Product Images',
   handler: CreateProductImageVariantHandler(),
+),
+
+ApiService(
+  name: 'Create Product Image From Source URL',
+  endpoint: '/products/:product_id/images/source_url',
+  category: ApiCategory.Products,
+  subcategory: 'Product Images',
+  handler: CreateProductImageSourceUrlHandler(),
+),
+
+ApiService(
+  name: 'Modify Product Image Alt & Position',
+  endpoint: '/products/:product_id/images/:image_id',
+  category: ApiCategory.Products,
+  subcategory: 'Product Images',
+  handler: ModifyProductImagePositionAltHandler(),
+),
+
+ApiService(
+  name: 'Modify Product Image - Attach Variants',
+  endpoint: '/products/:product_id/images/:image_id/attach_variants',
+  category: ApiCategory.Products,
+  subcategory: 'Product Images',
+  handler: ModifyProductImageAttachVariantsHandler(),
+),
+
+ApiService(
+  name: 'Create Product Image Metafield',
+  endpoint: '/products/:product_id/images/metafields',
+  category: ApiCategory.Products,
+  subcategory: 'Product Images',
+  handler: CreateProductImageMetafieldHandler(),
+),
+
+ApiService(
+  name: 'Modify Product Image - Add Metafield',
+  endpoint: '/products/:product_id/images/:image_id/metafields',
+  category: ApiCategory.Products,
+  subcategory: 'Product Images',
+  handler: ModifyProductImageAddMetafieldHandler(),
 ),
 
 
