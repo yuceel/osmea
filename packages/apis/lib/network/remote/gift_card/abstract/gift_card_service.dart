@@ -6,6 +6,7 @@ import 'package:apis/network/remote/gift_card/freezed_model/request/updates_gift
 import 'package:apis/network/remote/gift_card/freezed_model/response/create_new_gift_card_response.dart';
 import 'package:apis/network/remote/gift_card/freezed_model/response/create_gift_card_with_custom_code_response.dart';
 import 'package:apis/network/remote/gift_card/freezed_model/response/automatically_create_gift_card_response.dart';
+import 'package:apis/network/remote/gift_card/freezed_model/response/disable_gift_card_response.dart';
 import 'package:apis/network/remote/gift_card/freezed_model/response/retrieves_count_of_gift_card_response.dart';
 import 'package:apis/network/remote/gift_card/freezed_model/response/retrieves_list_of_gift_cards_response.dart';
 import 'package:apis/network/remote/gift_card/freezed_model/response/retrieves_single_gift_card_response.dart';
@@ -34,7 +35,7 @@ abstract class GiftCardService {
   });
 
   /// ❌ Disable a gift card
-  Future<void> disableGiftCard({
+  Future<DisableGiftCardResponse> disableGiftCard({
     required String apiVersion,
     required String giftCardId,
     required DisableGiftCardRequest model,

@@ -7,6 +7,7 @@ import 'package:apis/network/remote/gift_card/freezed_model/request/updates_gift
 import 'package:apis/network/remote/gift_card/freezed_model/request/automatically_create_gift_card_request.dart';
 import 'package:apis/network/remote/gift_card/freezed_model/request/create_gift_card_with_custom_code_request.dart';
 import 'package:apis/network/remote/gift_card/freezed_model/response/create_new_gift_card_response.dart';
+import 'package:apis/network/remote/gift_card/freezed_model/response/disable_gift_card_response.dart';
 import 'package:apis/network/remote/gift_card/freezed_model/response/retrieves_count_of_gift_card_response.dart';
 import 'package:apis/network/remote/gift_card/freezed_model/response/retrieves_list_of_gift_cards_response.dart';
 import 'package:apis/network/remote/gift_card/freezed_model/response/retrieves_single_gift_card_response.dart';
@@ -48,7 +49,7 @@ abstract class GiftCardServiceClient implements GiftCardService {
   /// ❌ Disable a gift card
   @override
   @PUT('/api/{api_version}/gift_cards/{gift_card_id}.json')
-  Future<void> disableGiftCard({
+  Future<DisableGiftCardResponse> disableGiftCard({
     @Path('api_version') required String apiVersion,
     @Path('gift_card_id') required String giftCardId,
     @Body() required DisableGiftCardRequest model,
