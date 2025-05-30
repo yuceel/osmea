@@ -3,6 +3,7 @@ import 'package:apis/network/remote/gift_card/freezed_model/request/create_new_g
 import 'package:apis/network/remote/gift_card/freezed_model/request/create_gift_card_with_custom_code_request.dart';
 import 'package:apis/network/remote/gift_card/freezed_model/request/disable_gift_card_request.dart';
 import 'package:apis/network/remote/gift_card/freezed_model/request/updates_gift_card_request.dart';
+import 'package:apis/network/remote/gift_card/freezed_model/response/create_new_gift_card_response.dart';
 import 'package:apis/network/remote/gift_card/freezed_model/response/create_gift_card_with_custom_code_response.dart';
 import 'package:apis/network/remote/gift_card/freezed_model/response/retrieves_count_of_gift_card_response.dart';
 import 'package:apis/network/remote/gift_card/freezed_model/response/retrieves_list_of_gift_cards_response.dart';
@@ -14,7 +15,7 @@ import 'package:apis/network/remote/gift_card/freezed_model/response/updates_gif
 /// Implement this to interact with Shopify Gift Card API! 🎁
 abstract class GiftCardService {
   /// 🎁 Create a new gift card
-  Future<void> createNewGiftCard({
+  Future<CreateNewGiftCardResponse> createNewGiftCard({
     required String apiVersion,
     required CreateNewGiftCardRequest model,
   });
