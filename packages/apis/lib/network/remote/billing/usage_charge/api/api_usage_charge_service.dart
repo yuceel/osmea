@@ -10,14 +10,14 @@ import 'package:retrofit/retrofit.dart';
 
 part 'api_usage_charge_service.g.dart';
 
-/// 🌐 GetUsageChargesServiceClient
-/// Retrofit client for retrieving a list of usage charges.
+/// 🌐 UsageChargeServiceClient
+/// Retrofit client for usage charge operations.
 @RestApi()
-@Injectable(as: GetUsageChargesService)
-abstract class GetUsageChargesServiceClient implements GetUsageChargesService {
+@Injectable(as: UsageChargeService)
+abstract class UsageChargeServiceClient implements UsageChargeService {
   /// 🏭 Factory for dependency injection
   @factoryMethod
-  factory GetUsageChargesServiceClient(Dio dio) => _GetUsageChargesServiceClient(
+  factory UsageChargeServiceClient(Dio dio) => _UsageChargeServiceClient(
         ApiDioClient.starter(),
         baseUrl: ApiNetwork.baseUrl,
       );
@@ -30,19 +30,6 @@ abstract class GetUsageChargesServiceClient implements GetUsageChargesService {
     @Path('recurring_application_charge_id') required int recurringApplicationChargeId,
     @Query('fields') String? fields,
   });
-}
-
-/// 🌐 GetUsageChargeServiceClient
-/// Retrofit client for retrieving a single usage charge.
-@RestApi()
-@Injectable(as: GetUsageChargeService)
-abstract class GetUsageChargeServiceClient implements GetUsageChargeService {
-  /// 🏭 Factory for dependency injection
-  @factoryMethod
-  factory GetUsageChargeServiceClient(Dio dio) => _GetUsageChargeServiceClient(
-        ApiDioClient.starter(),
-        baseUrl: ApiNetwork.baseUrl,
-      );
 
   /// 🔍 Get a single usage charge by ID
   @override
@@ -53,19 +40,6 @@ abstract class GetUsageChargeServiceClient implements GetUsageChargeService {
     @Path('id') required int id,
     @Query('fields') String? fields,
   });
-}
-
-/// 🌐 CreateUsageChargeServiceClient
-/// Retrofit client for creating a usage charge.
-@RestApi()
-@Injectable(as: CreateUsageChargeService)
-abstract class CreateUsageChargeServiceClient implements CreateUsageChargeService {
-  /// 🏭 Factory for dependency injection
-  @factoryMethod
-  factory CreateUsageChargeServiceClient(Dio dio) => _CreateUsageChargeServiceClient(
-        ApiDioClient.starter(),
-        baseUrl: ApiNetwork.baseUrl,
-      );
 
   /// 🆕 Create a new usage charge
   @override
