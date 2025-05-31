@@ -11,15 +11,15 @@ import 'package:retrofit/retrofit.dart';
 
 part 'api_application_charge_service.g.dart';
 
-/// 🌐 GetApplicationChargesServiceClient
-/// Retrofit client for retrieving a list of application charges.
+/// 🌐 ApplicationChargeServiceClient
+/// Retrofit client for application charge operations.
 /// Make sure ApiNetwork.storeName and shopifyAccessToken are set before using! 🏬🔑
 @RestApi()
-@Injectable(as: GetApplicationChargesService)
-abstract class GetApplicationChargesServiceClient implements GetApplicationChargesService {
+@Injectable(as: ApplicationChargeService)
+abstract class ApplicationChargeServiceClient implements ApplicationChargeService {
   /// 🏭 Factory for dependency injection
   @factoryMethod
-  factory GetApplicationChargesServiceClient(Dio dio) => _GetApplicationChargesServiceClient(
+  factory ApplicationChargeServiceClient(Dio dio) => _ApplicationChargeServiceClient(
         ApiDioClient.starter(),
         baseUrl: ApiNetwork.baseUrl,
       );
@@ -32,19 +32,6 @@ abstract class GetApplicationChargesServiceClient implements GetApplicationCharg
     @Query('fields') String? fields,
     @Query('since_id') String? sinceId,
   });
-}
-
-/// 🌐 GetApplicationChargeServiceClient
-/// Retrofit client for retrieving a single application charge.
-@RestApi()
-@Injectable(as: GetApplicationChargeService)
-abstract class GetApplicationChargeServiceClient implements GetApplicationChargeService {
-  /// 🏭 Factory for dependency injection
-  @factoryMethod
-  factory GetApplicationChargeServiceClient(Dio dio) => _GetApplicationChargeServiceClient(
-        ApiDioClient.starter(),
-        baseUrl: ApiNetwork.baseUrl,
-      );
 
   /// 🔍 Get a single application charge by ID
   @override
@@ -52,20 +39,8 @@ abstract class GetApplicationChargeServiceClient implements GetApplicationCharge
   Future<GetAnApplicationChargeResponse> getApplicationCharge({
     @Path('api_version') required String apiVersion,
     @Path('id') required int id,
+    @Query('fields') String? fields,
   });
-}
-
-/// 🌐 CreateApplicationChargeServiceClient
-/// Retrofit client for creating a new application charge.
-@RestApi()
-@Injectable(as: CreateApplicationChargeService)
-abstract class CreateApplicationChargeServiceClient implements CreateApplicationChargeService {
-  /// 🏭 Factory for dependency injection
-  @factoryMethod
-  factory CreateApplicationChargeServiceClient(Dio dio) => _CreateApplicationChargeServiceClient(
-        ApiDioClient.starter(),
-        baseUrl: ApiNetwork.baseUrl,
-      );
 
   /// 💵 Create a new application charge
   @override
