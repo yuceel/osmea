@@ -79,7 +79,7 @@ class CreateAnApplicationChargeHandler implements ApiRequestHandler {
         debugPrint('📤 Request JSON: $requestJson');
         
         // Call the API service
-        final service = GetIt.I.get<CreateApplicationChargeService>();
+        final service = GetIt.I.get<ApplicationChargeService>();
         final response = await service.createApplicationCharge(
           apiVersion: ApiNetwork.apiVersion,
           request: request,
