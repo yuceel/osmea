@@ -12,15 +12,15 @@ import 'package:retrofit/retrofit.dart';
 
 part 'api_webhook_service.g.dart';
 
-/// 🌐 GetWebhooksServiceClient
-/// Retrofit client for retrieving a list of webhooks.
+/// 🌐 WebhookServiceClient
+/// Retrofit client for webhook operations.
 /// Make sure ApiNetwork.storeName and shopifyAccessToken are set before using! 🏬🔑
 @RestApi()
-@Injectable(as: GetWebhooksService)
-abstract class GetWebhooksServiceClient implements GetWebhooksService {
+@Injectable(as: WebhookService)
+abstract class WebhookServiceClient implements WebhookService {
   /// 🏭 Factory for dependency injection
   @factoryMethod
-  factory GetWebhooksServiceClient(Dio dio) => _GetWebhooksServiceClient(
+  factory WebhookServiceClient(Dio dio) => _WebhookServiceClient(
         ApiDioClient.starter(),
         baseUrl: ApiNetwork.baseUrl,
       );
@@ -38,21 +38,8 @@ abstract class GetWebhooksServiceClient implements GetWebhooksService {
     @Query('created_at_max') String? created_at_max,
     @Query('updated_at_min') String? updated_at_min,
     @Query('updated_at_max') String? updated_at_max,
-    @Query('limit') int? limit, // Add this parameter
+    @Query('limit') int? limit,
   });
-}
-
-/// 🌐 GetWebhookServiceClient
-/// Retrofit client for retrieving a single webhook.
-@RestApi()
-@Injectable(as: GetWebhookService)
-abstract class GetWebhookServiceClient implements GetWebhookService {
-  /// 🏭 Factory for dependency injection
-  @factoryMethod
-  factory GetWebhookServiceClient(Dio dio) => _GetWebhookServiceClient(
-        ApiDioClient.starter(),
-        baseUrl: ApiNetwork.baseUrl,
-      );
 
   /// 🔍 Get a single webhook by ID
   @override
@@ -62,19 +49,6 @@ abstract class GetWebhookServiceClient implements GetWebhookService {
     @Path('id') required int id,
     @Query('fields') String? fields,
   });
-}
-
-/// 🌐 GetWebhooksCountServiceClient
-/// Retrofit client for retrieving the count of webhooks.
-@RestApi()
-@Injectable(as: GetWebhooksCountService)
-abstract class GetWebhooksCountServiceClient implements GetWebhooksCountService {
-  /// 🏭 Factory for dependency injection
-  @factoryMethod
-  factory GetWebhooksCountServiceClient(Dio dio) => _GetWebhooksCountServiceClient(
-        ApiDioClient.starter(),
-        baseUrl: ApiNetwork.baseUrl,
-      );
 
   /// 🔢 Get count of webhooks
   @override
@@ -84,19 +58,6 @@ abstract class GetWebhooksCountServiceClient implements GetWebhooksCountService 
     @Query('address') String? address,
     @Query('topic') String? topic,
   });
-}
-
-/// 🌐 CreateWebhookServiceClient
-/// Retrofit client for creating a webhook
-@RestApi()
-@Injectable(as: CreateWebhookService)
-abstract class CreateWebhookServiceClient implements CreateWebhookService {
-  /// 🏭 Factory for dependency injection
-  @factoryMethod
-  factory CreateWebhookServiceClient(Dio dio) => _CreateWebhookServiceClient(
-        ApiDioClient.starter(),
-        baseUrl: ApiNetwork.baseUrl,
-      );
 
   /// 📝 Create a new webhook
   @override
@@ -105,19 +66,6 @@ abstract class CreateWebhookServiceClient implements CreateWebhookService {
     @Path('api_version') required String apiVersion,
     @Body() required CreateWebhookRequest request,
   });
-}
-
-/// 🌐 UpdateWebhookServiceClient
-/// Retrofit client for updating a webhook
-@RestApi()
-@Injectable(as: UpdateWebhookService)
-abstract class UpdateWebhookServiceClient implements UpdateWebhookService {
-  /// 🏭 Factory for dependency injection
-  @factoryMethod
-  factory UpdateWebhookServiceClient(Dio dio) => _UpdateWebhookServiceClient(
-        ApiDioClient.starter(),
-        baseUrl: ApiNetwork.baseUrl,
-      );
 
   /// ✏️ Update an existing webhook
   @override
@@ -127,19 +75,6 @@ abstract class UpdateWebhookServiceClient implements UpdateWebhookService {
     @Path('id') required int id,
     @Body() required UpdateWebhookRequest request,
   });
-}
-
-/// 🌐 DeleteWebhookServiceClient
-/// Retrofit client for deleting a webhook
-@RestApi()
-@Injectable(as: DeleteWebhookService)
-abstract class DeleteWebhookServiceClient implements DeleteWebhookService {
-  /// 🏭 Factory for dependency injection
-  @factoryMethod
-  factory DeleteWebhookServiceClient(Dio dio) => _DeleteWebhookServiceClient(
-        ApiDioClient.starter(),
-        baseUrl: ApiNetwork.baseUrl,
-      );
 
   /// 🗑️ Delete an existing webhook
   @override
