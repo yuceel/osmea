@@ -24,9 +24,9 @@ class TenderTransaction with _$TenderTransaction {
     @JsonKey(name: "user_id") int? userId,
     @JsonKey(name: "test") required bool test,
     @JsonKey(name: "processed_at") required String processedAt,
-    @JsonKey(name: "remote_reference") required String remoteReference,
+    @JsonKey(name: "remote_reference") String? remoteReference, // Made nullable - could be null for some payment types
     @JsonKey(name: "payment_method") required String paymentMethod,
-    @JsonKey(name: "payment_details") required Map<String, dynamic> paymentDetails,
+    @JsonKey(name: "payment_details") Map<String, dynamic>? paymentDetails, // Made nullable - could be empty for some transactions
   }) = _TenderTransaction;
 
   factory TenderTransaction.fromJson(Map<String, dynamic> json) =>
