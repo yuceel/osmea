@@ -74,7 +74,7 @@ class CreateUsageChargeHandler implements ApiRequestHandler {
         );
         
         // Call the API service
-        final service = GetIt.I.get<CreateUsageChargeService>();
+        final service = GetIt.I.get<UsageChargeService>();
         final response = await service.createUsageCharge(
           apiVersion: ApiNetwork.apiVersion,
           recurringApplicationChargeId: recurringApplicationChargeId,
