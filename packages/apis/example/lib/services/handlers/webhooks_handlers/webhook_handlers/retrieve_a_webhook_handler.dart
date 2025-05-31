@@ -4,7 +4,6 @@ import 'package:example/services/api_service_registry.dart';
 import 'package:get_it/get_it.dart';
 import '../../../api_request_handler.dart';
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
 
 /// ******************************************************************
 /// ************* 🔍 RETRIEVE A WEBHOOK HANDLER 🔍 ********
@@ -68,84 +67,49 @@ class RetrieveAWebhookHandler implements ApiRequestHandler {
     }
   }
 
-  // Handle field filtering by making a direct API call
+  // Handle field filtering using GetIt service with proper field filtering
   Future<Map<String, dynamic>> _handleFieldFiltering(int id, String fields) async {
-    debugPrint('📌 Using direct API call for field filtering: fields=$fields');
+    debugPrint('📌 Using GetIt service for field filtering: fields=$fields');
     
-    final baseUrl = ApiNetwork.baseUrl;
-    final apiVersion = ApiNetwork.apiVersion;
-    final shopifyToken = ApiNetwork.shopifyAccessToken;
+    final service = GetIt.I.get<WebhookService>();
+    final response = await service.getWebhook(
+      apiVersion: ApiNetwork.apiVersion,
+      id: id,
+      fields: fields.trim().isNotEmpty ? fields : null,
+    );
     
-    // Build URL with query parameters
-    String url = '$baseUrl/api/$apiVersion/webhooks/$id.json?fields=$fields';
-    
-    debugPrint('🔗 Making request to: $url');
-    
-    // Make direct API call
-    try {
-      final dio = Dio();
-      final response = await dio.get(
-        url,
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Shopify-Access-Token': shopifyToken,
-          },
-        ),
-      );
-      
-      debugPrint('✅ Response status: ${response.statusCode}');
-      
-      if (response.data is Map) {
-        final data = Map<String, dynamic>.from(response.data as Map);
-        
-        return {
-          "status": "success",
-          "appliedFilters": {
-            "fields": fields,
-          },
-          "data": data,
-          "timestamp": DateTime.now().toIso8601String(),
-        };
-      } else {
-        throw Exception('Unexpected response format: ${response.data}');
-      }
-    } catch (e) {
-      debugPrint('❌ Direct API error: $e');
-      
-      // Handle Dio errors with response data (Shopify error messages)
-      if (e is DioException && e.response != null && e.response?.data != null) {
-        final responseData = e.response!.data;
-        final statusCode = e.response!.statusCode;
-        
-        // Try to parse Shopify error messages
-        if (responseData is Map && responseData.containsKey('errors')) {
-          return {
-            "status": "error",
-            "statusCode": statusCode,
-            "shopifyErrors": responseData['errors'],
-            "message": "Shopify API Error: ${_formatShopifyErrors(responseData['errors'])}",
-            "timestamp": DateTime.now().toIso8601String(),
-          };
-        }
-        
-        // Generic response error
-        return {
-          "status": "error",
-          "statusCode": statusCode,
-          "message": "API Error: ${e.message}",
-          "responseData": responseData,
-          "timestamp": DateTime.now().toIso8601String(),
-        };
-      }
-      
-      throw e;
+    final webhook = response.webhook;
+    if (webhook == null) {
+      return {
+        "status": "error",
+        "message": "Webhook not found or no data returned",
+        "timestamp": DateTime.now().toIso8601String(),
+      };
     }
+    
+    // Parse the fields parameter and filter the response
+    final requestedFields = fields.split(',').map((f) => f.trim()).toSet();
+    final fullJson = webhook.toJson();
+    
+    // Create a new map with only the requested fields
+    final filteredWebhook = Map<String, dynamic>.fromEntries(
+      fullJson.entries.where((entry) => requestedFields.contains(entry.key))
+    );
+    
+    debugPrint('✅ Successfully retrieved and filtered webhook. Fields: ${requestedFields.join(', ')}');
+    
+    return {
+      "status": "success",
+      "webhook": filteredWebhook,
+      "fields_filtered": requestedFields.toList(),
+      "message": "Webhook successfully retrieved with filtered fields",
+      "timestamp": DateTime.now().toIso8601String(),
+    };
   }
   
   // Standard request using the model
   Future<Map<String, dynamic>> _handleStandardRequest(int id, String? fields) async {
-    final service = GetIt.I.get<GetWebhookService>();
+    final service = GetIt.I.get<WebhookService>();
     
     // Only include fields if non-empty
     final response = await service.getWebhook(
@@ -167,24 +131,10 @@ class RetrieveAWebhookHandler implements ApiRequestHandler {
     
     return {
       "status": "success",
-      "data": {
-        "webhook": webhook.toJson()
-      },
+      "webhook": webhook.toJson(),
+      "message": "Webhook successfully retrieved",
       "timestamp": DateTime.now().toIso8601String(),
     };
-  }
-
-  // Helper function to format Shopify errors
-  String _formatShopifyErrors(dynamic errors) {
-    if (errors is Map) {
-      return errors.entries
-          .map((entry) => "${entry.key}: ${entry.value}")
-          .join(", ");
-    } else if (errors is String) {
-      return errors;
-    } else {
-      return errors.toString();
-    }
   }
 
   @override
