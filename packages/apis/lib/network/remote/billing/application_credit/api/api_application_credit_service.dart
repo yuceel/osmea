@@ -9,15 +9,15 @@ import 'package:retrofit/retrofit.dart';
 
 part 'api_application_credit_service.g.dart';
 
-/// 🌐 GetApplicationCreditsServiceClient
-/// Retrofit client for retrieving a list of application credits.
+/// 🌐 ApplicationCreditServiceClient
+/// Retrofit client for application credit operations.
 /// Make sure ApiNetwork.storeName and shopifyAccessToken are set before using! 🏬🔑
 @RestApi()
-@Injectable(as: GetApplicationCreditsService)
-abstract class GetApplicationCreditsServiceClient implements GetApplicationCreditsService {
+@Injectable(as: ApplicationCreditService)
+abstract class ApplicationCreditServiceClient implements ApplicationCreditService {
   /// 🏭 Factory for dependency injection
   @factoryMethod
-  factory GetApplicationCreditsServiceClient(Dio dio) => _GetApplicationCreditsServiceClient(
+  factory ApplicationCreditServiceClient(Dio dio) => _ApplicationCreditServiceClient(
         ApiDioClient.starter(),
         baseUrl: ApiNetwork.baseUrl,
       );
@@ -27,21 +27,8 @@ abstract class GetApplicationCreditsServiceClient implements GetApplicationCredi
   @GET('/api/{api_version}/application_credits.json')
   Future<GetAllApplicationCreditsResponse> getApplicationCredits({
     @Path('api_version') required String apiVersion,
-    @Query('fields') String? fields, // Ensure this is nullable
+    @Query('fields') String? fields,
   });
-}
-
-/// 🌐 GetApplicationCreditServiceClient
-/// Retrofit client for retrieving a single application credit.
-@RestApi()
-@Injectable(as: GetApplicationCreditService)
-abstract class GetApplicationCreditServiceClient implements GetApplicationCreditService {
-  /// 🏭 Factory for dependency injection
-  @factoryMethod
-  factory GetApplicationCreditServiceClient(Dio dio) => _GetApplicationCreditServiceClient(
-        ApiDioClient.starter(),
-        baseUrl: ApiNetwork.baseUrl,
-      );
 
   /// 🔍 Get a single application credit by ID
   @override
@@ -49,6 +36,6 @@ abstract class GetApplicationCreditServiceClient implements GetApplicationCredit
   Future<GetAnApplicationCreditResponse> getApplicationCredit({
     @Path('api_version') required String apiVersion,
     @Path('id') required int id,
-    @Query('fields') String? fields, // Ensure this is nullable
+    @Query('fields') String? fields,
   });
 }
