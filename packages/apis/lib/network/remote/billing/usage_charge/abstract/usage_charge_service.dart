@@ -2,27 +2,23 @@ import 'package:apis/network/remote/billing/usage_charge/freezed_model/response/
 import 'package:apis/network/remote/billing/usage_charge/freezed_model/response/get_a_usage_charge_response.dart';
 import 'package:apis/network/remote/billing/usage_charge/freezed_model/request/create_usage_charge_request.dart';
 
-/// 🔑 Abstract contract for getting all Usage Charges
-abstract class GetUsageChargesService {
+abstract class UsageChargeService {
+  /// Gets all usage charges for a recurring application charge
   Future<GetAllUsageChargesResponse> getUsageCharges({
     required String apiVersion,
     required int recurringApplicationChargeId,
     String? fields,
   });
-}
 
-/// 🔑 Abstract contract for getting a single Usage Charge
-abstract class GetUsageChargeService {
+  /// Gets a single usage charge by ID
   Future<GetAUsageChargeResponse> getUsageCharge({
     required String apiVersion,
     required int recurringApplicationChargeId,
     required int id,
     String? fields,
   });
-}
 
-/// 🆕 Abstract contract for creating a Usage Charge
-abstract class CreateUsageChargeService {
+  /// Creates a usage charge
   Future<GetAUsageChargeResponse> createUsageCharge({
     required String apiVersion,
     required int recurringApplicationChargeId,
