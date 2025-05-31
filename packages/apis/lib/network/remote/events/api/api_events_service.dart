@@ -33,7 +33,6 @@ abstract class RetrievesListOfEventsClient implements RetrievesListOfEvents {
     @Query('limit') int? limit,
     @Query('since_id') String? sinceId,
     @Query('filter') String? filter,
-    @Query('sort_by') String? sortBy,
   });
 }
 

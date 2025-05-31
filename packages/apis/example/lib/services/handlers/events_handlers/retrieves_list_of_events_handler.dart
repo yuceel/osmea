@@ -22,7 +22,6 @@ class RetrievesListOfEventsHandler implements ApiRequestHandler {
         final limit = limitStr != null ? int.tryParse(limitStr) : null;
         final sinceId = params['since_id'] as String?;
         final filter = params['filter'] as String?;
-        final sortBy = params['sort_by'] as String?;
 
         // 🚀 Make API call to get events list using ApiNetwork.apiVersion
         final response =
@@ -33,7 +32,6 @@ class RetrievesListOfEventsHandler implements ApiRequestHandler {
                   limit: limit,
                   sinceId: sinceId,
                   filter: filter,
-                  sortBy: sortBy,
                 );
 
         final events = response.events ?? [];
@@ -156,11 +154,6 @@ class RetrievesListOfEventsHandler implements ApiRequestHandler {
             name: 'filter',
             label: 'Filter',
             hint: 'Filter expression (optional)',
-          ),
-          const ApiField(
-            name: 'sort_by',
-            label: 'Sort By',
-            hint: 'Field to sort by (optional)',
           ),
         ],
       };

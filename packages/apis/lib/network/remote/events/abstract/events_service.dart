@@ -13,7 +13,6 @@ abstract class RetrievesListOfEvents {
     int? limit,
     String? sinceId,
     String? filter,
-    String? sortBy,
   });
 }
 
