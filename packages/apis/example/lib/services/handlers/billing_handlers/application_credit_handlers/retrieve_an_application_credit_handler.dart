@@ -4,7 +4,6 @@ import 'package:example/services/api_service_registry.dart';
 import 'package:get_it/get_it.dart';
 import '../../../api_request_handler.dart';
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
 
 /// ******************************************************************
 /// ************* 🔍 RETRIEVE AN APPLICATION CREDIT HANDLER 🔍 ********
@@ -90,54 +89,50 @@ class RetrieveAnApplicationCreditHandler implements ApiRequestHandler {
   };
 
   Future<Map<String, dynamic>> _handleFieldFiltering(int id, String fieldsParam) async {
-    debugPrint('📌 Using direct API call for field filtering: fields=$fieldsParam');
-  
-    final baseUrl = ApiNetwork.baseUrl;
-    final apiVersion = ApiNetwork.apiVersion;
-    final shopifyToken = ApiNetwork.shopifyAccessToken;
-  
-    // Build URL with query parameters
-    String url = '$baseUrl/api/$apiVersion/application_credits/$id.json?fields=$fieldsParam';
-  
-    debugPrint('🔗 Making request to: $url');
-  
-    // Make direct API call
+    debugPrint('📌 Using GetIt service for field filtering: fields=$fieldsParam');
+    
     try {
-      final dio = Dio();
-      final response = await dio.get(
-        url,
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Shopify-Access-Token': shopifyToken,
-          },
-        ),
+      final service = GetIt.I.get<ApplicationCreditService>();
+      final response = await service.getApplicationCredit(
+        apiVersion: ApiNetwork.apiVersion,
+        id: id,
       );
-    
-      debugPrint('✅ Response status: ${response.statusCode}');
-    
-      if (response.data is Map) {
-        final data = Map<String, dynamic>.from(response.data as Map);
       
+      final credit = response.applicationCredit;
+      if (credit == null) {
         return {
-          "status": "success",
-          "appliedFilters": {
-            "fields": fieldsParam,
-          },
-          "data": data,
+          "status": "error",
+          "message": "Application credit not found or no data returned",
           "timestamp": DateTime.now().toIso8601String(),
         };
-      } else {
-        throw Exception('Unexpected response format: ${response.data}');
       }
+      
+      // Parse the fields parameter and filter the response
+      final requestedFields = fieldsParam.split(',').map((f) => f.trim()).toSet();
+      final fullJson = credit.toJson();
+      
+      // Create a new map with only the requested fields
+      final filteredCredit = Map<String, dynamic>.fromEntries(
+        fullJson.entries.where((entry) => requestedFields.contains(entry.key))
+      );
+      
+      debugPrint('✅ Successfully retrieved and filtered application credit. Fields: ${requestedFields.join(', ')}');
+      
+      return {
+        "status": "success",
+        "application_credit": filteredCredit,
+        "fields_filtered": requestedFields.toList(),
+        "message": "Application credit successfully retrieved with filtered fields",
+        "timestamp": DateTime.now().toIso8601String(),
+      };
     } catch (e) {
-      debugPrint('❌ Direct API error: $e');
-      throw e;
+      debugPrint('❌ GetIt service error: $e');
+      rethrow;
     }
   }
 
   Future<Map<String, dynamic>> _handleStandardRequest(int id) async {
-    final service = GetIt.I.get<GetApplicationCreditService>();
+    final service = GetIt.I.get<ApplicationCreditService>();
     final response = await service.getApplicationCredit(
       apiVersion: ApiNetwork.apiVersion,
       id: id,
@@ -154,9 +149,8 @@ class RetrieveAnApplicationCreditHandler implements ApiRequestHandler {
     
     return {
       "status": "success",
-      "data": {
-        "application_credit": credit.toJson()
-      },
+      "application_credit": credit.toJson(),
+      "message": "Application credit successfully retrieved",
       "timestamp": DateTime.now().toIso8601String(),
     };
   }
