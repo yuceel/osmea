@@ -1,6 +1,8 @@
 import 'package:apis/apis.dart';
+import 'package:apis/network/remote/tendertransaction/tendertransaction/abstract/tender_transaction_service.dart';
+import 'package:apis/network/remote/tendertransaction/tendertransaction/freezed_model/response/get_all_tender_transactions_response.dart';
 import 'package:example/services/api_service_registry.dart';
-import 'package:dio/dio.dart'; // Make sure this import is added
+import 'package:get_it/get_it.dart';
 import '../../../api_request_handler.dart';
 import 'package:flutter/material.dart';
 
@@ -14,22 +16,30 @@ class RetrieveListOfTenderTransactionsHandler implements ApiRequestHandler {
       String method, Map<String, String> params) async {
     try {
       if (method == 'GET') {
-        // Extract the valid parameters and filter out empty strings
-        final limit = params['limit']?.isNotEmpty == true ? params['limit'] : null;
-        final orderedBy = params['order']?.isNotEmpty == true ? params['order'] : null;
-        final processedAt = params['processed_at']?.isNotEmpty == true ? params['processed_at'] : null;
-        final processedAtMax = params['processed_at_max']?.isNotEmpty == true ? params['processed_at_max'] : null;
-        final processedAtMin = params['processed_at_min']?.isNotEmpty == true ? params['processed_at_min'] : null;
-        final sinceId = params['since_id']?.isNotEmpty == true ? params['since_id'] : null;
+        // Parse parameters
+        final limitParam = params['limit']?.isNotEmpty == true ? params['limit'] : null;
+        final orderParam = params['order']?.isNotEmpty == true ? params['order'] : null;
+        final processedAtParam = params['processed_at']?.isNotEmpty == true ? params['processed_at'] : null;
+        final processedAtMaxParam = params['processed_at_max']?.isNotEmpty == true ? params['processed_at_max'] : null;
+        final processedAtMinParam = params['processed_at_min']?.isNotEmpty == true ? params['processed_at_min'] : null;
+        final sinceIdParam = params['since_id']?.isNotEmpty == true ? params['since_id'] : null;
         
-        return await _handleStandardRequest(
-          limit: limit != null ? int.tryParse(limit) : null,
-          order: orderedBy,
-          processedAt: processedAt,
-          processedAtMax: processedAtMax,
-          processedAtMin: processedAtMin,
-          sinceId: sinceId != null ? int.tryParse(sinceId) : null,
-        );
+        // Parse limit and sinceId to integer if provided
+        int? limit;
+        if (limitParam != null) {
+          limit = int.tryParse(limitParam);
+        }
+        
+        int? sinceId;
+        if (sinceIdParam != null) {
+          sinceId = int.tryParse(sinceIdParam);
+        }
+        
+        debugPrint('🔧 Parameters: limit=$limit, order=$orderParam, processed_at=$processedAtParam, processed_at_max=$processedAtMaxParam, processed_at_min=$processedAtMinParam, since_id=$sinceId');
+        
+        // Standard request using the GetIt service
+        return await _handleStandardRequest(limit, orderParam, processedAtParam, 
+          processedAtMaxParam, processedAtMinParam, sinceId);
       }
       
       return {
@@ -48,100 +58,105 @@ class RetrieveListOfTenderTransactionsHandler implements ApiRequestHandler {
       };
     }
   }
-
-  Future<Map<String, dynamic>> _handleStandardRequest({
-    int? limit,
-    String? order,
-    String? processedAt,
-    String? processedAtMax,
-    String? processedAtMin,
-    int? sinceId,
-  }) async {
-    debugPrint('📌 Using direct API call approach to avoid empty parameters');
-    
-    final baseUrl = ApiNetwork.baseUrl;
-    final apiVersion = ApiNetwork.apiVersion;
-    final shopifyToken = ApiNetwork.shopifyAccessToken;
-    
-    // Start building URL with no query parameters
-    String url = '$baseUrl/api/$apiVersion/tender_transactions.json';
-    
-    // Create a map of query parameters, only including non-null values
-    final Map<String, dynamic> queryParams = {};
-    if (limit != null) queryParams['limit'] = limit.toString();
-    if (order != null && order.trim().isNotEmpty) queryParams['order'] = order;
-    if (processedAt != null && processedAt.trim().isNotEmpty) queryParams['processed_at'] = processedAt;
-    if (processedAtMax != null && processedAtMax.trim().isNotEmpty) queryParams['processed_at_max'] = processedAtMax;
-    if (processedAtMin != null && processedAtMin.trim().isNotEmpty) queryParams['processed_at_min'] = processedAtMin;
-    if (sinceId != null) queryParams['since_id'] = sinceId.toString();
-    
-    // Only add the query string if we have parameters
-    if (queryParams.isNotEmpty) {
-      final queryString = queryParams.entries
-          .map((entry) => '${entry.key}=${Uri.encodeComponent(entry.value)}')
-          .join('&');
-      url = '$url?$queryString';
-    }
-    
-    debugPrint('🔗 Making request to: $url');
+  
+  // Standard request using the GetIt service
+  Future<Map<String, dynamic>> _handleStandardRequest(
+      int? limit, String? order, String? processedAt,
+      String? processedAtMax, String? processedAtMin, int? sinceId) async {
+    debugPrint('📌 Using standard GetIt service approach');
     
     try {
-      final dio = Dio();
-      final response = await dio.get(
-        url,
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Shopify-Access-Token': shopifyToken,
-          },
-        ),
-      );
+      // Ensure apiVersion is not null or empty
+      final apiVersion = ApiNetwork.apiVersion.isNotEmpty ? ApiNetwork.apiVersion : '2025-04';
+      debugPrint('🔧 Using API Version: $apiVersion');
       
-      debugPrint('✅ Response status: ${response.statusCode}');
+      final service = GetIt.I.get<TenderTransactionService>();
       
-      if (response.data is Map) {
-        final data = Map<String, dynamic>.from(response.data as Map);
+      debugPrint('🌐 Making API call to getTenderTransactions...');
+      GetAllTenderTransactionsResponse response;
+      try {
+        response = await service.getTenderTransactions(
+          apiVersion: apiVersion,
+          limit: limit,
+          sinceId: sinceId,
+          processedAt: processedAt?.trim().isNotEmpty == true ? processedAt : null,
+          processedAtMin: processedAtMin?.trim().isNotEmpty == true ? processedAtMin : null,
+          processedAtMax: processedAtMax?.trim().isNotEmpty == true ? processedAtMax : null,
+          order: order?.trim().isNotEmpty == true ? order : null,
+        );
+        debugPrint('🌐 API call completed successfully');
+      } catch (e, stackTrace) {
+        debugPrint('❌ API response parsing failed: $e');
+        debugPrint('📚 Stack trace: $stackTrace');
         
-        return {
-          "status": "success",
-          "data": data,
-          "count": (data['tender_transactions'] as List?)?.length ?? 0,
-          "appliedFilters": queryParams,
-          "timestamp": DateTime.now().toIso8601String(),
-        };
-      } else {
-        throw Exception('Unexpected response format: ${response.data}');
-      }
-    } catch (e) {
-      debugPrint('❌ Direct API error: $e');
-      
-      // Handle Dio errors with response data (Shopify error messages)
-      if (e is DioException && e.response != null && e.response?.data != null) {
-        final responseData = e.response!.data;
-        final statusCode = e.response!.statusCode;
-        
-        // Try to parse Shopify error messages
-        if (responseData is Map && responseData.containsKey('errors')) {
+        // If the error is a TypeError related to null values, provide a more specific error message
+        if (e.toString().contains('type \'Null\' is not a subtype of type \'String\'')) {
           return {
-            "status": "error",
-            "statusCode": statusCode,
-            "shopifyErrors": responseData['errors'],
-            "message": "Shopify API Error: ${_formatShopifyErrors(responseData['errors'])}",
+            "status": "error", 
+            "message": "API response contains null values in required String fields. This indicates a mismatch between the TenderTransaction model and the actual API response format.",
+            "details": e.toString(),
             "timestamp": DateTime.now().toIso8601String(),
           };
         }
-        
-        // Generic response error
+        throw e; // Re-throw other errors to be caught by outer try-catch
+      }
+      
+      final transactions = response.tenderTransactions ?? [];
+      debugPrint('📊 Received ${transactions.length} tender transactions');
+      
+      if (transactions.isEmpty) {
         return {
-          "status": "error",
-          "statusCode": statusCode,
-          "message": "API Error: ${e.message}",
-          "responseData": responseData,
+          "status": "success",
+          "tender_transactions": [],
+          "count": 0,
+          "message": "No tender transactions found",
           "timestamp": DateTime.now().toIso8601String(),
         };
       }
       
-      // Generic error
+      debugPrint('✅ Successfully retrieved ${transactions.length} tender transactions');
+      
+      // Safely convert transactions to JSON, handling potential null values
+      List<Map<String, dynamic>> transactionJsonList = [];
+      for (var transaction in transactions) {
+        try {
+          // Add detailed logging to see what's in the transaction
+          debugPrint('🔍 Processing transaction: ID=${transaction.id}, OrderID=${transaction.orderId}');
+          debugPrint('🔍 Amount=${transaction.amount}, Currency=${transaction.currency}');
+          debugPrint('🔍 ProcessedAt=${transaction.processedAt}, RemoteRef=${transaction.remoteReference ?? "null"}');
+          debugPrint('🔍 PaymentMethod=${transaction.paymentMethod}, UserID=${transaction.userId ?? "null"}');
+          debugPrint('🔍 PaymentDetails=${transaction.paymentDetails != null ? "present" : "null"}');
+          
+          final json = transaction.toJson();
+          transactionJsonList.add(json);
+          debugPrint('✅ Successfully converted transaction ${transaction.id} to JSON');
+        } catch (e, stackTrace) {
+          debugPrint('❌ Failed to convert transaction ${transaction.id} to JSON: $e');
+          debugPrint('📚 Stack trace: $stackTrace');
+          debugPrint('🔍 Transaction details: ${transaction.toString()}');
+          // Skip transactions that have null values in required fields
+          continue;
+        }
+      }
+      
+      return {
+        "status": "success",
+        "tender_transactions": transactionJsonList,
+        "count": transactionJsonList.length,
+        "appliedFilters": {
+          if (limit != null) "limit": limit,
+          if (order != null) "order": order,
+          if (processedAt != null) "processed_at": processedAt,
+          if (processedAtMax != null) "processed_at_max": processedAtMax,
+          if (processedAtMin != null) "processed_at_min": processedAtMin,
+          if (sinceId != null) "since_id": sinceId,
+        },
+        "message": "Tender transactions successfully retrieved",
+        "timestamp": DateTime.now().toIso8601String(),
+      };
+    } catch (e) {
+      debugPrint('❌ GetIt service error: $e');
+      
       return {
         "status": "error",
         "message": "Failed to fetch tender transactions: ${e.toString()}",
@@ -161,6 +176,7 @@ class RetrieveListOfTenderTransactionsHandler implements ApiRequestHandler {
         label: 'Limit',
         hint: 'Maximum number of results to retrieve (max 250, default 50)',
         isRequired: false,
+        type: ApiFieldType.number,
       ),
       const ApiField(
         name: 'order',
@@ -191,20 +207,8 @@ class RetrieveListOfTenderTransactionsHandler implements ApiRequestHandler {
         label: 'Since ID',
         hint: 'Retrieve only transactions after the specified ID',
         isRequired: false,
+        type: ApiFieldType.number,
       ),
     ],
   };
-  
-  // Helper function to format Shopify errors
-  String _formatShopifyErrors(dynamic errors) {
-    if (errors is Map) {
-      return errors.entries
-          .map((entry) => "${entry.key}: ${entry.value}")
-          .join(", ");
-    } else if (errors is String) {
-      return errors;
-    } else {
-      return errors.toString();
-    }
-  }
 }
