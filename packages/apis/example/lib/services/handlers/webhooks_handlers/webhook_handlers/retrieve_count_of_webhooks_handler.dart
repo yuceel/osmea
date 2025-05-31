@@ -43,7 +43,7 @@ class RetrieveCountOfWebhooksHandler implements ApiRequestHandler {
   Future<Map<String, dynamic>> _handleStandardRequest(String? address, String? topic) async {
     debugPrint('📌 Using standard model-based approach');
     
-    final service = GetIt.I.get<GetWebhooksCountService>();
+    final service = GetIt.I.get<WebhookService>();
     
     final response = await service.getWebhooksCount(
       apiVersion: ApiNetwork.apiVersion,
