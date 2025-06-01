@@ -1,5 +1,5 @@
 import 'package:apis/apis.dart';
-import 'package:apis/network/remote/orders/transaction/abstract/transaction.dart';
+import 'package:apis/network/remote/orders/transaction/abstract/transaction_service.dart';
 import 'package:apis/network/remote/orders/transaction/freezed_model/request/create_transaction_request.dart';
 import 'package:example/services/api_request_handler.dart';
 import 'package:example/services/api_service_registry.dart';

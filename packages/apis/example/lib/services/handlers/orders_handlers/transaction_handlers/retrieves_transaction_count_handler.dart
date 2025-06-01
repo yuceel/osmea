@@ -1,5 +1,5 @@
 import 'package:apis/apis.dart';
-import 'package:apis/network/remote/orders/transaction/abstract/transaction.dart';
+import 'package:apis/network/remote/orders/transaction/abstract/transaction_service.dart';
 import 'package:example/services/api_request_handler.dart';
 import 'package:example/services/api_service_registry.dart';
 import 'package:get_it/get_it.dart';
