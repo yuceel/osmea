@@ -1,5 +1,5 @@
 import 'package:apis/apis.dart';
-import 'package:apis/network/remote/orders/abandoned_checkouts/abstract/abandoned_checkouts.dart';
+import 'package:apis/network/remote/orders/abandoned_checkouts/abstract/abandoned_checkouts_service.dart';
 import 'package:apis/network/remote/orders/abandoned_checkouts/freezed_model/response/abandoned_checkouts_list_response.dart';
 import 'package:example/services/api_request_handler.dart';
 import 'package:example/services/api_service_registry.dart';

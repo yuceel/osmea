@@ -1,4 +1,4 @@
-import 'package:apis/network/remote/orders/abandoned_checkouts/abstract/abandoned_checkouts.dart';
+import 'package:apis/network/remote/orders/abandoned_checkouts/abstract/abandoned_checkouts_service.dart';
 import 'package:example/services/api_request_handler.dart';
 import 'package:example/services/api_service_registry.dart';
 import 'package:get_it/get_it.dart';
