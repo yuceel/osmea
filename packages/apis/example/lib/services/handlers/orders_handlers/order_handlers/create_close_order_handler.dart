@@ -1,5 +1,5 @@
 import 'package:apis/apis.dart';
-import 'package:apis/network/remote/orders/order/abstract/order.dart';
+import 'package:apis/network/remote/orders/order/abstract/order_service.dart';
 import 'package:apis/network/remote/orders/order/freezed_model/request/create_close_order_request.dart'
     as close_request; // Add prefix here
 import 'package:example/services/api_request_handler.dart';

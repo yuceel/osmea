@@ -1,11 +1,11 @@
 import 'package:apis/apis.dart';
-import 'package:apis/network/remote/orders/order/abstract/order.dart';
-import 'package:apis/network/remote/orders/order/freezed_model/request/create_order_sending_order_confirmation_request.dart';
+import 'package:apis/network/remote/orders/order/abstract/order_service.dart';
+import 'package:apis/network/remote/orders/order/freezed_model/request/create_order_without_order_receipt_request.dart';
 import 'package:example/services/api_request_handler.dart';
 import 'package:example/services/api_service_registry.dart';
 import 'package:get_it/get_it.dart';
 
-class CreateOrderSendingOrderConfirmationHandler implements ApiRequestHandler {
+class CreateOrderWithoutOrderReceiptHandler implements ApiRequestHandler {
   @override
   Future<Map<String, dynamic>> handleRequest(
       String method, Map<String, String> params) async {
@@ -16,9 +16,6 @@ class CreateOrderSendingOrderConfirmationHandler implements ApiRequestHandler {
 
         final String? email = params['email'];
         final String? fulfillmentStatus = params['fulfillment_status'];
-        final String? sendReceiptStr = params['send_receipt'];
-        final String? sendFulfillmentReceiptStr =
-            params['send_fulfillment_receipt'];
 
         List<LineItem> lineItems = [];
         int index = 0;
@@ -47,28 +44,22 @@ class CreateOrderSendingOrderConfirmationHandler implements ApiRequestHandler {
         }
 
         try {
-          final bool? sendReceipt = sendReceiptStr?.toLowerCase() == 'true';
-          final bool? sendFulfillmentReceipt =
-              sendFulfillmentReceiptStr?.toLowerCase() == 'true';
-
-          final model = CreateOrderSendingOrderConfirmationRequest(
+          final model = CreateOrderWithoutOrderReceiptRequest(
             order: Order(
               email: email,
               fulfillmentStatus: fulfillmentStatus,
-              sendReceipt: sendReceipt,
-              sendFulfillmentReceipt: sendFulfillmentReceipt,
               lineItems: lineItems,
             ),
           );
 
           final response = await GetIt.I
               .get<OrderService>()
-              .createOrderSendingOrderConfirmation(
+              .createOrderWithoutOrderReceipt(
                   apiVersion: apiVersion, model: model);
 
           return {
             "status": "success",
-            "message": "Order created and confirmation sent successfully",
+            "message": "Order created successfully without order receipt",
             "order": response.toJson(),
             "timestamp": DateTime.now().toIso8601String(),
           };
@@ -76,7 +67,7 @@ class CreateOrderSendingOrderConfirmationHandler implements ApiRequestHandler {
           return {
             "status": "error",
             "message":
-                "Failed to create order and send confirmation: ${e.toString()}",
+                "Failed to create order without order receipt: ${e.toString()}",
             "timestamp": DateTime.now().toIso8601String(),
           };
         }
@@ -84,7 +75,7 @@ class CreateOrderSendingOrderConfirmationHandler implements ApiRequestHandler {
       default:
         return {
           "error":
-              "Method $method not supported for Create Order With Confirmation API",
+              "Method $method not supported for Create Order Without Receipt API",
         };
     }
   }
@@ -104,18 +95,12 @@ class CreateOrderSendingOrderConfirmationHandler implements ApiRequestHandler {
               name: 'line_item_0_quantity',
               label: 'Line Item 1 Quantity',
               hint: 'Line Item 1 Quantity'),
+
+          // Add more line item fields as needed with incrementing index
           const ApiField(
               name: 'fulfillment_status',
               label: 'Fulfillment Status',
               hint: '(Optional) Fulfillment Status'),
-          const ApiField(
-              name: 'send_receipt',
-              label: 'Send Receipt',
-              hint: '(Optional) true or false'),
-          const ApiField(
-              name: 'send_fulfillment_receipt',
-              label: 'Send Fulfillment Receipt',
-              hint: '(Optional) true or false'),
         ],
       };
 }

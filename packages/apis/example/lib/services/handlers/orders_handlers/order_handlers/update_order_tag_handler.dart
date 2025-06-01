@@ -1,15 +1,15 @@
 import 'package:apis/apis.dart';
-import 'package:apis/network/remote/orders/order/abstract/order.dart';
-import 'package:apis/network/remote/orders/order/freezed_model/request/update_note_attributes_request.dart';
+import 'package:apis/network/remote/orders/order/abstract/order_service.dart';
+import 'package:apis/network/remote/orders/order/freezed_model/request/update_order_tag_request.dart';
 import 'package:example/services/api_request_handler.dart';
 import 'package:example/services/api_service_registry.dart';
 import 'package:get_it/get_it.dart';
 
-class UpdateNoteAttributesHandler implements ApiRequestHandler {
+class UpdateOrderTagHandler implements ApiRequestHandler {
   @override
   Future<Map<String, dynamic>> handleRequest(
       String method, Map<String, String> params) async {
-    // Only handle PUT requests for updating note attributes
+    // Only handle PUT requests for updating order tags
     if (method != 'PUT') {
       return {
         "status": "error",
@@ -21,8 +21,7 @@ class UpdateNoteAttributesHandler implements ApiRequestHandler {
     // Extract required parameters
     final String apiVersion = params['api_version'] ?? ApiNetwork.apiVersion;
     final orderId = params['order_id'];
-    final name = params['note_attribute_name'];
-    final value = params['note_attribute_value'];
+    final tags = params['tags'];
 
     // Validate required parameters
     if (orderId == null || orderId.isEmpty) {
@@ -33,30 +32,25 @@ class UpdateNoteAttributesHandler implements ApiRequestHandler {
       };
     }
 
-    if (name == null || name.isEmpty || value == null || value.isEmpty) {
+    if (tags == null) {
       return {
         "status": "error",
-        "message": "Note attribute name and value are required",
+        "message": "Tags are required",
         "timestamp": DateTime.now().toIso8601String(),
       };
     }
 
     try {
       // Create the request model
-      final model = UpdateNoteAttributesRequest(
+      final model = UpdateOrderTagRequest(
         order: Order(
           id: int.tryParse(orderId),
-          noteAttributes: [
-            NoteAttribute(
-              name: name,
-              value: value,
-            ),
-          ],
+          tags: tags,
         ),
       );
 
       // Call the order service
-      final response = await GetIt.I<OrderService>().updateNoteAttributes(
+      final response = await GetIt.I<OrderService>().updateOrderTags(
         apiVersion: apiVersion,
         orderId: orderId,
         model: model,
@@ -65,15 +59,15 @@ class UpdateNoteAttributesHandler implements ApiRequestHandler {
       // Return success response
       return {
         "status": "success",
-        "message": "Note attributes updated successfully",
-        "order": response.toJson(),
+        "message": "Order tags updated successfully",
+        "order": response.order?.toJson(),
         "timestamp": DateTime.now().toIso8601String(),
       };
     } catch (e) {
       // Handle errors
       return {
         "status": "error",
-        "message": "Failed to update note attributes: ${e.toString()}",
+        "message": "Failed to update order tags: ${e.toString()}",
         "timestamp": DateTime.now().toIso8601String(),
       };
     }
@@ -92,15 +86,9 @@ class UpdateNoteAttributesHandler implements ApiRequestHandler {
             isRequired: true,
           ),
           const ApiField(
-            name: 'note_attribute_name',
-            label: 'Note Attribute Name',
-            hint: 'The name of the note attribute',
-            isRequired: true,
-          ),
-          const ApiField(
-            name: 'note_attribute_value',
-            label: 'Note Attribute Value',
-            hint: 'The value of the note attribute',
+            name: 'tags',
+            label: 'Tags',
+            hint: 'Comma-separated list of tags',
             isRequired: true,
           ),
         ],

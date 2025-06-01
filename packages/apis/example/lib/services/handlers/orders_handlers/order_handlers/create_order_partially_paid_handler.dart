@@ -1,5 +1,5 @@
 import 'package:apis/apis.dart';
-import 'package:apis/network/remote/orders/order/abstract/order.dart';
+import 'package:apis/network/remote/orders/order/abstract/order_service.dart';
 import 'package:apis/network/remote/orders/order/freezed_model/request/create_order_partially_paid_request.dart';
 import 'package:example/services/api_request_handler.dart';
 import 'package:example/services/api_service_registry.dart';

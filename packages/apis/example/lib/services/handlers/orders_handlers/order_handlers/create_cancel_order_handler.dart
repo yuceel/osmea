@@ -2,7 +2,7 @@ import 'package:apis/apis.dart';
 import 'package:example/services/api_request_handler.dart';
 import 'package:example/services/api_service_registry.dart';
 import 'package:get_it/get_it.dart';
-import 'package:apis/network/remote/orders/order/abstract/order.dart';
+import 'package:apis/network/remote/orders/order/abstract/order_service.dart';
 import 'package:apis/network/remote/orders/order/freezed_model/request/create_cancel_order_request.dart';
 
 class CreateCancelOrderHandler implements ApiRequestHandler {
