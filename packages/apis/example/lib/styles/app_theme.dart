@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class AppTheme {
   // Modern Color Palette
-  static const Color primaryColor = Color(0xFF6366F1); // Indigo-500
-  static const Color primaryVariant = Color(0xFF4F46E5); // Indigo-600
+  static const Color primaryColor = Color(0xFF8B5CF6); // Indigo-500
+  static const Color primaryVariant = Color(0xFF7C3AED); // Indigo-600
   static const Color secondaryColor = Color(0xFF06B6D4); // Cyan-500
   static const Color surfaceColor = Color(0xFFFAFAFA);
   static const Color errorColor = Color(0xFFEF4444);
@@ -117,24 +117,6 @@ class AppTheme {
     ),
   ];
 
-  /// Get the appropriate color for HTTP methods based on the current theme
-  static Color getMethodColor(String method, ThemeData theme) {
-    switch (method.toUpperCase()) {
-      case 'GET':
-        return successColor;
-      case 'POST':
-        return const Color(0xFF3B82F6); // Blue color
-      case 'PUT':
-        return warningColor;
-      case 'DELETE':
-        return errorColor;
-      case 'PATCH':
-        return const Color(0xFF8B5CF6); // Purple color
-      default:
-        return primaryColor;
-    }
-  }
-
   // Method styling
   static MethodStyle getMethodStyle(String method, BuildContext context) {
     Color methodColor;
@@ -170,9 +152,7 @@ class AppTheme {
     return MethodStyle(
       textColor: Colors.white,
       backgroundColor: methodColor,
-      borderColor: methodColor.withValues(
-          alpha:
-              77), // Fixed: replaced withOpacity(0.3) with withValues(alpha: 77)
+      borderColor: methodColor.withValues(alpha: 0.3),
       iconData: methodIcon,
     );
   }
@@ -205,6 +185,14 @@ class AppTheme {
     }
 
     return LinearGradient(colors: colors, begin: begin, end: end);
+  }
+
+  static LinearGradient createGradient(Color startColor, Color endColor) {
+    return LinearGradient(
+      colors: [startColor, endColor],
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+    );
   }
 
   // Glassmorphism effect
@@ -267,6 +255,39 @@ class AppTheme {
   static const Color lightCard = Colors.white;
   static const Color lightBorder = Color(0xFFE5E5E5);
 
+  // Additional colors
+  static Color get surfaceVariant => const Color(0xFFE0E0E0);
+  static Color get onSurfaceVariant => const Color(0xFF757575);
+
+  // Enhanced theme data methods
+  static ThemeData get darkThemeData => ThemeData(
+        useMaterial3: true,
+        brightness: Brightness.dark,
+        colorScheme: const ColorScheme.dark(
+          primary: primaryColor,
+          secondary: secondaryColor,
+          surface: Color(0xFF1E1E1E),
+          background: Color(0xFF121212),
+          error: errorColor,
+          onSurface: Colors.white,
+          onBackground: Colors.white,
+        ),
+      );
+
+  static ThemeData get lightThemeData => ThemeData(
+        useMaterial3: true,
+        brightness: Brightness.light,
+        colorScheme: const ColorScheme.light(
+          primary: primaryColor,
+          secondary: secondaryColor,
+          surface: lightSurface,
+          background: lightBackground,
+          error: errorColor,
+          onSurface: Color(0xFF1A1A1A),
+          onBackground: Color(0xFF1A1A1A),
+        ),
+      );
+
   // Enhanced Light Theme
   static ThemeData lightTheme = ThemeData(
     useMaterial3: true,
@@ -275,12 +296,10 @@ class AppTheme {
       primary: primaryColor,
       secondary: secondaryColor,
       surface: lightSurface,
-      // Fixed: replaced background with surface
-      surfaceContainerLowest: lightBackground,
+      background: lightBackground,
       error: errorColor,
       onSurface: Color(0xFF1A1A1A),
-      // Fixed: replaced onBackground with onSurface
-      onSurfaceVariant: Color(0xFF1A1A1A),
+      onBackground: Color(0xFF1A1A1A),
     ),
     textTheme: const TextTheme(
       displayLarge: displayLarge,
@@ -305,9 +324,7 @@ class AppTheme {
       shape:
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(radiusLg)),
       color: lightCard,
-      shadowColor: Colors.black.withValues(
-          alpha:
-              13), // Fixed: replaced withOpacity(0.05) with withValues(alpha: 13)
+      shadowColor: Colors.black.withOpacity(0.05),
     ),
     appBarTheme: const AppBarTheme(
       backgroundColor: lightSurface,
@@ -325,12 +342,8 @@ class AppTheme {
       primary: primaryColor,
       secondary: secondaryColor,
       surface: darkSurface,
-      // Fixed: replaced background with surface
-      surfaceContainerLowest: darkBackground,
       error: errorColor,
       onSurface: Colors.white,
-      // Fixed: replaced onBackground with onSurface
-      onSurfaceVariant: Colors.white,
     ),
     textTheme: const TextTheme(
       displayLarge: TextStyle(
@@ -385,9 +398,7 @@ class AppTheme {
       shape:
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(radiusLg)),
       color: darkCard,
-      shadowColor: Colors.black.withValues(
-          alpha:
-              77), // Fixed: replaced withOpacity(0.3) with withValues(alpha: 77)
+      shadowColor: Colors.black.withOpacity(0.3),
     ),
     appBarTheme: const AppBarTheme(
       backgroundColor: darkSurface,
@@ -396,6 +407,36 @@ class AppTheme {
       scrolledUnderElevation: 1,
     ),
   );
+
+  // HTTP Method Colors
+  static Color get getColor =>
+      const Color(0xFF06B6D4); // Cyan-500 (consistent with secondaryColor)
+  static Color get postColor =>
+      const Color(0xFF6366F1); // Indigo-500 (consistent with primaryColor)
+  static Color get putColor =>
+      const Color(0xFFF59E0B); // Amber-500 (consistent with warningColor)
+  static Color get patchColor => const Color(
+      0xFF8B5CF6); // Purple-500 (consistent with patchMethodGradientColors)
+  static Color get deleteColor =>
+      const Color(0xFFEF4444); // Red-500 (consistent with errorColor)
+  static Color get defaultColor =>
+      const Color(0xFFE5E7EB); // Gray-200 (neutral fallback)
+  static Color getMethodColor(String method) {
+    switch (method.toUpperCase()) {
+      case 'GET':
+        return AppTheme.getColor; // Soft green
+      case 'POST':
+        return AppTheme.postColor; // Soft blue
+      case 'PUT':
+        return AppTheme.putColor; // Soft amber
+      case 'PATCH':
+        return AppTheme.patchColor; // Soft purple
+      case 'DELETE':
+        return AppTheme.deleteColor; // Soft red
+      default:
+        return AppTheme.defaultColor; // Soft gray
+    }
+  }
 }
 
 class MethodStyle {
