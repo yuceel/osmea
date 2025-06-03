@@ -252,7 +252,7 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
             Icons.data_object_rounded,
             color: _ideTheme
                 ? AppTheme.primaryColor
-                : AppTheme.secondaryColor, // Use AppTheme colors
+                : AppTheme.primaryColor, // Use AppTheme colors
             size: isNarrow ? 14 : 16,
           ),
           const SizedBox(width: 6),
@@ -260,8 +260,8 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
             'response.json',
             style: TextStyle(
               color: _ideTheme
-                  ? AppTheme.onSurfaceVariant
-                  : AppTheme.surfaceVariant, // Use AppTheme colors
+                  ? AppTheme.primaryColor
+                  : AppTheme.primaryColor, // Use AppTheme colors
               fontSize: isNarrow ? 11 : 12,
               fontWeight: FontWeight.w500,
               fontFamily: 'monospace',
