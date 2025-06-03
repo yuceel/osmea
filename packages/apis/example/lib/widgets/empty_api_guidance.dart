@@ -119,14 +119,14 @@ class _EmptyApiGuidanceState extends State<EmptyApiGuidance>
                               height: isNarrow ? 60 : 80,
                               decoration: BoxDecoration(
                                 gradient: AppTheme.createGradient(
-                                  theme.colorScheme.primary,
-                                  theme.colorScheme.secondary,
+                                  AppTheme.primaryColor,
+                                  AppTheme.primaryVariant,
                                 ),
                                 shape: BoxShape.circle,
                                 boxShadow: [
                                   BoxShadow(
                                     color: theme.colorScheme.primary
-                                        .withValues(alpha: 0.3),
+                                        .withValues(alpha: 0.2),
                                     blurRadius: 20,
                                     spreadRadius: 2,
                                   ),
