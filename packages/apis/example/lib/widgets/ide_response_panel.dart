@@ -960,13 +960,8 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            Icons.api_rounded,
-            size: isNarrow ? 48 : 64,
-            color: _ideTheme
-                ? AppTheme.primaryColor
-                : AppTheme.secondaryColor, // Use AppTheme colors
-          ),
+          Icon(Icons.api_rounded,
+              size: isNarrow ? 48 : 64, color: AppTheme.primaryColor),
           const SizedBox(height: 16),
           Text(
             'No response data available',
