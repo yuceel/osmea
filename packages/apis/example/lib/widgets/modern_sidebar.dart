@@ -109,6 +109,7 @@ class _ModernSidebarState extends State<ModernSidebar>
                     Container(
                       padding: EdgeInsets.all(isNarrow ? 8 : 12),
                       decoration: BoxDecoration(
+                        // ignore: deprecated_member_use
                         color: AppTheme.primaryColor.withOpacity(0.2),
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -136,7 +137,7 @@ class _ModernSidebarState extends State<ModernSidebar>
                               'Browse and test APIs',
                               style: TextStyle(
                                 fontSize: 12,
-                                color: Colors.white.withOpacity(0.8),
+                                color: Colors.white.withValues(alpha:.8),
                               ),
                             ),
                         ],

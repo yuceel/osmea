@@ -76,8 +76,8 @@ class ServiceInfo extends StatelessWidget {
                         style: TextStyle(
                           fontSize: isVeryNarrow ? 11 : 13,
                           color: theme.brightness == Brightness.dark
-                              ? Colors.white.withOpacity(0.7)
-                              : Colors.black.withOpacity(0.7),
+                              ? Colors.white.withValues(alpha:.7)
+                              : Colors.black.withValues(alpha:.7),
                         ),
                       ),
                     ],

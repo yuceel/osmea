@@ -20,7 +20,7 @@ class BottomNavItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final primaryColor = theme.colorScheme.primary;
-    final inactiveColor = theme.textTheme.bodyMedium?.color?.withOpacity(0.6);
+    final inactiveColor = theme.textTheme.bodyMedium?.color?.withValues(alpha:.6);
 
     return InkWell(
       onTap: onTap,

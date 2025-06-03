@@ -92,7 +92,7 @@ class _ControlPanelState extends State<ControlPanel>
       child: Container(
         margin: const EdgeInsets.all(AppTheme.spaceSm),
         decoration: BoxDecoration(
-          color: colorScheme.background, // Updated background color
+          color: colorScheme.surface, // Updated background color
           borderRadius: BorderRadius.circular(AppTheme.radiusLg),
           boxShadow: AppTheme.mediumShadow, // Use AppTheme shadows
         ),

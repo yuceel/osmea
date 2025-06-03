@@ -91,7 +91,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
                     color:
-                        colorScheme.surfaceVariant, // Use theme surface variant
+                        colorScheme.surfaceContainerHighest, // Use theme surface variant
                     borderRadius: BorderRadius.circular(AppTheme.radiusXs),
                     border: Border.all(
                       color: colorScheme.primary.withValues(alpha: 0.5),

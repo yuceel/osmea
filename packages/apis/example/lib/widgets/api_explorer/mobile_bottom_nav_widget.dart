@@ -23,13 +23,13 @@ class MobileBottomNavWidget extends StatelessWidget {
         color: theme.cardColor,
         border: Border(
           top: BorderSide(
-            color: theme.dividerColor.withOpacity(0.3),
+            color: theme.dividerColor.withValues(alpha:.3),
             width: 1,
           ),
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1),
+            color: Colors.black.withValues(alpha: .1),
             offset: const Offset(0, -2),
             blurRadius: 8,
           ),
