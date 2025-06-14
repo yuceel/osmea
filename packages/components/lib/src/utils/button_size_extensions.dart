@@ -1,3 +1,6 @@
+/// Extension to get ButtonSizeConfig from ButtonSize
+import 'package:osmea_components/src/enums/button_enums.dart';
+
 import 'package:flutter/material.dart';
 import 'package:osmea_components/src/utils/sizer_extensions.dart';
 
@@ -213,4 +216,23 @@ class ButtonSizeConfig {
         borderRadius: context.buttonBorderRadiusExtraLarge,
         iconSize: context.buttonIconSizeExtraLarge,
       );
+}
+
+
+/// Extension to get the ButtonSizeConfig for a ButtonSize value.
+extension ButtonSizeConfigGetter on ButtonSize {
+  ButtonSizeConfig config(BuildContext context) {
+    switch (this) {
+      case ButtonSize.extraSmall:
+        return ButtonSizeConfig.extraSmall(context);
+      case ButtonSize.small:
+        return ButtonSizeConfig.small(context);
+      case ButtonSize.medium:
+        return ButtonSizeConfig.medium(context);
+      case ButtonSize.large:
+        return ButtonSizeConfig.large(context);
+      case ButtonSize.extraLarge:
+        return ButtonSizeConfig.extraLarge(context);
+    }
+  }
 }

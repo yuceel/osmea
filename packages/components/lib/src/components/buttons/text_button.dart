@@ -1,3 +1,11 @@
+import 'package:flutter/material.dart';
+import 'package:osmea_components/osmea_components.dart';
+import 'package:osmea_components/src/core/container_widget.dart';
+import 'package:osmea_components/src/core/text_widget.dart';
+import 'package:osmea_components/src/utils/button_size_extensions.dart';
+import 'package:osmea_components/src/utils/button_variants_extensions.dart';
+import 'package:osmea_components/src/utils/icon_positions_extensions.dart';
+
 /// 🔘 **OSMEA Components Library**
 ///
 /// Copyright (c) 2025, OSMEA Team
@@ -28,14 +36,6 @@
 /// * [ButtonSize] - Size configurations
 /// * [ButtonTheme] - Theming options
 
-import 'package:flutter/material.dart';
-import 'package:osmea_components/src/core/container_widget.dart';
-import 'package:osmea_components/src/core/text_widget.dart';
-import 'package:osmea_components/src/utils/button_size_extensions.dart';
-import 'package:osmea_components/src/utils/sizer_extensions.dart';
-import 'package:osmea_components/src/styles/colors.dart';
-import 'package:osmea_components/src/styles/text_style.dart';
-
 /// 🔘 **OsmeaTextButton**
 ///
 /// A comprehensive text button component for the OSMEA UI Kit.
@@ -52,7 +52,6 @@ import 'package:osmea_components/src/styles/text_style.dart';
 /// - 🎨 Leading and trailing icon support
 ///
 /// ---
-///
 /// _Example:_
 /// ```dart
 /// OsmeaTextButton(
@@ -63,6 +62,7 @@ import 'package:osmea_components/src/styles/text_style.dart';
 ///   iconPosition: IconPosition.trailing,
 /// )
 /// ```
+
 class OsmeaTextButton extends CoreContainer {
   const OsmeaTextButton({
     super.key,
@@ -70,14 +70,14 @@ class OsmeaTextButton extends CoreContainer {
     required this.text,
     required this.onPressed,
     this.size = ButtonSize.medium,
+    this.variant = ButtonVariant.primary,
+    this.state = ButtonState.enabled,
+    this.icon,
+    this.iconPosition = IconPosition.leading,
     this.textStyle,
     this.textColor,
     this.hoverColor,
     this.splashColor,
-    this.leadingIcon,
-    this.trailingIcon,
-    this.isLoading = false,
-    this.isDisabled = false,
     this.isUppercase = false,
     super.padding,
     super.margin,
@@ -98,6 +98,18 @@ class OsmeaTextButton extends CoreContainer {
   /// 📏 Determines the size variant of the button (extraSmall to extraLarge)
   final ButtonSize size;
 
+  /// 🎨 The variant of the button, determining its style and behavior
+  final ButtonVariant variant;
+
+  /// 🎭 The current state of the button (enabled, disabled, loading)
+  final ButtonState state;
+
+  /// ➡️ Optional icon widget displayed after the button text
+  final Widget? icon;
+
+  /// Icon position in button
+  final IconPosition iconPosition;
+
   /// 🎨 Custom text style that overrides the default button text style
   final TextStyle? textStyle;
 
@@ -109,18 +121,6 @@ class OsmeaTextButton extends CoreContainer {
 
   /// 💫 Color shown during the splash animation when button is pressed
   final Color? splashColor;
-
-  /// ⬅️ Optional icon widget displayed before the button text
-  final Widget? leadingIcon;
-
-  /// ➡️ Optional icon widget displayed after the button text
-  final Widget? trailingIcon;
-
-  /// 🔄 When true, shows a loading spinner instead of the button content
-  final bool isLoading;
-
-  /// ⚫ When true, the button becomes non-interactive and shows disabled styling
-  final bool isDisabled;
 
   /// 🔠 When true, converts the button text to uppercase
   final bool isUppercase;
@@ -143,14 +143,23 @@ class OsmeaTextButton extends CoreContainer {
   /// 💭 Text displayed in a tooltip when the user hovers over the button
   final String? tooltip;
 
+  // Computed properties based on state
+  bool get isLoading => state == ButtonState.loading;
+  bool get isDisabled => state == ButtonState.disabled;
+  bool get isPressed => state == ButtonState.pressed;
+  bool get isFocused => state == ButtonState.focused;
+  bool get isHovered => state == ButtonState.hovered;
+  bool get isEffectivelyDisabled =>
+      isDisabled || isLoading || onPressed == null;
+  bool get isInteractive =>
+      !isEffectivelyDisabled && (isPressed || isFocused || isHovered);
+
   @override
   Widget buildWidget(BuildContext context) {
-    final config = _getButtonConfig(context);
+    final config = size.config(context);
     final colors = _getButtonColors(context);
-    final isEffectivelyDisabled = isDisabled || isLoading || onPressed == null;
 
-    Widget button =
-        _buildButton(context, config, colors, isEffectivelyDisabled);
+    Widget button = _buildButton(context, config, colors);
 
     if (margin != null) {
       button = Padding(padding: margin!, child: button);
@@ -167,17 +176,18 @@ class OsmeaTextButton extends CoreContainer {
     BuildContext context,
     ButtonSizeConfig config,
     _ButtonColors colors,
-    bool isEffectivelyDisabled,
   ) {
     return AnimatedContainer(
       duration: animationDuration ?? const Duration(milliseconds: 200),
       child: Material(
         color: Colors.transparent,
-        elevation: 0,
+        elevation: isPressed ? 0 : (isFocused || isHovered ? 1 : 0),
         child: InkWell(
           onTap: isEffectivelyDisabled ? null : onPressed,
           onLongPress: isEffectivelyDisabled ? null : onLongPress,
-          onHover: onHover,
+          onHover: (value) {
+            if (onHover != null) onHover!(value);
+          },
           focusNode: focusNode,
           autofocus: autofocus,
           splashColor: splashColor ?? colors.splash,
@@ -190,8 +200,17 @@ class OsmeaTextButton extends CoreContainer {
               minHeight: config.size.height,
             ),
             padding: padding ?? config.padding,
-            child:
-                _buildContent(context, config, colors, isEffectivelyDisabled),
+            decoration: isFocused
+                ? BoxDecoration(
+                    borderRadius: BorderRadius.circular(4),
+                    border: Border.all(
+                      color: colors.text,
+                      width: 2,
+                    ),
+                  )
+                : null,
+            transform: isPressed ? (Matrix4.identity()..scale(0.98)) : null,
+            child: _buildContent(context, config, colors),
           ),
         ),
       ),
@@ -202,74 +221,55 @@ class OsmeaTextButton extends CoreContainer {
     BuildContext context,
     ButtonSizeConfig config,
     _ButtonColors colors,
-    bool isEffectivelyDisabled,
   ) {
     if (isLoading) {
       return _buildLoadingContent(context, config, colors);
     }
 
-    final textWidget = _buildText(context, colors, isEffectivelyDisabled);
+    final textWidget = _buildText(context, colors);
 
-    if (leadingIcon == null && trailingIcon == null) {
-      return textWidget;
-    }
-
-    return _buildTextWithIcons(
-        context, textWidget, config, colors, isEffectivelyDisabled);
+    return context.buildIconTextLayout(
+      icon: icon != null ? _buildIcon(context, icon!, config, colors) : null,
+      text: textWidget,
+      position: iconPosition,
+      iconSize: config.iconSize,
+    );
   }
 
-  Widget _buildText(
-      BuildContext context, _ButtonColors colors, bool isEffectivelyDisabled) {
+  Widget _buildText(BuildContext context, _ButtonColors colors) {
+    if (iconPosition == IconPosition.only) {
+      return const SizedBox.shrink();
+    }
+
     final effectiveTextStyle = _getEffectiveTextStyle(context).copyWith(
-      color: isEffectivelyDisabled
-          ? colors.disabledText
-          : (textColor ?? colors.text),
+      color: _getEffectiveTextColor(colors),
     );
 
     return OsmeaText(
       isUppercase ? text.toUpperCase() : text,
       style: effectiveTextStyle,
-      textAlign: TextAlign.center,
+      textAlign: iconPosition.isVertical ? TextAlign.center : TextAlign.left,
     );
   }
 
-  Widget _buildTextWithIcons(
-    BuildContext context,
-    Widget textWidget,
-    ButtonSizeConfig config,
-    _ButtonColors colors,
-    bool isEffectivelyDisabled,
-  ) {
-    final spacing = context.emptySizedWidthBoxLow;
-    final children = <Widget>[];
-
-    if (leadingIcon != null) {
-      children
-          .add(_buildIcon(leadingIcon!, config, colors, isEffectivelyDisabled));
-      children.add(spacing);
+  Color _getEffectiveTextColor(_ButtonColors colors) {
+    if (isEffectivelyDisabled) {
+      return colors.disabledText;
+    } else if (isPressed) {
+      return OsmeaColors.slate;
+    } else if (isHovered) {
+      return OsmeaColors.slate;
+    } else {
+      return textColor ?? colors.text;
     }
-
-    children.add(Flexible(child: textWidget));
-
-    if (trailingIcon != null) {
-      children.add(spacing);
-      children.add(
-          _buildIcon(trailingIcon!, config, colors, isEffectivelyDisabled));
-    }
-
-    return Row(
-      mainAxisSize: context.min,
-      mainAxisAlignment: context.centerMain,
-      children: children,
-    );
   }
 
-  Widget _buildIcon(Widget iconWidget, ButtonSizeConfig config,
-      _ButtonColors colors, bool isEffectivelyDisabled) {
+  Widget _buildIcon(BuildContext context, Widget iconWidget,
+      ButtonSizeConfig config, _ButtonColors colors) {
     return IconTheme(
       data: IconThemeData(
         size: config.iconSize,
-        color: isEffectivelyDisabled ? colors.disabledText : colors.text,
+        color: _getEffectiveTextColor(colors),
       ),
       child: iconWidget,
     );
@@ -298,21 +298,6 @@ class OsmeaTextButton extends CoreContainer {
     );
   }
 
-  ButtonSizeConfig _getButtonConfig(BuildContext context) {
-    switch (size) {
-      case ButtonSize.extraSmall:
-        return ButtonSizeConfig.extraSmall(context);
-      case ButtonSize.small:
-        return ButtonSizeConfig.small(context);
-      case ButtonSize.medium:
-        return ButtonSizeConfig.medium(context);
-      case ButtonSize.large:
-        return ButtonSizeConfig.large(context);
-      case ButtonSize.extraLarge:
-        return ButtonSizeConfig.extraLarge(context);
-    }
-  }
-
   TextStyle _getEffectiveTextStyle(BuildContext context) {
     if (textStyle != null) return textStyle!;
 
@@ -329,23 +314,29 @@ class OsmeaTextButton extends CoreContainer {
   }
 
   _ButtonColors _getButtonColors(BuildContext context) {
+    // Get variant configuration from button_variants.dart
+    final variantConfig = variant.config;
+
+    Color effectiveBackground = variantConfig.backgroundColor;
+    Color effectiveText = textColor ?? variantConfig.textColor;
+
+    if (isPressed) {
+      effectiveBackground = OsmeaColors.slate;
+    } else if (isHovered) {
+      effectiveBackground = hoverColor ?? variantConfig.hoverColor;
+    }
+
     return _ButtonColors(
-      background: Colors.transparent,
-      text: textColor ?? OsmeaColors.nordicBlue,
-      border: Colors.transparent,
-      hover: hoverColor ?? OsmeaColors.crystalBay.withValues(alpha: 0.1),
-      splash: splashColor ?? OsmeaColors.crystalBay.withValues(alpha: 0.2),
-      disabled: Colors.transparent,
-      disabledText: OsmeaColors.steel,
+      background: effectiveBackground,
+      text: effectiveText,
+      border: variantConfig.borderColor,
+      hover: hoverColor ?? variantConfig.hoverColor,
+      splash: splashColor ?? variantConfig.splashColor,
+      disabled: variantConfig.disabledBackgroundColor,
+      disabledText: variantConfig.disabledTextColor,
     );
   }
 }
-
-/// Button size variants
-enum ButtonSize { extraSmall, small, medium, large, extraLarge }
-
-/// Icon position in button
-enum IconPosition { leading, trailing }
 
 /// Internal helper class for button colors
 class _ButtonColors {

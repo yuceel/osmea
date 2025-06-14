@@ -89,3 +89,5 @@ abstract class CoreText extends AbstractCoreWidget {
   @override
   Widget buildWidget(BuildContext context);
 }
+
+

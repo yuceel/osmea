@@ -64,6 +64,7 @@ extension SizerExtension on BuildContext {
 
 /// 🟦 BORDER EXTENSION
 extension BorderRadiusExtension on BuildContext {
+  BorderRadius get borderRadiusZero => BorderRadius.zero;
   BorderRadius get borderRadiusNone => BorderRadius.circular(radiusNone);
   BorderRadius get borderRadiusLow => BorderRadius.circular(radiusLow);
   BorderRadius get borderRadiusNormal => BorderRadius.circular(radiusNormal);
@@ -74,6 +75,7 @@ extension BorderRadiusExtension on BuildContext {
 /// ⏱️ DURATION EXTENSION
 /// Usage: 7.seconds or 7.minutes or 7.hours or 7.days or 7.weeks
 extension DurationExtension on int {
+  Duration get zero => Duration.zero;
   Duration get seconds => Duration(seconds: this);
   Duration get minutes => Duration(minutes: this);
   Duration get hours => Duration(hours: this);
@@ -143,6 +145,8 @@ extension EmptyWidget on BuildContext {
   Widget get emptySizedHeightBoxMedium => SizedBox(height: mediumValue);
   Widget get emptySizedHeightBoxHigh => SizedBox(height: highValue);
   Widget get emptySized => const SizedBox();
+  Widget get emptySizedWidthBoxZero => const SizedBox(width: 0);
+  Widget get emptySizedHeightBoxZero => const SizedBox(height: 0);
 }
 
 /// 🟫 DIVIDER EXTENSION
@@ -170,6 +174,7 @@ extension ImageAssetX on BuildContext {
 
 /// 🔳 ICON SIZE EXTENSION
 extension IconSizeExtension on BuildContext {
+  double get iconSizeZero => 0.0;
   double get iconSizeExtraSmall => 14.0;
   double get iconSizeSmall => 20.0;
   double get iconSizeNormal => 25.0;
@@ -181,11 +186,13 @@ extension IconSizeExtension on BuildContext {
 
 /// 🧩 PADDING EXTENSION
 extension PaddingExtension on BuildContext {
+  EdgeInsets get paddingZero => EdgeInsets.zero;
   EdgeInsets get paddingLow => EdgeInsets.all(lowValue);
   EdgeInsets get paddingNormal => EdgeInsets.all(normalValue);
   EdgeInsets get paddingMedium => EdgeInsets.all(mediumValue);
   EdgeInsets get paddingHigh => EdgeInsets.all(highValue);
 
+  EdgeInsets get horizontalPaddingZero => EdgeInsets.zero;
   EdgeInsets get horizontalPaddingLow =>
       EdgeInsets.symmetric(horizontal: lowValue);
   EdgeInsets get horizontalPaddingNormal =>
@@ -195,6 +202,7 @@ extension PaddingExtension on BuildContext {
   EdgeInsets get horizontalPaddingHigh =>
       EdgeInsets.symmetric(horizontal: highValue);
 
+  EdgeInsets get verticalPaddingZero => EdgeInsets.zero;
   EdgeInsets get verticalPaddingLow => EdgeInsets.symmetric(vertical: lowValue);
   EdgeInsets get verticalPaddingNormal =>
       EdgeInsets.symmetric(vertical: normalValue);
@@ -203,16 +211,19 @@ extension PaddingExtension on BuildContext {
   EdgeInsets get verticalPaddingHigh =>
       EdgeInsets.symmetric(vertical: highValue);
 
+  EdgeInsets get onlyLeftPaddingZero => EdgeInsets.zero;
   EdgeInsets get onlyLeftPaddingLow => EdgeInsets.only(left: lowValue);
   EdgeInsets get onlyLeftPaddingNormal => EdgeInsets.only(left: normalValue);
   EdgeInsets get onlyLeftPaddingMedium => EdgeInsets.only(left: mediumValue);
   EdgeInsets get onlyLeftPaddingHigh => EdgeInsets.only(left: highValue);
 
+  EdgeInsets get onlyRightPaddingZero => EdgeInsets.zero;
   EdgeInsets get onlyRightPaddingLow => EdgeInsets.only(right: lowValue);
   EdgeInsets get onlyRightPaddingNormal => EdgeInsets.only(right: normalValue);
   EdgeInsets get onlyRightPaddingMedium => EdgeInsets.only(right: mediumValue);
   EdgeInsets get onlyRightPaddingHigh => EdgeInsets.only(right: highValue);
 
+  EdgeInsets get onlyBottomPaddingZero => EdgeInsets.zero;
   EdgeInsets get onlyBottomPaddingLow => EdgeInsets.only(bottom: lowValue);
   EdgeInsets get onlyBottomPaddingNormal =>
       EdgeInsets.only(bottom: normalValue);
@@ -220,6 +231,7 @@ extension PaddingExtension on BuildContext {
       EdgeInsets.only(bottom: mediumValue);
   EdgeInsets get onlyBottomPaddingHigh => EdgeInsets.only(bottom: highValue);
 
+  EdgeInsets get onlyTopPaddingZero => EdgeInsets.zero;
   EdgeInsets get onlyTopPaddingLow => EdgeInsets.only(top: lowValue);
   EdgeInsets get onlyTopPaddingNormal => EdgeInsets.only(top: normalValue);
   EdgeInsets get onlyTopPaddingMedium => EdgeInsets.only(top: mediumValue);
