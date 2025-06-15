@@ -1,23 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:osmea_components/src/components/buttons/text_button.dart';
+import 'package:osmea_components/src/components/buttons/button.dart';
 import 'package:osmea_components/src/enums/button_enums.dart';
 import 'package:osmea_components/src/theme/theme.dart';
 
 class OsmeaComponents {
-  /// Supported TextButton variants
-  static const List<ButtonVariant> _supportedTextButtonVariants = [
-    ButtonVariant.primary,
-    ButtonVariant.secondary,
-    ButtonVariant.success,
-    ButtonVariant.warning,
-    ButtonVariant.danger,
-  ];
+  /// Supported Button variants - All variants are supported
 
-  static Widget textButton({
+  /// Supported Icon positions
+
+  /// 🔘 **OSMEA Button** - Comprehensive button with all features
+  ///
+  /// Creates a feature-rich button component with support for:
+  /// - All 7 variants (primary, secondary, outlined, ghost, success, warning, danger)
+  /// - All 5 sizes (extraSmall to extraLarge)
+  /// - All states (enabled, disabled, loading, pressed, focused, hovered)
+  /// - Icon positioning (leading, trailing, top, bottom, only)
+  /// - Full customization options
+  ///
+  /// Example:
+  /// ```dart
+  /// OsmeaComponents.button(
+  ///   text: 'Submit Form',
+  ///   variant: ButtonVariant.primary,
+  ///   size: ButtonSize.large,
+  ///   icon: Icon(Icons.send),
+  ///   onPressed: () => handleSubmit(),
+  /// )
+  /// ```
+  static button({
     Key? key,
-    CoreTheme? coreTheme,
-    required String text,
-    required VoidCallback onPressed,
+    CoreTheme? customTheme,
+    String? text,
+    required VoidCallback? onPressed,
     ButtonSize size = ButtonSize.medium,
     ButtonVariant variant = ButtonVariant.primary,
     ButtonState state = ButtonState.enabled,
@@ -25,6 +39,7 @@ class OsmeaComponents {
     IconPosition iconPosition = IconPosition.leading,
     TextStyle? textStyle,
     Color? textColor,
+    Color? backgroundColor,
     Color? hoverColor,
     Color? splashColor,
     bool isUppercase = false,
@@ -36,19 +51,13 @@ class OsmeaComponents {
     FocusNode? focusNode,
     bool autofocus = false,
     String? tooltip,
+    bool fullWidth = false,
   }) {
     // Validate supported variant
-    if (!_supportedTextButtonVariants.contains(variant)) {
-      debugPrint(
-          'Warning: $variant is not supported for TextButton. Using primary instead.');
-      variant = ButtonVariant.primary;
-    }
 
-    debugPrint('Creating text button with text: $text, variant: $variant');
-
-    return OsmeaTextButton(
+    return OsmeaButton(
       key: key,
-      customTheme: coreTheme,
+      customTheme: customTheme,
       text: text,
       onPressed: onPressed,
       size: size,
@@ -58,6 +67,7 @@ class OsmeaComponents {
       iconPosition: iconPosition,
       textStyle: textStyle,
       textColor: textColor,
+      backgroundColor: backgroundColor,
       hoverColor: hoverColor,
       splashColor: splashColor,
       isUppercase: isUppercase,
@@ -69,12 +79,91 @@ class OsmeaComponents {
       focusNode: focusNode,
       autofocus: autofocus,
       tooltip: tooltip,
+      fullWidth: fullWidth,
     );
   }
 
-  /// Get supported variants for TextButton
-  static List<ButtonVariant> get supportedTextButtonVariants =>
-      _supportedTextButtonVariants;
+  /// 📝 **OSMEA Text Button** - Specialized text-only button
+  ///
+  /// A streamlined button component optimized for text-only use cases.
+  ///
+  /// Example:
+  /// ```dart
+  /// OsmeaComponents.textButton(
+  ///   text: 'Click Me',
+  ///   variant: ButtonVariant.secondary,
+  ///   onPressed: () => handleClick(),
+  /// )
+  /// ```
+  static textButton({
+    Key? key,
+    CoreTheme? customTheme,
+    required String text,
+    required VoidCallback? onPressed,
+    ButtonSize size = ButtonSize.medium,
+    ButtonVariant variant = ButtonVariant.primary,
+    ButtonState state = ButtonState.enabled,
+    VoidCallback? onLongPress,
+    String? tooltip,
+    bool autofocus = false,
+    bool fullWidth = false,
+    Color? backgroundColor,
+  }) {
+    return OsmeaTextButton(
+      key: key,
+      customTheme: customTheme,
+      text: text,
+      onPressed: onPressed,
+      size: size,
+      variant: variant,
+      state: state,
+      onLongPress: onLongPress,
+      tooltip: tooltip,
+      autofocus: autofocus,
+      fullWidth: fullWidth,
+      backgroundColor: backgroundColor,
+    );
+  }
+
+  /// 🎯 **OSMEA Icon Button** - Icon-only button
+  ///
+  /// A specialized button component for icon-only use cases.
+  ///
+  /// Example:
+  /// ```dart
+  /// OsmeaComponents.iconButton(
+  ///   icon: Icon(Icons.favorite),
+  ///   variant: ButtonVariant.ghost,
+  ///   onPressed: () => toggleFavorite(),
+  /// )
+  /// ```
+  static iconButton({
+    Key? key,
+    CoreTheme? customTheme,
+    required Widget icon,
+    required VoidCallback? onPressed,
+    ButtonSize size = ButtonSize.medium,
+    ButtonVariant variant = ButtonVariant.ghost,
+    ButtonState state = ButtonState.enabled,
+    VoidCallback? onLongPress,
+    String? tooltip,
+    bool autofocus = false,
+    Color? backgroundColor,
+  }) {
+    return OsmeaIconButton(
+      key: key,
+      customTheme: customTheme,
+      icon: icon,
+      onPressed: onPressed,
+      size: size,
+      variant: variant,
+      state: state,
+      onLongPress: onLongPress,
+      tooltip: tooltip,
+      autofocus: autofocus,
+      backgroundColor: backgroundColor,
+    );
+  }
 
   static Widget richText() {
     return const Text('Rich Text Component - Coming Soon');
@@ -83,31 +172,4 @@ class OsmeaComponents {
   static Widget container() {
     return Container();
   }
-}
-
-void main(List<String> args) {
-  // Example usage with supported variants
-  OsmeaComponents.textButton(
-    text: "Primary Button",
-    onPressed: () => debugPrint('Primary clicked'),
-    variant: ButtonVariant.primary,
-  );
-
-  OsmeaComponents.textButton(
-    text: "Success Button",
-    onPressed: () => debugPrint('Success clicked'),
-    variant: ButtonVariant.success,
-  );
-
-  OsmeaComponents.textButton(
-    text: "Warning Button",
-    onPressed: () => debugPrint('Warning clicked'),
-    variant: ButtonVariant.warning,
-  );
-
-  OsmeaComponents.textButton(
-    text: "Danger Button",
-    onPressed: () => debugPrint('Danger clicked'),
-    variant: ButtonVariant.danger,
-  );
 }
