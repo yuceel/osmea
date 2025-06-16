@@ -11,12 +11,16 @@ export 'src/theme/theme.dart';
 
 // 🔘 Buttons
 
+// 🧭 Navigation
+export 'src/components/navbar/navbar.dart';
+
 // 🔄 Switches
 export 'src/components/switch_button/switch_button.dart';
 
 // 🛠️ Utils
 export 'src/utils/sizer_extensions.dart';
 export 'src/utils/switch_size_extensions.dart';
+export 'src/utils/navbar_extensions.dart';
 
 export 'src/components.dart';
 
