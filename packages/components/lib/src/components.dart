@@ -7,7 +7,9 @@ import 'package:osmea_components/src/components/navbar/navbar.dart';
 import 'package:osmea_components/src/components/switch_button/switch_button.dart';
 import 'package:osmea_components/src/enums/button_enums.dart';
 import 'package:osmea_components/src/enums/navbar_enums.dart';
+import 'package:osmea_components/src/components/radio_button/radio_button.dart';
 import 'package:osmea_components/src/enums/checkbox_enums.dart';
+import 'package:osmea_components/src/enums/radio_enums.dart';
 import 'package:osmea_components/src/enums/switch_enums.dart';
 import 'package:osmea_components/src/theme/theme.dart';
 
@@ -427,6 +429,74 @@ class OsmeaComponents {
       scrollable: scrollable,
       onItemTap: onItemTap,
       currentIndex: currentIndex,
+    );
+  }
+  /// OsmeaComponents.radioButton<String>(
+  ///   value: 'option1',
+  ///   groupValue: selectedOption,
+  ///   label: 'Select Option 1',
+  ///   description: 'This is the first option',
+  ///   variant: RadioVariant.labeled,
+  ///   size: RadioSize.medium,
+  ///   style: RadioStyle.modern,
+  ///   onChanged: (value) => setState(() => selectedOption = value),
+  /// )
+  /// ```
+  static Widget radioButton<T>({
+    Key? key,
+    CoreTheme? customTheme,
+    required T value,
+    required T? groupValue,
+    required ValueChanged<T?>? onChanged,
+    RadioSize size = RadioSize.medium,
+    RadioVariant variant = RadioVariant.simple,
+    RadioState state = RadioState.enabled,
+    RadioStyle style = RadioStyle.modern,
+    String? label,
+    String? description,
+    RadioLabelPosition labelPosition = RadioLabelPosition.trailing,
+    Color? activeColor,
+    Color? inactiveColor,
+    Color? dotColor,
+    Color? borderColor,
+    Color? focusColor,
+    Color? hoverColor,
+    EdgeInsetsGeometry? padding,
+    EdgeInsetsGeometry? margin,
+    Duration? animationDuration,
+    ValueChanged<bool>? onHover,
+    FocusNode? focusNode,
+    bool autofocus = false,
+    String? semanticLabel,
+    bool fullWidth = false,
+  }) {
+    return OsmeaRadio<T>(
+      key: key,
+      customTheme: customTheme,
+      value: value,
+      groupValue: groupValue,
+      onChanged: onChanged,
+      size: size,
+      variant: variant,
+      state: state,
+      style: style,
+      label: label,
+      description: description,
+      labelPosition: labelPosition,
+      activeColor: activeColor,
+      inactiveColor: inactiveColor,
+      dotColor: dotColor,
+      borderColor: borderColor,
+      focusColor: focusColor,
+      hoverColor: hoverColor,
+      padding: padding,
+      margin: margin,
+      animationDuration: animationDuration,
+      onHover: onHover,
+      focusNode: focusNode,
+      autofocus: autofocus,
+      semanticLabel: semanticLabel,
+      fullWidth: fullWidth,
     );
   }
 
