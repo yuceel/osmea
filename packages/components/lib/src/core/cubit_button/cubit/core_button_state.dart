@@ -1,3 +1,5 @@
+// 🟢 CoreButtonState: Base states for OSMEA buttons. Used for all button state transitions! 🔄
+
 import 'package:equatable/equatable.dart';
 
 abstract class CoreButtonState extends Equatable {

@@ -1,3 +1,5 @@
+// 🧩 CoreButtonCubit: Base cubit for button state management in OSMEA. Handles loading, success, error, and more! ⚡️
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core_button_state.dart';
 
