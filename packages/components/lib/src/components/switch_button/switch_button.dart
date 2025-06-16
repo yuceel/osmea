@@ -1,0 +1,682 @@
+import 'package:flutter/material.dart';
+import 'package:osmea_components/osmea_components.dart';
+
+/// 🔄 **OSMEA Switch**
+///
+/// A modern, customizable switch component with multiple styles and variants.
+/// Supports all the visual styles from the attached design reference.
+class OsmeaSwitch extends StatefulWidget {
+  const OsmeaSwitch({
+    super.key,
+    required this.value,
+    required this.onChanged,
+    this.size = SwitchSize.medium,
+    this.variant = SwitchVariant.simple,
+    this.state = SwitchState.enabled,
+    this.style = SwitchStyle.modern,
+    this.label,
+    this.description,
+    this.labelPosition = SwitchLabelPosition.trailing,
+    this.activeColor,
+    this.inactiveColor,
+    this.thumbColor,
+    this.trackColor,
+    this.focusColor,
+    this.hoverColor,
+    this.padding,
+    this.margin,
+    this.animationDuration,
+    this.onHover,
+    this.focusNode,
+    this.autofocus = false,
+    this.semanticLabel,
+    this.fullWidth = false,
+    this.customTheme,
+  });
+
+  /// 🔄 The current state of the switch (true = on, false = off)
+  final bool value;
+
+  /// 🖱️ Callback triggered when the switch state changes
+  final ValueChanged<bool>? onChanged;
+
+  /// 📏 The size of the switch
+  final SwitchSize size;
+
+  /// 🎨 The visual style variant of the switch
+  final SwitchVariant variant;
+
+  /// 🔄 The current interactive state of the switch
+  final SwitchState state;
+
+  /// 🎭 The visual style of the switch
+  final SwitchStyle style;
+
+  /// 🏷️ Optional text label displayed next to the switch
+  final String? label;
+
+  /// 📝 Optional description text displayed below the label
+  final String? description;
+
+  /// 📍 Position of the label relative to the switch
+  final SwitchLabelPosition labelPosition;
+
+  /// 🎨 Custom active state color
+  final Color? activeColor;
+
+  /// 🎨 Custom inactive state color
+  final Color? inactiveColor;
+
+  /// 🎯 Custom thumb color
+  final Color? thumbColor;
+
+  /// 🛤️ Custom track color
+  final Color? trackColor;
+
+  /// 🎯 Color displayed when the switch has focus
+  final Color? focusColor;
+
+  /// ✨ Color displayed when the user hovers over the switch
+  final Color? hoverColor;
+
+  /// 🧩 Custom padding
+  final EdgeInsetsGeometry? padding;
+
+  /// 🧩 Custom margin
+  final EdgeInsetsGeometry? margin;
+
+  /// ⏱️ Duration for switch animations
+  final Duration? animationDuration;
+
+  /// 🖱️ Callback triggered when hover state changes
+  final ValueChanged<bool>? onHover;
+
+  /// 🎯 Node for managing the focus state of the switch
+  final FocusNode? focusNode;
+
+  /// 🔵 When true, the switch will automatically request focus when displayed
+  final bool autofocus;
+
+  /// ♿ Semantic label for accessibility
+  final String? semanticLabel;
+
+  /// ↔️ Whether the switch container should take the full width of its parent
+  final bool fullWidth;
+
+  /// 🎭 Custom theme
+  final CoreTheme? customTheme;
+
+  @override
+  State<OsmeaSwitch> createState() => _OsmeaSwitchState();
+}
+
+class _OsmeaSwitchState extends State<OsmeaSwitch> {
+  bool _isHovered = false;
+  bool _isFocused = false;
+
+  // Computed properties based on state
+  bool get isDisabled => widget.state == SwitchState.disabled;
+  bool get isFocused => widget.state == SwitchState.focused || _isFocused;
+  bool get isHovered => widget.state == SwitchState.hovered || _isHovered;
+  bool get isEffectivelyDisabled => isDisabled || widget.onChanged == null;
+
+  @override
+  Widget build(BuildContext context) {
+    final config = widget.size.config(context);
+    final colors = _getSwitchColors(context);
+
+    Widget switchWidget = _buildSwitch(context, config, colors);
+
+    // Variant'a göre label gösterimi
+    if ((widget.variant == SwitchVariant.labeled ||
+            widget.variant == SwitchVariant.extended ||
+            widget.variant == SwitchVariant.card) &&
+        (widget.label != null || widget.description != null)) {
+      switchWidget = _buildWithLabel(context, switchWidget, colors);
+    }
+
+    if (widget.margin != null) {
+      switchWidget = Padding(padding: widget.margin!, child: switchWidget);
+    }
+
+    if (widget.semanticLabel != null) {
+      switchWidget = Semantics(
+        label: widget.semanticLabel!,
+        value: widget.value ? 'On' : 'Off',
+        onTap: isEffectivelyDisabled
+            ? null
+            : () => widget.onChanged?.call(!widget.value),
+        child: switchWidget,
+      );
+    }
+
+    return switchWidget;
+  }
+
+  Widget _buildSwitch(
+    BuildContext context,
+    SwitchSizeConfig config,
+    _SwitchColors colors,
+  ) {
+    return AnimatedContainer(
+      duration: widget.animationDuration ?? const Duration(milliseconds: 250),
+      curve: Curves.easeInOutCubic,
+      child: Focus(
+        focusNode: widget.focusNode,
+        autofocus: widget.autofocus,
+        onFocusChange: (focused) => setState(() => _isFocused = focused),
+        child: GestureDetector(
+          onTap: isEffectivelyDisabled
+              ? null
+              : () => widget.onChanged?.call(!widget.value),
+          child: MouseRegion(
+            cursor: isEffectivelyDisabled
+                ? SystemMouseCursors.forbidden
+                : SystemMouseCursors.click,
+            onEnter: (event) {
+              setState(() => _isHovered = true);
+              widget.onHover?.call(true);
+            },
+            onExit: (event) {
+              setState(() => _isHovered = false);
+              widget.onHover?.call(false);
+            },
+            child: _buildSwitchTrack(context, config, colors),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSwitchTrack(
+    BuildContext context,
+    SwitchSizeConfig config,
+    _SwitchColors colors,
+  ) {
+    return AnimatedContainer(
+      duration: widget.animationDuration ?? const Duration(milliseconds: 250),
+      curve: Curves.easeInOutCubic,
+      width: config.trackSize.width,
+      height: config.trackSize.height,
+      decoration: _getTrackDecoration(context, config, colors),
+      child: Stack(
+        children: [
+          // Track içi içerik (sadece extended variant için)
+          if (widget.variant == SwitchVariant.extended)
+            _buildTrackContent(context, config, colors),
+          // Thumb
+          Positioned.fill(
+            child: Padding(
+              padding: EdgeInsets.all(config.thumbPadding),
+              child: _buildSwitchThumb(context, config, colors),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTrackContent(
+      BuildContext context, SwitchSizeConfig config, _SwitchColors colors) {
+    return Positioned.fill(
+      child: Row(
+        children: [
+          // Sol taraf (kapalı durum)
+          Expanded(
+            child: Center(
+              child: AnimatedOpacity(
+                duration: const Duration(milliseconds: 200),
+                opacity: widget.value ? 0.3 : 0.7,
+                child: Icon(
+                  Icons.close,
+                  size: config.trackSize.height * 0.3,
+                  color: colors.trackIcon,
+                ),
+              ),
+            ),
+          ),
+          // Sağ taraf (açık durum)
+          Expanded(
+            child: Center(
+              child: AnimatedOpacity(
+                duration: const Duration(milliseconds: 200),
+                opacity: widget.value ? 0.7 : 0.3,
+                child: Icon(
+                  Icons.check,
+                  size: config.trackSize.height * 0.3,
+                  color: colors.trackIcon,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  BoxDecoration _getTrackDecoration(
+      BuildContext context, SwitchSizeConfig config, _SwitchColors colors) {
+    switch (widget.style) {
+      case SwitchStyle.material:
+        return BoxDecoration(
+          color: widget.value ? colors.activeTrack : colors.inactiveTrack,
+          borderRadius: BorderRadius.circular(config.trackSize.height / 2),
+        );
+
+      case SwitchStyle.cupertino:
+        return BoxDecoration(
+          color: widget.value ? colors.activeTrack : colors.inactiveTrack,
+          borderRadius: BorderRadius.circular(config.trackSize.height / 2),
+          border: Border.all(
+            color: widget.value
+                ? colors.activeTrack
+                : OsmeaColors.pewter.withValues(alpha: 0.3),
+            width: 0.5,
+          ),
+        );
+
+      case SwitchStyle.modern:
+        return BoxDecoration(
+          gradient: widget.value
+              ? LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [
+                    colors.activeTrack,
+                    colors.activeTrack.withValues(alpha: 0.8),
+                  ],
+                )
+              : LinearGradient(
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                  colors: [
+                    colors.inactiveTrack,
+                    colors.inactiveTrack.withValues(alpha: 0.9),
+                  ],
+                ),
+          borderRadius: BorderRadius.circular(config.trackSize.height / 2),
+          boxShadow: [
+            if (!isEffectivelyDisabled) ...[
+              BoxShadow(
+                color: widget.value
+                    ? colors.activeTrack.withValues(alpha: 0.3)
+                    : OsmeaColors.shadowLight,
+                offset: const Offset(0, 2),
+                blurRadius: 4,
+                spreadRadius: 0,
+              ),
+              if (widget.value)
+                BoxShadow(
+                  color: colors.activeTrack.withValues(alpha: 0.2),
+                  offset: const Offset(0, 0),
+                  blurRadius: 8,
+                  spreadRadius: 0,
+                ),
+            ],
+          ],
+        );
+
+      case SwitchStyle.neumorphism:
+        return BoxDecoration(
+          color: widget.value ? colors.activeTrack : OsmeaColors.ash,
+          borderRadius: BorderRadius.circular(config.trackSize.height / 2),
+          boxShadow: widget.value
+              ? [
+                  BoxShadow(
+                    color: colors.activeTrack.withValues(alpha: 0.4),
+                    offset: const Offset(-2, -2),
+                    blurRadius: 4,
+                    spreadRadius: 0,
+                  ),
+                  BoxShadow(
+                    color: colors.activeTrack.withValues(alpha: 0.2),
+                    offset: const Offset(2, 2),
+                    blurRadius: 4,
+                    spreadRadius: 0,
+                  ),
+                ]
+              : [
+                  const BoxShadow(
+                    color: OsmeaColors.white,
+                    offset: Offset(-2, -2),
+                    blurRadius: 4,
+                    spreadRadius: 0,
+                  ),
+                  BoxShadow(
+                    color: OsmeaColors.pewter.withValues(alpha: 0.3),
+                    offset: const Offset(2, 2),
+                    blurRadius: 4,
+                    spreadRadius: 0,
+                  ),
+                ],
+        );
+
+      case SwitchStyle.glassmorphism:
+        return BoxDecoration(
+          color: (widget.value ? colors.activeTrack : colors.inactiveTrack)
+              .withValues(alpha: 0.2),
+          borderRadius: BorderRadius.circular(config.trackSize.height / 2),
+          border: Border.all(
+            color: OsmeaColors.white.withValues(alpha: 0.3),
+            width: 1,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: OsmeaColors.shadowLight.withValues(alpha: 0.1),
+              offset: const Offset(0, 8),
+              blurRadius: 32,
+              spreadRadius: 0,
+            ),
+          ],
+        );
+
+      case SwitchStyle.minimal:
+        return BoxDecoration(
+          color: widget.value ? colors.activeTrack : colors.inactiveTrack,
+          borderRadius: BorderRadius.circular(context.radiusLow.toDouble()),
+          border: Border.all(
+            color: isFocused && !isEffectivelyDisabled
+                ? colors.focus
+                : OsmeaColors.pewter.withValues(alpha: 0.3),
+            width: 1,
+          ),
+        );
+
+      case SwitchStyle.custom:
+      default:
+        return BoxDecoration(
+          color: widget.value ? colors.activeTrack : colors.inactiveTrack,
+          borderRadius: BorderRadius.circular(config.trackSize.height / 2),
+        );
+    }
+  }
+
+  Widget _buildSwitchThumb(
+    BuildContext context,
+    SwitchSizeConfig config,
+    _SwitchColors colors,
+  ) {
+    return AnimatedAlign(
+      duration: widget.animationDuration ?? const Duration(milliseconds: 250),
+      curve: Curves.easeInOutCubic,
+      alignment: widget.value ? Alignment.centerRight : Alignment.centerLeft,
+      child: AnimatedContainer(
+        duration: widget.animationDuration ?? const Duration(milliseconds: 250),
+        curve: Curves.easeInOutCubic,
+        width: config.thumbSize,
+        height: config.thumbSize,
+        decoration: _getThumbDecoration(context, config, colors),
+        transform: isHovered && !isEffectivelyDisabled
+            ? (Matrix4.identity()..scale(1.05))
+            : null,
+        child: _buildThumbContent(context, config, colors),
+      ),
+    );
+  }
+
+  Widget? _buildThumbContent(
+      BuildContext context, SwitchSizeConfig config, _SwitchColors colors) {
+    // Sadece extended variant'ında thumb içinde ikon göster
+    if (widget.variant == SwitchVariant.extended &&
+        widget.style == SwitchStyle.modern) {
+      return Center(
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 200),
+          child: Icon(
+            widget.value ? Icons.check : Icons.close,
+            key: ValueKey(widget.value),
+            size: config.thumbSize * 0.4,
+            color: widget.value ? colors.activeTrack : OsmeaColors.pewter,
+          ),
+        ),
+      );
+    }
+
+    return null;
+  }
+
+  BoxDecoration _getThumbDecoration(
+      BuildContext context, SwitchSizeConfig config, _SwitchColors colors) {
+    switch (widget.style) {
+      case SwitchStyle.material:
+        return BoxDecoration(
+          color: colors.thumb,
+          borderRadius: BorderRadius.circular(config.thumbSize / 2),
+        );
+
+      case SwitchStyle.cupertino:
+        return BoxDecoration(
+          color: colors.thumb,
+          borderRadius: BorderRadius.circular(config.thumbSize / 2),
+        );
+
+      case SwitchStyle.modern:
+        return BoxDecoration(
+          color: colors.thumb,
+          borderRadius: BorderRadius.circular(config.thumbSize / 2),
+          border: Border.all(
+            color: OsmeaColors.white.withValues(alpha: 0.3),
+            width: 0.5,
+          ),
+        );
+
+      case SwitchStyle.neumorphism:
+        return BoxDecoration(
+          color: colors.thumb,
+          borderRadius: BorderRadius.circular(config.thumbSize / 2),
+          boxShadow: [
+            if (!isEffectivelyDisabled) ...[
+              const BoxShadow(
+                color: OsmeaColors.white,
+                offset: Offset(-1, -1),
+                blurRadius: 2,
+                spreadRadius: 0,
+              ),
+              BoxShadow(
+                color: OsmeaColors.pewter.withValues(alpha: 0.4),
+                offset: const Offset(1, 1),
+                blurRadius: 2,
+                spreadRadius: 0,
+              ),
+            ],
+          ],
+        );
+
+      case SwitchStyle.glassmorphism:
+        return BoxDecoration(
+          color: colors.thumb.withValues(alpha: 0.9),
+          borderRadius: BorderRadius.circular(config.thumbSize / 2),
+          border: Border.all(
+            color: OsmeaColors.white.withValues(alpha: 0.4),
+            width: 1,
+          ),
+        );
+
+      case SwitchStyle.minimal:
+        return BoxDecoration(
+          color: colors.thumb,
+          borderRadius: BorderRadius.circular(context.radiusLow.toDouble()),
+          border: Border.all(
+            color: OsmeaColors.pewter.withValues(alpha: 0.3),
+            width: 1,
+          ),
+        );
+
+      case SwitchStyle.custom:
+      default:
+        return BoxDecoration(
+          color: colors.thumb,
+          borderRadius: BorderRadius.circular(config.thumbSize / 2),
+          boxShadow: [
+            if (!isEffectivelyDisabled)
+              BoxShadow(
+                color: OsmeaColors.shadowDark.withValues(alpha: 0.2),
+                offset: const Offset(0, 1),
+                blurRadius: 2,
+                spreadRadius: 0,
+              ),
+          ],
+        );
+    }
+  }
+
+  Widget _buildWithLabel(
+    BuildContext context,
+    Widget switchWidget,
+    _SwitchColors colors,
+  ) {
+    final labelWidget = _buildLabelContent(context, colors);
+
+    final children = <Widget>[];
+    final spacing = context.emptySizedWidthBoxNormal;
+
+    if (widget.labelPosition == SwitchLabelPosition.leading) {
+      children.addAll([
+        Expanded(child: labelWidget),
+        spacing,
+        switchWidget,
+      ]);
+    } else {
+      children.addAll([
+        switchWidget,
+        spacing,
+        Expanded(child: labelWidget),
+      ]);
+    }
+
+    return Container(
+      width: widget.fullWidth ? double.infinity : null,
+      padding: widget.padding ?? context.paddingNormal,
+      decoration: widget.variant == SwitchVariant.card
+          ? BoxDecoration(
+              color: OsmeaColors.white,
+              borderRadius: context.borderRadiusNormal,
+            )
+          : null,
+      child: Row(
+        mainAxisSize: widget.fullWidth ? context.max : context.min,
+        crossAxisAlignment: context.crossCenter,
+        children: children,
+      ),
+    );
+  }
+
+  Widget _buildLabelContent(BuildContext context, _SwitchColors colors) {
+    return Column(
+      crossAxisAlignment: context.crossStart,
+      mainAxisSize: context.min,
+      children: [
+        if (widget.label != null)
+          Text(
+            widget.label!,
+            style: _getEffectiveLabelStyle(context).copyWith(
+              color: isEffectivelyDisabled ? colors.disabledText : colors.text,
+            ),
+          ),
+        if (widget.description != null) ...[
+          SizedBox(height: context.lowValue),
+          Text(
+            widget.description!,
+            style: _getEffectiveDescriptionStyle(context).copyWith(
+              color: colors.disabledText,
+            ),
+          ),
+        ],
+      ],
+    );
+  }
+
+  TextStyle _getEffectiveLabelStyle(BuildContext context) {
+    switch (widget.size) {
+      case SwitchSize.small:
+        return OsmeaTextStyle.labelSmall(context);
+      case SwitchSize.medium:
+        return OsmeaTextStyle.labelMedium(context);
+      case SwitchSize.large:
+        return OsmeaTextStyle.labelLarge(context);
+    }
+  }
+
+  TextStyle _getEffectiveDescriptionStyle(BuildContext context) {
+    return OsmeaTextStyle.captionMedium(context);
+  }
+
+  _SwitchColors _getSwitchColors(BuildContext context) {
+    return _SwitchColors(
+      activeTrack: widget.activeColor ??
+          (isEffectivelyDisabled ? OsmeaColors.silver : OsmeaColors.nordicBlue),
+      inactiveTrack: widget.inactiveColor ??
+          (isEffectivelyDisabled ? OsmeaColors.ash : OsmeaColors.pewter),
+      thumb: widget.thumbColor ??
+          (isEffectivelyDisabled ? OsmeaColors.steel : OsmeaColors.white),
+      text: isEffectivelyDisabled ? OsmeaColors.steel : OsmeaColors.eclipse,
+      focus: widget.focusColor ?? OsmeaColors.crystalBay,
+      hover: widget.hoverColor ?? OsmeaColors.deepSea,
+      disabledText: OsmeaColors.steel,
+      trackIcon: OsmeaColors.white.withValues(alpha: 0.8),
+    );
+  }
+}
+
+/// Internal helper class for switch colors
+class _SwitchColors {
+  final Color activeTrack;
+  final Color inactiveTrack;
+  final Color thumb;
+  final Color text;
+  final Color focus;
+  final Color hover;
+  final Color disabledText;
+  final Color trackIcon;
+
+  const _SwitchColors({
+    required this.activeTrack,
+    required this.inactiveTrack,
+    required this.thumb,
+    required this.text,
+    required this.focus,
+    required this.hover,
+    required this.disabledText,
+    required this.trackIcon,
+  });
+}
+
+/// 🏷️ **OSMEA Labeled Switch**
+class OsmeaLabeledSwitch extends OsmeaSwitch {
+  const OsmeaLabeledSwitch({
+    super.key,
+    required super.value,
+    required String label,
+    String? description,
+    super.size,
+    super.state,
+    super.onChanged,
+    super.labelPosition,
+    super.customTheme,
+    super.fullWidth,
+    super.activeColor,
+    super.inactiveColor,
+    super.style,
+  }) : super(
+          label: label,
+          description: description,
+          variant: SwitchVariant.labeled,
+        );
+}
+
+/// 🎯 **OSMEA Simple Switch**
+class OsmeaSimpleSwitch extends OsmeaSwitch {
+  const OsmeaSimpleSwitch({
+    super.key,
+    required super.value,
+    super.size,
+    super.state,
+    super.onChanged,
+    super.customTheme,
+    super.activeColor,
+    super.inactiveColor,
+    super.style,
+  }) : super(
+          variant: SwitchVariant.simple,
+        );
+}
