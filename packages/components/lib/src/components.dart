@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:osmea_components/src/components/buttons/button.dart';
+import 'package:osmea_components/src/components/checkbox/checkbox.dart';
 import 'package:osmea_components/src/components/login_button/cubit/login_button_cubit.dart';
 import 'package:osmea_components/src/components/login_button/login_button.dart';
 import 'package:osmea_components/src/components/navbar/navbar.dart';
 import 'package:osmea_components/src/components/switch_button/switch_button.dart';
 import 'package:osmea_components/src/enums/button_enums.dart';
 import 'package:osmea_components/src/enums/navbar_enums.dart';
+import 'package:osmea_components/src/enums/checkbox_enums.dart';
 import 'package:osmea_components/src/enums/switch_enums.dart';
 import 'package:osmea_components/src/theme/theme.dart';
 
@@ -346,6 +348,14 @@ class OsmeaComponents {
   /// - All 5 positions (top, bottom, left, right, floating)
   /// - All 5 types (fixed, sticky, static, collapsible, tabs)
   /// - Interactive navbar items with states
+  /// 🔘 **OSMEA Radio Button** - Comprehensive radio button component
+  ///
+  /// Creates a feature-rich radio button component with support for:
+  /// - All radio variants (simple, labeled, card, tile, compact, extended)
+  /// - All 3 sizes (small, medium, large)
+  /// - All states (enabled, disabled, focused, hovered)
+  /// - Multiple visual styles (material, cupertino, modern, glassmorphism, minimal, custom)
+  /// - Label and description support
   /// - Full customization options
   ///
   /// Example:
@@ -419,4 +429,86 @@ class OsmeaComponents {
       currentIndex: currentIndex,
     );
   }
+
+  /// ☑️ **OSMEA Checkbox** - Comprehensive checkbox component
+  ///
+  /// Creates a feature-rich checkbox component with support for:
+  /// - All checkbox variants (simple, labeled, card, tile, compact, extended)
+  /// - All 3 sizes (small, medium, large)
+  /// - All states (enabled, disabled, focused, hovered)
+  /// - Multiple visual styles (material, cupertino, modern, glassmorphism, minimal, custom)
+  /// - Tristate support (checked, unchecked, indeterminate)
+  /// - Label and description support
+  /// - Full customization options
+  ///
+  /// Example:
+  /// ```dart
+  /// OsmeaComponents.checkbox(
+  ///   value: isChecked,
+  ///   label: 'Accept terms and conditions',
+  ///   description: 'By checking this, you agree to our terms',
+  ///   variant: CheckboxVariant.labeled,
+  ///   size: CheckboxSize.medium,
+  ///   style: CheckboxStyle.modern,
+  ///   onChanged: (value) => setState(() => isChecked = value),
+  /// )
+  /// ```
+  static Widget checkbox({
+    Key? key,
+    CoreTheme? customTheme,
+    required bool? value,
+    required ValueChanged<bool?>? onChanged,
+    bool tristate = false,
+    CheckboxSize size = CheckboxSize.medium,
+    CheckboxVariant variant = CheckboxVariant.simple,
+    CheckboxState state = CheckboxState.enabled,
+    CheckboxStyle style = CheckboxStyle.modern,
+    String? label,
+    String? description,
+    CheckboxLabelPosition labelPosition = CheckboxLabelPosition.trailing,
+    Color? activeColor,
+    Color? inactiveColor,
+    Color? checkColor,
+    Color? borderColor,
+    Color? focusColor,
+    Color? hoverColor,
+    EdgeInsetsGeometry? padding,
+    EdgeInsetsGeometry? margin,
+    Duration? animationDuration,
+    ValueChanged<bool>? onHover,
+    FocusNode? focusNode,
+    bool autofocus = false,
+    String? semanticLabel,
+    bool fullWidth = false,
+  }) {
+    return OsmeaCheckbox(
+      key: key,
+      customTheme: customTheme,
+      value: value,
+      onChanged: onChanged,
+      tristate: tristate,
+      size: size,
+      variant: variant,
+      state: state,
+      style: style,
+      label: label,
+      description: description,
+      labelPosition: labelPosition,
+      activeColor: activeColor,
+      inactiveColor: inactiveColor,
+      checkColor: checkColor,
+      borderColor: borderColor,
+      focusColor: focusColor,
+      hoverColor: hoverColor,
+      padding: padding,
+      margin: margin,
+      animationDuration: animationDuration,
+      onHover: onHover,
+      focusNode: focusNode,
+      autofocus: autofocus,
+      semanticLabel: semanticLabel,
+      fullWidth: fullWidth,
+    );
+  }
+
 }
