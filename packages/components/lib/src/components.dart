@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:osmea_components/src/components/buttons/button.dart';
 import 'package:osmea_components/src/components/login_button/cubit/login_button_cubit.dart';
 import 'package:osmea_components/src/components/login_button/login_button.dart';
+import 'package:osmea_components/src/components/navbar/navbar.dart';
 import 'package:osmea_components/src/components/switch_button/switch_button.dart';
 import 'package:osmea_components/src/enums/button_enums.dart';
+import 'package:osmea_components/src/enums/navbar_enums.dart';
 import 'package:osmea_components/src/enums/switch_enums.dart';
 import 'package:osmea_components/src/theme/theme.dart';
 
@@ -333,6 +335,88 @@ class OsmeaComponents {
       autofocus: autofocus,
       semanticLabel: semanticLabel,
       fullWidth: fullWidth,
+    );
+  }
+
+  /// 🧭 **OSMEA Navbar** - Comprehensive navigation bar component
+  ///
+  /// Creates a feature-rich navigation bar component with support for:
+  /// - All 5 variants (primary, secondary, transparent, glass, outlined)
+  /// - All 3 sizes (small, medium, large)
+  /// - All 5 positions (top, bottom, left, right, floating)
+  /// - All 5 types (fixed, sticky, static, collapsible, tabs)
+  /// - Interactive navbar items with states
+  /// - Full customization options
+  ///
+  /// Example:
+  /// ```dart
+  /// OsmeaComponents.navbar(
+  ///   variant: NavbarVariant.primary,
+  ///   size: NavbarSize.medium,
+  ///   position: NavbarPosition.top,
+  ///   items: [
+  ///     NavbarItem(
+  ///       text: 'Home',
+  ///       icon: Icon(Icons.home),
+  ///       onTap: () => Navigator.pushNamed(context, '/home'),
+  ///     ),
+  ///     NavbarItem(
+  ///       text: 'Profile',
+  ///       icon: Icon(Icons.person),
+  ///       onTap: () => Navigator.pushNamed(context, '/profile'),
+  ///     ),
+  ///   ],
+  /// )
+  /// ```
+  static navbar({
+    Key? key,
+    CoreTheme? customTheme,
+    required List<NavbarItem> items,
+    NavbarSize size = NavbarSize.medium,
+    NavbarVariant variant = NavbarVariant.primary,
+    NavbarPosition position = NavbarPosition.top,
+    Color? backgroundColor,
+    Color? textColor,
+    Color? activeColor,
+    Color? inactiveColor,
+    Color? borderColor,
+    Color? shadowColor,
+    EdgeInsetsGeometry? padding,
+    EdgeInsetsGeometry? margin,
+    Duration? animationDuration,
+    double? elevation,
+    BorderRadius? borderRadius,
+    bool showLabels = true,
+    bool showIcons = true,
+    bool centerItems = false,
+    bool scrollable = false,
+    ValueChanged<int>? onItemTap,
+    int currentIndex = 0,
+  }) {
+    return OsmeaNavbar(
+      key: key,
+      customTheme: customTheme,
+      items: items,
+      size: size,
+      variant: variant,
+      position: position,
+      backgroundColor: backgroundColor,
+      textColor: textColor,
+      activeColor: activeColor,
+      inactiveColor: inactiveColor,
+      borderColor: borderColor,
+      shadowColor: shadowColor,
+      padding: padding,
+      margin: margin,
+      animationDuration: animationDuration,
+      elevation: elevation,
+      borderRadius: borderRadius,
+      showLabels: showLabels,
+      showIcons: showIcons,
+      centerItems: centerItems,
+      scrollable: scrollable,
+      onItemTap: onItemTap,
+      currentIndex: currentIndex,
     );
   }
 }
