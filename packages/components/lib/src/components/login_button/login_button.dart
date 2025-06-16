@@ -1,34 +1,34 @@
+// 🔑 OsmeaLoginButton: All-in-one login button for OSMEA apps. Handles authentication flow, states, and UI! ✨
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:osmea_components/src/components/cubit_button/core/core_cubit_button.dart';
-import 'package:osmea_components/src/components/cubit_button/cubit/core_button_state.dart';
-import 'package:osmea_components/src/components/login_button/cubit/login_button_cubit.dart';
+import 'package:osmea_components/osmea_components.dart';
 import 'package:osmea_components/src/components/login_button/cubit/login_button_state.dart';
-import 'package:osmea_components/src/enums/button_enums.dart';
-import 'package:osmea_components/src/styles/colors.dart';
+import 'package:osmea_components/src/core/cubit_button/core/core_cubit_button.dart';
+import 'package:osmea_components/src/utils/button_size_extensions.dart';
 
 /// 🔑 **OSMEA Login Button**
 ///
-/// Flutter projelerinde kullanıcı giriş (login) işlemini basitleştirmek için
-/// yeniden kullanılabilir bir login bileşeni. Minimum konfigürasyonla güvenli,
-/// extensible ve özelleştirilebilir bir giriş deneyimi sağlar.
+/// A reusable login component to simplify user authentication (login) processes
+/// in Flutter projects. Provides a secure, extensible, and customizable login
+/// experience with minimal configuration.
 ///
 /// {@category Components}
 /// {@subCategory Authentication}
 ///
-/// ## 🔧 Temel Özellikler:
+/// ## 🔧 Key Features:
 /// * 🔄 Built-in loading animation
 /// * ✅ Success state handling
 /// * ❌ Error state with messages
 /// * 🎨 Theme-aware styling
 /// * 📱 Responsive sizing
-/// * 🛠️ Parametre bazlı credential retrieval (`onPressed({username, password})`)
+/// * 🛠️ Parameter-based credential retrieval (`onPressed({username, password})`)
 ///
-/// ## 🧠 Dahili Davranışlar:
-/// * LoginButtonCubit içsel olarak kullanılır, CoreButtonState'e göre durumu yönetir
-/// * Aynı anda birden fazla login isteğini engeller (loading kontrolü)
-/// * Başarı/hata durumlarını ilgili callback fonksiyonlarıyla dışa bildirir
-/// * Otomatik SnackBar veya AlertDialog gösterimleri yapılabilir
+/// ## 🧠 Internal Behaviors:
+/// * LoginButtonCubit is used internally, manages state according to CoreButtonState
+/// * Prevents multiple simultaneous login requests (loading control)
+/// * Reports success/error states to relevant callback functions
+/// * Can automatically show SnackBar or AlertDialog displays
 ///
 /// ```dart
 /// OsmeaLoginButton(
@@ -77,7 +77,7 @@ class OsmeaLoginButton extends CoreCubitButton<LoginButtonCubit> {
     Widget? icon,
     IconPosition iconPosition = IconPosition.leading,
     Duration? successDuration = const Duration(seconds: 2),
-    bool fullWidth = true,
+    bool fullWidth = false,
   }) : super(
           key: key,
           text: text,
@@ -193,29 +193,17 @@ class OsmeaLoginButton extends CoreCubitButton<LoginButtonCubit> {
         // Get message from ButtonLoading state
         if (state is ButtonLoading && state.message != null) {
           loadingText = state.message!;
+          // Debug debugPrint for button message
+          debugPrint('🔑 Login Button Message: $loadingText');
         }
 
-        return Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const SizedBox(
-              width: 16,
-              height: 16,
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-              ),
-            ),
-            const SizedBox(width: 8),
-            Text(
-              loadingText,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ],
+        return const SizedBox(
+          width: 16,
+          height: 16,
+          child: CircularProgressIndicator(
+            strokeWidth: 2,
+            valueColor: AlwaysStoppedAnimation<Color>(OsmeaColors.white),
+          ),
         );
       },
     );
@@ -223,33 +211,39 @@ class OsmeaLoginButton extends CoreCubitButton<LoginButtonCubit> {
 
   @override
   Widget buildSuccessWidget() {
-    return const Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(Icons.check_circle_outline, color: Colors.white),
-        SizedBox(width: 8),
-        Text("Success", style: TextStyle(color: Colors.white)),
-      ],
-    );
+    // Debug debugPrint for success message
+    debugPrint('🔑 Login Button Success Message: Login successful');
+
+    return const Icon(Icons.check_circle_outline, color: OsmeaColors.white);
   }
 
   @override
   Widget buildErrorWidget(String message) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        const Icon(Icons.error_outline, color: Colors.white, size: 16),
-        const SizedBox(width: 8),
-        Flexible(
-          child: Text(
-            message,
-            style: const TextStyle(color: Colors.white, fontSize: 12),
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-          ),
-        ),
-      ],
-    );
+    // Debug debugPrint for error message
+    debugPrint('🔑 Login Button Error Message: $message');
+
+    return const Icon(Icons.error_outline, color: OsmeaColors.white, size: 16);
+  }
+
+  @override
+  Widget buildButtonContent(CoreButtonState state) {
+    // Debug debugPrint - always show the same text regardless of state
+    debugPrint('🔑 Login Button State: ${state.runtimeType} - Text: $text');
+
+    // Always show the same text regardless of state, only colors change
+    if (icon != null) {
+      return Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          icon!,
+          const SizedBox(
+              width:
+                  8), // Replace context.emptySizedWidthBoxNormal with a direct value
+          Text(text!),
+        ],
+      );
+    }
+    return Text(text!);
   }
 
   ButtonStyle _getButtonStyle(BuildContext context, CoreButtonState state) {
@@ -314,38 +308,8 @@ class OsmeaLoginButton extends CoreCubitButton<LoginButtonCubit> {
       }
     }
 
-    // Determine size and padding
-    double minHeight;
-    EdgeInsetsGeometry padding;
-    BorderRadius borderRadius;
-
-    switch (size) {
-      case ButtonSize.extraSmall:
-        minHeight = 28;
-        padding = const EdgeInsets.symmetric(horizontal: 8, vertical: 4);
-        borderRadius = BorderRadius.circular(4);
-        break;
-      case ButtonSize.small:
-        minHeight = 36;
-        padding = const EdgeInsets.symmetric(horizontal: 12, vertical: 6);
-        borderRadius = BorderRadius.circular(6);
-        break;
-      case ButtonSize.medium:
-        minHeight = 44;
-        padding = const EdgeInsets.symmetric(horizontal: 16, vertical: 10);
-        borderRadius = BorderRadius.circular(8);
-        break;
-      case ButtonSize.large:
-        minHeight = 52;
-        padding = const EdgeInsets.symmetric(horizontal: 20, vertical: 12);
-        borderRadius = BorderRadius.circular(10);
-        break;
-      case ButtonSize.extraLarge:
-        minHeight = 60;
-        padding = const EdgeInsets.symmetric(horizontal: 24, vertical: 16);
-        borderRadius = BorderRadius.circular(12);
-        break;
-    }
+    // Get size configuration using button size extensions
+    final sizeConfig = size.config(context);
 
     return ButtonStyle(
       backgroundColor: WidgetStateProperty.resolveWith<Color>(
@@ -364,13 +328,11 @@ class OsmeaLoginButton extends CoreCubitButton<LoginButtonCubit> {
           return foregroundColor;
         },
       ),
-      minimumSize: WidgetStateProperty.all<Size>(
-        Size(fullWidth ? double.infinity : 0, minHeight),
-      ),
-      padding: WidgetStateProperty.all<EdgeInsetsGeometry>(padding),
+      minimumSize: WidgetStateProperty.all<Size>(sizeConfig.size),
+      padding: WidgetStateProperty.all<EdgeInsetsGeometry>(sizeConfig.padding),
       shape: WidgetStateProperty.all<RoundedRectangleBorder>(
         RoundedRectangleBorder(
-          borderRadius: borderRadius,
+          borderRadius: sizeConfig.borderRadius,
           side: variant == ButtonVariant.outlined
               ? BorderSide(color: foregroundColor)
               : BorderSide.none,

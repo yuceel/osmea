@@ -177,20 +177,20 @@ class OsmeaComponents {
 
   /// 🔑 **OSMEA Login Button**
   ///
-  /// Flutter projelerinde kullanıcı giriş (login) işlemini basitleştirmek için
-  /// yeniden kullanılabilir bir login bileşeni. Minimum konfigürasyonla güvenli,
-  /// extensible ve özelleştirilebilir bir giriş deneyimi sağlar.
+  /// A reusable login component to simplify user authentication (login) processes
+  /// in Flutter projects. Provides a secure, extensible, and customizable login
+  /// experience with minimal configuration.
   ///
-  /// ## 🔧 Temel Özellikler
-  /// - `authService`: AuthService arayüzünü uygulayan bir servis
-  /// - `getUsername` / `getPassword`: Kullanıcıdan gelen verileri döndüren fonksiyonlar
-  /// - Callback destekleri: onLoginSuccess, onLoginFailure, onTwoFactorRequired vb.
-  /// - Görsel özelleştirme: size, variant, icon, fullWidth
+  /// ## 🔧 Key Features
+  /// - `authService`: A service that implements the AuthService interface
+  /// - `getUsername` / `getPassword`: Functions that return data from the user
+  /// - Callback support: onLoginSuccess, onLoginFailure, onTwoFactorRequired, etc.
+  /// - Visual customization: size, variant, icon, fullWidth
   ///
-  /// ## 🧠 Dahili Davranışlar
-  /// - LoginButtonCubit içsel olarak kullanılır
-  /// - Aynı anda birden fazla login isteğini engeller
-  /// - Başarı/hata durumlarını callback fonksiyonlarıyla bildirir
+  /// ## 🧠 Internal Behaviors
+  /// - LoginButtonCubit is used internally
+  /// - Prevents multiple simultaneous login requests
+  /// - Reports success/error states via callback functions
   ///
   /// Example:
   /// ```dart
@@ -226,7 +226,7 @@ class OsmeaComponents {
     Widget? icon,
     IconPosition iconPosition = IconPosition.leading,
     Duration? successDuration = const Duration(seconds: 2),
-    bool fullWidth = true,
+    bool fullWidth = false,
     // Legacy support for direct username/password (deprecated)
     @Deprecated('Use getUsername and getPassword functions instead')
     String? username,

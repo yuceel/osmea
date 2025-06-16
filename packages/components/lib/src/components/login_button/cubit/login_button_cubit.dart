@@ -1,5 +1,7 @@
-import 'package:osmea_components/src/components/cubit_button/cubit/core_button_cubit.dart';
+// 🧩 LoginButtonCubit: Manages login button logic, authentication, and state transitions for OSMEA! 🔄
+
 import 'package:osmea_components/src/components/login_button/cubit/login_button_state.dart';
+import 'package:osmea_components/src/core/cubit_button/cubit/core_button_cubit.dart';
 
 /// 🔑 **Login Button Cubit**
 ///
@@ -19,7 +21,7 @@ class LoginButtonCubit extends CoreButtonCubit {
   /// Password for authentication
   String? password;
 
-  LoginButtonCubit({this.authService}) {
+  LoginButtonCubit({this.authService}) : super() {
     // Start with login-specific initial state
     emit(const LoginInitial());
   }
@@ -79,10 +81,12 @@ class LoginButtonCubit extends CoreButtonCubit {
     try {
       // Step 1: Validating credentials
       emit(const LoginValidating());
+      // log.info('🔑 Login Button State: Validating credentials...');
       await Future.delayed(const Duration(milliseconds: 300));
 
       // Step 2: Authenticating with server
       emit(const LoginAuthenticating());
+      // log.info('🔑 Login Button State: Signing in...');
 
       final result = await authService!.login(username, password);
 
@@ -92,6 +96,7 @@ class LoginButtonCubit extends CoreButtonCubit {
           emit(LoginTwoFactorRequired(
             verificationMethod: result.twoFactorMethod,
           ));
+          // log.info('🔑 Login Button State: Two-factor authentication required (${result.twoFactorMethod})');
           return;
         }
 
@@ -99,6 +104,7 @@ class LoginButtonCubit extends CoreButtonCubit {
           emit(LoginPasswordChangeRequired(
             isExpired: result.isPasswordExpired ?? false,
           ));
+          // log.info('🔑 Login Button State: Password change required (expired: ${result.isPasswordExpired})');
           return;
         }
 
@@ -106,11 +112,13 @@ class LoginButtonCubit extends CoreButtonCubit {
           emit(LoginAccountSetupRequired(
             setupData: result.setupData,
           ));
+          // log.info('🔑 Login Button State: Account setup required');
           return;
         }
 
         // Step 4: Checking session
         emit(const LoginCheckingSession());
+        // log.info('🔑 Login Button State: Checking session...');
         await Future.delayed(const Duration(milliseconds: 200));
 
         // Success
@@ -118,6 +126,7 @@ class LoginButtonCubit extends CoreButtonCubit {
           userDisplayName: result.userDisplayName,
           userData: result.userData,
         ));
+        // log.info('🔑 Login Button State: Login successful');
       } else {
         _handleLoginError(result);
       }
@@ -131,24 +140,29 @@ class LoginButtonCubit extends CoreButtonCubit {
     switch (result.errorType) {
       case AuthErrorType.invalidCredentials:
         emit(const LoginInvalidCredentials());
+        // log.info('🔑 Login Button Error: Invalid username or password');
         break;
       case AuthErrorType.accountLocked:
         emit(LoginAccountLocked(
           lockExpires: result.lockExpires,
         ));
+        // log.info('🔑 Login Button Error: Account temporarily locked');
         break;
       case AuthErrorType.networkError:
         emit(const LoginNetworkError());
+        // log.info('🔑 Login Button Error: Network connection failed');
         break;
       case AuthErrorType.serverError:
         emit(LoginServerError(
           statusCode: result.statusCode,
         ));
+        // log.info('🔑 Login Button Error: Server error occurred (${result.statusCode})');
         break;
       default:
         emit(LoginServerError(
           statusCode: result.statusCode,
         ));
+      // log.info('🔑 Login Button Error: Unknown server error (${result.statusCode})');
     }
   }
 
@@ -157,8 +171,10 @@ class LoginButtonCubit extends CoreButtonCubit {
     if (error.toString().contains('network') ||
         error.toString().contains('connection')) {
       emit(const LoginNetworkError());
+      // log.info('🔑 Login Button Error: Network connection failed');
     } else {
       emit(const LoginServerError());
+      // log.info('🔑 Login Button Error: Server error occurred');
     }
   }
 
