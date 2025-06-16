@@ -177,11 +177,11 @@ extension IconSizeExtension on BuildContext {
   double get iconSizeZero => 0.0;
   double get iconSizeExtraSmall => 14.0;
   double get iconSizeSmall => 20.0;
-  double get iconSizeNormal => 25.0;
-  double get iconSizeMedium => 30.0;
-  double get iconSizeLarge => 40.0;
-  double get iconSizeHigh => 50.0;
-  double get iconSizeExtraHigh => 60.0;
+  double get iconSizeNormal => 24.0;
+  double get iconSizeMedium => 28.0;
+  double get iconSizeLarge => 32.0;
+  double get iconSizeHigh => 36.0;
+  double get iconSizeExtraHigh => 40.0;
 }
 
 /// 🧩 PADDING EXTENSION
