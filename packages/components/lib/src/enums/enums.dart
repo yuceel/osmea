@@ -19,6 +19,8 @@
 
 // Button-related enums
 export 'button_enums.dart';
+export 'switch_enums.dart';
+export 'components_enum.dart';
 
 // Add other enum files here as they are created
 // export 'input_enums.dart';
