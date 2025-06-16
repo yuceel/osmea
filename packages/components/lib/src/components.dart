@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:osmea_components/src/components/buttons/button.dart';
+import 'package:osmea_components/src/components/login_button/cubit/login_button_cubit.dart';
+import 'package:osmea_components/src/components/login_button/login_button.dart';
 import 'package:osmea_components/src/enums/button_enums.dart';
 import 'package:osmea_components/src/theme/theme.dart';
 
@@ -171,5 +173,86 @@ class OsmeaComponents {
 
   static Widget container() {
     return Container();
+  }
+
+  /// 🔑 **OSMEA Login Button**
+  ///
+  /// Flutter projelerinde kullanıcı giriş (login) işlemini basitleştirmek için
+  /// yeniden kullanılabilir bir login bileşeni. Minimum konfigürasyonla güvenli,
+  /// extensible ve özelleştirilebilir bir giriş deneyimi sağlar.
+  ///
+  /// ## 🔧 Temel Özellikler
+  /// - `authService`: AuthService arayüzünü uygulayan bir servis
+  /// - `getUsername` / `getPassword`: Kullanıcıdan gelen verileri döndüren fonksiyonlar
+  /// - Callback destekleri: onLoginSuccess, onLoginFailure, onTwoFactorRequired vb.
+  /// - Görsel özelleştirme: size, variant, icon, fullWidth
+  ///
+  /// ## 🧠 Dahili Davranışlar
+  /// - LoginButtonCubit içsel olarak kullanılır
+  /// - Aynı anda birden fazla login isteğini engeller
+  /// - Başarı/hata durumlarını callback fonksiyonlarıyla bildirir
+  ///
+  /// Example:
+  /// ```dart
+  /// OsmeaComponents.loginButton(
+  ///   text: 'Sign In',
+  ///   authService: MyAuthService(),
+  ///   getUsername: () => usernameController.text,
+  ///   getPassword: () => passwordController.text,
+  ///   onLoginSuccess: () {
+  ///     showSnackBar('Login successful!');
+  ///   },
+  ///   onLoginFailure: () {
+  ///     showSnackBar('Login failed!');
+  ///   },
+  ///   size: ButtonSize.large,
+  ///   variant: ButtonVariant.primary,
+  ///   icon: Icon(Icons.login),
+  /// )
+  /// ```
+  static Widget loginButton({
+    Key? key,
+    required String text,
+    required AuthService authService,
+    String Function()? getUsername,
+    String Function()? getPassword,
+    VoidCallback? onLoginSuccess,
+    VoidCallback? onLoginFailure,
+    VoidCallback? onTwoFactorRequired,
+    VoidCallback? onPasswordChangeRequired,
+    VoidCallback? onAccountSetupRequired,
+    ButtonSize size = ButtonSize.medium,
+    ButtonVariant variant = ButtonVariant.primary,
+    Widget? icon,
+    IconPosition iconPosition = IconPosition.leading,
+    Duration? successDuration = const Duration(seconds: 2),
+    bool fullWidth = true,
+    // Legacy support for direct username/password (deprecated)
+    @Deprecated('Use getUsername and getPassword functions instead')
+    String? username,
+    @Deprecated('Use getUsername and getPassword functions instead')
+    String? password,
+  }) {
+    return OsmeaLoginButton(
+      key: key,
+      text: text,
+      authService: authService,
+      getUsername: getUsername,
+      getPassword: getPassword,
+      onLoginSuccess: onLoginSuccess,
+      onLoginFailure: onLoginFailure,
+      onTwoFactorRequired: onTwoFactorRequired,
+      onPasswordChangeRequired: onPasswordChangeRequired,
+      onAccountSetupRequired: onAccountSetupRequired,
+      size: size,
+      variant: variant,
+      icon: icon,
+      iconPosition: iconPosition,
+      successDuration: successDuration,
+      fullWidth: fullWidth,
+      // Legacy support
+      username: username,
+      password: password,
+    );
   }
 }
