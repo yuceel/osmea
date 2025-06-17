@@ -1,0 +1,14 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Discussions
+    url: https://github.com/masterfabric-mobile/osmea/discussions
+    about: Ask questions and discuss ideas with the community
+  - name: 📖 Documentation
+    url: https://github.com/masterfabric-mobile/osmea/blob/dev/README.md
+    about: Read the official OSMEA documentation
+  - name: 🛍️ Shopify API Documentation
+    url: https://shopify.dev/docs/api
+    about: Official Shopify API documentation for integration reference
+  - name: 🌐 WooCommerce API Documentation
+    url: https://woocommerce.github.io/woocommerce-rest-api-docs/
+    about: Official WooCommerce REST API documentation
