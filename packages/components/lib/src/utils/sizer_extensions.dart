@@ -298,23 +298,16 @@ extension AnimationStatusExtension on dynamic {
 }
 
 /// 🔧 CLIP BEHAVIOR EXTENSION
-extension ClipBehaviorExtension on dynamic {
 
+extension ClipBehaviorExtension on dynamic {
   Clip get clipNone => Clip.none;
-  Clip get antiAlias => Clip.antiAlias;
-  Clip get hardEdge => Clip.hardEdge;
-  Clip get antiAliasWithSaveLayer => Clip.antiAliasWithSaveLayer;
-  Clip get noClip => Clip.none;
-  Clip get clipHard => Clip.hardEdge;
-  Clip get clipSmooth => Clip.antiAlias;
-  Clip get clipPremium => Clip.antiAliasWithSaveLayer;
-  Clip get clipRectangle => Clip.hardEdge;
-  Clip get clipRounded => Clip.antiAlias;
-  Clip get clipSharp => Clip.hardEdge;
-  Clip get clipSoft => Clip.antiAlias;
+
+  Clip get clipHardEdge => Clip.hardEdge;
+  Clip get clipAntiAlias => Clip.antiAlias;
+  Clip get clipAntiAliasWithSaveLayer => Clip.antiAliasWithSaveLayer;
   Clip get clipFast => Clip.hardEdge;
   Clip get clipQuality => Clip.antiAlias;
-  Clip get clipHighestQuality => Clip.antiAliasWithSaveLayer;
+  Clip get clipPremium => Clip.antiAliasWithSaveLayer;
 }
 
 /// ➖ EMPTY SIZED BOX EXTENSION
@@ -752,7 +745,6 @@ extension LineHeightExtension on BuildContext {
   double get lineHeightExtraLoose => 2.0;
 }
 
-
 /// 🌫️ BLUR RADIUS EXTENSION
 extension BlurRadiusExtension on BuildContext {
   // No blur
@@ -802,20 +794,20 @@ extension BlurRadiusExtension on BuildContext {
 extension SpreadRadiusExtension on BuildContext {
   // No spread
   double get spreadRadiusZero => 0.0;
-  
+
   // Positive spread (shadow grows)
   double get spreadRadiusSmall => 1.0;
   double get spreadRadiusNormal => 2.0;
   double get spreadRadiusMedium => 4.0;
   double get spreadRadiusLarge => 6.0;
   double get spreadRadiusExtraLarge => 8.0;
-  
+
   // Negative spread (shadow shrinks)
   double get spreadRadiusNegativeSmall => -1.0;
   double get spreadRadiusNegativeNormal => -2.0;
   double get spreadRadiusNegativeMedium => -4.0;
   double get spreadRadiusNegativeLarge => -6.0;
-  
+
   // Specific spread values
   double get spreadRadius1 => 1.0;
   double get spreadRadius2 => 2.0;
@@ -827,14 +819,14 @@ extension SpreadRadiusExtension on BuildContext {
   double get spreadRadius10 => 10.0;
   double get spreadRadius12 => 12.0;
   double get spreadRadius16 => 16.0;
-  
+
   // Shadow specific spread radii
   double get shadowSpreadLow => 0.0;
   double get shadowSpreadNormal => 1.0;
   double get shadowSpreadMedium => 2.0;
   double get shadowSpreadHigh => 4.0;
   double get shadowSpreadExtraHigh => 6.0;
-  
+
   // Inset shadow spreads (negative values)
   double get insetSpreadSmall => -1.0;
   double get insetSpreadMedium => -2.0;
@@ -846,13 +838,13 @@ extension BoxShapeExtension on dynamic {
   // Basic shapes
   BoxShape get rectangleShape => BoxShape.rectangle;
   BoxShape get circleShape => BoxShape.circle;
-  
+
   // Named shape accessors for clarity
   BoxShape get shapeRectangle => BoxShape.rectangle;
   BoxShape get shapeCircle => BoxShape.circle;
   BoxShape get shapeRound => BoxShape.circle;
   BoxShape get shapeSquare => BoxShape.rectangle; // When width == height
-  
+
   // Context-aware shape names
   BoxShape get containerShapeRectangle => BoxShape.rectangle;
   BoxShape get containerShapeCircle => BoxShape.circle;
