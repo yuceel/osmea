@@ -5,7 +5,7 @@ import 'package:osmea_components/src/theme/theme.dart';
 /// 📦 **OSMEA Components Library - Core Container**
 ///
 /// Copyright (c) 2025, OSMEA Team
-/// https://github.com/osmea/components
+/// https://github.com/masterfabric-mobile/osmea/tree/dev/packages/components
 ///
 /// A foundational container widget that serves as the base for all
 /// container-based components in the OSMEA UI Kit.

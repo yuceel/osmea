@@ -1,7 +1,7 @@
 /// 🔢 **OSMEA Component Enums**
 ///
 /// Copyright (c) 2025, OSMEA Team
-/// https://github.com/osmea/components
+/// https://github.com/masterfabric-mobile/osmea/tree/dev/packages/components
 ///
 /// Common enum definitions shared across all component types.
 /// These enums ensure consistent behavior and styling options.

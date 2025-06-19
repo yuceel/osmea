@@ -1,7 +1,7 @@
 /// 🔄 **OSMEA Switch Size Extensions**
 ///
 /// Copyright (c) 2025, OSMEA Team
-/// https://github.com/osmea/components
+/// https://github.com/masterfabric-mobile/osmea/tree/dev/packages/components
 ///
 /// Provides comprehensive switch sizing utilities for the OSMEA Design System.
 /// This file contains extensions for:

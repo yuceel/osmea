@@ -1,7 +1,7 @@
 /// 🔘 **OSMEA Radio Size Extensions**
 ///
 /// Copyright (c) 2025, OSMEA Team
-/// https://github.com/osmea/components
+/// https://github.com/masterfabric-mobile/osmea/tree/dev/packages/components
 ///
 /// Provides comprehensive radio button sizing utilities for the OSMEA Design System.
 /// This file contains extensions for:
@@ -73,13 +73,16 @@ extension RadioSizeExtension on BuildContext {
 /// Provides appropriate inner dot sizes for different radio button sizes.
 extension RadioInnerDotSizeExtension on BuildContext {
   /// Small Radio Inner Dot Size
-  double get radioInnerDotSizeSmall => radioSizeSmall * 0.375; // 6px for 16px outer
+  double get radioInnerDotSizeSmall =>
+      radioSizeSmall * 0.375; // 6px for 16px outer
 
   /// Medium Radio Inner Dot Size
-  double get radioInnerDotSizeMedium => radioSizeMedium * 0.4; // 8px for 20px outer
+  double get radioInnerDotSizeMedium =>
+      radioSizeMedium * 0.4; // 8px for 20px outer
 
   /// Large Radio Inner Dot Size
-  double get radioInnerDotSizeLarge => radioSizeLarge * 0.416; // 10px for 24px outer
+  double get radioInnerDotSizeLarge =>
+      radioSizeLarge * 0.416; // 10px for 24px outer
 }
 
 /// 📏 **Radio Padding Extensions**
@@ -119,7 +122,8 @@ extension RadioBorderRadiusExtension on BuildContext {
   BorderRadius get radioInnerBorderRadius => BorderRadius.circular(radiusHigh);
 
   /// Radio container border radius for card variants
-  BorderRadius get radioContainerBorderRadius => BorderRadius.circular(radiusLow);
+  BorderRadius get radioContainerBorderRadius =>
+      BorderRadius.circular(radiusLow);
 }
 
 /// 🎨 **Radio Configuration Helper**

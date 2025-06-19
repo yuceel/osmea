@@ -4,7 +4,7 @@ import 'package:osmea_components/osmea_components.dart';
 /// 🎨 **OSMEA Button Variants**
 ///
 /// Copyright (c) 2025, OSMEA Team
-/// https://github.com/osmea/components
+/// https://github.com/masterfabric-mobile/osmea/tree/dev/packages/components
 ///
 /// Comprehensive button variant configurations for the OSMEA Design System.
 /// This file provides color schemes, styles, and behaviors for each button variant.

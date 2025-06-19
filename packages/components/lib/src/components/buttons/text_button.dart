@@ -6,7 +6,7 @@ import 'package:osmea_components/src/utils/button_variants_extensions.dart';
 /// 🔘 **OSMEA Components Library**
 ///
 /// Copyright (c) 2025, OSMEA Team
-/// https://github.com/osmea/components
+/// https://github.com/masterfabric-mobile/osmea/tree/dev/packages/components
 ///
 /// A text button component with extensive customization options.
 ///

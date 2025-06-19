@@ -1,7 +1,7 @@
 /// 📋 **OSMEA Enums**
 ///
 /// Copyright (c) 2025, OSMEA Team
-/// https://github.com/osmea/components
+/// https://github.com/masterfabric-mobile/osmea/tree/dev/packages/components
 ///
 /// Barrel file for all enum definitions in the OSMEA UI Kit.
 /// Import this file to access all component enums.
@@ -19,6 +19,9 @@
 
 // Button enums
 export 'button_enums.dart';
+
+// AppBar enums
+export 'appbar_enums.dart';
 
 // Checkbox enums
 export 'checkbox_enums.dart';

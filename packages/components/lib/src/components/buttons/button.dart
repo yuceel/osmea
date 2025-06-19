@@ -5,7 +5,7 @@ import 'package:osmea_components/src/core/container_widget.dart';
 /// 🔘 **OSMEA Components Library**
 ///
 /// Copyright (c) 2025, OSMEA Team
-/// https://github.com/osmea/components
+/// https://github.com/masterfabric-mobile/osmea/tree/dev/packages/components
 ///
 /// A comprehensive button component that implements all variants defined
 /// in the OSMEA design system with full customization support.

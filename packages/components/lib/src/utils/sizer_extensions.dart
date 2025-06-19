@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 
-/// 📐 **OSMEA Sizer Extensions**
+/// 🎯 **OSMEA Sizer Extensions**
 ///
-/// A collection of extension methods for responsive sizing and spacing
-/// in OSMEA applications.
+/// Copyright (c) 2025, OSMEA Team
+/// https://github.com/masterfabric-mobile/osmea/tree/dev/packages/components
+///
+/// Extensions for Sizer utilities in the OSMEA UI Kit.
+/// Provides a comprehensive set of utilities for:
+///
+/// {@category Utils}
+/// {@subCategory SizerExtensions}
+///
+/// Extensions:
 ///
 /// **Extension Categories:**
 /// - 📱 Screen Dimensions
@@ -20,11 +28,6 @@ import 'package:flutter/material.dart';
 ///   height: context.dynamicHeight(0.5),
 /// )
 /// ```
-///
-/// @category Utils
-/// @subcategory Extensions
-
-/// 📏 SIZER EXTENSION
 extension SizerExtension on BuildContext {
   MediaQueryData get mediaQuery => MediaQuery.of(this);
 
@@ -295,11 +298,12 @@ extension AnimationStatusExtension on dynamic {
 }
 
 /// 🔧 CLIP BEHAVIOR EXTENSION
+
 extension ClipBehaviorExtension on dynamic {
   Clip get clipNone => Clip.none;
-  Clip get hardEdge => Clip.hardEdge;
-  Clip get antiAlias => Clip.antiAlias;
-  Clip get antiAliasWithSaveLayer => Clip.antiAliasWithSaveLayer;
+  Clip get clipHardEdge => Clip.hardEdge;
+  Clip get clipAntiAlias => Clip.antiAlias;
+  Clip get clipAntiAliasWithSaveLayer => Clip.antiAliasWithSaveLayer;
 }
 
 /// ➖ EMPTY SIZED BOX EXTENSION
@@ -737,7 +741,6 @@ extension LineHeightExtension on BuildContext {
   double get lineHeightExtraLoose => 2.0;
 }
 
-
 /// 🌫️ BLUR RADIUS EXTENSION
 extension BlurRadiusExtension on BuildContext {
   // No blur
@@ -787,20 +790,20 @@ extension BlurRadiusExtension on BuildContext {
 extension SpreadRadiusExtension on BuildContext {
   // No spread
   double get spreadRadiusZero => 0.0;
-  
+
   // Positive spread (shadow grows)
   double get spreadRadiusSmall => 1.0;
   double get spreadRadiusNormal => 2.0;
   double get spreadRadiusMedium => 4.0;
   double get spreadRadiusLarge => 6.0;
   double get spreadRadiusExtraLarge => 8.0;
-  
+
   // Negative spread (shadow shrinks)
   double get spreadRadiusNegativeSmall => -1.0;
   double get spreadRadiusNegativeNormal => -2.0;
   double get spreadRadiusNegativeMedium => -4.0;
   double get spreadRadiusNegativeLarge => -6.0;
-  
+
   // Specific spread values
   double get spreadRadius1 => 1.0;
   double get spreadRadius2 => 2.0;
@@ -812,14 +815,14 @@ extension SpreadRadiusExtension on BuildContext {
   double get spreadRadius10 => 10.0;
   double get spreadRadius12 => 12.0;
   double get spreadRadius16 => 16.0;
-  
+
   // Shadow specific spread radii
   double get shadowSpreadLow => 0.0;
   double get shadowSpreadNormal => 1.0;
   double get shadowSpreadMedium => 2.0;
   double get shadowSpreadHigh => 4.0;
   double get shadowSpreadExtraHigh => 6.0;
-  
+
   // Inset shadow spreads (negative values)
   double get insetSpreadSmall => -1.0;
   double get insetSpreadMedium => -2.0;
@@ -831,13 +834,13 @@ extension BoxShapeExtension on dynamic {
   // Basic shapes
   BoxShape get rectangleShape => BoxShape.rectangle;
   BoxShape get circleShape => BoxShape.circle;
-  
+
   // Named shape accessors for clarity
   BoxShape get shapeRectangle => BoxShape.rectangle;
   BoxShape get shapeCircle => BoxShape.circle;
   BoxShape get shapeRound => BoxShape.circle;
   BoxShape get shapeSquare => BoxShape.rectangle; // When width == height
-  
+
   // Context-aware shape names
   BoxShape get containerShapeRectangle => BoxShape.rectangle;
   BoxShape get containerShapeCircle => BoxShape.circle;
@@ -849,4 +852,3 @@ extension BoxShapeExtension on dynamic {
   BoxShape get badgeShape => BoxShape.circle;
   BoxShape get chipShape => BoxShape.rectangle;
 }
-

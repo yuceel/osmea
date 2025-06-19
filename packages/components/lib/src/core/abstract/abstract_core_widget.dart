@@ -5,7 +5,7 @@ import 'package:osmea_components/src/theme/theme.dart';
 /// 🏗️ **OSMEA Components Library - Abstract Core Widget**
 ///
 /// Copyright (c) 2025, OSMEA Team
-/// https://github.com/osmea/components
+/// https://github.com/masterfabric-mobile/osmea/tree/dev/packages/components
 ///
 /// A foundational abstract class that serves as the base for all widgets
 /// in the OSMEA component library. This class provides essential functionality

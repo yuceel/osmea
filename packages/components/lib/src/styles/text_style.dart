@@ -4,14 +4,34 @@ import 'package:osmea_components/src/utils/text_extensions.dart';
 
 import '../enums/enums.dart';
 
-
-/// 🎨 **OsmeaTextStyle**
-///
-/// A comprehensive collection of text styles for the OSMEA UI Kit.
-/// Use these styles to ensure visual consistency and best practices across your app.
-///
-/// ---
-///
+/// 📝 **OSMEA Design System - Typography**
+/// 
+/// Copyright (c) 2025, OSMEA Team
+/// https://github.com/masterfabric-mobile/osmea/tree/dev/packages/components
+/// 
+/// Typography system for consistent text styling.
+/// 
+/// {@category Design System}
+/// {@subCategory Typography}
+/// 
+/// Style Categories:
+/// * 📱 Display - Large headlines (H1-H3)
+/// * 📄 Body - Main content text
+/// * 🏷️ Label - Form labels and small text
+/// * 🔘 Button - Interactive element text
+/// * 💬 Caption - Supporting text
+/// 
+/// ```dart
+/// Text(
+///   'Heading',
+///   style: OsmeaTextStyle.displayLarge(context),
+/// )
+/// ```
+/// 
+/// See also:
+/// * [TextTheme] - Theme configuration
+/// * [FontWeight] - Font weight options
+/// * [TextStyle] - Flutter text styling
 /// **Style Properties**
 /// - `fontSize` 📏: Text size in logical pixels (uses TextSizeX extension values)
 /// - `fontWeight` 🏋️: Thickness of the font (w100-w900)
@@ -432,31 +452,3 @@ class OsmeaTextStyle {
   }
 }
 
-/// 📝 **OSMEA Design System - Typography**
-/// 
-/// Copyright (c) 2025, OSMEA Team
-/// https://github.com/osmea/components
-/// 
-/// Typography system for consistent text styling.
-/// 
-/// {@category Design System}
-/// {@subCategory Typography}
-/// 
-/// Style Categories:
-/// * 📱 Display - Large headlines (H1-H3)
-/// * 📄 Body - Main content text
-/// * 🏷️ Label - Form labels and small text
-/// * 🔘 Button - Interactive element text
-/// * 💬 Caption - Supporting text
-/// 
-/// ```dart
-/// Text(
-///   'Heading',
-///   style: OsmeaTextStyle.displayLarge(context),
-/// )
-/// ```
-/// 
-/// See also:
-/// * [TextTheme] - Theme configuration
-/// * [FontWeight] - Font weight options
-/// * [TextStyle] - Flutter text styling

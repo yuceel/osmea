@@ -1,7 +1,7 @@
 /// 🔘 **OSMEA Button Enums**
 ///
 /// Copyright (c) 2025, OSMEA Team
-/// https://github.com/osmea/components
+/// https://github.com/masterfabric-mobile/osmea/tree/dev/packages/components
 ///
 /// Comprehensive enum definitions for button components.
 ///
