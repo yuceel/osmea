@@ -81,7 +81,7 @@ extension BadgeSizeConfigExtension on BadgeSize {
           fontSize: context
               .fontSizeTiny, // Using fontSizeTiny from text_extensions.dart
           dotSize: context.width8,
-          borderRadius: context.borderRadiusMaxStandart,
+          borderRadius: context.borderRadiusMaxStandard,
         );
 
       case BadgeSize.extraSmall:
@@ -93,7 +93,7 @@ extension BadgeSizeConfigExtension on BadgeSize {
             vertical: context.spacing2,
           ),
           fontSize: context.fontSizeExtraSmall,
-          borderRadius: context.borderRadiusMaxStandart,
+          borderRadius: context.borderRadiusMaxStandard,
           borderWidth: context.borderWidth,
         );
 
@@ -119,7 +119,7 @@ extension BadgeSizeConfigExtension on BadgeSize {
             vertical: context.spacing6,
           ),
           fontSize: context.fontSizeExtraSmallMedium,
-          borderRadius: context.borderRadiusMaxStandart,
+          borderRadius: context.borderRadiusMaxStandard,
           borderWidth: context.borderWidth,
         );
 
@@ -132,7 +132,7 @@ extension BadgeSizeConfigExtension on BadgeSize {
             vertical: context.spacing6,
           ),
           fontSize: context.fontSizeExtraSmallMedium,
-          borderRadius: context.borderRadiusMaxStandart,
+          borderRadius: context.borderRadiusMaxStandard,
           borderWidth: context.borderWidth,
         );
 

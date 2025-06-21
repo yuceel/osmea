@@ -73,8 +73,8 @@ extension BorderRadiusExtension on BuildContext {
   BorderRadius get borderRadiusNormal => BorderRadius.circular(radiusNormal);
   BorderRadius get borderRadiusMedium => BorderRadius.circular(radiusMedium);
   BorderRadius get borderRadiusHigh => BorderRadius.circular(radiusHigh);
-  BorderRadius get borderRadiusMinStandart => BorderRadius.circular(7);
-  BorderRadius get borderRadiusMaxStandart => BorderRadius.circular(13);
+  BorderRadius get borderRadiusMinStandard => BorderRadius.circular(7);
+  BorderRadius get borderRadiusMaxStandard => BorderRadius.circular(13);
 }
 
 /// 🔲 BORDER WIDTH EXTENSION
