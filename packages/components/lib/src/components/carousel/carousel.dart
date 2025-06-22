@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:osmea_components/osmea_components.dart';
 import 'package:osmea_components/src/components/carousel/cubit/carousel_cubit.dart';
 import 'package:osmea_components/src/components/carousel/cubit/carousel_state.dart';
+import 'package:osmea_components/src/components/center/center.dart';
 import 'package:osmea_components/src/components/container/container.dart';
+import 'package:osmea_components/src/components/single_child_scroll_view/single_child_scroll_view.dart';
 import 'package:osmea_components/src/components/sized_box/sized_box.dart';
 import 'package:osmea_components/src/core/container_widget.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -596,7 +598,7 @@ class _OsmeaCarouselView extends StatelessWidget {
     int activeIndex = state.activeIndex;
     final BorderRadius indicatorRadius = context.borderRadiusMinStandard;
     Widget indicatorRow;
-    switch (this.parent.indicatorType) {
+    switch (parent.indicatorType) {
       case CarouselIndicatorType.dot:
         indicatorRow = Row(
           mainAxisSize: MainAxisSize.min,
@@ -605,8 +607,8 @@ class _OsmeaCarouselView extends StatelessWidget {
             return GestureDetector(
               onTap: () {
                 context.read<CarouselCubit>().jumpTo(index);
-                if (this.parent.onPageChanged != null) {
-                  this.parent.onPageChanged!(index);
+                if (parent.onPageChanged != null) {
+                  parent.onPageChanged!(index);
                 }
               },
               child: AnimatedContainer(
@@ -635,8 +637,8 @@ class _OsmeaCarouselView extends StatelessWidget {
             return GestureDetector(
               onTap: () {
                 context.read<CarouselCubit>().jumpTo(index);
-                if (this.parent.onPageChanged != null) {
-                  this.parent.onPageChanged!(index);
+                if (parent.onPageChanged != null) {
+                  parent.onPageChanged!(index);
                 }
               },
               child: AnimatedContainer(
@@ -665,8 +667,8 @@ class _OsmeaCarouselView extends StatelessWidget {
             return GestureDetector(
               onTap: () {
                 context.read<CarouselCubit>().jumpTo(index);
-                if (this.parent.onPageChanged != null) {
-                  this.parent.onPageChanged!(index);
+                if (parent.onPageChanged != null) {
+                  parent.onPageChanged!(index);
                 }
               },
               child: AnimatedContainer(
@@ -693,8 +695,8 @@ class _OsmeaCarouselView extends StatelessWidget {
             return GestureDetector(
               onTap: () {
                 context.read<CarouselCubit>().jumpTo(index);
-                if (this.parent.onPageChanged != null) {
-                  this.parent.onPageChanged!(index);
+                if (parent.onPageChanged != null) {
+                  parent.onPageChanged!(index);
                 }
               },
               child: AnimatedContainer(
@@ -727,8 +729,8 @@ class _OsmeaCarouselView extends StatelessWidget {
               child: GestureDetector(
                 onTap: () {
                   context.read<CarouselCubit>().jumpTo(index);
-                  if (this.parent.onPageChanged != null) {
-                    this.parent.onPageChanged!(index);
+                  if (parent.onPageChanged != null) {
+                    parent.onPageChanged!(index);
                   }
                 },
                 child: OsmeaContainer(
@@ -747,14 +749,13 @@ class _OsmeaCarouselView extends StatelessWidget {
         );
         break;
       case CarouselIndicatorType.custom:
-        if (this.parent.customIndicator != null) {
-          return this.parent.customIndicator!(
-              context, this.itemCount, activeIndex);
+        if (parent.customIndicator != null) {
+          return parent.customIndicator!(context, this.itemCount, activeIndex);
         }
         return const SizedBox.shrink();
     }
-    return Center(
-      child: SingleChildScrollView(
+    return OsmeaCenter(
+      child: OsmeaSingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: indicatorRow,
       ),
