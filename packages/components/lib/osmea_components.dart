@@ -46,6 +46,7 @@ export 'src/utils/appbar_extensions.dart';
 export 'src/utils/badge_extensions.dart';
 export 'src/utils/system_extension.dart';
 export 'src/utils/chips_extensions.dart';
+export 'src/utils/carousel_extensions.dart';
 
 // Central export for all components
 export 'src/components.dart';
