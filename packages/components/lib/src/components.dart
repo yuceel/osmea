@@ -9,6 +9,7 @@ import 'package:osmea_components/src/components/badge/badge.dart';
 import 'package:osmea_components/src/components/buttons/button.dart';
 import 'package:osmea_components/src/components/center/center.dart';
 import 'package:osmea_components/src/components/checkbox/checkbox.dart';
+import 'package:osmea_components/src/components/chips/chips.dart';
 import 'package:osmea_components/src/components/column/column.dart';
 import 'package:osmea_components/src/components/container/container.dart';
 import 'package:osmea_components/src/components/login_button/cubit/login_button_cubit.dart';
@@ -1494,6 +1495,82 @@ class OsmeaComponents {
       restorationId: restorationId,
       keyboardDismissBehavior: keyboardDismissBehavior,
       child: child,
+    );
+  }
+
+  /// 🪨 **OSMEA Chips** - Interactive and selectable chip component
+  ///
+  /// Creates an interactive chip component with support for:
+  /// - All 8 color variants (primary, secondary, success, warning, danger, info, neutral, custom)
+  /// - All 4 sizes (extraSmall, small, medium, large)
+  /// - All 3 style variants (normal, outlined, soft)
+  /// - All states (normal, disabled, selected)
+  /// - Interactive selection and deletion support
+  /// - Full customization options
+  ///
+  /// Example:
+  /// ```dart
+  /// OsmeaComponents.chips(
+  ///   text: 'Technology',
+  ///   variant: ChipsVariant.primary,
+  ///   size: ChipsSize.medium,
+  ///   selected: true,
+  ///   onTap: () => print('Chip tapped'),
+  ///   closable: true,
+  ///   onClose: () => print('Chip removed'),
+  /// )
+  /// ```
+  static Widget chips({
+    Key? key,
+    String? text,
+    IconData? icon,
+    Widget? actionWidget,
+    Widget? avatar,
+    ChipsVariant variant = ChipsVariant.neutral,
+    ChipsSize size = ChipsSize.medium,
+    ChipsStyle style = ChipsStyle.soft,
+    ChipsShape shape = ChipsShape.rounded,
+    ChipsState state = ChipsState.normal,
+    bool selected = false,
+    bool closable = false,
+    Duration animationDuration = const Duration(milliseconds: 200),
+    Color? backgroundColor,
+    Color? textColor,
+    Color? borderColor,
+    EdgeInsetsGeometry? padding,
+    TextStyle? textStyle,
+    ShapeBorder? customShape,
+    VoidCallback? onTap,
+    VoidCallback? onClose,
+    ValueChanged<bool>? onSelected,
+    String? tooltip,
+    bool fitContent = true, // Defaults to fit content instead of full width
+  }) {
+    return OsmeaChips(
+      key: key,
+      text: text,
+      icon: icon,
+      actionWidget: actionWidget,
+      avatar: avatar,
+      variant: variant,
+      size: size,
+      style: style,
+      shape: shape,
+      state: state,
+      selected: selected,
+      closable: closable,
+      animationDuration: animationDuration,
+      backgroundColor: backgroundColor,
+      textColor: textColor,
+      borderColor: borderColor,
+      padding: padding,
+      textStyle: textStyle,
+      customShape: customShape,
+      onTap: onTap,
+      onClose: onClose,
+      onSelected: onSelected,
+      tooltip: tooltip,
+      fitContent: fitContent,
     );
   }
 }
