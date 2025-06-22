@@ -29,6 +29,7 @@ import 'package:osmea_components/src/components/text_field/controllers/text_fiel
 import 'package:osmea_components/src/components/wrap/wrap.dart';
 import 'package:osmea_components/src/theme/theme.dart';
 import 'package:osmea_components/src/components/text/text.dart';
+import 'package:osmea_components/src/components/carousel/carousel.dart';
 
 import 'enums/enums.dart';
 
@@ -336,7 +337,7 @@ class OsmeaComponents {
     );
   }
 
-  /// � **OSMEA Row** - Flexible row layout component
+  /// 📏 **OSMEA Row** - Flexible row layout component
   ///
   /// Creates a row layout component with enhanced capabilities such as automatic spacing,
   /// A row layout component that matches Flutter's standard Row widget API.
@@ -416,7 +417,7 @@ class OsmeaComponents {
     );
   }
 
-  /// �📦 **OSMEA Container** - Flexible container component
+  /// 📦 **OSMEA Container** - Flexible container component
   ///
   /// Creates a flexible container component with full customization options.
   /// This component inherits all standard container features from Flutter and adds
@@ -1571,6 +1572,98 @@ class OsmeaComponents {
       onSelected: onSelected,
       tooltip: tooltip,
       fitContent: fitContent,
+    );
+  }
+
+  /// 🎠 **OSMEA Carousel** - Flexible carousel component
+  ///
+  /// Creates a flexible carousel component with full customization options.
+  ///
+  /// Example:
+  /// ```dart
+  /// OsmeaComponents.carousel(
+  ///   imageUrls: [...],
+  ///   variant: CarouselVariant.standard,
+  ///   size: CarouselSize.medium,
+  /// )
+  /// ```
+  static carousel({
+    Key? key,
+    CoreTheme? customTheme,
+    List<Widget>? items,
+    List<String>? imageUrls,
+    List<VoidCallback?>? onItemTaps,
+    CarouselVariant variant = CarouselVariant.standard,
+    CarouselSize size = CarouselSize.medium,
+    CarouselNavigationType navigationType = CarouselNavigationType.both,
+    CarouselAutoPlay autoPlay = CarouselAutoPlay.none,
+    CarouselTransitionType transitionType = CarouselTransitionType.slide,
+    CarouselIndicatorPosition indicatorPosition =
+        CarouselIndicatorPosition.bottomCenter,
+    CarouselArrowPosition arrowPosition = CarouselArrowPosition.inside,
+    int initialIndex = 0,
+    int? currentIndex,
+    double? height,
+    double? width,
+    bool loop = false,
+    CarouselArrowStyle arrowStyle = CarouselArrowStyle.modern,
+    Duration autoPlayInterval = const Duration(seconds: 3),
+    ValueChanged<int>? onPageChanged,
+    Widget? defaultImageIcon,
+    bool disabled = false,
+    bool selected = false,
+    bool showIndicators = true,
+    bool showArrows = true,
+    Color? backgroundColor,
+    Color? borderColor,
+    ShapeBorder? customShape,
+    Duration animationDuration = const Duration(milliseconds: 300),
+    String? tooltip,
+    EdgeInsetsGeometry? customPadding,
+    EdgeInsetsGeometry? margin,
+    Clip? clipBehavior,
+    BorderRadius? borderRadiusValue,
+    CarouselIndicatorType indicatorType = CarouselIndicatorType.dot,
+    Widget Function(BuildContext, int, int)? customIndicator,
+    Widget Function(BuildContext, bool isLeft)? customArrowBuilder,
+  }) {
+    return OsmeaCarousel(
+      key: key,
+      customTheme: customTheme,
+      items: items,
+      imageUrls: imageUrls,
+      onItemTaps: onItemTaps,
+      variant: variant,
+      size: size,
+      navigationType: navigationType,
+      autoPlay: autoPlay,
+      transitionType: transitionType,
+      indicatorPosition: indicatorPosition,
+      arrowPosition: arrowPosition,
+      initialIndex: initialIndex,
+      currentIndex: currentIndex,
+      height: height,
+      width: width,
+      loop: loop,
+      arrowStyle: arrowStyle,
+      autoPlayInterval: autoPlayInterval,
+      onPageChanged: onPageChanged,
+      defaultImageIcon: defaultImageIcon,
+      disabled: disabled,
+      selected: selected,
+      showIndicators: showIndicators,
+      showArrows: showArrows,
+      backgroundColor: backgroundColor,
+      borderColor: borderColor,
+      customShape: customShape,
+      animationDuration: animationDuration,
+      tooltip: tooltip,
+      customPadding: customPadding,
+      margin: margin,
+      borderRadiusValue: borderRadiusValue,
+      indicatorType: indicatorType,
+      customIndicator: customIndicator,
+      customArrowBuilder: customArrowBuilder,
     );
   }
 }
