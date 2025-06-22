@@ -277,7 +277,7 @@ extension ChipsVariantExtension on ChipsVariant {
 /// Ensures consistent shape styling across the component library.
 extension ChipsShapeExtension on ChipsShape {
   /// Get border radius for this chip shape with modern proportions
-  BorderRadius getBorderRadius(ChipsSize size, BuildContext context) {
+  BorderRadius getBorderRadius(BuildContext context) {
     switch (this) {
       case ChipsShape.rounded:
         // Fully rounded pill shape

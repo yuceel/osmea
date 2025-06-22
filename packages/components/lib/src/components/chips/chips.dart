@@ -182,7 +182,7 @@ class OsmeaChips extends CoreContainer {
       isDisabled,
     );
 
-    final borderRadius = shape.getBorderRadius(size, context);
+    final borderRadius = shape.getBorderRadius(context);
     final chipWidget = Material(
       color: OsmeaColors.transparent,
       shape: customShape ??
@@ -202,7 +202,7 @@ class OsmeaChips extends CoreContainer {
         hoverColor: finalTextColor.withValues(alpha: 0.05),
         customBorder: customShape ??
             RoundedRectangleBorder(
-              borderRadius: shape.getBorderRadius(size, context),
+              borderRadius: shape.getBorderRadius(context),
             ),
         child: AnimatedContainer(
           duration: animationDuration,
@@ -211,7 +211,7 @@ class OsmeaChips extends CoreContainer {
             color: finalBackgroundColor,
             shape: customShape ??
                 RoundedRectangleBorder(
-                  borderRadius: shape.getBorderRadius(size, context),
+                  borderRadius: shape.getBorderRadius(context),
                   side: BorderSide(
                     color: finalBorderColor,
                     width: finalBorderColor != OsmeaColors.transparent &&
