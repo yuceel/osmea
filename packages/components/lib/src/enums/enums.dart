@@ -46,6 +46,9 @@ export 'badge_enums.dart';
 // Chips enums
 export 'chips_enums.dart';
 
+// Carousel enums
+export 'carousel_enums.dart';
+
 // ➕ Add other enum files here as they are created
 // export 'input_enums.dart';
 // export 'layout_enums.dart';
