@@ -21,6 +21,8 @@ export 'src/components/radio_button/radio_button.dart';
 // 🔑 Login Button
 export 'src/components/login_button/login_button.dart';
 
+// 🖼️ Card
+export 'src/utils/card_extensions.dart';
 // 🔤 Text Field
 
 export 'src/components/text_field/cubit/otp_cubit.dart';

@@ -7,6 +7,7 @@ import 'package:osmea_components/src/components/align/align.dart';
 import 'package:osmea_components/src/components/appbar/appbar.dart';
 import 'package:osmea_components/src/components/badge/badge.dart';
 import 'package:osmea_components/src/components/buttons/button.dart';
+import 'package:osmea_components/src/components/cards/cards.dart';
 import 'package:osmea_components/src/components/center/center.dart';
 import 'package:osmea_components/src/components/checkbox/checkbox.dart';
 import 'package:osmea_components/src/components/chips/chips.dart';
@@ -1571,6 +1572,288 @@ class OsmeaComponents {
       onSelected: onSelected,
       tooltip: tooltip,
       fitContent: fitContent,
+    );
+  }
+
+  /// 🃏 **OSMEA Basic Card** - Simple and flexible card component
+  ///
+  /// Creates a basic card component with support for:
+  /// - All card variants (flat, elevated, outlined)
+  /// - All sizes (small, medium, large, extraLarge)
+  /// - Title, subtitle, and content text
+  /// - Custom styling for each text element
+  /// - Interactive tap functionality
+  /// - Full customization options
+  ///
+  /// Example:
+  /// ```dart
+  /// OsmeaComponents.basicCard(
+  ///   title: 'Card Title',
+  ///   subtitle: 'Card Subtitle',
+  ///   content: 'This is the main content of the card.',
+  ///   variant: CardVariant.elevated,
+  ///   size: ComponentSize.medium,
+  ///   onTap: () => print('Card tapped'),
+  /// )
+  /// ```
+  static Widget basicCard({
+    Key? key,
+    CoreTheme? customTheme,
+    String? title,
+    String? subtitle,
+    String? content,
+    ComponentAppearance variant = ComponentAppearance.filled,
+    ComponentSize size = ComponentSize.medium,
+    VoidCallback? onTap,
+    double? elevation,
+    BorderRadius? borderRadius,
+    Color? backgroundColor,
+    Color? borderColor,
+    Color? shadowColor,
+    EdgeInsetsGeometry? margin,
+    double? width,
+    TextStyle? titleStyle,
+    TextStyle? subtitleStyle,
+    TextStyle? contentStyle,
+    Color? titleColor,
+    Color? subtitleColor,
+    Color? contentColor,
+    double? spacing,
+    Widget? customContent,
+  }) {
+    return OsmeaBasicCard(
+      key: key,
+      customTheme: customTheme,
+      title: title,
+      subtitle: subtitle,
+      content: content,
+      variant: variant,
+      size: size,
+      onTap: onTap,
+      elevation: elevation,
+      borderRadius: borderRadius,
+      backgroundColor: backgroundColor,
+      borderColor: borderColor,
+      shadowColor: shadowColor,
+      margin: margin,
+      width: width,
+      titleStyle: titleStyle,
+      subtitleStyle: subtitleStyle,
+      contentStyle: contentStyle,
+      titleColor: titleColor,
+      subtitleColor: subtitleColor,
+      contentColor: contentColor,
+      spacing: spacing,
+      customContent: customContent,
+    );
+  }
+
+  /// 🖼️ **OSMEA Image Card** - Comprehensive image card component
+  ///
+  /// Creates an image card component with support for:
+  /// - All card variants (elevated, outlined, filled)
+  /// - All sizes (small, medium, large)
+  /// - Multiple image sources (network, asset, widget)
+  /// - Various image positions (top, bottom, left, right, background)
+  /// - Text overlay with gradient support
+  /// - Loading and error states
+  /// - Interactive tap functionality
+  /// - Full customization options
+  ///
+  /// Example:
+  /// ```dart
+  /// OsmeaComponents.imageCard(
+  ///   title: 'Beautiful Landscape',
+  ///   subtitle: 'Nature Photography',
+  ///   imageUrl: 'https://example.com/image.jpg',
+  ///   height: 200,
+  ///   imagePosition: ImagePosition.top,
+  ///   onTap: () => print('Image card tapped'),
+  /// )
+  /// ```
+  static Widget imageCard({
+    Key? key,
+    CoreTheme? customTheme,
+    String? title,
+    String? subtitle,
+    String? content,
+    String? imageUrl,
+    String? imageAsset,
+    Widget? imageWidget,
+    double? imageHeight,
+    ComponentPosition imagePosition = ComponentPosition.top,
+    BoxFit imageFit = BoxFit.cover,
+    Alignment imageAlignment = Alignment.center,
+    bool showOverlay = false,
+    Gradient? overlayGradient,
+    ComponentAppearance variant = ComponentAppearance.filled,
+    ComponentSize size = ComponentSize.medium,
+    VoidCallback? onTap,
+    double? elevation,
+    BorderRadius? borderRadius,
+    Color? backgroundColor,
+    Color? borderColor,
+    Color? shadowColor,
+    EdgeInsetsGeometry? margin,
+    double? width,
+    TextStyle? titleStyle,
+    TextStyle? subtitleStyle,
+    TextStyle? contentStyle,
+    Color? titleColor,
+    Color? subtitleColor,
+    Color? contentColor,
+    double? spacing,
+    Widget? loadingWidget,
+    Widget? errorWidget,
+    String? semanticLabel,
+    Widget? badge,
+    BadgePosition badgePosition = BadgePosition.topRight,
+    BorderRadius? imageBorderRadius,
+    Widget? child,
+  }) {
+    return OsmeaImageCard(
+      key: key,
+      customTheme: customTheme,
+      title: title,
+      subtitle: subtitle,
+      content: content,
+      imageUrl: imageUrl,
+      imageAsset: imageAsset,
+      imageWidget: imageWidget,
+      imageHeight: imageHeight,
+      imagePosition: imagePosition,
+      imageFit: imageFit,
+      imageAlignment: imageAlignment,
+      showOverlay: showOverlay,
+      overlayGradient: overlayGradient,
+      variant: variant,
+      size: size,
+      onTap: onTap,
+      elevation: elevation,
+      borderRadius: borderRadius,
+      backgroundColor: backgroundColor,
+      borderColor: borderColor,
+      shadowColor: shadowColor,
+      margin: margin,
+      width: width,
+      titleStyle: titleStyle,
+      subtitleStyle: subtitleStyle,
+      contentStyle: contentStyle,
+      titleColor: titleColor,
+      subtitleColor: subtitleColor,
+      contentColor: contentColor,
+      spacing: spacing,
+      loadingWidget: loadingWidget,
+      errorWidget: errorWidget,
+      semanticLabel: semanticLabel,
+      badge: badge,
+      badgePosition: badgePosition,
+      imageBorderRadius: imageBorderRadius,
+      child: child,
+    );
+  }
+
+  /// 🔘 **OSMEA Action Card** - Comprehensive action card component
+  ///
+  /// Creates an action card component with support for:
+  /// - All card variants (elevated, outlined, filled)
+  /// - All sizes (small, medium, large)
+  /// - Primary and secondary action buttons
+  /// - Multiple button layouts (horizontal, vertical, stacked)
+  /// - Title, subtitle, and content text
+  /// - Custom button styling and icons
+  /// - Full customization options
+  ///
+  /// Example:
+  /// ```dart
+  /// OsmeaComponents.actionCard(
+  ///   title: 'Confirm Action',
+  ///   content: 'Are you sure you want to proceed?',
+  ///   primaryAction: 'Confirm',
+  ///   secondaryAction: 'Cancel',
+  ///   onPrimaryPressed: () => print('Confirmed'),
+  ///   onSecondaryPressed: () => print('Cancelled'),
+  ///   primaryVariant: ButtonVariant.primary,
+  ///   secondaryVariant: ButtonVariant.outlined,
+  /// )
+  /// ```
+  static Widget actionCard({
+    Key? key,
+    CoreTheme? customTheme,
+    String? title,
+    String? subtitle,
+    String? content,
+    String? primaryAction,
+    String? secondaryAction,
+    VoidCallback? onPrimaryPressed,
+    VoidCallback? onSecondaryPressed,
+    ButtonVariant primaryVariant = ButtonVariant.primary,
+    ButtonVariant secondaryVariant = ButtonVariant.outlined,
+    ButtonSize? primarySize,
+    ButtonSize? secondarySize,
+    Widget? primaryIcon,
+    Widget? secondaryIcon,
+    ComponentOrientation buttonLayout = ComponentOrientation.horizontal,
+    double? actionSpacing,
+    double? contentSpacing,
+    ComponentAppearance variant = ComponentAppearance.filled,
+    ComponentSize size = ComponentSize.medium,
+    double? elevation,
+    BorderRadius? borderRadius,
+    Color? backgroundColor,
+    Color? borderColor,
+    Color? shadowColor,
+    EdgeInsetsGeometry? margin,
+    double? width,
+    TextStyle? titleStyle,
+    TextStyle? subtitleStyle,
+    TextStyle? contentStyle,
+    Color? titleColor,
+    Color? subtitleColor,
+    Color? contentColor,
+    Widget? customContent,
+    Widget? customActions,
+    Widget? leading,
+    Widget? trailing,
+  }) {
+    return OsmeaActionCard(
+      key: key,
+      customTheme: customTheme,
+      title: title,
+      subtitle: subtitle,
+      content: content,
+      primaryAction: primaryAction,
+      secondaryAction: secondaryAction,
+      onPrimaryPressed: onPrimaryPressed,
+      onSecondaryPressed: onSecondaryPressed,
+      primaryVariant: primaryVariant,
+      secondaryVariant: secondaryVariant,
+      primarySize: primarySize,
+      secondarySize: secondarySize,
+      primaryIcon: primaryIcon,
+      secondaryIcon: secondaryIcon,
+      buttonLayout: buttonLayout,
+      actionSpacing: actionSpacing,
+      contentSpacing: contentSpacing,
+      variant: variant,
+      size: size,
+      elevation: elevation,
+      borderRadius: borderRadius,
+      backgroundColor: backgroundColor,
+      borderColor: borderColor,
+      shadowColor: shadowColor,
+      margin: margin,
+      width: width,
+      titleStyle: titleStyle,
+      subtitleStyle: subtitleStyle,
+      contentStyle: contentStyle,
+      titleColor: titleColor,
+      subtitleColor: subtitleColor,
+      contentColor: contentColor,
+      customContent: customContent,
+      customActions: customActions,
+      leading: leading,
+      trailing: trailing,
     );
   }
 }
