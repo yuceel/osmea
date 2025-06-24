@@ -1,7 +1,7 @@
 name: osmea_components
 description: OSMEA UI Kit for e-commerce applications with design tokens system
 version: 0.1.0
-homepage: https://github.com/nisacolak/osmea
+homepage: https://github.com/masterfabric-mobile/osmea
 
 environment:
   sdk: ">=2.17.0 <3.0.0"

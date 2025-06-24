@@ -18,7 +18,7 @@ This document tracks the status of both design styles and reusable UI components
 | Menu Item                     | 🔴     | (TBD)      | (TBD)    | (To be assigned)   |
 | Card designs (S, M, L)        | 🟡     | 22.06.25   | (TBD)    |    Nisa Çolak      |
 | Textfields                    | 🟢     | 18.06.25   | 21.06.25 | Nisa Çolak         |
-| List Items                    | 🔴     | (TBD)      | (TBD)    | (To be assigned)   |
+| List Items                    | 🟢     | 23.06.25   | 24.06.25 | Nurhayat Yurtaslan |
 | Snackbar - Toast              | 🔴     | (TBD)      | (TBD)    | (To be assigned)   |
 | Carousel                      | 🟢     | 22.06.25   | 22.06.25 | Nurhayat Yurtaslan |
 | Chips                         | 🟢     | 21.06.25   | 22.06.25 | Nurhayat Yurtaslan |

@@ -30,6 +30,7 @@ import 'package:osmea_components/src/components/wrap/wrap.dart';
 import 'package:osmea_components/src/theme/theme.dart';
 import 'package:osmea_components/src/components/text/text.dart';
 import 'package:osmea_components/src/components/carousel/carousel.dart';
+import 'package:osmea_components/src/components/list_item/list_item.dart';
 
 import 'enums/enums.dart';
 
@@ -1460,7 +1461,7 @@ class OsmeaComponents {
   /// 📜 **OSMEA SingleChildScrollView** - Scrollable content wrapper
   ///
   /// Creates a scrollable widget that can contain a single child.
-  ///
+  ///z
   /// Example:
   /// ```dart
   /// OsmeaComponents.singleChildScrollView(
@@ -1664,6 +1665,110 @@ class OsmeaComponents {
       indicatorType: indicatorType,
       customIndicator: customIndicator,
       customArrowBuilder: customArrowBuilder,
+    );
+  }
+
+  /// 🟦 **OSMEA List Item** - Universal list item component
+  ///
+  /// Example:
+  /// ```dart
+  /// OsmeaComponents.listItem(
+  ///   title: 'List Item',
+  ///   subtitle: 'Subtitle',
+  ///   leading: Icon(Icons.star),
+  /// )
+  /// ```
+  static Widget listItem({
+    Key? key,
+    ListItemVariant variant = ListItemVariant.standard,
+    ListItemSize size = ListItemSize.medium,
+    Widget? title,
+    Widget? subtitle,
+    Widget? leading,
+    Widget? trailing,
+    VoidCallback? onTap,
+    VoidCallback? onLongPress,
+    DismissDirectionCallback? onDismissed,
+    bool selected = false,
+    bool disabled = false,
+    bool error = false,
+    bool loading = false,
+    bool selectable = false,
+    ListItemSelectedType selectedType = ListItemSelectedType.checkbox,
+    bool? value,
+    ValueChanged<bool?>? onChanged,
+    ListItemPlatform platform = ListItemPlatform.material,
+    Color? backgroundColor,
+    Color? outlineColor,
+    EdgeInsetsGeometry? padding,
+    EdgeInsetsGeometry? margin,
+    double elevation = 0,
+    ShapeBorder? shape,
+    double minHeight = 56,
+    int maxLines = 2,
+    bool ripple = true,
+    String? accessibilityLabel,
+    ListItemBorderVariant borderVariant = ListItemBorderVariant.none,
+    Color? borderColor,
+    double borderWidth = 0.5,
+    Border? customBorder,
+    Set<ListItemBorderSide>? borderSides,
+    Widget? child,
+    double? width,
+    // Expandable properties
+    bool expanded = false,
+    ValueChanged<bool>? onExpansionChanged,
+    List<Widget> children = const [],
+    bool initiallyExpanded = false,
+    bool maintainState = false,
+    Widget? collapseIcon,
+    Widget? expandIcon,
+  }) {
+    return OsmeaListItem(
+      key: key,
+      variant: variant,
+      size: size,
+      title: title,
+      subtitle: subtitle,
+      leading: leading,
+      trailing: trailing,
+      onTap: onTap,
+      onLongPress: onLongPress,
+      onDismissed: onDismissed,
+      selected: selected,
+      disabled: disabled,
+      error: error,
+      loading: loading,
+      selectable: selectable,
+      selectedType: selectedType,
+      value: value,
+      onChanged: onChanged,
+      platform: platform,
+      backgroundColor: backgroundColor,
+      outlineColor: outlineColor,
+      padding: padding,
+      margin: margin,
+      elevation: elevation,
+      shape: shape,
+      minHeight: minHeight,
+      maxLines: maxLines,
+      ripple: ripple,
+      accessibilityLabel: accessibilityLabel,
+      borderVariant: borderVariant,
+      borderColor: borderColor,
+      borderWidth: borderWidth,
+      customBorder: customBorder,
+      borderSides: borderSides,
+      child: child,
+      width: width,
+      // Expandable properties
+      expanded: expanded,
+      onExpansionChanged: onExpansionChanged,
+      children: children,
+      initiallyExpanded: initiallyExpanded,
+      maintainState: maintainState,
+      collapseIcon: collapseIcon,
+      expandIcon: expandIcon,
     );
   }
 }
