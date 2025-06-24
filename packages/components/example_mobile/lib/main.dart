@@ -23,6 +23,7 @@ import 'package:osmea_components_example/sized_box_example.dart';
 import 'package:osmea_components_example/scaffold_example.dart';
 import 'package:osmea_components_example/single_child_scroll_view_example.dart';
 import 'package:osmea_components_example/wrap_example.dart';
+import 'package:osmea_components_example/list_item_example.dart';
 
 void main() {
   runApp(const MyApp());
@@ -557,6 +558,18 @@ class ExamplesScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => const WrapExample(),
+                    ),
+                  ),
+                ),
+                _buildExampleTile(
+                  context,
+                  'List Item Examples',
+                  'Comprehensive list item component with multiple types and variants',
+                  Icons.list,
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ListItemExample(),
                     ),
                   ),
                 ),
