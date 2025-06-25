@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:osmea_components/osmea_components.dart';
 import 'package:osmea_components_example/align_example.dart';
+import 'package:osmea_components_example/avatar_example.dart';
 import 'package:osmea_components_example/carousel_example.dart';
 import 'package:osmea_components_example/chips_example.dart';
 import 'package:osmea_components_example/services/mock_auth_service.dart';
@@ -10,6 +11,7 @@ import 'package:osmea_components_example/switch_button_example.dart';
 import 'package:osmea_components_example/radio_button_example.dart';
 import 'package:osmea_components_example/text_example.dart';
 import 'package:osmea_components_example/text_field_example.dart';
+import 'package:osmea_components_example/card_example.dart';
 import 'package:osmea_components_example/colors_example.dart';
 import 'package:osmea_components_example/button_example.dart';
 import 'package:osmea_components_example/badge_example.dart';
@@ -230,6 +232,17 @@ class ComponentsScreen extends StatelessWidget {
                 ),
                 _buildComponentCard(
                   context,
+                  'Avatar',
+                  Icons.account_circle,
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const AvatarExample(),
+                    ),
+                  ),
+                ),
+                _buildComponentCard(
+                  context,
                   'Text Components',
                   Icons.text_fields,
                   () => Navigator.push(
@@ -291,6 +304,17 @@ class ComponentsScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => const ChipsExample(),
+                    ),
+                  ),
+                ),
+                _buildComponentCard(
+                  context,
+                  'Cards',
+                  Icons.credit_card,
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const CardExample(),
                     ),
                   ),
                 ),
@@ -425,6 +449,18 @@ class ExamplesScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => const SwitchButtonExample(),
+                    ),
+                  ),
+                ),
+                _buildExampleTile(
+                  context,
+                  'Avatar Examples',
+                  'User avatars with icons, images, and text',
+                  Icons.account_circle,
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const AvatarExample(),
                     ),
                   ),
                 ),
@@ -594,6 +630,18 @@ class ExamplesScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => const WrapExample(),
+                    ),
+                  ),
+                ),
+                _buildExampleTile(
+                  context,
+                  'Card Examples',
+                  'Cards with actions and interactive content',
+                  Icons.touch_app,
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const CardExample(),
                     ),
                   ),
                 ),
