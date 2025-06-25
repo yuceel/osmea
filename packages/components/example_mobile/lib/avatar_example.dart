@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:osmea_components/osmea_components.dart';
-import 'package:osmea_components/src/enums/components_enum.dart';
-import 'package:osmea_components/src/utils/avatar_extensions.dart';
 
 /// 👤 **OSMEA Avatar Examples**
 ///
@@ -223,7 +221,7 @@ class _AvatarExampleState extends State<AvatarExample> {
                 OsmeaComponents.avatar(
                   appearance: ComponentAppearance.ghost,
                   icon: Icons.person,
-                  backgroundColor: OsmeaColors.ash.withOpacity(0.1),
+                  backgroundColor: OsmeaColors.ash.withValues(alpha: 0.1),
                 ),
                 OsmeaComponents.sizedBox(height: 8),
                 OsmeaComponents.text(
@@ -539,7 +537,7 @@ class _AvatarExampleState extends State<AvatarExample> {
     return OsmeaComponents.column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSubsectionTitle('Size Extensions'),
+        _buildSubsectionTitle('Size Categories'),
         OsmeaComponents.sizedBox(height: 16),
         OsmeaComponents.wrap(
           spacing: 16,
@@ -547,23 +545,23 @@ class _AvatarExampleState extends State<AvatarExample> {
           children: [
             _buildExtensionDemoItem(
               'Small Sizes',
-              ComponentSize.small.isSmall ? '✅ Is Small' : '❌ Not Small',
+              '✅ Extra Small & Small',
               ComponentSize.small,
             ),
             _buildExtensionDemoItem(
               'Medium Size',
-              ComponentSize.medium.isMedium ? '✅ Is Medium' : '❌ Not Medium',
+              '✅ Standard Size',
               ComponentSize.medium,
             ),
             _buildExtensionDemoItem(
               'Large Sizes',
-              ComponentSize.large.isLarge ? '✅ Is Large' : '❌ Not Large',
+              '✅ Large & Extra Large',
               ComponentSize.large,
             ),
           ],
         ),
         OsmeaComponents.sizedBox(height: 24),
-        _buildSubsectionTitle('Appearance Extensions'),
+        _buildSubsectionTitle('Appearance Features'),
         OsmeaComponents.sizedBox(height: 16),
         OsmeaComponents.wrap(
           spacing: 16,
@@ -587,22 +585,23 @@ class _AvatarExampleState extends State<AvatarExample> {
           ],
         ),
         OsmeaComponents.sizedBox(height: 24),
-        _buildSubsectionTitle('Responsive Extensions'),
+        _buildSubsectionTitle('Responsive Design'),
         OsmeaComponents.sizedBox(height: 16),
         _buildResponsiveDemo(),
         OsmeaComponents.sizedBox(height: 24),
-        _buildSubsectionTitle('Extension Configuration Demo'),
+        _buildSubsectionTitle('Configuration Examples'),
         OsmeaComponents.sizedBox(height: 16),
         _buildConfigurationDemo(),
         OsmeaComponents.sizedBox(height: 24),
-        _buildSubsectionTitle('Content Type Extensions'),
+        _buildSubsectionTitle('Content Types'),
         OsmeaComponents.sizedBox(height: 16),
         _buildContentTypeDemo(),
       ],
     );
   }
 
-  Widget _buildExtensionDemoItem(String title, String status, ComponentSize size) {
+  Widget _buildExtensionDemoItem(
+      String title, String status, ComponentSize size) {
     return OsmeaComponents.column(
       children: [
         OsmeaComponents.avatar(
@@ -626,7 +625,8 @@ class _AvatarExampleState extends State<AvatarExample> {
     );
   }
 
-  Widget _buildAppearanceDemo(String title, String status, ComponentAppearance appearance) {
+  Widget _buildAppearanceDemo(
+      String title, String status, ComponentAppearance appearance) {
     return OsmeaComponents.column(
       children: [
         OsmeaComponents.avatar(
@@ -668,7 +668,7 @@ class _AvatarExampleState extends State<AvatarExample> {
               children: [
                 OsmeaComponents.avatar(
                   text: 'SM',
-                  size: ComponentSize.large.responsiveSize(context),
+                  size: ComponentSize.large,
                   backgroundColor: OsmeaColors.forestHeart,
                 ),
                 OsmeaComponents.sizedBox(height: 4),
@@ -682,7 +682,7 @@ class _AvatarExampleState extends State<AvatarExample> {
               children: [
                 OsmeaComponents.avatar(
                   text: 'MD',
-                  size: ComponentSize.medium.responsiveSize(context),
+                  size: ComponentSize.medium,
                   backgroundColor: OsmeaColors.sunsetGlow,
                 ),
                 OsmeaComponents.sizedBox(height: 4),
@@ -696,7 +696,7 @@ class _AvatarExampleState extends State<AvatarExample> {
               children: [
                 OsmeaComponents.avatar(
                   text: 'LG',
-                  size: ComponentSize.extraLarge.responsiveSize(context),
+                  size: ComponentSize.extraLarge,
                   backgroundColor: OsmeaColors.azureWave,
                 ),
                 OsmeaComponents.sizedBox(height: 4),
@@ -710,7 +710,7 @@ class _AvatarExampleState extends State<AvatarExample> {
         ),
         OsmeaComponents.sizedBox(height: 12),
         OsmeaComponents.text(
-          'These avatars automatically adjust their size based on screen width using the responsive extension.',
+          'These avatars demonstrate different size categories without requiring responsive calculations.',
           variant: OsmeaTextVariant.bodySmall,
           color: OsmeaColors.pewter,
         ),
@@ -723,7 +723,7 @@ class _AvatarExampleState extends State<AvatarExample> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         OsmeaComponents.text(
-          'Extension Configuration Methods',
+          'Avatar Configuration Examples',
           variant: OsmeaTextVariant.bodyMedium,
           color: OsmeaColors.nordicBlue,
         ),
@@ -741,11 +741,11 @@ class _AvatarExampleState extends State<AvatarExample> {
                 ),
                 OsmeaComponents.sizedBox(height: 8),
                 OsmeaComponents.text(
-                  'Size: ${ComponentSize.large.avatarSize(context).toInt()}px',
+                  'Size: 64px',
                   variant: OsmeaTextVariant.labelSmall,
                 ),
                 OsmeaComponents.text(
-                  'Icon: ${ComponentSize.large.iconSize(context).toInt()}px',
+                  'Icon: 32px',
                   variant: OsmeaTextVariant.bodySmall,
                   color: OsmeaColors.pewter,
                 ),
@@ -756,13 +756,13 @@ class _AvatarExampleState extends State<AvatarExample> {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                    borderRadius: ComponentSize.medium.borderRadius(context),
+                    borderRadius: BorderRadius.circular(24),
                     color: OsmeaColors.nordicBlue,
                   ),
                   child: OsmeaComponents.avatar(
                     icon: Icons.border_all,
                     size: ComponentSize.medium,
-                    borderRadius: ComponentSize.medium.borderRadius(context),
+                    borderRadius: BorderRadius.circular(24),
                   ),
                 ),
                 OsmeaComponents.sizedBox(height: 8),
@@ -771,7 +771,7 @@ class _AvatarExampleState extends State<AvatarExample> {
                   variant: OsmeaTextVariant.labelSmall,
                 ),
                 OsmeaComponents.text(
-                  'From Extension',
+                  'Radius: 24px',
                   variant: OsmeaTextVariant.bodySmall,
                   color: OsmeaColors.pewter,
                 ),
@@ -791,7 +791,7 @@ class _AvatarExampleState extends State<AvatarExample> {
                   variant: OsmeaTextVariant.labelSmall,
                 ),
                 OsmeaComponents.text(
-                  'Font: ${ComponentSize.large.textStyle(context).fontSize?.toInt()}px',
+                  'Font: 20px',
                   variant: OsmeaTextVariant.bodySmall,
                   color: OsmeaColors.pewter,
                 ),
@@ -801,7 +801,7 @@ class _AvatarExampleState extends State<AvatarExample> {
         ),
         OsmeaComponents.sizedBox(height: 12),
         OsmeaComponents.text(
-          'These avatars use extension methods like .avatarSize(), .iconSize(), .borderRadius(), and .textStyle() to get configuration values.',
+          'These avatars show standard size configurations for different avatar components.',
           variant: OsmeaTextVariant.bodySmall,
           color: OsmeaColors.pewter,
         ),
@@ -810,15 +810,15 @@ class _AvatarExampleState extends State<AvatarExample> {
   }
 
   Widget _buildContentTypeDemo() {
-    final iconData = Icons.star;
-    final textData = 'AB';
-    final imageUrl = 'https://picsum.photos/200/200?random=1';
-    
+    const iconData = Icons.star;
+    const textData = 'AB';
+    const imageUrl = 'https://picsum.photos/200/200?random=1';
+
     return OsmeaComponents.column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         OsmeaComponents.text(
-          'Content Type Detection',
+          'Content Type Examples',
           variant: OsmeaTextVariant.bodyMedium,
           color: OsmeaColors.nordicBlue,
         ),
@@ -840,7 +840,7 @@ class _AvatarExampleState extends State<AvatarExample> {
                   variant: OsmeaTextVariant.labelSmall,
                 ),
                 OsmeaComponents.text(
-                  iconData.isIconData ? '✅ Is Icon' : '❌ Not Icon',
+                  '✅ Icon Content',
                   variant: OsmeaTextVariant.bodySmall,
                   color: OsmeaColors.pewter,
                 ),
@@ -859,7 +859,7 @@ class _AvatarExampleState extends State<AvatarExample> {
                   variant: OsmeaTextVariant.labelSmall,
                 ),
                 OsmeaComponents.text(
-                  textData.isString ? '✅ Is String' : '❌ Not String',
+                  '✅ Text Content',
                   variant: OsmeaTextVariant.bodySmall,
                   color: OsmeaColors.pewter,
                 ),
@@ -877,7 +877,7 @@ class _AvatarExampleState extends State<AvatarExample> {
                   variant: OsmeaTextVariant.labelSmall,
                 ),
                 OsmeaComponents.text(
-                  imageUrl.isString ? '✅ Is String' : '❌ Not String',
+                  '✅ Image Content',
                   variant: OsmeaTextVariant.bodySmall,
                   color: OsmeaColors.pewter,
                 ),
@@ -887,7 +887,7 @@ class _AvatarExampleState extends State<AvatarExample> {
         ),
         OsmeaComponents.sizedBox(height: 12),
         OsmeaComponents.text(
-          'These extensions help identify content types for proper avatar rendering and validation.',
+          'These examples show different content types supported by avatar components.',
           variant: OsmeaTextVariant.bodySmall,
           color: OsmeaColors.pewter,
         ),

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:osmea_components/src/core/container_widget.dart';
-import 'package:osmea_components/src/enums/components_enum.dart';
-import 'package:osmea_components/src/styles/colors.dart';
+import 'package:osmea_components/osmea_components.dart';
 
 /// 👤 **OSMEA Avatar** - Comprehensive avatar component
 ///
