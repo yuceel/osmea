@@ -80,10 +80,10 @@ class _TicketWidgetExampleState extends State<TicketWidgetExample> {
         child: OsmeaComponents.column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
+            Icon(
               Icons.error_outline,
               size: 64,
-              color: Colors.red,
+              color: OsmeaColors.amberFlame,
             ),
             OsmeaComponents.sizedBox(height: 16),
             OsmeaComponents.text(
@@ -172,20 +172,21 @@ class _TicketWidgetExampleState extends State<TicketWidgetExample> {
     }
   }
 
-  void _showSnackBar(String message, {bool isSuccess = false, bool isError = false}) {
+  void _showSnackBar(String message,
+      {bool isSuccess = false, bool isError = false}) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: OsmeaComponents.text(
           message,
-          color: Colors.white,
+          color: OsmeaColors.white,
         ),
-        backgroundColor: isError 
-            ? Colors.red 
-            : isSuccess 
-                ? Colors.green 
-                : Colors.blue,
+        backgroundColor: isError
+            ? OsmeaColors.amberFlame
+            : isSuccess
+                ? OsmeaColors.forestHeart
+                : OsmeaColors.nordicBlue,
         duration: const Duration(seconds: 3),
       ),
     );
   }
-} 
+}
