@@ -5,8 +5,11 @@ import 'package:flutter/gestures.dart';
 // Component imports
 import 'package:osmea_components/src/components/align/align.dart';
 import 'package:osmea_components/src/components/appbar/appbar.dart';
+import 'package:osmea_components/src/components/avatar/avatar.dart';
 import 'package:osmea_components/src/components/badge/badge.dart';
+import 'package:osmea_components/src/components/bottom_sheet/bottom_sheet.dart';
 import 'package:osmea_components/src/components/buttons/button.dart';
+import 'package:osmea_components/src/components/cards/cards.dart';
 import 'package:osmea_components/src/components/center/center.dart';
 import 'package:osmea_components/src/components/checkbox/checkbox.dart';
 import 'package:osmea_components/src/components/chips/chips.dart';
@@ -32,7 +35,9 @@ import 'package:osmea_components/src/theme/theme.dart';
 import 'package:osmea_components/src/components/text/text.dart';
 import 'package:osmea_components/src/components/carousel/carousel.dart';
 import 'package:osmea_components/src/components/list_item/list_item.dart';
-import 'package:osmea_components/src/utils/loading_extensions.dart';
+import 'package:osmea_components/src/components/ticket_widget/ticket_widget.dart';
+import 'package:osmea_components/src/components/ticket_widget/models/ticket_models.dart';
+import 'package:osmea_components/src/components/popup/popup.dart';
 
 import 'enums/enums.dart';
 
@@ -195,6 +200,69 @@ class OsmeaComponents {
       tooltip: tooltip,
       autofocus: autofocus,
       backgroundColor: backgroundColor,
+    );
+  }
+
+  /// 👤 **OSMEA Avatar** - Comprehensive avatar component
+  ///
+  /// Creates a versatile avatar component with support for:
+  /// - All component sizes (extraSmall to extraLarge)
+  /// - All appearance variants (filled, outlined, elevated, etc.)
+  /// - Multiple content types (icon, image, imageUrl, text)
+  /// - Interactive features (onTap, onLongPress)
+  /// - Customizable styling (backgroundColor, borderColor, borderWidth)
+  ///
+  /// Example:
+  /// ```dart
+  /// OsmeaComponents.avatar(
+  ///   size: ComponentSize.large,
+  ///   appearance: ComponentAppearance.elevated,
+  ///   icon: Icons.person,
+  ///   backgroundColor: OsmeaColors.nordicBlue,
+  ///   onTap: () => showUserProfile(),
+  /// )
+  /// ```
+  static Widget avatar({
+    Key? key,
+    CoreTheme? customTheme,
+    ComponentSize size = ComponentSize.medium,
+    ComponentAppearance appearance = ComponentAppearance.filled,
+    ComponentOrientation orientation = ComponentOrientation.horizontal,
+    IconData? icon,
+    ImageProvider? image,
+    String? imageUrl,
+    String? text,
+    Color? backgroundColor,
+    Color? borderColor,
+    double borderWidth = 0.0,
+    VoidCallback? onTap,
+    VoidCallback? onLongPress,
+    double elevation = 0.0,
+    Color? shadowColor,
+    BorderRadius? borderRadius,
+    String? semanticLabel,
+    Object? heroTag,
+  }) {
+    return OsmeaAvatar(
+      key: key,
+      customTheme: customTheme,
+      size: size,
+      appearance: appearance,
+      orientation: orientation,
+      icon: icon,
+      image: image,
+      imageUrl: imageUrl,
+      text: text,
+      backgroundColor: backgroundColor,
+      borderColor: borderColor,
+      borderWidth: borderWidth,
+      onTap: onTap,
+      onLongPress: onLongPress,
+      elevation: elevation,
+      shadowColor: shadowColor,
+      borderRadius: borderRadius,
+      semanticLabel: semanticLabel,
+      heroTag: heroTag,
     );
   }
 
@@ -875,6 +943,108 @@ class OsmeaComponents {
       margin: margin,
       animationDuration: animationDuration,
       child: child,
+    );
+  }
+
+  /// 📋 **OSMEA Bottom Sheet** - Comprehensive bottom sheet component
+  ///
+  /// Creates a feature-rich bottom sheet component with support for:
+  /// - Four size variants (small, medium, large, actionBar)
+  /// - Multiple style variants (standard, modal, persistent, floating, actionBar)
+  /// - Interactive states (collapsed, expanded, dragging, animating)
+  /// - Drag handle customization
+  /// - Title, subtitle, and action support
+  /// - Action bar with left/right action buttons
+  /// - Full customization options
+  ///
+  /// Example:
+  /// ```dart
+  /// OsmeaComponents.bottomSheet(
+  ///   size: BottomSheetSize.medium,
+  ///   variant: BottomSheetVariant.actionBar,
+  ///   title: 'Settings',
+  ///   leftAction: OsmeaComponents.iconButton(
+  ///     icon: Icon(Icons.close),
+  ///     onPressed: () => Navigator.pop(context),
+  ///   ),
+  ///   rightAction: OsmeaComponents.button(
+  ///     text: 'Save',
+  ///     onPressed: () => handleSave(),
+  ///   ),
+  ///   child: SettingsContent(),
+  ///   onDismiss: () => Navigator.pop(context),
+  /// )
+  /// ```
+  static Widget bottomSheet({
+    Key? key,
+    CoreTheme? customTheme,
+    required Widget child,
+    BottomSheetSize size = BottomSheetSize.medium,
+    BottomSheetVariant variant = BottomSheetVariant.standard,
+    BottomSheetState state = BottomSheetState.expanded,
+    BottomSheetHandle handle = BottomSheetHandle.auto,
+    BottomSheetAnimationType animationType = BottomSheetAnimationType.slide,
+    String? title,
+    TextStyle? titleStyle,
+    String? subtitle,
+    TextStyle? subtitleStyle,
+    List<Widget>? headerActions,
+    Widget? footer,
+    bool isDismissible = true,
+    bool enableDrag = true,
+    VoidCallback? onDismiss,
+    ValueChanged<BottomSheetState>? onStateChanged,
+    Color? backgroundColor,
+    Color? barrierColor,
+    double? elevation,
+    EdgeInsetsGeometry? padding,
+    EdgeInsetsGeometry? margin,
+    Duration? animationDuration,
+    bool isScrollControlled = true,
+    BoxConstraints? constraints,
+    bool showDragIndicator = true,
+    ShapeBorder? shape,
+    // Action Bar parameters
+    Widget? leftAction,
+    Widget? rightAction,
+    bool showActionBorder = true,
+    Color? actionBarBackgroundColor,
+    Color? actionBarBorderColor,
+  }) {
+    return OsmeaBottomSheet(
+      key: key,
+      customTheme: customTheme,
+      child: child,
+      size: size,
+      variant: variant,
+      state: state,
+      handle: handle,
+      animationType: animationType,
+      title: title,
+      titleStyle: titleStyle,
+      subtitle: subtitle,
+      subtitleStyle: subtitleStyle,
+      headerActions: headerActions,
+      footer: footer,
+      isDismissible: isDismissible,
+      enableDrag: enableDrag,
+      onDismiss: onDismiss,
+      onStateChanged: onStateChanged,
+      backgroundColor: backgroundColor,
+      barrierColor: barrierColor,
+      elevation: elevation,
+      padding: padding,
+      margin: margin,
+      animationDuration: animationDuration,
+      isScrollControlled: isScrollControlled,
+      constraints: constraints,
+      showDragIndicator: showDragIndicator,
+      shape: shape,
+      leftAction: leftAction,
+      rightAction: rightAction,
+      showActionBorder: showActionBorder,
+      actionBarBackgroundColor: actionBarBackgroundColor,
+      actionBarBorderColor: actionBarBorderColor,
     );
   }
 
@@ -1578,6 +1748,294 @@ class OsmeaComponents {
     );
   }
 
+  /// 🃏 **OSMEA Basic Card** - Simple and flexible card component
+  ///
+  /// Creates a basic card component with support for:
+  /// - All card variants (flat, elevated, outlined)
+  /// - All sizes (small, medium, large, extraLarge)
+  /// - Title, subtitle, and content text
+  /// - Custom styling for each text element
+  /// - Interactive tap functionality
+  /// - Full customization options
+  ///
+  /// Example:
+  /// ```dart
+  /// OsmeaComponents.basicCard(
+  ///   title: 'Card Title',
+  ///   subtitle: 'Card Subtitle',
+  ///   content: 'This is the main content of the card.',
+  ///   variant: CardVariant.elevated,
+  ///   size: ComponentSize.medium,
+  ///   onTap: () => print('Card tapped'),
+  /// )
+  /// ```
+  static Widget basicCard({
+    Key? key,
+    CoreTheme? customTheme,
+    String? title,
+    String? subtitle,
+    String? content,
+    ComponentAppearance variant = ComponentAppearance.filled,
+    ComponentSize size = ComponentSize.medium,
+    VoidCallback? onTap,
+    double? elevation,
+    BorderRadius? borderRadius,
+    Color? backgroundColor,
+    Color? borderColor,
+    Color? shadowColor,
+    EdgeInsetsGeometry? margin,
+    double? width,
+    double? height,
+    TextStyle? titleStyle,
+    TextStyle? subtitleStyle,
+    TextStyle? contentStyle,
+    Color? titleColor,
+    Color? subtitleColor,
+    Color? contentColor,
+    double? spacing,
+    Widget? customContent,
+  }) {
+    return OsmeaBasicCard(
+      key: key,
+      customTheme: customTheme,
+      title: title,
+      subtitle: subtitle,
+      content: content,
+      variant: variant,
+      size: size,
+      onTap: onTap,
+      elevation: elevation,
+      borderRadius: borderRadius,
+      backgroundColor: backgroundColor,
+      borderColor: borderColor,
+      shadowColor: shadowColor,
+      margin: margin,
+      width: width,
+      height: height,
+      titleStyle: titleStyle,
+      subtitleStyle: subtitleStyle,
+      contentStyle: contentStyle,
+      titleColor: titleColor,
+      subtitleColor: subtitleColor,
+      contentColor: contentColor,
+      spacing: spacing,
+      customContent: customContent,
+    );
+  }
+
+  /// 🖼️ **OSMEA Image Card** - Comprehensive image card component
+  ///
+  /// Creates an image card component with support for:
+  /// - All card variants (elevated, outlined, filled)
+  /// - All sizes (small, medium, large)
+  /// - Multiple image sources (network, asset, widget)
+  /// - Various image positions (top, bottom, left, right, background)
+  /// - Text overlay with gradient support
+  /// - Loading and error states
+  /// - Interactive tap functionality
+  /// - Full customization options
+  ///
+  /// Example:
+  /// ```dart
+  /// OsmeaComponents.imageCard(
+  ///   title: 'Beautiful Landscape',
+  ///   subtitle: 'Nature Photography',
+  ///   imageUrl: 'https://example.com/image.jpg',
+  ///   height: 200,
+  ///   imagePosition: ImagePosition.top,
+  ///   onTap: () => print('Image card tapped'),
+  /// )
+  /// ```
+  static Widget imageCard({
+    Key? key,
+    CoreTheme? customTheme,
+    String? title,
+    String? subtitle,
+    String? content,
+    String? imageUrl,
+    String? imageAsset,
+    Widget? imageWidget,
+    double? imageHeight,
+    ComponentPosition imagePosition = ComponentPosition.top,
+    BoxFit imageFit = BoxFit.cover,
+    Alignment imageAlignment = Alignment.center,
+    bool showOverlay = false,
+    Gradient? overlayGradient,
+    ComponentAppearance variant = ComponentAppearance.filled,
+    ComponentSize size = ComponentSize.medium,
+    VoidCallback? onTap,
+    double? elevation,
+    BorderRadius? borderRadius,
+    Color? backgroundColor,
+    Color? borderColor,
+    Color? shadowColor,
+    EdgeInsetsGeometry? margin,
+    double? width,
+    double? height,
+    TextStyle? titleStyle,
+    TextStyle? subtitleStyle,
+    TextStyle? contentStyle,
+    Color? titleColor,
+    Color? subtitleColor,
+    Color? contentColor,
+    double? spacing,
+    Widget? loadingWidget,
+    Widget? errorWidget,
+    String? semanticLabel,
+    Widget? badge,
+    BadgePosition badgePosition = BadgePosition.topRight,
+    BorderRadius? imageBorderRadius,
+    Widget? child,
+  }) {
+    return OsmeaImageCard(
+      key: key,
+      customTheme: customTheme,
+      title: title,
+      subtitle: subtitle,
+      content: content,
+      imageUrl: imageUrl,
+      imageAsset: imageAsset,
+      imageWidget: imageWidget,
+      imageHeight: imageHeight,
+      imagePosition: imagePosition,
+      imageFit: imageFit,
+      imageAlignment: imageAlignment,
+      showOverlay: showOverlay,
+      overlayGradient: overlayGradient,
+      variant: variant,
+      size: size,
+      onTap: onTap,
+      elevation: elevation,
+      borderRadius: borderRadius,
+      backgroundColor: backgroundColor,
+      borderColor: borderColor,
+      shadowColor: shadowColor,
+      margin: margin,
+      width: width,
+      height: height,
+      titleStyle: titleStyle,
+      subtitleStyle: subtitleStyle,
+      contentStyle: contentStyle,
+      titleColor: titleColor,
+      subtitleColor: subtitleColor,
+      contentColor: contentColor,
+      spacing: spacing,
+      loadingWidget: loadingWidget,
+      errorWidget: errorWidget,
+      semanticLabel: semanticLabel,
+      badge: badge,
+      badgePosition: badgePosition,
+      imageBorderRadius: imageBorderRadius,
+      child: child,
+    );
+  }
+
+  /// 🔘 **OSMEA Action Card** - Comprehensive action card component
+  ///
+  /// Creates an action card component with support for:
+  /// - All card variants (elevated, outlined, filled)
+  /// - All sizes (small, medium, large)
+  /// - Primary and secondary action buttons
+  /// - Multiple button layouts (horizontal, vertical, stacked)
+  /// - Title, subtitle, and content text
+  /// - Custom button styling and icons
+  /// - Full customization options
+  ///
+  /// Example:
+  /// ```dart
+  /// OsmeaComponents.actionCard(
+  ///   title: 'Confirm Action',
+  ///   content: 'Are you sure you want to proceed?',
+  ///   primaryAction: 'Confirm',
+  ///   secondaryAction: 'Cancel',
+  ///   onPrimaryPressed: () => print('Confirmed'),
+  ///   onSecondaryPressed: () => print('Cancelled'),
+  ///   primaryVariant: ButtonVariant.primary,
+  ///   secondaryVariant: ButtonVariant.outlined,
+  /// )
+  /// ```
+  static Widget actionCard({
+    Key? key,
+    CoreTheme? customTheme,
+    String? title,
+    String? subtitle,
+    String? content,
+    String? primaryAction,
+    String? secondaryAction,
+    VoidCallback? onPrimaryPressed,
+    VoidCallback? onSecondaryPressed,
+    ButtonVariant primaryVariant = ButtonVariant.primary,
+    ButtonVariant secondaryVariant = ButtonVariant.outlined,
+    ButtonSize? primarySize,
+    ButtonSize? secondarySize,
+    Widget? primaryIcon,
+    Widget? secondaryIcon,
+    ComponentOrientation buttonLayout = ComponentOrientation.horizontal,
+    double? actionSpacing,
+    double? contentSpacing,
+    ComponentAppearance variant = ComponentAppearance.filled,
+    ComponentSize size = ComponentSize.medium,
+    double? elevation,
+    BorderRadius? borderRadius,
+    Color? backgroundColor,
+    Color? borderColor,
+    Color? shadowColor,
+    EdgeInsetsGeometry? margin,
+    double? width,
+    double? height,
+    TextStyle? titleStyle,
+    TextStyle? subtitleStyle,
+    TextStyle? contentStyle,
+    Color? titleColor,
+    Color? subtitleColor,
+    Color? contentColor,
+    Widget? customContent,
+    Widget? customActions,
+    Widget? leading,
+    Widget? trailing,
+  }) {
+    return OsmeaActionCard(
+      key: key,
+      customTheme: customTheme,
+      title: title,
+      subtitle: subtitle,
+      content: content,
+      primaryAction: primaryAction,
+      secondaryAction: secondaryAction,
+      onPrimaryPressed: onPrimaryPressed,
+      onSecondaryPressed: onSecondaryPressed,
+      primaryVariant: primaryVariant,
+      secondaryVariant: secondaryVariant,
+      primarySize: primarySize,
+      secondarySize: secondarySize,
+      primaryIcon: primaryIcon,
+      secondaryIcon: secondaryIcon,
+      buttonLayout: buttonLayout,
+      actionSpacing: actionSpacing,
+      contentSpacing: contentSpacing,
+      variant: variant,
+      size: size,
+      elevation: elevation,
+      borderRadius: borderRadius,
+      backgroundColor: backgroundColor,
+      borderColor: borderColor,
+      shadowColor: shadowColor,
+      margin: margin,
+      width: width,
+      height: height,
+      titleStyle: titleStyle,
+      subtitleStyle: subtitleStyle,
+      contentStyle: contentStyle,
+      titleColor: titleColor,
+      subtitleColor: subtitleColor,
+      contentColor: contentColor,
+      customContent: customContent,
+      customActions: customActions,
+      leading: leading,
+      trailing: trailing,
+    );
+  }
+
   /// 🎠 **OSMEA Carousel** - Flexible carousel component
   ///
   /// Creates a flexible carousel component with full customization options.
@@ -1787,6 +2245,208 @@ class OsmeaComponents {
     LoadingCubit? cubit,
   }) {
     return type.osmeaLoading(size: size, color: color, cubit: cubit);
+  }
+
+  /// 🎫 **OSMEA Ticket Widget** - Dynamic form generator for support tickets
+  ///
+  /// Creates comprehensive ticket forms from JSON configuration with multiple input types,
+  /// validation, progress tracking, and save as draft functionality.
+  ///
+  /// Example:
+  /// ```dart
+  /// TicketWidget(
+  ///   config: TicketFormConfig.fromJson(jsonConfig),
+  ///   onSubmit: (response) async {
+  ///     return await submitTicket(response);
+  ///   },
+  ///   onSaveAsDraft: (response) async {
+  ///     return await saveDraft(response);
+  ///   },
+  /// )
+  /// ```
+  static Widget ticketWidget({
+    Key? key,
+    required TicketFormConfig config,
+    Future<bool> Function(TicketResponse response)? onSubmit,
+    Future<bool> Function(TicketResponse response)? onSaveAsDraft,
+    VoidCallback? onCancel,
+    TicketResponse? initialResponse,
+    CoreTheme? customTheme,
+    EdgeInsetsGeometry? padding,
+    Color? backgroundColor,
+    bool? showProgressIndicator,
+    bool? enableSaveAsDraft,
+  }) {
+    return TicketWidget(
+      key: key,
+      config: config,
+      onSubmit: onSubmit,
+      onSaveAsDraft: onSaveAsDraft,
+      onCancel: onCancel,
+      initialResponse: initialResponse,
+      customTheme: customTheme,
+      padding: padding,
+      backgroundColor: backgroundColor,
+      showProgressIndicator: showProgressIndicator,
+      enableSaveAsDraft: enableSaveAsDraft,
+    );
+  }
+
+  /// 📱 **OSMEA Popup** - Versatile popup component with multiple variants
+  ///
+  /// Creates popup dialogs with support for different sizes, animations, positions and styles.
+  ///
+  /// Example:
+  /// ```dart
+  /// OsmeaComponents.popup(
+  ///   size: PopupSize.medium,
+  ///   variant: PopupVariant.modal,
+  ///   title: 'Settings',
+  ///   child: SettingsContent(),
+  /// )
+  /// ```
+  static popup({
+    Key? key,
+    CoreTheme? customTheme,
+    required Widget child,
+    PopupSize size = PopupSize.medium,
+    PopupVariant variant = PopupVariant.modal,
+    PopupState state = PopupState.visible,
+    PopupPosition position = PopupPosition.center,
+    PopupAnimationType animationType = PopupAnimationType.scale,
+    String? title,
+    TextStyle? titleStyle,
+    String? subtitle,
+    TextStyle? subtitleStyle,
+    List<Widget>? headerActions,
+    Widget? footer,
+    bool isDismissible = true,
+    VoidCallback? onDismiss,
+    ValueChanged<PopupState>? onStateChanged,
+    Color? backgroundColor,
+    Color? barrierColor,
+    double? elevation,
+    EdgeInsetsGeometry? padding,
+    EdgeInsetsGeometry? margin,
+    Duration? animationDuration,
+    BoxConstraints? constraints,
+    ShapeBorder? shape,
+    bool showCloseButton = true,
+    Widget? closeButtonIcon,
+    Duration? autoDismiss,
+    double? width,
+    double? height,
+  }) {
+    return OsmeaPopup(
+      key: key,
+      customTheme: customTheme,
+      child: child,
+      size: size,
+      variant: variant,
+      state: state,
+      position: position,
+      animationType: animationType,
+      title: title,
+      titleStyle: titleStyle,
+      subtitle: subtitle,
+      subtitleStyle: subtitleStyle,
+      headerActions: headerActions,
+      footer: footer,
+      isDismissible: isDismissible,
+      onDismiss: onDismiss,
+      onStateChanged: onStateChanged,
+      backgroundColor: backgroundColor,
+      barrierColor: barrierColor,
+      elevation: elevation,
+      padding: padding,
+      margin: margin,
+      animationDuration: animationDuration,
+      constraints: constraints,
+      shape: shape,
+      showCloseButton: showCloseButton,
+      closeButtonIcon: closeButtonIcon,
+      autoDismiss: autoDismiss,
+      width: width,
+      height: height,
+    );
+  }
+
+  /// 🚀 **Show OSMEA Popup** - Static method to display popup with navigation
+  ///
+  /// Convenient method to show popup with built-in navigation and state management.
+  ///
+  /// Example:
+  /// ```dart
+  /// OsmeaComponents.showPopup(
+  ///   context: context,
+  ///   child: MyContent(),
+  ///   variant: PopupVariant.modal,
+  /// );
+  /// ```
+  static Future<T?> showPopup<T>({
+    required BuildContext context,
+    required Widget child,
+    PopupSize size = PopupSize.medium,
+    PopupVariant variant = PopupVariant.modal,
+    PopupPosition position = PopupPosition.center,
+    PopupAnimationType animationType = PopupAnimationType.scale,
+    String? title,
+    TextStyle? titleStyle,
+    String? subtitle,
+    TextStyle? subtitleStyle,
+    List<Widget>? headerActions,
+    Widget? footer,
+    bool isDismissible = true,
+    VoidCallback? onDismiss,
+    ValueChanged<PopupState>? onStateChanged,
+    Color? backgroundColor,
+    Color? barrierColor,
+    double? elevation,
+    EdgeInsetsGeometry? padding,
+    EdgeInsetsGeometry? margin,
+    Duration? animationDuration,
+    BoxConstraints? constraints,
+    ShapeBorder? shape,
+    bool showCloseButton = true,
+    Widget? closeButtonIcon,
+    Duration? autoDismiss,
+    double? width,
+    double? height,
+    bool useRootNavigator = false,
+    RouteSettings? routeSettings,
+  }) {
+    return OsmeaPopup.show<T>(
+      context: context,
+      child: child,
+      size: size,
+      variant: variant,
+      position: position,
+      animationType: animationType,
+      title: title,
+      titleStyle: titleStyle,
+      subtitle: subtitle,
+      subtitleStyle: subtitleStyle,
+      headerActions: headerActions,
+      footer: footer,
+      isDismissible: isDismissible,
+      onDismiss: onDismiss,
+      onStateChanged: onStateChanged,
+      backgroundColor: backgroundColor,
+      barrierColor: barrierColor,
+      elevation: elevation,
+      padding: padding,
+      margin: margin,
+      animationDuration: animationDuration,
+      constraints: constraints,
+      shape: shape,
+      showCloseButton: showCloseButton,
+      closeButtonIcon: closeButtonIcon,
+      autoDismiss: autoDismiss,
+      width: width,
+      height: height,
+      useRootNavigator: useRootNavigator,
+      routeSettings: routeSettings,
+    );
   }
 }
 

@@ -38,6 +38,10 @@ export 'components_enum.dart';
 
 // Badge enums
 export 'badge_enums.dart';
+
+// Bottom Sheet enums
+export 'bottom_sheet_enums.dart';
+
 // Chips enums
 export 'chips_enums.dart';
 
@@ -49,6 +53,11 @@ export 'list_item_enums.dart';
 
 // Loading enums
 export 'loading_enums.dart';
+// Ticket enums
+export 'ticket_enums.dart';
+
+// Popup enums
+export 'popup_enums.dart';
 
 // ➕ Add other enum files here as they are created
 // export 'input_enums.dart';

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:osmea_components/osmea_components.dart';
 import 'package:osmea_components_example/align_example.dart';
+import 'package:osmea_components_example/avatar_example.dart';
 import 'package:osmea_components_example/carousel_example.dart';
 import 'package:osmea_components_example/chips_example.dart';
 import 'package:osmea_components_example/loading_example.dart';
@@ -11,6 +12,7 @@ import 'package:osmea_components_example/switch_button_example.dart';
 import 'package:osmea_components_example/radio_button_example.dart';
 import 'package:osmea_components_example/text_example.dart';
 import 'package:osmea_components_example/text_field_example.dart';
+import 'package:osmea_components_example/card_example.dart';
 import 'package:osmea_components_example/colors_example.dart';
 import 'package:osmea_components_example/button_example.dart';
 import 'package:osmea_components_example/badge_example.dart';
@@ -25,6 +27,9 @@ import 'package:osmea_components_example/scaffold_example.dart';
 import 'package:osmea_components_example/single_child_scroll_view_example.dart';
 import 'package:osmea_components_example/wrap_example.dart';
 import 'package:osmea_components_example/list_item_example.dart';
+import 'package:osmea_components_example/ticket_widget_example.dart';
+import 'package:osmea_components_example/bottom_sheet_example.dart';
+import 'package:osmea_components_example/popup_example.dart';
 
 void main() {
   runApp(const MyApp());
@@ -228,6 +233,17 @@ class ComponentsScreen extends StatelessWidget {
                 ),
                 _buildComponentCard(
                   context,
+                  'Avatar',
+                  Icons.account_circle,
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const AvatarExample(),
+                    ),
+                  ),
+                ),
+                _buildComponentCard(
+                  context,
                   'Text Components',
                   Icons.text_fields,
                   () => Navigator.push(
@@ -305,6 +321,17 @@ class ComponentsScreen extends StatelessWidget {
                 ),
                 _buildComponentCard(
                   context,
+                  'Cards',
+                  Icons.credit_card,
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const CardExample(),
+                    ),
+                  ),
+                ),
+                _buildComponentCard(
+                  context,
                   'Checkboxes',
                   Icons.check_box,
                   () => Navigator.push(
@@ -322,6 +349,39 @@ class ComponentsScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => const ColorsExample(),
+                    ),
+                  ),
+                ),
+                _buildComponentCard(
+                  context,
+                  'Ticket Widget',
+                  Icons.support_agent,
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const TicketWidgetExample(),
+                    ),
+                  ),
+                ),
+                _buildComponentCard(
+                  context,
+                  'Bottom Sheet',
+                  Icons.vertical_align_bottom,
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const BottomSheetExample(),
+                    ),
+                  ),
+                ),
+                _buildComponentCard(
+                  context,
+                  'Popup (S, M, L)',
+                  Icons.open_in_new,
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const PopupExample(),
                     ),
                   ),
                 ),
@@ -401,6 +461,18 @@ class ExamplesScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => const SwitchButtonExample(),
+                    ),
+                  ),
+                ),
+                _buildExampleTile(
+                  context,
+                  'Avatar Examples',
+                  'User avatars with icons, images, and text',
+                  Icons.account_circle,
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const AvatarExample(),
                     ),
                   ),
                 ),
@@ -570,6 +642,18 @@ class ExamplesScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => const WrapExample(),
+                    ),
+                  ),
+                ),
+                _buildExampleTile(
+                  context,
+                  'Card Examples',
+                  'Cards with actions and interactive content',
+                  Icons.touch_app,
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const CardExample(),
                     ),
                   ),
                 ),

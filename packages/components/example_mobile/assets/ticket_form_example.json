@@ -1,0 +1,216 @@
+{
+  "id": "technical_support_form",
+  "title": "Technical Support Request",
+  "description": "Please provide details about your technical issue so we can assist you better.",
+  "category": "technical",
+  "defaultPriority": "medium",
+  "size": "medium",
+  "settings": {
+    "showProgressIndicator": true,
+    "allowSaveAsDraft": true,
+    "requireAllFields": false,
+    "submitButtonText": "Submit Ticket",
+    "cancelButtonText": "Cancel",
+    "saveAsDraftButtonText": "Save as Draft"
+  },
+  "questions": [
+    {
+      "id": "user_name",
+      "label": "Full Name 123",
+      "hint": "Enter your full name",
+      "type": "textField",
+      "validationMode": "required",
+      "isRequired": true
+    },
+    {
+      "id": "user_email",
+      "label": "Email Address",
+      "hint": "Enter your email address",
+      "helperText": "We'll use this to contact you about your ticket",
+      "type": "email",
+      "validationMode": "email",
+      "isRequired": true
+    },
+    {
+      "id": "issue_category",
+      "label": "Issue Category",
+      "hint": "Select the category that best describes your issue",
+      "type": "singleSelect",
+      "validationMode": "required",
+      "isRequired": true,
+      "options": [
+        {
+          "id": "login_issues",
+          "label": "Login Issues",
+          "value": "login",
+          "description": "Problems with logging in or authentication"
+        },
+        {
+          "id": "performance_issues",
+          "label": "Performance Issues",
+          "value": "performance",
+          "description": "Slow loading, crashes, or freezing"
+        },
+        {
+          "id": "feature_not_working",
+          "label": "Feature Not Working",
+          "value": "feature",
+          "description": "A specific feature is not functioning as expected"
+        },
+        {
+          "id": "data_issues",
+          "label": "Data Issues",
+          "value": "data",
+          "description": "Missing, incorrect, or corrupted data"
+        },
+        {
+          "id": "other",
+          "label": "Other",
+          "value": "other",
+          "description": "Issue not covered by the above categories"
+        }
+      ]
+    },
+    {
+      "id": "priority_level",
+      "label": "Priority Level",
+      "hint": "How urgent is this issue?",
+      "type": "radioButton",
+      "validationMode": "required",
+      "isRequired": true,
+      "options": [
+        {
+          "id": "critical",
+          "label": "Critical",
+          "value": "critical",
+          "description": "System is down or blocking business operations"
+        },
+        {
+          "id": "high",
+          "label": "High",
+          "value": "high",
+          "description": "Major functionality is affected"
+        },
+        {
+          "id": "medium",
+          "label": "Medium",
+          "value": "medium",
+          "description": "Minor issues with workarounds available",
+          "isDefault": true
+        },
+        {
+          "id": "low",
+          "label": "Low",
+          "value": "low",
+          "description": "Enhancement requests or minor bugs"
+        }
+      ]
+    },
+    {
+      "id": "issue_description",
+      "label": "Issue Description",
+      "hint": "Please describe the issue in detail...",
+      "helperText": "Include steps to reproduce, expected vs actual behavior, and any error messages",
+      "type": "textArea",
+      "validationMode": "minLength",
+      "isRequired": true,
+      "constraints": {
+        "minLength": 20,
+        "maxLength": 2000
+      }
+    },
+    {
+      "id": "affected_features",
+      "label": "Affected Features",
+      "hint": "Select all features that are affected (optional)",
+      "type": "multiSelect",
+      "validationMode": "none",
+      "isRequired": false,
+      "options": [
+        {
+          "id": "dashboard",
+          "label": "Dashboard",
+          "value": "dashboard"
+        },
+        {
+          "id": "user_management",
+          "label": "User Management",
+          "value": "user_management"
+        },
+        {
+          "id": "reports",
+          "label": "Reports",
+          "value": "reports"
+        },
+        {
+          "id": "api",
+          "label": "API Integration",
+          "value": "api"
+        },
+        {
+          "id": "mobile_app",
+          "label": "Mobile App",
+          "value": "mobile_app"
+        },
+        {
+          "id": "web_interface",
+          "label": "Web Interface",
+          "value": "web_interface"
+        }
+      ]
+    },
+    {
+      "id": "when_occurred",
+      "label": "When did this issue first occur?",
+      "hint": "Select the date when you first noticed this issue",
+      "type": "dateTime",
+      "validationMode": "date",
+      "isRequired": false
+    },
+    {
+      "id": "contact_phone",
+      "label": "Phone Number",
+      "hint": "Enter your phone number (optional)",
+      "helperText": "Only if you prefer phone contact for urgent issues",
+      "type": "phone",
+      "validationMode": "phone",
+      "isRequired": false
+    },
+    {
+      "id": "system_info_url",
+      "label": "System Information URL",
+      "hint": "If you have a URL with system details, paste it here",
+      "type": "url",
+      "validationMode": "url",
+      "isRequired": false
+    },
+    {
+      "id": "satisfaction_rating",
+      "label": "Rate our previous support",
+      "hint": "How would you rate our previous support interactions?",
+      "type": "rating",
+      "validationMode": "none",
+      "isRequired": false,
+      "defaultValue": 0
+    },
+    {
+      "id": "urgency_confirmation",
+      "label": "I confirm this is an urgent issue requiring immediate attention",
+      "type": "checkbox",
+      "validationMode": "none",
+      "isRequired": false
+    },
+    {
+      "id": "attachment_count",
+      "label": "Number of attachments",
+      "hint": "How many files do you want to attach?",
+      "type": "number",
+      "validationMode": "number",
+      "isRequired": false,
+      "constraints": {
+        "min": 0,
+        "max": 5
+      }
+    }
+  ]
+} 

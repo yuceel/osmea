@@ -13,12 +13,12 @@ This document tracks the status of both design styles and reusable UI components
 | Navbar                        | 🟢     | 16.06.25   | 17.06.25 | Nisa Çolak         |
 | App Bar                       | 🟢     | 18.06.25   | 19.06.25 | Nurhayat Yurtaslan |
 | Buttons (Text, Icon, etc.)    | 🟢     | 14.06.25   | 16.06.25 | Nurhayat Yurtaslan, Nisa Çolak  |
-| Bottom Sheet (S, M, L)        | 🔴     | (TBD)      | (TBD)    | (To be assigned)   |
-| Pop Up (S, M, L)              | 🔴     | (TBD)      | (TBD)    | (To be assigned)   |
-| Menu Item                     | 🔴     | (TBD)      | (TBD)    | (To be assigned)   |
-| Card designs (S, M, L)        | 🟡     | 22.06.25   | (TBD)    |    Nisa Çolak      |
+| Bottom Sheet (S, M, L)        | 🟢     | 26.01.25   | 26.01.25 | @gurkanfikretgunak |
+| Pop Up (S, M, L)              | 🟢     | 25.06.25   | 25.06.25 | @gurkanfikretgunak |
+| Card designs (S, M, L)        | 🟢     | 22.06.25   | 25.06.25 |    Nisa Çolak      |
 | Textfields                    | 🟢     | 18.06.25   | 21.06.25 | Nisa Çolak         |
 | List Items                    | 🟢     | 23.06.25   | 24.06.25 | Nurhayat Yurtaslan |
+| Ticket Widget                 | 🟢     | 25.06.25   | 25.06.25 | @gurkanfikretgunak |
 | Snackbar - Toast              | 🔴     | (TBD)      | (TBD)    | (To be assigned)   |
 | Carousel                      | 🟢     | 22.06.25   | 22.06.25 | Nurhayat Yurtaslan |
 | Chips                         | 🟢     | 21.06.25   | 22.06.25 | Nurhayat Yurtaslan |

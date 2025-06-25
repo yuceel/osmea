@@ -21,6 +21,9 @@ export 'src/components/radio_button/radio_button.dart';
 // 🔑 Login Button
 export 'src/components/login_button/login_button.dart';
 
+export 'src/utils/avatar_extensions.dart';
+// 🖼️ Card
+export 'src/utils/card_extensions.dart';
 // 🔤 Text Field
 
 export 'src/components/text_field/cubit/otp_cubit.dart';
@@ -44,6 +47,7 @@ export 'src/utils/radio_size_extensions.dart';
 export 'src/utils/checkbox_size_extensions.dart';
 export 'src/utils/appbar_extensions.dart';
 export 'src/utils/badge_extensions.dart';
+export 'src/utils/bottom_sheet_extensions.dart';
 export 'src/utils/system_extension.dart';
 export 'src/utils/chips_extensions.dart';
 export 'src/utils/carousel_extensions.dart';
