@@ -332,21 +332,13 @@ class ColorsExample extends StatelessWidget {
   }
 
   Color _getContrastColor(Color color) {
-    if (color == OsmeaColors.transparent) return OsmeaColors.white;
-
-    final luminance = color.computeLuminance();
-    return luminance > 0.5
-        ? OsmeaColors.white
-            .withValues(red: 255, green: 255, blue: 255, alpha: 0.95)
-        : OsmeaColors.eclipse
-            .withValues(red: 33, green: 37, blue: 41, alpha: 0.95);
+    // Always use white background for the label area to ensure readability
+    return OsmeaColors.white;
   }
 
   Color _getTextColor(Color backgroundColor) {
-    if (backgroundColor == OsmeaColors.transparent) return OsmeaColors.eclipse;
-
-    final luminance = backgroundColor.computeLuminance();
-    return luminance > 0.5 ? OsmeaColors.eclipse : OsmeaColors.white;
+    // Always use dark text on the white label background for high contrast
+    return OsmeaColors.eclipse;
   }
 
   void _copyToClipboard(_ColorInfo colorInfo) {
