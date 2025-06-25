@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/gestures.dart';
+import 'package:osmea_components/osmea_components.dart';
 
 // Component imports
 import 'package:osmea_components/src/components/align/align.dart';
