@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:osmea_components/osmea_components.dart';
 import 'package:osmea_components/src/enums/components_enum.dart';
+import 'package:osmea_components/src/utils/avatar_extensions.dart';
 
 /// 👤 **OSMEA Avatar Examples**
 ///
@@ -60,6 +61,9 @@ class _AvatarExampleState extends State<AvatarExample> {
             OsmeaComponents.sizedBox(height: 32),
             _buildSectionTitle('👥 Avatar Groups'),
             _buildAvatarGroupsSection(),
+            OsmeaComponents.sizedBox(height: 32),
+            _buildSectionTitle('📱 Extension Features'),
+            _buildExtensionFeaturesSection(),
             OsmeaComponents.sizedBox(height: 32),
           ],
         ),
@@ -526,6 +530,366 @@ class _AvatarExampleState extends State<AvatarExample> {
           name,
           variant: OsmeaTextVariant.labelSmall,
           textAlign: TextAlign.center,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildExtensionFeaturesSection() {
+    return OsmeaComponents.column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildSubsectionTitle('Size Extensions'),
+        OsmeaComponents.sizedBox(height: 16),
+        OsmeaComponents.wrap(
+          spacing: 16,
+          runSpacing: 16,
+          children: [
+            _buildExtensionDemoItem(
+              'Small Sizes',
+              ComponentSize.small.isSmall ? '✅ Is Small' : '❌ Not Small',
+              ComponentSize.small,
+            ),
+            _buildExtensionDemoItem(
+              'Medium Size',
+              ComponentSize.medium.isMedium ? '✅ Is Medium' : '❌ Not Medium',
+              ComponentSize.medium,
+            ),
+            _buildExtensionDemoItem(
+              'Large Sizes',
+              ComponentSize.large.isLarge ? '✅ Is Large' : '❌ Not Large',
+              ComponentSize.large,
+            ),
+          ],
+        ),
+        OsmeaComponents.sizedBox(height: 24),
+        _buildSubsectionTitle('Appearance Extensions'),
+        OsmeaComponents.sizedBox(height: 16),
+        OsmeaComponents.wrap(
+          spacing: 16,
+          runSpacing: 16,
+          children: [
+            _buildAppearanceDemo(
+              'Solid Appearance',
+              'Has solid background color',
+              ComponentAppearance.filled,
+            ),
+            _buildAppearanceDemo(
+              'Transparent',
+              'Uses transparent background',
+              ComponentAppearance.outlined,
+            ),
+            _buildAppearanceDemo(
+              'Has Emphasis',
+              'Elevated with shadow effect',
+              ComponentAppearance.elevated,
+            ),
+          ],
+        ),
+        OsmeaComponents.sizedBox(height: 24),
+        _buildSubsectionTitle('Responsive Extensions'),
+        OsmeaComponents.sizedBox(height: 16),
+        _buildResponsiveDemo(),
+        OsmeaComponents.sizedBox(height: 24),
+        _buildSubsectionTitle('Extension Configuration Demo'),
+        OsmeaComponents.sizedBox(height: 16),
+        _buildConfigurationDemo(),
+        OsmeaComponents.sizedBox(height: 24),
+        _buildSubsectionTitle('Content Type Extensions'),
+        OsmeaComponents.sizedBox(height: 16),
+        _buildContentTypeDemo(),
+      ],
+    );
+  }
+
+  Widget _buildExtensionDemoItem(String title, String status, ComponentSize size) {
+    return OsmeaComponents.column(
+      children: [
+        OsmeaComponents.avatar(
+          icon: Icons.star,
+          size: size,
+          backgroundColor: OsmeaColors.nordicBlue,
+        ),
+        OsmeaComponents.sizedBox(height: 8),
+        OsmeaComponents.text(
+          title,
+          variant: OsmeaTextVariant.labelSmall,
+          textAlign: TextAlign.center,
+        ),
+        OsmeaComponents.text(
+          status,
+          variant: OsmeaTextVariant.bodySmall,
+          color: OsmeaColors.pewter,
+          textAlign: TextAlign.center,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAppearanceDemo(String title, String status, ComponentAppearance appearance) {
+    return OsmeaComponents.column(
+      children: [
+        OsmeaComponents.avatar(
+          icon: Icons.palette,
+          size: ComponentSize.medium,
+          appearance: appearance,
+          borderWidth: appearance == ComponentAppearance.outlined ? 2.0 : 0.0,
+        ),
+        OsmeaComponents.sizedBox(height: 8),
+        OsmeaComponents.text(
+          title,
+          variant: OsmeaTextVariant.labelSmall,
+          textAlign: TextAlign.center,
+        ),
+        OsmeaComponents.text(
+          status,
+          variant: OsmeaTextVariant.bodySmall,
+          color: OsmeaColors.pewter,
+          textAlign: TextAlign.center,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildResponsiveDemo() {
+    return OsmeaComponents.column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        OsmeaComponents.text(
+          'Responsive Size Demonstration',
+          variant: OsmeaTextVariant.bodyMedium,
+          color: OsmeaColors.nordicBlue,
+        ),
+        OsmeaComponents.sizedBox(height: 12),
+        OsmeaComponents.row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            OsmeaComponents.column(
+              children: [
+                OsmeaComponents.avatar(
+                  text: 'SM',
+                  size: ComponentSize.large.responsiveSize(context),
+                  backgroundColor: OsmeaColors.forestHeart,
+                ),
+                OsmeaComponents.sizedBox(height: 4),
+                OsmeaComponents.text(
+                  'Responsive',
+                  variant: OsmeaTextVariant.labelSmall,
+                ),
+              ],
+            ),
+            OsmeaComponents.column(
+              children: [
+                OsmeaComponents.avatar(
+                  text: 'MD',
+                  size: ComponentSize.medium.responsiveSize(context),
+                  backgroundColor: OsmeaColors.sunsetGlow,
+                ),
+                OsmeaComponents.sizedBox(height: 4),
+                OsmeaComponents.text(
+                  'Adaptive',
+                  variant: OsmeaTextVariant.labelSmall,
+                ),
+              ],
+            ),
+            OsmeaComponents.column(
+              children: [
+                OsmeaComponents.avatar(
+                  text: 'LG',
+                  size: ComponentSize.extraLarge.responsiveSize(context),
+                  backgroundColor: OsmeaColors.azureWave,
+                ),
+                OsmeaComponents.sizedBox(height: 4),
+                OsmeaComponents.text(
+                  'Dynamic',
+                  variant: OsmeaTextVariant.labelSmall,
+                ),
+              ],
+            ),
+          ],
+        ),
+        OsmeaComponents.sizedBox(height: 12),
+        OsmeaComponents.text(
+          'These avatars automatically adjust their size based on screen width using the responsive extension.',
+          variant: OsmeaTextVariant.bodySmall,
+          color: OsmeaColors.pewter,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildConfigurationDemo() {
+    return OsmeaComponents.column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        OsmeaComponents.text(
+          'Extension Configuration Methods',
+          variant: OsmeaTextVariant.bodyMedium,
+          color: OsmeaColors.nordicBlue,
+        ),
+        OsmeaComponents.sizedBox(height: 12),
+        OsmeaComponents.wrap(
+          spacing: 16,
+          runSpacing: 16,
+          children: [
+            // Demonstrate size configuration
+            OsmeaComponents.column(
+              children: [
+                OsmeaComponents.avatar(
+                  icon: Icons.settings,
+                  size: ComponentSize.large,
+                ),
+                OsmeaComponents.sizedBox(height: 8),
+                OsmeaComponents.text(
+                  'Size: ${ComponentSize.large.avatarSize(context).toInt()}px',
+                  variant: OsmeaTextVariant.labelSmall,
+                ),
+                OsmeaComponents.text(
+                  'Icon: ${ComponentSize.large.iconSize(context).toInt()}px',
+                  variant: OsmeaTextVariant.bodySmall,
+                  color: OsmeaColors.pewter,
+                ),
+              ],
+            ),
+            // Demonstrate border radius configuration
+            OsmeaComponents.column(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: ComponentSize.medium.borderRadius(context),
+                    color: OsmeaColors.nordicBlue,
+                  ),
+                  child: OsmeaComponents.avatar(
+                    icon: Icons.border_all,
+                    size: ComponentSize.medium,
+                    borderRadius: ComponentSize.medium.borderRadius(context),
+                  ),
+                ),
+                OsmeaComponents.sizedBox(height: 8),
+                OsmeaComponents.text(
+                  'Custom Border',
+                  variant: OsmeaTextVariant.labelSmall,
+                ),
+                OsmeaComponents.text(
+                  'From Extension',
+                  variant: OsmeaTextVariant.bodySmall,
+                  color: OsmeaColors.pewter,
+                ),
+              ],
+            ),
+            // Demonstrate text style configuration
+            OsmeaComponents.column(
+              children: [
+                OsmeaComponents.avatar(
+                  text: 'TX',
+                  size: ComponentSize.large,
+                  backgroundColor: OsmeaColors.forestHeart,
+                ),
+                OsmeaComponents.sizedBox(height: 8),
+                OsmeaComponents.text(
+                  'Text Style',
+                  variant: OsmeaTextVariant.labelSmall,
+                ),
+                OsmeaComponents.text(
+                  'Font: ${ComponentSize.large.textStyle(context).fontSize?.toInt()}px',
+                  variant: OsmeaTextVariant.bodySmall,
+                  color: OsmeaColors.pewter,
+                ),
+              ],
+            ),
+          ],
+        ),
+        OsmeaComponents.sizedBox(height: 12),
+        OsmeaComponents.text(
+          'These avatars use extension methods like .avatarSize(), .iconSize(), .borderRadius(), and .textStyle() to get configuration values.',
+          variant: OsmeaTextVariant.bodySmall,
+          color: OsmeaColors.pewter,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildContentTypeDemo() {
+    final iconData = Icons.star;
+    final textData = 'AB';
+    final imageUrl = 'https://picsum.photos/200/200?random=1';
+    
+    return OsmeaComponents.column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        OsmeaComponents.text(
+          'Content Type Detection',
+          variant: OsmeaTextVariant.bodyMedium,
+          color: OsmeaColors.nordicBlue,
+        ),
+        OsmeaComponents.sizedBox(height: 12),
+        OsmeaComponents.wrap(
+          spacing: 16,
+          runSpacing: 16,
+          children: [
+            OsmeaComponents.column(
+              children: [
+                OsmeaComponents.avatar(
+                  icon: iconData,
+                  size: ComponentSize.medium,
+                  backgroundColor: OsmeaColors.nordicBlue,
+                ),
+                OsmeaComponents.sizedBox(height: 8),
+                OsmeaComponents.text(
+                  'Icon Data',
+                  variant: OsmeaTextVariant.labelSmall,
+                ),
+                OsmeaComponents.text(
+                  iconData.isIconData ? '✅ Is Icon' : '❌ Not Icon',
+                  variant: OsmeaTextVariant.bodySmall,
+                  color: OsmeaColors.pewter,
+                ),
+              ],
+            ),
+            OsmeaComponents.column(
+              children: [
+                OsmeaComponents.avatar(
+                  text: textData,
+                  size: ComponentSize.medium,
+                  backgroundColor: OsmeaColors.forestHeart,
+                ),
+                OsmeaComponents.sizedBox(height: 8),
+                OsmeaComponents.text(
+                  'Text Data',
+                  variant: OsmeaTextVariant.labelSmall,
+                ),
+                OsmeaComponents.text(
+                  textData.isString ? '✅ Is String' : '❌ Not String',
+                  variant: OsmeaTextVariant.bodySmall,
+                  color: OsmeaColors.pewter,
+                ),
+              ],
+            ),
+            OsmeaComponents.column(
+              children: [
+                OsmeaComponents.avatar(
+                  imageUrl: imageUrl,
+                  size: ComponentSize.medium,
+                ),
+                OsmeaComponents.sizedBox(height: 8),
+                OsmeaComponents.text(
+                  'Image URL',
+                  variant: OsmeaTextVariant.labelSmall,
+                ),
+                OsmeaComponents.text(
+                  imageUrl.isString ? '✅ Is String' : '❌ Not String',
+                  variant: OsmeaTextVariant.bodySmall,
+                  color: OsmeaColors.pewter,
+                ),
+              ],
+            ),
+          ],
+        ),
+        OsmeaComponents.sizedBox(height: 12),
+        OsmeaComponents.text(
+          'These extensions help identify content types for proper avatar rendering and validation.',
+          variant: OsmeaTextVariant.bodySmall,
+          color: OsmeaColors.pewter,
         ),
       ],
     );
