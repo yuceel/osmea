@@ -345,70 +345,79 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
       ),
       child: Row(
         children: [
-          _buildTab(
-              'response', 0, Icons.data_object_rounded, _ideTheme, isNarrow),
-          if (!isNarrow) ...[
-            _buildTab('headers', 1, Icons.http_rounded, _ideTheme, isNarrow),
-            _buildTab('status', 2, Icons.timeline_rounded, _ideTheme, isNarrow),
-          ],
+          Flexible(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                children: [
+                  _buildTab(
+                      'response', 0, Icons.data_object_rounded, _ideTheme, isNarrow),
+                  if (!isNarrow) ...[
+                    _buildTab('headers', 1, Icons.http_rounded, _ideTheme, isNarrow),
+                    _buildTab('status', 2, Icons.timeline_rounded, _ideTheme, isNarrow),
+                  ],
 
-          // Format selector for response tab
-          if (_selectedTab == 0) ...[
-            const SizedBox(width: 16),
-            Container(
-              height: 20,
-              decoration: BoxDecoration(
-                color: _ideTheme
-                    ? const Color(0xFF3E3E42)
-                    : const Color(0xFFD1D5DB),
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: _formats.asMap().entries.map((entry) {
-                  final index = entry.key;
-                  final format = entry.value;
-                  final isSelected = _selectedFormat == index;
-
-                  return GestureDetector(
-                    onTap: () => setState(() {
-                      _selectedFormat = index;
-                      // Recalculate content with the new format
-                      if (widget.responseData != null) {
-                        _cachedContent[0] = _formatContent(index);
-                        _cachedLines[0] = _cachedContent[0]?.split('\n') ?? [];
-                        // Content displays instantly - no animation needed
-                      }
-                    }),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 2),
+                  // Format selector for response tab
+                  if (_selectedTab == 0) ...[
+                    const SizedBox(width: 16),
+                    Container(
+                      height: 20,
                       decoration: BoxDecoration(
-                        color: isSelected
-                            ? const Color(0xFF8B5CF6)
-                            : Colors.transparent,
+                        color: _ideTheme
+                            ? const Color(0xFF3E3E42)
+                            : const Color(0xFFD1D5DB),
                         borderRadius: BorderRadius.circular(4),
                       ),
-                      child: Text(
-                        format,
-                        style: TextStyle(
-                          color: isSelected
-                              ? Colors.white
-                              : (_ideTheme
-                                  ? const Color(0xFFCCCCCC)
-                                  : const Color(0xFF666666)),
-                          fontSize: 9,
-                          fontFamily: 'monospace',
-                          fontWeight: FontWeight.w500,
-                        ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: _formats.asMap().entries.map((entry) {
+                          final index = entry.key;
+                          final format = entry.value;
+                          final isSelected = _selectedFormat == index;
+
+                          return GestureDetector(
+                            onTap: () => setState(() {
+                              _selectedFormat = index;
+                              // Recalculate content with the new format
+                              if (widget.responseData != null) {
+                                _cachedContent[0] = _formatContent(index);
+                                _cachedLines[0] = _cachedContent[0]?.split('\n') ?? [];
+                                // Content displays instantly - no animation needed
+                              }
+                            }),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 2),
+                              decoration: BoxDecoration(
+                                color: isSelected
+                                    ? const Color(0xFF8B5CF6)
+                                    : Colors.transparent,
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: Text(
+                                format,
+                                style: TextStyle(
+                                  color: isSelected
+                                      ? Colors.white
+                                      : (_ideTheme
+                                          ? const Color(0xFFCCCCCC)
+                                          : const Color(0xFF666666)),
+                                  fontSize: 9,
+                                  fontFamily: 'monospace',
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          );
+                        }).toList(),
                       ),
                     ),
-                  );
-                }).toList(),
+                  ],
+                ],
               ),
             ),
-          ],
-
+          ),
           const Spacer(),
           _buildStatusIndicator(isNarrow),
         ],

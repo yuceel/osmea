@@ -157,6 +157,7 @@ class _BeautifulGradientButtonState extends State<BeautifulGradientButton>
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                 ),
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ],
                           ),
