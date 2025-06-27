@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import '../../../enums/enums.dart';
 
 /// Stepper State
 ///
@@ -191,28 +192,4 @@ class StepperState extends Equatable {
         'isCompleted: $isCompleted'
         ')';
   }
-}
-
-/// Step State Enum
-enum StepState {
-  /// Step not yet completed
-  pending,
-
-  /// Step is currently active
-  active,
-
-  /// Step successfully completed
-  completed,
-
-  /// Step has error
-  error,
-
-  /// Step has warning
-  warning,
-
-  /// Step is disabled
-  disabled,
-
-  /// Step is skipped
-  skipped,
 }
