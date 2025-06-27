@@ -39,6 +39,7 @@ import 'package:osmea_components/src/components/list_item/list_item.dart';
 import 'package:osmea_components/src/components/ticket_widget/ticket_widget.dart';
 import 'package:osmea_components/src/components/ticket_widget/models/ticket_models.dart';
 import 'package:osmea_components/src/components/popup/popup.dart';
+import 'package:osmea_components/src/components/stepper/stepper.dart';
 
 import 'enums/enums.dart';
 
@@ -2447,6 +2448,48 @@ class OsmeaComponents {
       height: height,
       useRootNavigator: useRootNavigator,
       routeSettings: routeSettings,
+    );
+  }
+
+  /// 🪜 **OSMEA Stepper** - Multi-step navigation component
+  ///
+  /// Example:
+  /// ```dart
+  /// OsmeaComponents.stepper(
+  ///   steps: [
+  ///     OsmeaStep(label: 'Step 1', content: OsmeaText('Content 1')),
+  ///     OsmeaStep(label: 'Step 2', content: OsmeaText('Content 2')),
+  ///   ],
+  ///   orientation: ComponentOrientation.horizontal,
+  /// )
+  /// ```
+  static Widget stepper({
+    Key? key,
+    CoreTheme? customTheme,
+    required List<OsmeaStep> steps,
+    ComponentOrientation orientation = ComponentOrientation.horizontal,
+    ComponentSize size = ComponentSize.medium,
+    ComponentState state = ComponentState.idle,
+    ComponentPosition position = ComponentPosition.top,
+    ComponentAppearance appearance = ComponentAppearance.filled,
+    int currentStep = 0,
+    ValueChanged<int>? onStepChanged,
+    bool allowStepTapping = true,
+    StepperStyle stepperStyle = StepperStyle.numberedWithLinesAndLabels,
+  }) {
+    return OsmeaStepper(
+      key: key,
+      customTheme: customTheme,
+      steps: steps,
+      orientation: orientation,
+      size: size,
+      state: state,
+      position: position,
+      appearance: appearance,
+      currentStep: currentStep,
+      onStepChanged: onStepChanged,
+      allowStepTapping: allowStepTapping,
+      stepperStyle: stepperStyle,
     );
   }
 }

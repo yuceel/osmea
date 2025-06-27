@@ -30,6 +30,7 @@ import 'package:osmea_components_example/list_item_example.dart';
 import 'package:osmea_components_example/ticket_widget_example.dart';
 import 'package:osmea_components_example/bottom_sheet_example.dart';
 import 'package:osmea_components_example/popup_example.dart';
+import 'package:osmea_components_example/stepper_example.dart';
 
 void main() {
   runApp(const MyApp());
@@ -349,6 +350,17 @@ class ComponentsScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => const ColorsExample(),
+                    ),
+                  ),
+                ),
+                _buildComponentCard(
+                  context,
+                  'Stepper',
+                  Icons.palette,
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const StepperExample(),
                     ),
                   ),
                 ),
