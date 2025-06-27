@@ -1,32 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:osmea_components/src/enums/components_enum.dart';
-
-/// Stepper display style options
-enum StepperStyle {
-  /// Dots with connecting lines and labels below
-  dotsWithLinesAndLabels,
-
-  /// Dots with connecting lines, no labels
-  dotsWithLines,
-
-  /// Dots without connecting lines, with labels below
-  dotsWithLabels,
-
-  /// Simple dots without lines or labels
-  dotsOnly,
-
-  /// Numbered circles with lines and labels
-  numberedWithLinesAndLabels,
-
-  /// Numbered circles with lines, no labels
-  numberedWithLines,
-
-  /// Numbered circles without lines, with labels
-  numberedWithLabels,
-
-  /// Simple numbered circles
-  numberedOnly,
-}
+import 'package:osmea_components/src/enums/stepper_enum.dart';
 
 extension StepperEnumExtensions on ComponentSize {
   double get stepCircleSize {
