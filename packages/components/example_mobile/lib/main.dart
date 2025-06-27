@@ -35,6 +35,7 @@ import 'package:osmea_components_example/stack_example.dart';
 import 'package:osmea_components_example/positioned_example.dart';
 import 'package:osmea_components_example/spacer_example.dart';
 import 'package:osmea_components_example/rich_text_example.dart';
+import 'package:osmea_components_example/stepper_example.dart';
 
 void main() {
   runApp(const MyApp());
@@ -365,6 +366,17 @@ class ComponentsScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => const ColorsExample(),
+                    ),
+                  ),
+                ),
+                _buildComponentCard(
+                  context,
+                  'Stepper',
+                  Icons.palette,
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const StepperExample(),
                     ),
                   ),
                 ),

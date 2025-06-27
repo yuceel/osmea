@@ -54,7 +54,7 @@ export 'src/utils/system_extension.dart';
 export 'src/utils/chips_extensions.dart';
 export 'src/utils/carousel_extensions.dart';
 export 'src/utils/list_item_extensions.dart';
-
+export 'src/utils/stepper_extension.dart';
 // Central export for all components
 export 'src/components.dart';
 
@@ -75,3 +75,5 @@ export 'src/components/loading/cubit/loading_state.dart';
 export 'src/components/rich_text/rich_text.dart';
 export 'src/components/rich_text/text_span.dart';
 
+
+export 'src/components/stepper/stepper.dart';
