@@ -15,7 +15,7 @@ This section includes foundational layout widgets rewritten or extended for cons
 | ScrollView             | 🟢     | 20.06.25      | 20.06.25    | Nurhayat Yurtaslan  |
 | SizedBox               | 🟢     | 20.06.25      | 20.06.25    | Nurhayat Yurtaslan  |
 | Wrap                   | 🟢     | 20.06.25      | 20.06.25    | Nurhayat Yurtaslan  |
-
+| Stack                  | 🟢     | 27.06.25      | 27.06.25    | Nurhayat Yurtaslan  |
 ---
 
 > [!NOTE]

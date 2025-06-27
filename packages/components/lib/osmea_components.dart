@@ -21,11 +21,13 @@ export 'src/components/radio_button/radio_button.dart';
 // 🔑 Login Button
 export 'src/components/login_button/login_button.dart';
 
+// 📦 Avatar
 export 'src/utils/avatar_extensions.dart';
+
 // 🖼️ Card
 export 'src/utils/card_extensions.dart';
-// 🔤 Text Field
 
+// 🔤 Text Field
 export 'src/components/text_field/cubit/otp_cubit.dart';
 export 'src/components/text_field/cubit/otp_state.dart';
 export 'src/components/text_field/cubit/text_field_cubit.dart';
@@ -59,14 +61,19 @@ export 'src/components.dart';
 // Enums and Cubit files
 export 'src/enums/enums.dart';
 
-// 🧩 Cubit
+// 🔄 Login Button Cubit
 export 'src/components/login_button/cubit/login_button_cubit.dart';
 export 'src/core/cubit_button/cubit/core_button_state.dart';
 export 'src/core/cubit_button/cubit/core_button_cubit.dart';
 
-// Loading
+// 🌀 Loading
 export 'src/utils/loading_extensions.dart';
 export 'src/components/loading/cubit/loading_cubit.dart';
 export 'src/components/loading/cubit/loading_state.dart';
+
+// 📝 Rich Text Components
+export 'src/components/rich_text/rich_text.dart';
+export 'src/components/rich_text/text_span.dart';
+
 
 export 'src/components/stepper/stepper.dart';
