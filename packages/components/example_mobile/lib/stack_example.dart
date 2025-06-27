@@ -232,27 +232,27 @@ class StackExample extends StatelessWidget {
               child: OsmeaComponents.stack(
                 children: [
                   Container(color: Colors.grey.shade200),
-                  Positioned(
+                  OsmeaComponents.positioned(
                     top: 10,
                     left: 10,
                     child: _buildColoredBox(color: Colors.red, size: 50),
                   ),
-                  Positioned(
+                  OsmeaComponents.positioned(
                     top: 10,
                     right: 10,
                     child: _buildColoredBox(color: Colors.green, size: 50),
                   ),
-                  Positioned(
+                  OsmeaComponents.positioned(
                     bottom: 10,
                     left: 10,
                     child: _buildColoredBox(color: Colors.blue, size: 50),
                   ),
-                  Positioned(
+                  OsmeaComponents.positioned(
                     bottom: 10,
                     right: 10,
                     child: _buildColoredBox(color: Colors.amber, size: 50),
                   ),
-                  Positioned(
+                  OsmeaComponents.positioned(
                     left: 0,
                     right: 0,
                     bottom: 0,
@@ -275,7 +275,7 @@ class StackExample extends StatelessWidget {
         ),
         OsmeaComponents.sizedBox(height: 16),
         _buildExampleWithCaption(
-          'Stack with Fractionally Positioned Children',
+          'Stack with positionedFill and positionedFractional',
           _buildContainer(
             SizedBox(
               width: double.infinity,
@@ -283,7 +283,7 @@ class StackExample extends StatelessWidget {
               child: OsmeaComponents.stack(
                 children: [
                   Container(color: Colors.grey.shade200),
-                  Positioned.fill(
+                  OsmeaComponents.positionedFill(
                     child: Container(
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
@@ -297,17 +297,20 @@ class StackExample extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Positioned(
-                    left: 20,
-                    top: 20,
-                    child: OsmeaComponents.text(
-                      'Fractional Positioning',
-                      textStyle: const TextStyle(
-                        fontWeight: FontWeight.bold,
+                  OsmeaComponents.positionedFractional(
+                    left: 0.1,
+                    top: 0.1,
+                    widthFactor: 0.8,
+                    heightFactor: 0.3,
+                    child: Container(
+                      color: Colors.amber.withOpacity(0.3),
+                      child: Center(
+                        child: OsmeaComponents.text(
+                            'Fractional Position (80% × 30%)'),
                       ),
                     ),
                   ),
-                  Positioned(
+                  OsmeaComponents.positioned(
                     right: 20,
                     bottom: 20,
                     child: Icon(
