@@ -52,7 +52,7 @@ export 'src/utils/system_extension.dart';
 export 'src/utils/chips_extensions.dart';
 export 'src/utils/carousel_extensions.dart';
 export 'src/utils/list_item_extensions.dart';
-
+export 'src/utils/stepper_extension.dart';
 // Central export for all components
 export 'src/components.dart';
 
@@ -68,3 +68,5 @@ export 'src/core/cubit_button/cubit/core_button_cubit.dart';
 export 'src/utils/loading_extensions.dart';
 export 'src/components/loading/cubit/loading_cubit.dart';
 export 'src/components/loading/cubit/loading_state.dart';
+
+export 'src/components/stepper/stepper.dart';
