@@ -84,6 +84,22 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
         debugPrint('🔄 Request interceptor triggered');
       },
     );
+    
+    // Set initial URL to show the base structure
+    _setInitialUrl();
+  }
+
+  void _setInitialUrl() {
+    String baseUrl;
+    try {
+      baseUrl = ApiNetwork.baseUrl;
+    } catch (e) {
+      baseUrl = 'https://<STORE_NAME>.myshopify.com/admin';
+    }
+    
+    setState(() {
+      _currentApiUrl = '$baseUrl/api/<API_VERSION>/';
+    });
   }
 
   void _checkAndShowConfigPopup() async {
@@ -121,20 +137,14 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
     String path = '';
     String queryParams = '';
 
-    // Determine path based on service name and method
+    // Determine path based on service name and method using proper endpoint mapping
     switch (service.name) {
       case 'Storefront Access Token':
         if (method == 'DELETE' &&
             params.containsKey('id') &&
             params['id']!.isNotEmpty) {
           final id = params['id']!;
-          // Use the exact format from ApiNetwork class
-          final apiUrl =
-              '${ApiNetwork.baseUrl}/api/${ApiNetwork.apiVersion}/storefront_access_tokens/$id.json';
-          setState(() {
-            _currentApiUrl = apiUrl;
-          });
-          return;
+          path = '/api/${ApiNetwork.apiVersion}/storefront_access_tokens/$id.json';
         } else {
           path = '/api/${ApiNetwork.apiVersion}/storefront_access_tokens.json';
         }
@@ -144,23 +154,54 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
         path = '/api/${ApiNetwork.apiVersion}/oauth/access_scopes.json';
         break;
 
-      // Add other services as needed
+ 
+
       default:
-        path =
-            '/api/${ApiNetwork.apiVersion}/${service.name.toLowerCase().replaceAll(' ', '_')}';
-        if (method == 'GET') {
+        // Use the endpoint from the service registry if available
+        String endpoint = service.endpoint;
+        if (endpoint.startsWith('/')) {
+          endpoint = endpoint.substring(1); // Remove leading slash
+        }
+        
+        // Replace :parameter with {parameter} for display
+        endpoint = endpoint.replaceAllMapped(RegExp(r':(\w+)'), (match) {
+          final paramName = match.group(1)!;
+          if (params.containsKey(paramName) && params[paramName]!.isNotEmpty) {
+            return params[paramName]!;
+          }
+          return '{$paramName}';
+        });
+        
+        path = '/api/${ApiNetwork.apiVersion}/$endpoint';
+        if (!path.endsWith('.json') && method == 'GET') {
           path += '.json';
         }
     }
 
     // Add query parameters for GET requests if there are any
     if (method == 'GET' && params.isNotEmpty) {
-      queryParams =
-          '?${params.entries.map((e) => '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}').join('&')}';
+      // Filter out path parameters that are already in the URL
+      final queryParamsMap = Map<String, String>.from(params);
+      queryParamsMap.removeWhere((key, value) => path.contains('{$key}') || path.contains('/$value/') || path.contains('/$value.'));
+      
+      if (queryParamsMap.isNotEmpty) {
+        queryParams = '?${queryParamsMap.entries.map((e) => '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}').join('&')}';
+      }
     }
 
+    // Build the complete URL
+    String baseUrl;
+    try {
+      baseUrl = ApiNetwork.baseUrl;
+    } catch (e) {
+      // If baseUrl throws exception due to missing store name, use placeholder format
+      baseUrl = 'https://<STORE_NAME>.myshopify.com/admin';
+    }
+    
+    final fullUrl = baseUrl + path + queryParams;
+    
     setState(() {
-      _currentApiUrl = ApiNetwork.baseUrl + path + queryParams;
+      _currentApiUrl = fullUrl;
     });
   }
 
