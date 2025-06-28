@@ -103,13 +103,15 @@ class _BottomSheetExampleState extends State<BottomSheetExample> {
                 onPressed: () => _showActionBarBottomSheet(context),
                 color: OsmeaColors.nordicBlue,
               ),
+              
+              OsmeaComponents.sizedBox(height: 32),
+              
             ],
           ),
         ),
       ),
     );
   }
-
   Widget _buildExampleButton({
     required String title,
     required String description,
@@ -725,4 +727,4 @@ class _BottomSheetExampleState extends State<BottomSheetExample> {
       ),
     );
   }
-} 
+}
