@@ -12,12 +12,16 @@ class RowExampleScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OsmeaComponents.scaffold(
-      appBar: AppBar(
-        title: OsmeaComponents.text('OSMEA Row Examples'),
+      appBar: OsmeaComponents.appBar(
+        title: OsmeaComponents.text(
+          'OSMEA Row Examples',
+          fontWeight: FontWeight.bold,
+          fontSize: 20,
+        ),
       ),
       body: SingleChildScrollView(
         padding: context.paddingNormal,
-        child: Column(
+        child: OsmeaComponents.column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Section title
@@ -114,7 +118,21 @@ class RowExampleScreen extends StatelessWidget {
             OsmeaComponents.text('Complex row combinations:'),
             OsmeaComponents.sizedBox(height: 8),
             complexRowExamples(),
-            OsmeaComponents.sizedBox(height: 32),
+            //OsmeaComponents.sizedBox(height: 32),
+            // OsmeaComponents.loginButton(
+            //   authService: ... // AuthService örneği ile kullanılır
+            // ),
+            // OsmeaComponents.navbar(
+            //   currentIndex: 0,
+            //   items: const [
+            //     NavbarItem(icon: Icon(Icons.home), text: 'Home'),
+            //     NavbarItem(icon: Icon(Icons.table_rows), text: 'Rows'),
+            //     NavbarItem(icon: Icon(Icons.settings), text: 'Settings'),
+            //   ],
+            //   onItemTap: (index) {
+            //     // Navbar tıklama örneği
+            //   },
+            // ),
           ],
         ),
       ),
