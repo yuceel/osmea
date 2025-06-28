@@ -12,10 +12,15 @@ class WrapExample extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OsmeaComponents.scaffold(
-      appBar: AppBar(
-        title: OsmeaComponents.text('OSMEA Wrap Examples'),
+      appBar: OsmeaComponents.appBar(
         backgroundColor: OsmeaColors.nordicBlue,
         foregroundColor: OsmeaColors.white,
+        title: OsmeaComponents.text(
+          'OSMEA Wrap Examples',
+          fontWeight: FontWeight.bold,
+          fontSize: 20,
+          color: OsmeaColors.white,
+        ),
       ),
       body: OsmeaComponents.singleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -109,6 +114,20 @@ class WrapExample extends StatelessWidget {
               _buildPhotoGrid(context),
             ),
             OsmeaComponents.sizedBox(height: 24),
+            // OsmeaComponents.loginButton(
+            //   authService: ... // AuthService örneği ile kullanılır
+            // ),
+            // OsmeaComponents.navbar(
+            //   currentIndex: 0,
+            //   items: const [
+            //     NavbarItem(icon: Icon(Icons.home), text: 'Home'),
+            //     NavbarItem(icon: Icon(Icons.wrap_text), text: 'Wrap'),
+            //     NavbarItem(icon: Icon(Icons.settings), text: 'Settings'),
+            //   ],
+            //   onItemTap: (index) {
+            //     // Navbar tıklama örneği
+            //   },
+            // ),
           ],
         ),
       ),
