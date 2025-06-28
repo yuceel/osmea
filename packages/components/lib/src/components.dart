@@ -21,6 +21,7 @@ import 'package:osmea_components/src/components/flexible/flexible.dart';
 import 'package:osmea_components/src/components/padding/padding.dart';
 import 'package:osmea_components/src/components/positioned/positioned.dart';
 import 'package:osmea_components/src/components/progress/progress.dart';
+import 'package:osmea_components/src/components/rich_text/rich_text.dart';
 import 'package:osmea_components/src/components/row/row.dart';
 import 'package:osmea_components/src/components/scaffold/scaffold.dart';
 import 'package:osmea_components/src/components/single_child_scroll_view/single_child_scroll_view.dart';
