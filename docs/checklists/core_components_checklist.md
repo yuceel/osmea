@@ -24,7 +24,7 @@ This document tracks the status of both design styles and reusable UI components
 | Chips                         | 🟢     | 21.06.25   | 22.06.25 | Nurhayat Yurtaslan |
 | Badge                         | 🟢     | 20.06.25   | 21.06.25 | Nurhayat Yurtaslan |
 | Dividers                      | 🔴     | (TBD)      | (TBD)    | (To be assigned)   |
-| Loading ve Progress           | 🔴     | (TBD)      | (TBD)    | (To be assigned)   |
+| Loading ve Progress           | 🟡     | 27.01.25   | (TBD)    | Nurhayat Yurtaslan |
 | Searchbar                     | 🔴     | (TBD)      | (TBD)    | (To be assigned)   |
 | Stepper                       | 🔴     | (TBD)      | (TBD)    | (To be assigned)   |
 | Upload                        | 🔴     | (TBD)      | (TBD)    | (To be assigned)   |
