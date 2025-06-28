@@ -55,7 +55,7 @@ class _SwitchButtonExampleState extends State<SwitchButtonExample> {
   @override
   Widget build(BuildContext context) {
     return OsmeaComponents.scaffold(
-      appBar: AppBar(
+      appBar: OsmeaComponents.appBar(
         title: OsmeaComponents.text(
           '🔄 OSMEA Switch Examples',
           variant: OsmeaTextVariant.headlineMedium,
@@ -65,7 +65,7 @@ class _SwitchButtonExampleState extends State<SwitchButtonExample> {
       ),
       body: SingleChildScrollView(
         padding: context.paddingNormal,
-        child: Column(
+        child: OsmeaComponents.column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildSectionTitle('🎨 Switch Variants'),
@@ -85,6 +85,20 @@ class _SwitchButtonExampleState extends State<SwitchButtonExample> {
             OsmeaComponents.sizedBox(height: 32),
             _buildSectionTitle('🎭 Switch Styles'),
             _buildStylesSection(),
+            //OsmeaComponents.sizedBox(height: 32),
+            // OsmeaComponents.loginButton(
+            //   authService: null, // Kendi AuthService'inizi ekleyin
+            //   text: 'Login',
+            // ),
+            // OsmeaComponents.navbar(
+            //   currentIndex: 0,
+            //   items: const [
+            //     NavbarItem(icon: Icon(Icons.home), text: 'Home'),
+            //     NavbarItem(icon: Icon(Icons.toggle_on), text: 'Switch'),
+            //     NavbarItem(icon: Icon(Icons.settings), text: 'Settings'),
+            //   ],
+            //   onItemTap: (index) {},
+            // ),
           ],
         ),
       ),
