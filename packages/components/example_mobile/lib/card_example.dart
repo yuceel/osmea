@@ -27,7 +27,7 @@ class _CardExampleState extends State<CardExample> {
   @override
   Widget build(BuildContext context) {
     return OsmeaComponents.scaffold(
-      appBar: AppBar(
+        appBar: OsmeaComponents.appBar(
         title: OsmeaComponents.text(
           '🃏 OSMEA Card Examples',
           variant: OsmeaTextVariant.headlineMedium,
