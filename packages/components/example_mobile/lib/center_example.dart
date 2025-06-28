@@ -7,13 +7,13 @@ class CenterExample extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OsmeaComponents.scaffold(
-      appBar: AppBar(
+      appBar: OsmeaComponents.appBar(
         title: OsmeaComponents.text('OSMEA Center Examples'),
         elevation: 0,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
-        child: Column(
+        child: OsmeaComponents.column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildSectionTitle('Basic Center'),
@@ -27,6 +27,29 @@ class CenterExample extends StatelessWidget {
             OsmeaComponents.sizedBox(height: 32),
             _buildSectionTitle('Convenience Methods'),
             _buildConvenienceMethodExamples(),
+            //OsmeaComponents.sizedBox(height: 80), // Alt boşluk
+            // OsmeaComponents.loginButton örneği (authService örnek olarak null, kendi servisinizi ekleyin)
+            // OsmeaComponents.loginButton(
+            //   authService: null,
+            //   text: 'Login',
+            // ),
+            // OsmeaComponents.navbar örneği
+            // OsmeaComponents.navbar(
+            //   items: [
+            //     NavbarItem(
+            //       text: 'Home',
+            //       icon: const Icon(Icons.home),
+            //       onTap: () {},
+            //     ),
+            //     NavbarItem(
+            //       text: 'Settings',
+            //       icon: const Icon(Icons.settings),
+            //       onTap: () {},
+            //     ),
+            //   ],
+            //   currentIndex: 0,
+            //   onItemTap: (index) {},
+            // ),
           ],
         ),
       ),
@@ -34,7 +57,7 @@ class CenterExample extends StatelessWidget {
   }
 
   Widget _buildSectionTitle(String title) {
-    return Padding(
+    return OsmeaComponents.padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: OsmeaComponents.text(
         title,
@@ -47,7 +70,7 @@ class CenterExample extends StatelessWidget {
   }
 
   Widget _buildBasicCenterExamples() {
-    return Column(
+    return OsmeaComponents.column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildExampleWithCaption(
@@ -99,7 +122,7 @@ class CenterExample extends StatelessWidget {
   }
 
   Widget _buildStyledCenterExamples() {
-    return Column(
+    return OsmeaComponents.column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildExampleWithCaption(
@@ -142,7 +165,7 @@ class CenterExample extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.grey.shade200,
               ),
-              child: Padding(
+              child: OsmeaComponents.padding(
                 padding: const EdgeInsets.all(10),
                 child: OsmeaComponents.center(
                   child: _buildColoredBox(
