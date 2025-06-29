@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:osmea_components/osmea_components.dart';
-import 'package:osmea_components_example/services/mock_auth_service.dart';
 
 /// ☑️ **OSMEA Checkbox Examples**
 ///
