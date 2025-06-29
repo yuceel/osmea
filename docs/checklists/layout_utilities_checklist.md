@@ -4,18 +4,25 @@ This section includes foundational layout widgets rewritten or extended for cons
 
 | Item Name               | Status | Start Date | Due Date | Assignee           |
 |:------------------------|:------:|:----------:|:--------:|:------------------:|
-| Align                  | 🟢     | 20.06.25      | 20.06.25    | Nurhayat Yurtaslan  |
-| Center                 | 🟢     | 20.06.25      | 20.06.25    | Nurhayat Yurtaslan  |
-| Column                 | 🟢     | 20.06.25      | 20.06.25    | Nurhayat Yurtaslan  |
-| Container              | 🟢     | 20.06.25      | 20.06.25    | Nurhayat Yurtaslan  |
-| Expanded               | 🟢     | 20.06.25      | 20.06.25    | Nurhayat Yurtaslan  |
-| Padding                | 🟢     | 20.06.25      | 20.06.25    | Nurhayat Yurtaslan  |
-| Row                    | 🟢     | 20.06.25      | 20.06.25    | Nurhayat Yurtaslan  |
-| Scaffold               | 🟢     | 20.06.25      | 20.06.25    | Nurhayat Yurtaslan  |
-| ScrollView             | 🟢     | 20.06.25      | 20.06.25    | Nurhayat Yurtaslan  |
-| SizedBox               | 🟢     | 20.06.25      | 20.06.25    | Nurhayat Yurtaslan  |
-| Wrap                   | 🟢     | 20.06.25      | 20.06.25    | Nurhayat Yurtaslan  |
-
+| Align                  | 🟢     | 20.06.25      | 20.06.25    | @NurhayatYurtaslan  |
+| Center                 | 🟢     | 20.06.25      | 20.06.25    | @NurhayatYurtaslan  |
+| Column                 | 🟢     | 20.06.25      | 20.06.25    | @NurhayatYurtaslan  |
+| Container              | 🟢     | 20.06.25      | 20.06.25    | @NurhayatYurtaslan  |
+| Expanded               | 🟢     | 20.06.25      | 20.06.25    | @NurhayatYurtaslan  |
+| Padding                | 🟢     | 20.06.25      | 20.06.25    | @NurhayatYurtaslan  |
+| Row                    | 🟢     | 20.06.25      | 20.06.25    | @NurhayatYurtaslan  |
+| Scaffold               | 🟢     | 20.06.25      | 20.06.25    | @NurhayatYurtaslan  |
+| ScrollView             | 🟢     | 20.06.25      | 20.06.25    | @NurhayatYurtaslan  |
+| SizedBox               | 🟢     | 20.06.25      | 20.06.25    | @NurhayatYurtaslan  |
+| Wrap                   | 🟢     | 20.06.25      | 20.06.25    | @NurhayatYurtaslan  |
+| Stack                  | 🟢     | 27.06.25      | 27.06.25    | @NurhayatYurtaslan  |
+| Spacer                 | 🟢     | 27.06.25      | 27.06.25    | @NurhayatYurtaslan  |
+| Flexible               | 🟢     | 27.06.25      | 27.06.25    | @NurhayatYurtaslan  |
+| Positioned             | 🟢     | 27.06.25      | 27.06.25    | @NurhayatYurtaslan  |
+| Rich Text              | 🟢     | 27.06.25      | 27.06.25    | @NurhayatYurtaslan  |
+| Text Span              | 🟢     | 27.06.25      | 27.06.25    | @NurhayatYurtaslan  |
+| Divider                | 🟢     | 28.06.25      | 28.06.25    | @NurhayatYurtaslan  |
+| Grid                   | 🟡     | 28.01.25      | (TBD)       | @nisacolak          |
 ---
 
 > [!NOTE]
