@@ -99,7 +99,7 @@ class ComponentOverviewPage extends StatelessWidget {
                 builder: (context, constraints) {
                   // Calculate responsive values for 4 components per row
                   final availableWidth = constraints.maxWidth;
-                  final cardWidth = (availableWidth - 36) / 4; // Account for spacing (3 gaps of 12px each)
+                  final cardWidth = (availableWidth - totalSpacingBetweenCards) / 4; // Account for spacing (3 gaps of 12px each)
                   final cardHeight = cardWidth * 0.9; // More square-like cards
                   
                   return GridView.builder(
