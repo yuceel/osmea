@@ -90,8 +90,8 @@ List<Story> getUnifiedCheckboxShowcase() {
           label: '📍 Label Position (Labeled/Card/Tile)',
           initial: CheckboxLabelPosition.trailing,
           options: const [
-            Option(label: 'Trailing (Right)', value: CheckboxLabelPosition.trailing),
-            Option(label: 'Leading (Left)', value: CheckboxLabelPosition.leading),
+            Option(label: 'Trailing (Left)', value: CheckboxLabelPosition.trailing),
+            Option(label: 'Leading (Right)', value: CheckboxLabelPosition.leading),
           ],
         ),
         
