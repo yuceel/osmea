@@ -115,7 +115,7 @@ class StyleComparisonSection extends StatelessWidget {
           // Glassmorphism style example
           _buildStyleExample(
             title: 'Glassmorphism - Frosted Glass Effect',
-            description: 'Translucent design with backdrop blur and transparency',
+            description: 'Translucent design with blur and transparency',
             value: 'glass_demo',
             style: RadioStyle.glassmorphism,
             state: RadioState.enabled,
