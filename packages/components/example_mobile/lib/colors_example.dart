@@ -18,125 +18,127 @@ class ColorsExample extends StatelessWidget {
       ),
       body: OsmeaComponents.singleChildScrollView(
         padding: context.paddingNormal,
-        child: OsmeaComponents.column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            OsmeaComponents.text(
-              'Primary Colors',
-              variant: OsmeaTextVariant.headlineSmall,
-            ),
-            OsmeaComponents.sizedBox(height: 16),
-            _buildColorSection([
-              _ColorInfo('Nordic Blue', OsmeaColors.nordicBlue, '#2C5F5D'),
-              _ColorInfo('Atlantic', OsmeaColors.atlantic, '#1A4A48'),
-              _ColorInfo('Deep Sea', OsmeaColors.deepSea, '#0F3634'),
-              _ColorInfo('Crystal Bay', OsmeaColors.crystalBay, '#4A8B87'),
-            ]),
-            OsmeaComponents.sizedBox(height: 24),
-            OsmeaComponents.text(
-              'Accent Colors',
-              variant: OsmeaTextVariant.headlineSmall,
-            ),
-            OsmeaComponents.sizedBox(height: 16),
-            _buildColorSection([
-              _ColorInfo('Sunset Glow', OsmeaColors.sunsetGlow, '#F4A261'),
-              _ColorInfo('Amber Flame', OsmeaColors.amberFlame, '#E76F51'),
-              _ColorInfo('Golden Hour', OsmeaColors.goldenHour, '#F9C74F'),
-            ]),
-            OsmeaComponents.sizedBox(height: 24),
-            OsmeaComponents.text(
-              'Nature Colors',
-              variant: OsmeaTextVariant.headlineSmall,
-            ),
-            OsmeaComponents.sizedBox(height: 16),
-            _buildColorSection([
-              _ColorInfo('Forest Heart', OsmeaColors.forestHeart, '#43AA8B'),
-              _ColorInfo('Pine Grove', OsmeaColors.pineGrove, '#277DA1'),
-              _ColorInfo('Spring Leaf', OsmeaColors.springLeaf, '#90E0EF'),
-            ]),
-            OsmeaComponents.sizedBox(height: 24),
-            OsmeaComponents.text(
-              'Neutral Colors',
-              variant: OsmeaTextVariant.headlineSmall,
-            ),
-            OsmeaComponents.sizedBox(height: 16),
-            _buildColorSection([
-              const _ColorInfo('White', OsmeaColors.white, '#FFFFFF'),
-              _ColorInfo('Snow', OsmeaColors.snow, '#F8F9FA'),
-              _ColorInfo('Silver', OsmeaColors.silver, '#E9ECEF'),
-              _ColorInfo('Ash', OsmeaColors.ash, '#DEE2E6'),
-              _ColorInfo('Steel', OsmeaColors.steel, '#ADB5BD'),
-              _ColorInfo('Pewter', OsmeaColors.pewter, '#6C757D'),
-              _ColorInfo('Slate', OsmeaColors.slate, '#495057'),
-              _ColorInfo('Shark', OsmeaColors.shark, '#343A40'),
-              _ColorInfo('Eclipse', OsmeaColors.eclipse, '#212529'),
-            ]),
-            OsmeaComponents.sizedBox(height: 24),
-            OsmeaComponents.text(
-              'Special Colors',
-              variant: OsmeaTextVariant.headlineSmall,
-            ),
-            OsmeaComponents.sizedBox(height: 16),
-            _buildColorSection([
-              const _ColorInfo(
-                  'Transparent', OsmeaColors.transparent, 'Transparent'),
-              const _ColorInfo(
-                  'Shadow Light', OsmeaColors.shadowLight, 'rgba(0,0,0,0.1)'),
-              const _ColorInfo(
-                  'Shadow Dark', OsmeaColors.shadowDark, 'rgba(0,0,0,0.3)'),
-            ]),
-            OsmeaComponents.sizedBox(height: 32),
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    OsmeaColors.crystalBay.withValues(
-                        red: 74, green: 139, blue: 135, alpha: 0.1),
-                    OsmeaColors.sunsetGlow.withValues(
-                        red: 244, green: 162, blue: 97, alpha: 0.1),
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
+        child: SafeArea(
+          child: OsmeaComponents.column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              OsmeaComponents.text(
+                'Primary Colors',
+                variant: OsmeaTextVariant.headlineSmall,
+              ),
+              OsmeaComponents.sizedBox(height: 16),
+              _buildColorSection([
+                _ColorInfo('Nordic Blue', OsmeaColors.nordicBlue, '#2C5F5D'),
+                _ColorInfo('Atlantic', OsmeaColors.atlantic, '#1A4A48'),
+                _ColorInfo('Deep Sea', OsmeaColors.deepSea, '#0F3634'),
+                _ColorInfo('Crystal Bay', OsmeaColors.crystalBay, '#4A8B87'),
+              ]),
+              OsmeaComponents.sizedBox(height: 24),
+              OsmeaComponents.text(
+                'Accent Colors',
+                variant: OsmeaTextVariant.headlineSmall,
+              ),
+              OsmeaComponents.sizedBox(height: 16),
+              _buildColorSection([
+                _ColorInfo('Sunset Glow', OsmeaColors.sunsetGlow, '#F4A261'),
+                _ColorInfo('Amber Flame', OsmeaColors.amberFlame, '#E76F51'),
+                _ColorInfo('Golden Hour', OsmeaColors.goldenHour, '#F9C74F'),
+              ]),
+              OsmeaComponents.sizedBox(height: 24),
+              OsmeaComponents.text(
+                'Nature Colors',
+                variant: OsmeaTextVariant.headlineSmall,
+              ),
+              OsmeaComponents.sizedBox(height: 16),
+              _buildColorSection([
+                _ColorInfo('Forest Heart', OsmeaColors.forestHeart, '#43AA8B'),
+                _ColorInfo('Pine Grove', OsmeaColors.pineGrove, '#277DA1'),
+                _ColorInfo('Spring Leaf', OsmeaColors.springLeaf, '#90E0EF'),
+              ]),
+              OsmeaComponents.sizedBox(height: 24),
+              OsmeaComponents.text(
+                'Neutral Colors',
+                variant: OsmeaTextVariant.headlineSmall,
+              ),
+              OsmeaComponents.sizedBox(height: 16),
+              _buildColorSection([
+                const _ColorInfo('White', OsmeaColors.white, '#FFFFFF'),
+                _ColorInfo('Snow', OsmeaColors.snow, '#F8F9FA'),
+                _ColorInfo('Silver', OsmeaColors.silver, '#E9ECEF'),
+                _ColorInfo('Ash', OsmeaColors.ash, '#DEE2E6'),
+                _ColorInfo('Steel', OsmeaColors.steel, '#ADB5BD'),
+                _ColorInfo('Pewter', OsmeaColors.pewter, '#6C757D'),
+                _ColorInfo('Slate', OsmeaColors.slate, '#495057'),
+                _ColorInfo('Shark', OsmeaColors.shark, '#343A40'),
+                _ColorInfo('Eclipse', OsmeaColors.eclipse, '#212529'),
+              ]),
+              OsmeaComponents.sizedBox(height: 24),
+              OsmeaComponents.text(
+                'Special Colors',
+                variant: OsmeaTextVariant.headlineSmall,
+              ),
+              OsmeaComponents.sizedBox(height: 16),
+              _buildColorSection([
+                const _ColorInfo(
+                    'Transparent', OsmeaColors.transparent, 'Transparent'),
+                const _ColorInfo(
+                    'Shadow Light', OsmeaColors.shadowLight, 'rgba(0,0,0,0.1)'),
+                const _ColorInfo(
+                    'Shadow Dark', OsmeaColors.shadowDark, 'rgba(0,0,0,0.3)'),
+              ]),
+              OsmeaComponents.sizedBox(height: 32),
+              OsmeaComponents.container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      OsmeaColors.crystalBay.withValues(
+                          red: 74, green: 139, blue: 135, alpha: 0.1),
+                      OsmeaColors.sunsetGlow.withValues(
+                          red: 244, green: 162, blue: 97, alpha: 0.1),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: OsmeaColors.silver),
                 ),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: OsmeaColors.silver),
+                child: OsmeaComponents.column(
+                  children: [
+                    Icon(
+                      Icons.palette,
+                      color: OsmeaColors.nordicBlue,
+                      size: 40,
+                    ),
+                    OsmeaComponents.sizedBox(height: 12),
+                    OsmeaComponents.text(
+                      'OSMEA Design System Colors',
+                      variant: OsmeaTextVariant.titleMedium,
+                      color: OsmeaColors.nordicBlue,
+                      textAlign: TextAlign.center,
+                    ),
+                    OsmeaComponents.sizedBox(height: 8),
+                    OsmeaComponents.text(
+                      'Tap any color card to copy its hex value to clipboard',
+                      variant: OsmeaTextVariant.bodyMedium,
+                      color: OsmeaColors.pewter,
+                      textAlign: TextAlign.center,
+                    ),
+                    OsmeaComponents.sizedBox(height: 4),
+                    OsmeaComponents.text(
+                      'Perfect for designers and developers',
+                      variant: OsmeaTextVariant.captionMedium,
+                      color: OsmeaColors.steel,
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
               ),
-              child: OsmeaComponents.column(
-                children: [
-                  Icon(
-                    Icons.palette,
-                    color: OsmeaColors.nordicBlue,
-                    size: 40,
-                  ),
-                  OsmeaComponents.sizedBox(height: 12),
-                  OsmeaComponents.text(
-                    'OSMEA Design System Colors',
-                    variant: OsmeaTextVariant.titleMedium,
-                    color: OsmeaColors.nordicBlue,
-                    textAlign: TextAlign.center,
-                  ),
-                  OsmeaComponents.sizedBox(height: 8),
-                  OsmeaComponents.text(
-                    'Tap any color card to copy its hex value to clipboard',
-                    variant: OsmeaTextVariant.bodyMedium,
-                    color: OsmeaColors.pewter,
-                    textAlign: TextAlign.center,
-                  ),
-                  OsmeaComponents.sizedBox(height: 4),
-                  OsmeaComponents.text(
-                    'Perfect for designers and developers',
-                    variant: OsmeaTextVariant.captionMedium,
-                    color: OsmeaColors.steel,
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-            ),
-            OsmeaComponents.sizedBox(height: 24),
-            _buildColorUsageGuide(),
-          ],
+              OsmeaComponents.sizedBox(height: 24),
+              _buildColorUsageGuide(),
+            ],
+          ),
         ),
       ),
     );
@@ -178,21 +180,21 @@ class ColorsExample extends StatelessWidget {
         child: Stack(
           children: [
             if (colorInfo.color == OsmeaColors.transparent)
-              Container(
+              OsmeaComponents.container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
                   color: OsmeaColors.silver,
                 ),
                 child: CustomPaint(
                   painter: _CheckerboardPainter(),
-                  child: Container(),
+                  child: OsmeaComponents.container(),
                 ),
               ),
             Positioned(
               bottom: 0,
               left: 0,
               right: 0,
-              child: Container(
+              child: OsmeaComponents.container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: _getContrastColor(colorInfo.color),
@@ -201,7 +203,7 @@ class ColorsExample extends StatelessWidget {
                     bottomRight: Radius.circular(16),
                   ),
                 ),
-                child: Column(
+                child: OsmeaComponents.column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -228,7 +230,7 @@ class ColorsExample extends StatelessWidget {
             Positioned(
               top: 12,
               right: 12,
-              child: Container(
+              child: OsmeaComponents.container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
                   color: _getContrastColor(colorInfo.color),
@@ -248,14 +250,14 @@ class ColorsExample extends StatelessWidget {
   }
 
   Widget _buildColorUsageGuide() {
-    return Container(
+    return OsmeaComponents.container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: OsmeaColors.snow,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: OsmeaColors.ash),
       ),
-      child: Column(
+      child: OsmeaComponents.column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           OsmeaComponents.text(
@@ -290,12 +292,12 @@ class ColorsExample extends StatelessWidget {
   }
 
   Widget _buildUsageItem(String title, String description, Color color) {
-    return Padding(
+    return OsmeaComponents.padding(
       padding: const EdgeInsets.only(bottom: 12),
-      child: Row(
+      child: OsmeaComponents.row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
+          OsmeaComponents.container(
             width: 20,
             height: 20,
             decoration: BoxDecoration(
@@ -306,7 +308,7 @@ class ColorsExample extends StatelessWidget {
           ),
           OsmeaComponents.sizedBox(width: 12),
           Expanded(
-            child: Column(
+            child: OsmeaComponents.column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 OsmeaComponents.text(
