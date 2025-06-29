@@ -96,7 +96,7 @@ class SampleContentSection extends StatelessWidget {
           // Custom style example
           _buildStyleExample(
             title: 'Custom - Default Fallback',
-            description: 'Default style used as fallback for custom implementations',
+            description: 'Default style used as fallback',
             style: CheckboxStyle.custom,
             state: CheckboxState.enabled,
             backgroundColor: darkBackground ? Colors.grey.shade600 : Colors.indigo.shade50,
