@@ -34,57 +34,59 @@ class _AvatarExampleState extends State<AvatarExample> {
         backgroundColor: OsmeaColors.nordicBlue,
         foregroundColor: OsmeaColors.white,
       ),
-      body: SingleChildScrollView(
+      body: OsmeaComponents.singleChildScrollView(
         padding: context.paddingNormal,
         child: OsmeaComponents.column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildSectionTitle('📏 Avatar Sizes'),
+            OsmeaComponents.padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: _buildSectionTitle('📏 Avatar Sizes'),
+            ),
             _buildSizesSection(),
             OsmeaComponents.sizedBox(height: 32),
-            _buildSectionTitle('🎨 Avatar Appearances'),
+            OsmeaComponents.padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: _buildSectionTitle('🎨 Avatar Appearances'),
+            ),
             _buildAppearancesSection(),
             OsmeaComponents.sizedBox(height: 32),
-            _buildSectionTitle('🎯 Content Types'),
+            OsmeaComponents.padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: _buildSectionTitle('🎯 Content Types'),
+            ),
             _buildContentTypesSection(),
             OsmeaComponents.sizedBox(height: 32),
-            _buildSectionTitle('🖼️ Image Avatars'),
+            OsmeaComponents.padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: _buildSectionTitle('🖼️ Image Avatars'),
+            ),
             _buildImageAvatarsSection(),
             OsmeaComponents.sizedBox(height: 32),
-            _buildSectionTitle('🔘 Interactive Avatars'),
+            OsmeaComponents.padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: _buildSectionTitle('🔘 Interactive Avatars'),
+            ),
             _buildInteractiveSection(),
             OsmeaComponents.sizedBox(height: 32),
-            _buildSectionTitle('🎭 Custom Styling'),
+            OsmeaComponents.padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: _buildSectionTitle('🎭 Custom Styling'),
+            ),
             _buildCustomStylingSection(),
             OsmeaComponents.sizedBox(height: 32),
-            _buildSectionTitle('👥 Avatar Groups'),
+            OsmeaComponents.padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: _buildSectionTitle('👥 Avatar Groups'),
+            ),
             _buildAvatarGroupsSection(),
             OsmeaComponents.sizedBox(height: 32),
-            _buildSectionTitle('📱 Extension Features'),
-            _buildExtensionFeaturesSection(),
-            OsmeaComponents.sizedBox(height: 80), // Alt boşluk
-            // OsmeaComponents.loginButton örneği (authService örnek olarak null, kendi servisinizi ekleyin)
-            // OsmeaComponents.loginButton(
-            //   authService: null,
-            //   text: 'Login',
-            // ),
-            // OsmeaComponents.navbar örneği
-            OsmeaComponents.navbar(
-              items: [
-                NavbarItem(
-                  text: 'Home',
-                  icon: const Icon(Icons.home),
-                  onTap: () {},
-                ),
-                NavbarItem(
-                  text: 'Settings',
-                  icon: const Icon(Icons.settings),
-                  onTap: () {},
-                ),
-              ],
-              currentIndex: 0,
-              onItemTap: (index) {},
+            OsmeaComponents.padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: _buildSectionTitle('📱 Extension Features'),
             ),
+            _buildExtensionFeaturesSection(),
+            OsmeaComponents.sizedBox(height: 32),
           ],
         ),
       ),
@@ -776,7 +778,7 @@ class _AvatarExampleState extends State<AvatarExample> {
             // Demonstrate border radius configuration
             OsmeaComponents.column(
               children: [
-                Container(
+                OsmeaComponents.container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(24),
                     color: OsmeaColors.nordicBlue,
