@@ -98,21 +98,7 @@ class AppbarDemo extends StatelessWidget {
             preview: _buildMinimalStyleApp(),
           ),
 
-          //OsmeaComponents.sizedBox(height: 48),
-
-          // OsmeaComponents.loginButton(
-          //   authService: null,
-          //   text: 'Login',
-          // ),
-          // OsmeaComponents.navbar(
-          //   currentIndex: 0,
-          //   items: const [
-          //     NavbarItem(icon: Icon(Icons.home), text: 'Home'),
-          //     NavbarItem(icon: Icon(Icons.image), text: 'Carousel'),
-          //     NavbarItem(icon: Icon(Icons.settings), text: 'Settings'),
-          //   ],
-          //   onItemTap: (index) {},
-          // ),
+          OsmeaComponents.sizedBox(height: 48),
         ],
       ),
     );
@@ -124,51 +110,54 @@ class AppbarDemo extends StatelessWidget {
     required String description,
     required Widget preview,
   }) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.grey[50],
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey[200]!),
-      ),
-      child: OsmeaComponents.column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          OsmeaComponents.padding(
-            padding: context.paddingNormal,
-            child: OsmeaComponents.column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                OsmeaComponents.text(
-                  appName,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-                OsmeaComponents.sizedBox(height: 4),
-                OsmeaComponents.text(
-                  description,
-                  fontSize: 14,
-                  color: Colors.grey[600],
-                ),
-              ],
-            ),
-          ),
-          Container(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(12),
-                bottomRight: Radius.circular(12),
+    return OsmeaComponents.padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: OsmeaComponents.container(
+        decoration: BoxDecoration(
+          color: Colors.grey[50],
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.grey[200]!),
+        ),
+        child: OsmeaComponents.column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            OsmeaComponents.padding(
+              padding: context.paddingNormal,
+              child: OsmeaComponents.column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  OsmeaComponents.text(
+                    appName,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  OsmeaComponents.sizedBox(height: 4),
+                  OsmeaComponents.text(
+                    description,
+                    fontSize: 14,
+                    color: Colors.grey[600],
+                  ),
+                ],
               ),
             ),
-            child: preview,
-          ),
-        ],
+            OsmeaComponents.container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(12),
+                  bottomRight: Radius.circular(12),
+                ),
+              ),
+              child: preview,
+            ),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildOsmeaStyleApp() {
-    return Column(
+    return OsmeaComponents.column(
       children: [
         OsmeaComponents.appBar(
           title: OsmeaComponents.text('Osmea'),
@@ -194,7 +183,7 @@ class AppbarDemo extends StatelessWidget {
   }
 
   Widget _buildSocialMediaStyleApp() {
-    return Column(
+    return OsmeaComponents.column(
       children: [
         OsmeaComponents.appBar(
           title: OsmeaComponents.text('SocialHub'),
@@ -225,7 +214,7 @@ class AppbarDemo extends StatelessWidget {
   }
 
   Widget _buildEcommerceStyleApp() {
-    return Column(
+    return OsmeaComponents.column(
       children: [
         OsmeaComponents.appBar(
           title: OsmeaComponents.text('ShopEase'),
@@ -262,7 +251,7 @@ class AppbarDemo extends StatelessWidget {
   }
 
   Widget _buildProductivityStyleApp() {
-    return Column(
+    return OsmeaComponents.column(
       children: [
         OsmeaComponents.appBar(
           title: OsmeaComponents.text('TaskMaster'),
@@ -293,7 +282,7 @@ class AppbarDemo extends StatelessWidget {
   }
 
   Widget _buildEntertainmentStyleApp() {
-    return Column(
+    return OsmeaComponents.column(
       children: [
         OsmeaComponents.appBar(
           title: OsmeaComponents.text('StreamFlix'),
@@ -323,7 +312,7 @@ class AppbarDemo extends StatelessWidget {
   }
 
   Widget _buildMinimalStyleApp() {
-    return Column(
+    return OsmeaComponents.column(
       children: [
         OsmeaComponents.appBar(
           title: OsmeaComponents.text('FocusMode'),
@@ -348,7 +337,7 @@ class AppbarDemo extends StatelessWidget {
   }
 
   Widget _buildAppContent(String message) {
-    return Container(
+    return OsmeaComponents.container(
       height: 120,
       width: double.infinity,
       decoration: BoxDecoration(
@@ -358,7 +347,7 @@ class AppbarDemo extends StatelessWidget {
         ),
       ),
       child: Center(
-        child: Column(
+        child: OsmeaComponents.column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             OsmeaComponents.text(
@@ -383,7 +372,7 @@ class AppbarDemo extends StatelessWidget {
   }
 
   Widget _buildNotificationBadge(String count, Color color) {
-    return Container(
+    return OsmeaComponents.container(
       width: 18,
       height: 18,
       decoration: BoxDecoration(
