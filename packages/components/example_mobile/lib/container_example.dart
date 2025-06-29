@@ -218,7 +218,7 @@ class ContainerExampleScreen extends StatelessWidget {
 
   // Container alignment examples
   Widget alignmentContainerExamples() {
-    return Row(
+    return OsmeaComponents.row(
       children: [
         Expanded(
           child: OsmeaComponents.container(
@@ -296,7 +296,7 @@ class ContainerExampleScreen extends StatelessWidget {
           ),
           color: Colors.amber,
           child: Center(
-            child: Padding(
+            child: OsmeaComponents.padding(
               padding: context.paddingLow,
               child:
                   OsmeaComponents.text('Constrained Size', color: Colors.white),
@@ -309,7 +309,7 @@ class ContainerExampleScreen extends StatelessWidget {
 
   // Containers with borders examples
   Widget borderedContainerExamples() {
-    return Column(
+    return OsmeaComponents.column(
       children: [
         OsmeaComponents.container(
           width: double.infinity,
@@ -334,7 +334,7 @@ class ContainerExampleScreen extends StatelessWidget {
 
   // Gradient container examples
   Widget gradientContainerExamples() {
-    return Column(
+    return OsmeaComponents.column(
       children: [
         OsmeaComponents.container(
           width: double.infinity,
@@ -398,7 +398,7 @@ class ContainerExampleScreen extends StatelessWidget {
 
   // Interactive container examples
   Widget interactiveContainerExamples(BuildContext context) {
-    return Column(
+    return OsmeaComponents.column(
       children: [
         OsmeaComponents.container(
           width: double.infinity,
@@ -503,7 +503,7 @@ class ContainerExampleScreen extends StatelessWidget {
           spreadRadius: 2,
         ),
       ],
-      child: Column(
+      child: OsmeaComponents.column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -519,7 +519,7 @@ class ContainerExampleScreen extends StatelessWidget {
             color: Colors.white70,
           ),
           OsmeaComponents.sizedBox(height: 16),
-          Row(
+          OsmeaComponents.row(
             children: [
               OsmeaComponents.container(
                 padding: const EdgeInsets.all(12),
