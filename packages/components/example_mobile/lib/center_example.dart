@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:osmea_components/osmea_components.dart';
+import 'package:osmea_components_example/services/mock_auth_service.dart';
 
 class CenterExample extends StatelessWidget {
   const CenterExample({super.key});
@@ -27,29 +28,6 @@ class CenterExample extends StatelessWidget {
             OsmeaComponents.sizedBox(height: 32),
             _buildSectionTitle('Convenience Methods'),
             _buildConvenienceMethodExamples(),
-            //OsmeaComponents.sizedBox(height: 80), // Alt boşluk
-            // OsmeaComponents.loginButton örneği (authService örnek olarak null, kendi servisinizi ekleyin)
-            // OsmeaComponents.loginButton(
-            //   authService: null,
-            //   text: 'Login',
-            // ),
-            // OsmeaComponents.navbar örneği
-            // OsmeaComponents.navbar(
-            //   items: [
-            //     NavbarItem(
-            //       text: 'Home',
-            //       icon: const Icon(Icons.home),
-            //       onTap: () {},
-            //     ),
-            //     NavbarItem(
-            //       text: 'Settings',
-            //       icon: const Icon(Icons.settings),
-            //       onTap: () {},
-            //     ),
-            //   ],
-            //   currentIndex: 0,
-            //   onItemTap: (index) {},
-            // ),
           ],
         ),
       ),
@@ -128,7 +106,7 @@ class CenterExample extends StatelessWidget {
         _buildExampleWithCaption(
           'Center with Background (using Container)',
           _buildContainer(
-            Container(
+            OsmeaComponents.container(
               decoration: BoxDecoration(
                 color: Colors.grey.shade200,
                 borderRadius: BorderRadius.circular(8),
@@ -144,7 +122,7 @@ class CenterExample extends StatelessWidget {
         _buildExampleWithCaption(
           'Center with Border & BorderRadius (using Container)',
           _buildContainer(
-            Container(
+            OsmeaComponents.container(
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.blue, width: 2),
                 borderRadius: BorderRadius.circular(12),
@@ -160,7 +138,7 @@ class CenterExample extends StatelessWidget {
         _buildExampleWithCaption(
           'Center with Padding & Margin (using Padding and Container)',
           _buildContainer(
-            Container(
+            OsmeaComponents.container(
               margin: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: Colors.grey.shade200,
@@ -179,11 +157,11 @@ class CenterExample extends StatelessWidget {
         _buildExampleWithCaption(
           'Center with BoxShadow (using Container)',
           _buildContainer(
-            Container(
+            OsmeaComponents.container(
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.3),
+                    color: Colors.black.withOpacity(0.3),
                     spreadRadius: 1,
                     blurRadius: 10,
                     offset: const Offset(0, 3),
@@ -202,7 +180,7 @@ class CenterExample extends StatelessWidget {
   }
 
   Widget _buildInteractiveCenterExamples() {
-    return Column(
+    return OsmeaComponents.column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildExampleWithCaption(
@@ -212,7 +190,7 @@ class CenterExample extends StatelessWidget {
               onTap: () {
                 debugPrint('Center tapped!');
               },
-              child: Container(
+              child: OsmeaComponents.container(
                 decoration: BoxDecoration(
                   color: Colors.grey.shade200,
                   borderRadius: BorderRadius.circular(8),
@@ -233,7 +211,7 @@ class CenterExample extends StatelessWidget {
               onLongPress: () {
                 debugPrint('Center long pressed!');
               },
-              child: Container(
+              child: OsmeaComponents.container(
                 decoration: BoxDecoration(
                   color: Colors.grey.shade200,
                   borderRadius: BorderRadius.circular(8),
@@ -251,7 +229,7 @@ class CenterExample extends StatelessWidget {
   }
 
   Widget _buildConvenienceMethodExamples() {
-    return Column(
+    return OsmeaComponents.column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildExampleWithCaption(
@@ -312,10 +290,10 @@ class CenterExample extends StatelessWidget {
   }
 
   Widget _buildExampleWithCaption(String caption, Widget child) {
-    return Column(
+    return OsmeaComponents.column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
+        OsmeaComponents.padding(
           padding: const EdgeInsets.only(bottom: 8),
           child: OsmeaComponents.text(
             caption,
@@ -330,17 +308,18 @@ class CenterExample extends StatelessWidget {
     );
   }
 
-  Widget _buildColoredBox(
-      {required Color color,
-      required String text,
-      double? width,
-      double height = 60}) {
-    return Container(
+  Widget _buildColoredBox({
+    required Color color,
+    required String text,
+    double? width,
+    double height = 60,
+  }) {
+    return OsmeaComponents.container(
       width: width,
       height: height,
       color: color,
       padding: const EdgeInsets.all(8),
-      child: Center(
+      child: OsmeaComponents.center(
         child: OsmeaComponents.text(
           text,
           textAlign: TextAlign.center,
@@ -354,7 +333,7 @@ class CenterExample extends StatelessWidget {
   }
 
   Widget _buildContainer(Widget child) {
-    return Container(
+    return OsmeaComponents.container(
       width: double.infinity,
       height: 200,
       decoration: BoxDecoration(
