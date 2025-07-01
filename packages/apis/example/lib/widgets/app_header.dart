@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:example/styles/app_theme.dart';
 import 'theme_toggle_button.dart';
 
@@ -8,6 +9,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
   final String apiUrl;
   final VoidCallback onUrlCopied;
   final VoidCallback onThemeToggle;
+  final VoidCallback? onDrawerToggle;
   final bool isDarkMode;
 
   const AppHeader({
@@ -16,6 +18,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
     required this.apiUrl,
     required this.onUrlCopied,
     required this.onThemeToggle,
+    this.onDrawerToggle,
     this.isDarkMode = false,
   });
 
@@ -38,8 +41,17 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         scrolledUnderElevation: 0,
-        leadingWidth: 0,
-        leading: const SizedBox.shrink(),
+        leadingWidth: onDrawerToggle != null ? 56 : 0,
+        leading: onDrawerToggle != null
+            ? IconButton(
+                icon: Icon(
+                  Icons.menu,
+                  color: colorScheme.onSurface,
+                ),
+                onPressed: onDrawerToggle,
+                tooltip: 'Open menu',
+              )
+            : const SizedBox.shrink(),
         title: Row(
           children: [
             // Logo and Title
@@ -119,11 +131,27 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
                       ),
                       const SizedBox(width: 6),
                       GestureDetector(
-                        onTap: onUrlCopied,
-                        child: Icon(
-                          Icons.copy_rounded,
-                          size: 14,
-                          color: colorScheme.primary, // Use theme primary color
+                        onTap: () async {
+                          try {
+                            if (apiUrl.isNotEmpty) {
+                              await Clipboard.setData(ClipboardData(text: apiUrl));
+                              onUrlCopied(); // Call the callback to show success message
+                            }
+                          } catch (e) {
+                            debugPrint('❌ Failed to copy URL: $e');
+                          }
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(4),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4),
+                            color: Colors.transparent,
+                          ),
+                          child: Icon(
+                            Icons.copy_rounded,
+                            size: 14,
+                            color: colorScheme.primary, // Use theme primary color
+                          ),
                         ),
                       ),
                     ],

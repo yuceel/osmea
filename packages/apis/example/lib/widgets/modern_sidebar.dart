@@ -131,6 +131,7 @@ class _ModernSidebarState extends State<ModernSidebar>
                               fontWeight: FontWeight.w700,
                               color: Colors.white,
                             ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                           if (!isNarrow)
                             Text(
@@ -139,6 +140,7 @@ class _ModernSidebarState extends State<ModernSidebar>
                                 fontSize: 12,
                                 color: Colors.white.withValues(alpha:.8),
                               ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                         ],
                       ),
@@ -185,6 +187,7 @@ class _ModernSidebarState extends State<ModernSidebar>
                           color: AppTheme.primaryColor,
                         ),
                         textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
                       ),
                       SizedBox(height: isNarrow ? 4 : 6),
                       Text(
@@ -199,6 +202,8 @@ class _ModernSidebarState extends State<ModernSidebar>
                           height: 1.4,
                         ),
                         textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
                       ),
                       SizedBox(height: isNarrow ? 8 : 12),
                       Container(
@@ -229,6 +234,7 @@ class _ModernSidebarState extends State<ModernSidebar>
                                 fontWeight: FontWeight.w500,
                                 color: AppTheme.primaryColor,
                               ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ],
                         ),
@@ -273,6 +279,8 @@ class _ModernSidebarState extends State<ModernSidebar>
                             color: Theme.of(context).colorScheme.secondary,
                             fontWeight: FontWeight.w500,
                           ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
                         ),
                       ),
                     ],
@@ -309,6 +317,8 @@ class _ModernSidebarState extends State<ModernSidebar>
                             color: AppTheme.successColor,
                             fontWeight: FontWeight.w500,
                           ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
                         ),
                       ),
                     ],

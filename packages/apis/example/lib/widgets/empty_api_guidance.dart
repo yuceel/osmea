@@ -80,134 +80,129 @@ class _EmptyApiGuidanceState extends State<EmptyApiGuidance>
     final screenWidth = MediaQuery.of(context).size.width;
     final isNarrow = screenWidth < 600;
 
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return SingleChildScrollView(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              minHeight: constraints.maxHeight,
-            ),
-            child: Container(
-              margin: EdgeInsets.all(isNarrow ? 8 : 16),
-              decoration: BoxDecoration(
-                gradient: AppTheme.createGradient(
-                  theme.colorScheme.primary
-                      .withValues(alpha: isDark ? 0.1 : 0.05),
-                  theme.colorScheme.secondary
-                      .withValues(alpha: isDark ? 0.05 : 0.02),
-                ),
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(
-                  color: theme.colorScheme.primary.withValues(alpha: 0.2),
-                ),
-              ),
-              child: SlideTransition(
-                position: _slideAnimation,
-                child: Padding(
-                  padding: EdgeInsets.all(isNarrow ? 24 : 48),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      // Animated icon
-                      AnimatedBuilder(
-                        animation: _pulseAnimation,
-                        builder: (context, child) {
-                          return Transform.scale(
-                            scale: _pulseAnimation.value,
-                            child: Container(
-                              width: isNarrow ? 60 : 80,
-                              height: isNarrow ? 60 : 80,
-                              decoration: BoxDecoration(
-                                gradient: AppTheme.createGradient(
-                                  AppTheme.primaryColor,
-                                  AppTheme.primaryVariant,
-                                ),
-                                shape: BoxShape.circle,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: theme.colorScheme.primary
-                                        .withValues(alpha: 0.2),
-                                    blurRadius: 20,
-                                    spreadRadius: 2,
-                                  ),
-                                ],
-                              ),
-                              child: Icon(
-                                Icons.explore_rounded,
-                                color: theme.colorScheme.onPrimary,
-                                size: isNarrow ? 30 : 40,
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-
-                      SizedBox(height: isNarrow ? 24 : 32),
-
-                      // Title
-                      Text(
-                        'Welcome to OSMEA API Explorer',
-                        style: TextStyle(
-                          fontSize: isNarrow ? 20 : 24,
-                          fontWeight: FontWeight.w700,
-                          color: theme.colorScheme.onSurface,
-                          letterSpacing: -0.5,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-
-                      SizedBox(height: isNarrow ? 12 : 16),
-
-                      // Subtitle
-                      Text(
-                        'Select an API from the sidebar to start exploring and testing endpoints',
-                        style: TextStyle(
-                          fontSize: isNarrow ? 14 : 16,
-                          color: theme.colorScheme.onSurface
-                              .withValues(alpha: 0.7),
-                          height: 1.5,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-
-                      SizedBox(height: isNarrow ? 24 : 32),
-
-                      // Steps - staggered animation
-                      for (int i = 0; i < 3; i++)
-                        SlideTransition(
-                          position: _stepAnimations[i],
-                          child: Padding(
-                            padding:
-                                EdgeInsets.only(bottom: isNarrow ? 12 : 16),
-                            child: _buildStepItem(
-                              icon: i == 0
-                                  ? Icons.list_rounded
-                                  : i == 1
-                                      ? Icons.tune_rounded
-                                      : Icons.rocket_launch_rounded,
-                              title: i == 0
-                                  ? 'Browse APIs'
-                                  : i == 1
-                                      ? 'Configure Request'
-                                      : 'Test & Explore',
-                              subtitle: i == 0
-                                  ? 'Choose from organized categories'
-                                  : i == 1
-                                      ? 'Set parameters and method'
-                                      : 'Send requests and view responses',
-                              step: '${i + 1}',
-                              theme: theme,
-                            ),
+    return SingleChildScrollView(
+      child: Container(
+        margin: EdgeInsets.all(isNarrow ? 8 : 16),
+        decoration: BoxDecoration(
+          gradient: AppTheme.createGradient(
+            theme.colorScheme.primary
+                .withValues(alpha: isDark ? 0.1 : 0.05),
+            theme.colorScheme.secondary
+                .withValues(alpha: isDark ? 0.05 : 0.02),
+          ),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: theme.colorScheme.primary.withValues(alpha: 0.2),
+          ),
+        ),
+        child: SlideTransition(
+          position: _slideAnimation,
+          child: Padding(
+            padding: EdgeInsets.all(isNarrow ? 24 : 48),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Animated icon
+                AnimatedBuilder(
+                  animation: _pulseAnimation,
+                  builder: (context, child) {
+                    return Transform.scale(
+                      scale: _pulseAnimation.value,
+                      child: Container(
+                        width: isNarrow ? 60 : 80,
+                        height: isNarrow ? 60 : 80,
+                        decoration: BoxDecoration(
+                          gradient: AppTheme.createGradient(
+                            AppTheme.primaryColor,
+                            AppTheme.primaryVariant,
                           ),
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: theme.colorScheme.primary
+                                  .withValues(alpha: 0.2),
+                              blurRadius: 20,
+                              spreadRadius: 2,
+                            ),
+                          ],
                         ),
-                    ],
-                  ),
+                        child: Icon(
+                          Icons.explore_rounded,
+                          color: theme.colorScheme.onPrimary,
+                          size: isNarrow ? 30 : 40,
+                        ),
+                      ),
+                    );
+                  },
                 ),
-              ),
+
+                SizedBox(height: isNarrow ? 24 : 32),
+
+                // Title
+                Text(
+                  'Welcome to OSMEA API Explorer',
+                  style: TextStyle(
+                    fontSize: isNarrow ? 20 : 24,
+                    fontWeight: FontWeight.w700,
+                    color: theme.colorScheme.onSurface,
+                    letterSpacing: -0.5,
+                  ),
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                ),
+
+                SizedBox(height: isNarrow ? 12 : 16),
+
+                // Subtitle
+                Text(
+                  'Select an API from the sidebar to start exploring and testing endpoints',
+                  style: TextStyle(
+                    fontSize: isNarrow ? 14 : 16,
+                    color: theme.colorScheme.onSurface
+                        .withValues(alpha: 0.7),
+                    height: 1.5,
+                  ),
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 3,
+                ),
+
+                SizedBox(height: isNarrow ? 24 : 32),
+
+                // Steps - staggered animation
+                for (int i = 0; i < 3; i++)
+                  SlideTransition(
+                    position: _stepAnimations[i],
+                    child: Padding(
+                      padding:
+                          EdgeInsets.only(bottom: isNarrow ? 12 : 16),
+                      child: _buildStepItem(
+                        icon: i == 0
+                            ? Icons.list_rounded
+                            : i == 1
+                                ? Icons.tune_rounded
+                                : Icons.rocket_launch_rounded,
+                        title: i == 0
+                            ? 'Browse APIs'
+                            : i == 1
+                                ? 'Configure Request'
+                                : 'Test & Explore',
+                        subtitle: i == 0
+                            ? 'Choose from organized categories'
+                            : i == 1
+                                ? 'Set parameters and method'
+                                : 'Send requests and view responses',
+                        step: '${i + 1}',
+                        theme: theme,
+                      ),
+                    ),
+                  ),
+              ],
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 
@@ -258,6 +253,7 @@ class _EmptyApiGuidanceState extends State<EmptyApiGuidance>
                   fontSize: 14,
                   color: theme.colorScheme.onSurface,
                 ),
+                overflow: TextOverflow.ellipsis,
               ),
               Text(
                 subtitle,
@@ -265,6 +261,8 @@ class _EmptyApiGuidanceState extends State<EmptyApiGuidance>
                   fontSize: 12,
                   color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
                 ),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
               ),
             ],
           ),

@@ -111,9 +111,9 @@ class _HomeViewState extends State<HomeView> {
             SizedBox(
               height: 40,
               child: ListView.separated(
-                scrollDirection: Axis.horizontal,
+                scrollDirection: Axis.vertical,
                 itemCount: _methods.length,
-                separatorBuilder: (_, __) => const SizedBox(width: 8),
+                separatorBuilder: (_, __) => const SizedBox(height: 8),
                 itemBuilder: (context, index) {
                   final method = _methods[index];
                   final isSelected = _requestType == method['name'];

@@ -71,8 +71,9 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
 
   void _initializeContent() {
     if (widget.responseData != null) {
+      // Ensure we honour the currently selected response format
       _cachedContent = {
-        0: _formatContent(0), // JSON
+        0: _formatContent(_selectedFormat),
         1: _generateHeadersContent(),
         2: _generateStatusContent(),
       };
@@ -257,7 +258,7 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
           ),
           const SizedBox(width: 6),
           Text(
-            'response.json',
+            'response.${_formats[_selectedFormat].toLowerCase()}',
             style: TextStyle(
               color: _ideTheme
                   ? AppTheme.primaryColor
@@ -345,14 +346,14 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
       ),
       child: Row(
         children: [
-          _buildTab(
-              'response', 0, Icons.data_object_rounded, _ideTheme, isNarrow),
+          // Main tabs - horizontal layout
+          _buildTab('response', 0, Icons.data_object_rounded, _ideTheme, isNarrow),
           if (!isNarrow) ...[
             _buildTab('headers', 1, Icons.http_rounded, _ideTheme, isNarrow),
             _buildTab('status', 2, Icons.timeline_rounded, _ideTheme, isNarrow),
           ],
 
-          // Format selector for response tab
+          // Format selector for response tab - horizontal layout
           if (_selectedTab == 0) ...[
             const SizedBox(width: 16),
             Container(
@@ -401,6 +402,7 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
                           fontFamily: 'monospace',
                           fontWeight: FontWeight.w500,
                         ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   );
@@ -898,16 +900,29 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
   }
 
   void _copyResponse() {
-    if (widget.responseData != null) {
-      final jsonString =
-          const JsonEncoder.withIndent('  ').convert(widget.responseData);
-      Clipboard.setData(ClipboardData(text: jsonString));
+    if (_selectedTab == 0 && widget.responseData != null) {
+      // Copy based on selected response format
+      final contentToCopy = _formatContent(_selectedFormat);
+      Clipboard.setData(ClipboardData(text: contentToCopy));
 
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Response copied to clipboard'),
-            backgroundColor: Color(0xFF8B5CF6),
+          SnackBar(
+            content:
+                Text('${_formats[_selectedFormat]} response copied to clipboard'),
+            backgroundColor: const Color(0xFF8B5CF6),
+          ),
+        );
+      }
+    } else if (_selectedTab != 0) {
+      final content = _cachedContent[_selectedTab] ?? '';
+      Clipboard.setData(ClipboardData(text: content));
+
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('${_selectedTab == 1 ? 'Headers' : 'Status'} copied to clipboard'),
+            backgroundColor: const Color(0xFF8B5CF6),
           ),
         );
       }
@@ -915,10 +930,19 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
   }
 
   void _formatJson() {
+    if (_selectedTab != 0 || widget.responseData == null) return;
+
+    // Re-format current response based on selected format and refresh the cached content
+    final formatted = _formatContent(_selectedFormat);
+    setState(() {
+      _cachedContent[0] = formatted;
+      _cachedLines[0] = formatted.split('\n');
+    });
+
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('JSON is already formatted'),
-        backgroundColor: Color(0xFF8B5CF6),
+      SnackBar(
+        content: Text('${_formats[_selectedFormat]} formatted'),
+        backgroundColor: const Color(0xFF8B5CF6),
       ),
     );
   }

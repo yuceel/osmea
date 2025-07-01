@@ -4,6 +4,8 @@ import 'package:example/services/api_service_registry.dart';
 import 'package:example/widgets/modern_sidebar.dart';
 import 'package:example/widgets/app_header.dart';
 import 'package:example/widgets/home/responsive_content.dart';
+import 'package:example/widgets/config_popup_dialog.dart';
+
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -23,8 +25,8 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
   String _currentApiUrl = '';
   bool _isDarkMode = false;
 
-  // Layout state
-  bool _sidebarExpanded = true;
+  // Scaffold key for drawer control
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   // Animation controllers
   late AnimationController _sidebarAnimationController;
@@ -39,6 +41,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
     super.initState();
     _initializeAnimations();
     _initializeDefaults();
+    _checkAndShowConfigPopup();
   }
 
   void _initializeAnimations() {
@@ -81,7 +84,36 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
         debugPrint('🔄 Request interceptor triggered');
       },
     );
+    
+    // Set initial URL to show the base structure
+    _setInitialUrl();
   }
+
+  void _setInitialUrl() {
+    String baseUrl;
+    try {
+      baseUrl = ApiNetwork.baseUrl;
+    } catch (e) {
+      baseUrl = 'https://<STORE_NAME>.myshopify.com/admin';
+    }
+    
+    setState(() {
+      _currentApiUrl = '$baseUrl/api/<API_VERSION>/';
+    });
+  }
+
+  void _checkAndShowConfigPopup() async {
+    // Wait widgets to be mounted
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (mounted) {
+        final shouldShow = await ConfigPopupDialog.shouldShow();
+        if (shouldShow && mounted) {
+          await ConfigPopupDialog.show(context);
+        }
+      }
+    });
+  }
+
 
   @override
   void dispose() {
@@ -97,20 +129,14 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
     String path = '';
     String queryParams = '';
 
-    // Determine path based on service name and method
+    // Determine path based on service name and method using proper endpoint mapping
     switch (service.name) {
       case 'Storefront Access Token':
         if (method == 'DELETE' &&
             params.containsKey('id') &&
             params['id']!.isNotEmpty) {
           final id = params['id']!;
-          // Use the exact format from ApiNetwork class
-          final apiUrl =
-              '${ApiNetwork.baseUrl}/api/${ApiNetwork.apiVersion}/storefront_access_tokens/$id.json';
-          setState(() {
-            _currentApiUrl = apiUrl;
-          });
-          return;
+          path = '/api/${ApiNetwork.apiVersion}/storefront_access_tokens/$id.json';
         } else {
           path = '/api/${ApiNetwork.apiVersion}/storefront_access_tokens.json';
         }
@@ -120,23 +146,54 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
         path = '/api/${ApiNetwork.apiVersion}/oauth/access_scopes.json';
         break;
 
-      // Add other services as needed
+ 
+
       default:
-        path =
-            '/api/${ApiNetwork.apiVersion}/${service.name.toLowerCase().replaceAll(' ', '_')}';
-        if (method == 'GET') {
+        // Use the endpoint from the service registry if available
+        String endpoint = service.endpoint;
+        if (endpoint.startsWith('/')) {
+          endpoint = endpoint.substring(1); // Remove leading slash
+        }
+        
+        // Replace :parameter with {parameter} for display
+        endpoint = endpoint.replaceAllMapped(RegExp(r':(\w+)'), (match) {
+          final paramName = match.group(1)!;
+          if (params.containsKey(paramName) && params[paramName]!.isNotEmpty) {
+            return params[paramName]!;
+          }
+          return '{$paramName}';
+        });
+        
+        path = '/api/${ApiNetwork.apiVersion}/$endpoint';
+        if (!path.endsWith('.json') && method == 'GET') {
           path += '.json';
         }
     }
 
     // Add query parameters for GET requests if there are any
     if (method == 'GET' && params.isNotEmpty) {
-      queryParams =
-          '?${params.entries.map((e) => '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}').join('&')}';
+      // Filter out path parameters that are already in the URL
+      final queryParamsMap = Map<String, String>.from(params);
+      queryParamsMap.removeWhere((key, value) => path.contains('{$key}') || path.contains('/$value/') || path.contains('/$value.'));
+      
+      if (queryParamsMap.isNotEmpty) {
+        queryParams = '?${queryParamsMap.entries.map((e) => '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}').join('&')}';
+      }
     }
 
+    // Build the complete URL
+    String baseUrl;
+    try {
+      baseUrl = ApiNetwork.baseUrl;
+    } catch (e) {
+      // If baseUrl throws exception due to missing store name, use placeholder format
+      baseUrl = 'https://<STORE_NAME>.myshopify.com/admin';
+    }
+    
+    final fullUrl = baseUrl + path + queryParams;
+    
     setState(() {
-      _currentApiUrl = ApiNetwork.baseUrl + path + queryParams;
+      _currentApiUrl = fullUrl;
     });
   }
 
@@ -177,15 +234,11 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
     });
   }
 
-  void _toggleSidebar() {
-    setState(() {
-      _sidebarExpanded = !_sidebarExpanded;
-    });
-
-    if (_sidebarExpanded) {
-      _sidebarAnimationController.forward();
+  void _toggleDrawer() {
+    if (_scaffoldKey.currentState?.isDrawerOpen == true) {
+      _scaffoldKey.currentState?.closeDrawer();
     } else {
-      _sidebarAnimationController.reverse();
+      _scaffoldKey.currentState?.openDrawer();
     }
   }
 
@@ -238,11 +291,9 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
     }
   }
 
-  double _calculateSidebarWidth(double screenWidth) {
+  double _calculateDrawerWidth(double screenWidth) {
     final isWideScreen = screenWidth >= 1200;
     final isMediumScreen = screenWidth >= 800;
-
-    if (!_sidebarExpanded) return 60;
 
     if (isWideScreen) return 320;
     if (isMediumScreen) return 280;
@@ -270,11 +321,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                 Expanded(child: Text(message)),
               ],
             ),
-            backgroundColor: isError
-                ? Theme.of(context).colorScheme.error // Use dynamic error color
-                : Theme.of(context)
-                    .colorScheme
-                    .secondary, // Use dynamic secondary color
+            backgroundColor: const Color(0xFF8B5CF6), 
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
@@ -288,7 +335,6 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final isWideScreen = screenWidth >= 1200;
 
     return AnimatedBuilder(
       animation: _themeAnimation,
@@ -296,69 +342,49 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
         return Theme(
           data: _isDarkMode ? ThemeData.dark() : ThemeData.light(),
           child: Scaffold(
+            key: _scaffoldKey,
             backgroundColor:
-                _isDarkMode ? const Color(0xFF121212) : const Color(0xFFFAFAFA),
+                _isDarkMode ? const Color.fromARGB(255, 18, 18, 18) : const Color(0xFFFAFAFA),
             appBar: AppHeader(
               title: 'OSMEA APIs',
               apiUrl: _currentApiUrl,
               onUrlCopied: () =>
                   _showSnackBar('URL copied to clipboard!', isError: false),
               onThemeToggle: _toggleTheme,
+              onDrawerToggle: _toggleDrawer,
               isDarkMode: _isDarkMode,
             ),
-            body: Row(
-              children: [
-                // Sidebar
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 300),
-                  width: _calculateSidebarWidth(screenWidth),
-                  child: ModernSidebar(
-                    expanded: _sidebarExpanded,
-                    selectedService: _selectedService,
-                    onServiceSelected: _onServiceSelected,
-                    animation: _sidebarAnimation,
-                  ),
-                ),
-
-                // Main content
-                Expanded(
-                  child: ResponsiveContent(
-                    selectedService: _selectedService,
-                    selectedMethod: _selectedMethod,
-                    parameters: _parameters,
-                    rawBody: _rawBody,
-                    currentApiUrl: _currentApiUrl,
-                    loading: _loading,
-                    responseData: _responseData,
-                    responseAnimation: _responseAnimation,
-                    onMethodChanged: _onMethodChanged,
-                    onParametersChanged: _onParametersChanged,
-                    onRawBodyChanged: _onRawBodyChanged,
-                    onSendRequest: _sendRequest,
-                    screenWidth: screenWidth,
-                  ),
-                ),
-              ],
+            drawer: Drawer(
+              width: _calculateDrawerWidth(screenWidth),
+              child: ModernSidebar(
+                expanded: true, // Always expanded in drawer
+                selectedService: _selectedService,
+                onServiceSelected: (service) {
+                  _onServiceSelected(service);
+                  // Close drawer after selection
+                  Navigator.of(context).pop();
+                },
+                animation: _sidebarAnimation,
+              ),
+            ),
+            body: ResponsiveContent(
+              selectedService: _selectedService,
+              selectedMethod: _selectedMethod,
+              parameters: _parameters,
+              rawBody: _rawBody,
+              currentApiUrl: _currentApiUrl,
+              loading: _loading,
+              responseData: _responseData,
+              responseAnimation: _responseAnimation,
+              onMethodChanged: _onMethodChanged,
+              onParametersChanged: _onParametersChanged,
+              onRawBodyChanged: _onRawBodyChanged,
+              onSendRequest: _sendRequest,
+              screenWidth: screenWidth,
             ),
 
-            // Floating action button for mobile
-            floatingActionButton: !isWideScreen
-                ? FloatingActionButton(
-                    mini: true,
-                    onPressed: _toggleSidebar,
-                    backgroundColor: _isDarkMode
-                        ? const Color(0xFF8B5CF6)
-                        : const Color(0xFF8B5CF6),
-                    child: AnimatedRotation(
-                      turns: _sidebarExpanded ? 0.5 : 0,
-                      duration: const Duration(milliseconds: 300),
-                      child: Icon(
-                        Icons.menu,
-                        color: Colors.white,
-                      ),
-                    ),
-                  )
-                : null,
+            
+            
           ),
         );
       },

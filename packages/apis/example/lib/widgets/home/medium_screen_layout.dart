@@ -36,55 +36,42 @@ class MediumScreenLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return SingleChildScrollView(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              minHeight: constraints.maxHeight,
-            ),
-            child: IntrinsicHeight(
-              child: Column(
-                children: [
-                  // API Configuration Panel
-                  SizedBox(
-                    height: constraints.maxHeight * 0.4, // 40% of screen height
-                    child: selectedService == null
-                        ? const EmptyApiGuidance()
-                        : ModernApiPanel(
-                            selectedService: selectedService,
-                            selectedMethod: selectedMethod,
-                            parameters: parameters,
-                            rawBody: rawBody,
-                            currentApiUrl: currentApiUrl,
-                            loading: loading,
-                            onMethodChanged: onMethodChanged,
-                            onParametersChanged: onParametersChanged,
-                            onRawBodyChanged: onRawBodyChanged,
-                            onSendRequest: onSendRequest,
-                          ),
-                  ),
+    return Column(
+      children: [
+        // API Configuration Panel
+        Expanded(
+          flex: 2,
+          child: selectedService == null
+              ? const EmptyApiGuidance()
+              : ModernApiPanel(
+                  selectedService: selectedService,
+                  selectedMethod: selectedMethod,
+                  parameters: parameters,
+                  rawBody: rawBody,
+                  currentApiUrl: currentApiUrl,
+                  loading: loading,
+                  onMethodChanged: onMethodChanged,
+                  onParametersChanged: onParametersChanged,
+                  onRawBodyChanged: onRawBodyChanged,
+                  onSendRequest: onSendRequest,
+                ),
+        ),
 
-                  // Response Panel
-                  SizedBox(
-                    height: constraints.maxHeight * 0.6, // 60% of screen height
-                    child: AnimatedBuilder(
-                      animation: responseAnimation,
-                      builder: (context, child) {
-                        return IdeResponsePanel(
-                          responseData: responseData,
-                          loading: loading,
-                          animation: responseAnimation,
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
+        // Response Panel
+        Expanded(
+          flex: 3,
+          child: AnimatedBuilder(
+            animation: responseAnimation,
+            builder: (context, child) {
+              return IdeResponsePanel(
+                responseData: responseData,
+                loading: loading,
+                animation: responseAnimation,
+              );
+            },
           ),
-        );
-      },
+        ),
+      ],
     );
   }
 }
