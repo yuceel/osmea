@@ -45,7 +45,7 @@ class _RadioButtonExampleState extends State<RadioButtonExample> {
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
       ),
-      body: SingleChildScrollView(
+      body: OsmeaComponents.singleChildScrollView(
         padding: context.paddingNormal,
         child: OsmeaComponents.column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -95,7 +95,7 @@ class _RadioButtonExampleState extends State<RadioButtonExample> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildSubsectionTitle('Simple Radio (No Labels)'),
-        Wrap(
+        OsmeaComponents.wrap(
           spacing: 16,
           runSpacing: 8,
           children: [
