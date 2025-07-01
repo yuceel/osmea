@@ -56,7 +56,7 @@ class _ChipsExampleState extends State<ChipsExample> {
             _buildMultiSelectChips(),
             OsmeaComponents.sizedBox(height: 16),
             OsmeaComponents.text(
-              'Selected interests: \\${_selectedInterests.isEmpty ? "No selection yet" : _selectedInterests.join(", ")}',
+              'Selected interests: ${_selectedInterests.isEmpty ? "No selection yet" : _selectedInterests.join(", ")}',
               fontSize: 14,
               color: Colors.grey[600],
             ),
