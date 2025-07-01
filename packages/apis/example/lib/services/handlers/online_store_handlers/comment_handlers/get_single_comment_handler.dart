@@ -45,7 +45,7 @@ class GetSingleCommentHandler implements ApiRequestHandler {
       );
 
       // Process the comment data based on fields parameter
-      var commentData;
+      Map<String, dynamic>? commentData;
       if (fields == null || fields.isEmpty) {
         // Return full comment object if no fields specified
         commentData = response.comment?.toJson();

@@ -79,6 +79,8 @@ class ServiceInfo extends StatelessWidget {
                               ? Colors.white.withValues(alpha:.7)
                               : Colors.black.withValues(alpha:.7),
                         ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
                       ),
                     ],
                   ),

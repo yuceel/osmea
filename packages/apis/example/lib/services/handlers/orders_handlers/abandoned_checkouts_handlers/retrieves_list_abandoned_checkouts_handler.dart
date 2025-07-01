@@ -13,7 +13,7 @@ class GetAbandonedCheckoutsListHandler implements ApiRequestHandler {
       case 'GET':
         final String apiVersion =
             params['api_version'] ?? ApiNetwork.apiVersion;
-        final String? status =
+        final String status =
             'abandoned'; // We are specifically fetching abandoned checkouts
         final String? sinceId = params['since_id'];
         final String? createdAtMin = params['created_at_min'];
@@ -47,7 +47,6 @@ class GetAbandonedCheckoutsListHandler implements ApiRequestHandler {
             "timestamp": DateTime.now().toIso8601String(),
           };
         } catch (e) {
-          print("Error fetching abandoned checkouts: $e");
           return {
             "status": "error",
             "message": "Failed to fetch abandoned checkouts: ${e.toString()}",

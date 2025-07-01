@@ -100,6 +100,7 @@ class GetOrderListHandler implements ApiRequestHandler {
     }
   }
 
+  @override
   List<String> get supportedMethods => ['GET'];
 
   @override

@@ -88,41 +88,46 @@ class _ModernApiPanelState extends State<ModernApiPanel>
               ),
             ],
           ),
-          child: Column(
-            children: [
-              PanelHeader(
-                isTablet: isTablet,
-                isMobile: isMobile,
-                isNarrow: isNarrow,
-                isVeryNarrow: isVeryNarrow,
-                serviceName: widget.selectedService?.name,
-              ),
-              if (widget.selectedService != null)
-                ServiceInfo(
-                  theme: theme,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                PanelHeader(
                   isTablet: isTablet,
                   isMobile: isMobile,
                   isNarrow: isNarrow,
                   isVeryNarrow: isVeryNarrow,
-                  serviceDetails: {
-                    'Category': widget.selectedService!.category.displayName,
-                    'Subcategory': widget.selectedService!.subcategory,
-                    'Endpoint': widget.selectedService!.endpoint,
-                    'Methods':
-                        widget.selectedService!.supportedMethods.join(', '),
-                  },
+                  serviceName: widget.selectedService?.name,
                 ),
-              if (widget.selectedService != null)
-                _buildResponsiveMethodSelector(
-                    isTablet, isMobile, isNarrow, isVeryNarrow),
-              if (widget.selectedService != null)
-                Expanded(
+                if (widget.selectedService != null)
+                  ServiceInfo(
+                    theme: theme,
+                    isTablet: isTablet,
+                    isMobile: isMobile,
+                    isNarrow: isNarrow,
+                    isVeryNarrow: isVeryNarrow,
+                    serviceDetails: {
+                      'Category': widget.selectedService!.category.displayName,
+                      'Subcategory': widget.selectedService!.subcategory,
+                      'Endpoint': widget.selectedService!.endpoint,
+                      'Methods':
+                          widget.selectedService!.supportedMethods.join(', '),
+                    },
+                  ),
+                if (widget.selectedService != null)
+                  _buildResponsiveMethodSelector(
+                      isTablet, isMobile, isNarrow, isVeryNarrow),
+                if (widget.selectedService != null)
+                  SizedBox(
+                    height: isNarrow ? 200 : isMobile ? 250 : 300,
                     child: _buildResponsiveTabContent(
-                        isTablet, isMobile, isNarrow)),
-              if (widget.selectedService != null)
-                _buildResponsiveSendButton(
-                    isTablet, isMobile, isNarrow, isVeryNarrow),
-            ],
+                        isTablet, isMobile, isNarrow),
+                  ),
+                if (widget.selectedService != null)
+                  _buildResponsiveSendButton(
+                      isTablet, isMobile, isNarrow, isVeryNarrow),
+              ],
+            ),
           ),
         );
       },
@@ -167,7 +172,10 @@ class _ModernApiPanelState extends State<ModernApiPanel>
       child: TabBarView(
         controller: _tabController,
         children: [
-          _buildResponsiveParametersTab(isTablet, isMobile, isNarrow),
+          SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: _buildResponsiveParametersTab(isTablet, isMobile, isNarrow),
+          ),
         ],
       ),
     );
@@ -189,10 +197,10 @@ class _ModernApiPanelState extends State<ModernApiPanel>
           );
     }
 
-    return SingleChildScrollView(
-      controller: _scrollController,
+    return Padding(
       padding: EdgeInsets.all(isNarrow ? 8 : 12),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: requiredFields.map((field) {
           return Container(
             margin: EdgeInsets.only(bottom: isNarrow ? 12 : 16),
@@ -307,6 +315,8 @@ class _ModernApiPanelState extends State<ModernApiPanel>
                 color: AppTheme.primaryVariant,
               ),
               textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2,
             ),
             SizedBox(height: isNarrow ? 6 : 8),
             Text(
@@ -317,6 +327,8 @@ class _ModernApiPanelState extends State<ModernApiPanel>
                 height: 1.5,
               ),
               textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 3,
             ),
           ],
         ),
