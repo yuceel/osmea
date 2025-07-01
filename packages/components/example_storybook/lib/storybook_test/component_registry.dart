@@ -22,6 +22,13 @@ class ComponentInfo {
 class ComponentRegistry {
   static final List<ComponentInfo> _components = [
     ComponentInfo(
+      name: 'Avatars',
+      description: 'User profile pictures and placeholders',
+      icon: Icons.account_circle,
+      color: Colors.cyan,
+      storyPath: StoryConfig.buildComponentStoryName('Avatars'),
+    ),
+    ComponentInfo(
       name: 'Buttons',
       description: 'Interactive buttons with various styles',
       icon: Icons.smart_button,
