@@ -27,7 +27,7 @@ class _ScaffoldExampleState extends State<ScaffoldExample> {
           fontSize: 20,
         ),
       ),
-      body: SingleChildScrollView(
+      body: OsmeaComponents.singleChildScrollView(
         padding: context.paddingNormal,
         child: OsmeaComponents.column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -314,23 +314,21 @@ class _ScaffoldExampleState extends State<ScaffoldExample> {
   // Advanced scaffold with combined features
   Widget _buildAdvancedScaffold() {
     return OsmeaComponents.scaffold(
-      appBar: AppBar(
+      appBar: OsmeaComponents.appBar(
         title: OsmeaComponents.text('Complete Scaffold'),
         backgroundColor: OsmeaColors.nordicBlue,
         foregroundColor: OsmeaColors.white,
         actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {
-              // Search action
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.notifications),
-            onPressed: () {
-              // Notifications action
-            },
-          ),
+          AppBarAction(
+              type: AppBarActionType.search,
+              icon: const Icon(Icons.search),
+              onPressed: () {},
+            ),
+          AppBarAction(
+              type: AppBarActionType.search,
+              icon: const Icon(Icons.notifications),
+              onPressed: () {},
+            ),
         ],
       ),
       drawer: Drawer(
