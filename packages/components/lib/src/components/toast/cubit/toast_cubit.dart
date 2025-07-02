@@ -3,7 +3,6 @@ import 'package:osmea_components/src/components/toast/cubit/toast_state.dart';
 import 'package:osmea_components/src/enums/toast_enums.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'dart:collection';
 
 /// Cubit for managing toast notifications with proper FIFO (First-In, First-Out)
 /// and stack behavior.

@@ -1,4 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:osmea_components/src/components/align/align.dart';
+import 'package:osmea_components/src/components/column/column.dart';
+import 'package:osmea_components/src/components/container/container.dart';
+import 'package:osmea_components/src/components/expanded/expanded.dart';
+import 'package:osmea_components/src/components/padding/padding.dart';
+import 'package:osmea_components/src/components/row/row.dart';
+import 'package:osmea_components/src/components/stack/stack.dart';
+import 'package:osmea_components/src/components/text/text.dart';
 import 'package:osmea_components/src/enums/toast_enums.dart';
 import 'package:osmea_components/src/enums/button_enums.dart';
 import 'package:osmea_components/src/styles/colors.dart';
@@ -78,8 +86,8 @@ class _ToastOverlayWidget extends StatelessWidget {
               .sort((a, b) => a.createdAt.compareTo(b.createdAt));
         }
 
-        return Stack(
-          fit: StackFit.expand,
+        return OsmeaStack(
+          fit: expand,
           children: [
             // Top positioned toasts
             if (groupedToasts[ToastPosition.top]!.isNotEmpty)
@@ -125,14 +133,14 @@ class _PositionedToastGroup extends StatelessWidget {
     return Align(
       alignment: position.getAlignment(),
       child: SafeArea(
-        child: Padding(
+        child: OsmeaPadding(
           padding: position.getPadding(),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
+          child: OsmeaColumn(
+            mainAxisSize: min,
             children: displayToasts
-                .map((toast) => Padding(
+                .map((toast) => OsmeaPadding(
                       key: ValueKey(toast.id),
-                      padding: const EdgeInsets.only(bottom: 8),
+                      padding: context.onlyBottomPaddingLow,
                       child: OsmeaToast(
                         state: toast,
                         onClose: () => ToastManager().hideToast(toast.id),
@@ -253,7 +261,7 @@ class OsmeaToast extends CoreContainer {
         maxWidth: maxWidth,
         minHeight: 48,
       ),
-      child: Container(
+      child: OsmeaContainer(
         decoration: BoxDecoration(
           color: OsmeaColors.white,
           borderRadius: borderRadius,
@@ -270,10 +278,10 @@ class OsmeaToast extends CoreContainer {
           horizontal: context.spacing12,
         ),
         child: IntrinsicHeight(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
+          child: OsmeaRow(
+            crossAxisAlignment: crossCenter,
             children: [
-              Container(
+              OsmeaContainer(
                 width: context.width4,
                 height: double.infinity,
                 decoration: BoxDecoration(
@@ -281,34 +289,34 @@ class OsmeaToast extends CoreContainer {
                   borderRadius: context.borderRadiusLow,
                 ),
               ),
-              SizedBox(width: context.spacing8),
+              context.emptySizedWidthBoxNormal,
               Icon(_iconData(), color: iconColor, size: iconSize),
-              SizedBox(width: context.spacing8),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              context.emptySizedWidthBoxNormal,
+              OsmeaExpanded(
+                child: OsmeaColumn(
+                  mainAxisAlignment: centerMain,
+                  crossAxisAlignment: crossStart,
                   children: [
                     if (state.title != null) ...[
-                      Text(
+                      OsmeaText(
                         state.title!,
                         style: OsmeaTextStyle.labelMedium(context).copyWith(
                           color: _typeColor(context),
                           fontWeight: context.bold,
-                          decoration: TextDecoration.none,
+                          decoration: none,
                         ),
-                        overflow: TextOverflow.ellipsis,
+                        overflow: ellipsis,
                         maxLines: 1,
                       ),
                       SizedBox(height: context.spacing2),
                     ],
-                    Text(
+                    OsmeaText(
                       state.message,
                       style: OsmeaTextStyle.bodySmall(context).copyWith(
                         color: OsmeaColors.shark,
-                        decoration: TextDecoration.none,
+                        decoration: none,
                       ),
-                      overflow: TextOverflow.ellipsis,
+                      overflow: ellipsis,
                       maxLines: 2,
                     ),
                   ],
@@ -332,7 +340,7 @@ class OsmeaToast extends CoreContainer {
   ) {
     return ConstrainedBox(
       constraints: BoxConstraints(maxWidth: maxWidth),
-      child: Container(
+      child: OsmeaContainer(
         decoration: BoxDecoration(
           color: OsmeaColors.snow,
           borderRadius: context.borderRadiusLow,
@@ -341,24 +349,24 @@ class OsmeaToast extends CoreContainer {
           vertical: context.spacing8,
           horizontal: context.spacing12,
         ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
+        child: OsmeaRow(
+          mainAxisSize: min,
           children: [
             Icon(_iconData(), color: _typeColor(context), size: iconSize),
-            SizedBox(width: context.spacing8),
-            Expanded(
-              child: Text(
+            context.emptySizedWidthBoxNormal,
+            OsmeaExpanded(
+              child: OsmeaText(
                 state.message,
                 style: OsmeaTextStyle.bodySmall(context).copyWith(
                   color: _typeColor(context),
                   fontWeight: context.semiBold,
                   decoration: TextDecoration.none,
                 ),
-                overflow: TextOverflow.ellipsis,
+                overflow: ellipsis,
                 maxLines: 2,
               ),
             ),
-            SizedBox(width: context.spacing4),
+            context.emptySizedWidthBoxNormal,
             _buildCloseButton(iconSize, _typeColor(context)),
           ],
         ),
@@ -376,7 +384,7 @@ class OsmeaToast extends CoreContainer {
   ) {
     return ConstrainedBox(
       constraints: BoxConstraints(maxWidth: maxWidth),
-      child: Container(
+      child: OsmeaContainer(
         decoration: BoxDecoration(
           color: OsmeaColors.white,
           borderRadius: context.borderRadiusNormal,
@@ -390,24 +398,24 @@ class OsmeaToast extends CoreContainer {
           ],
         ),
         padding: padding,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: OsmeaRow(
+          mainAxisSize: min,
+          crossAxisAlignment: crossCenter,
           children: [
             Icon(_iconData(), color: _typeColor(context), size: iconSize),
-            SizedBox(width: context.spacing8),
+            context.emptySizedWidthBoxNormal,
             Expanded(
-              child: Text(
+              child: OsmeaText(
                 state.message,
                 style: OsmeaTextStyle.bodySmall(context).copyWith(
                   color: _typeColor(context),
-                  decoration: TextDecoration.none,
+                  decoration: none,
                 ),
-                overflow: TextOverflow.ellipsis,
+                overflow: ellipsis,
                 maxLines: 2,
               ),
             ),
-            SizedBox(width: context.spacing4),
+            context.emptySizedWidthBoxNormal,
             _buildCloseButton(iconSize, _typeColor(context)),
           ],
         ),
@@ -426,7 +434,7 @@ class OsmeaToast extends CoreContainer {
   ) {
     return ConstrainedBox(
       constraints: BoxConstraints(maxWidth: maxWidth),
-      child: Container(
+      child: OsmeaContainer(
         decoration: BoxDecoration(
           color: _typeColor(context),
           borderRadius: borderRadius,
@@ -434,29 +442,29 @@ class OsmeaToast extends CoreContainer {
             BoxShadow(
               color: OsmeaColors.shadowDark,
               blurRadius: context.blurRadiusMedium,
-              offset: context.offsetVertical4,
+              offset: context.offsetVertical1,
             ),
           ],
         ),
         padding: padding,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: OsmeaRow(
+          mainAxisSize: min,
+          crossAxisAlignment: crossCenter,
           children: [
             Icon(_iconData(), color: OsmeaColors.white, size: iconSize),
-            SizedBox(width: context.spacing8),
-            Expanded(
+            context.emptySizedWidthBoxNormal,
+            OsmeaExpanded(
               child: Text(
                 state.message,
                 style: OsmeaTextStyle.bodySmall(context).copyWith(
                   color: OsmeaColors.white,
-                  decoration: TextDecoration.none,
+                  decoration: none,
                 ),
-                overflow: TextOverflow.ellipsis,
+                overflow: ellipsis,
                 maxLines: 2,
               ),
             ),
-            SizedBox(width: context.spacing4),
+            context.emptySizedWidthBoxNormal,
             _buildCloseButton(iconSize, OsmeaColors.white),
           ],
         ),
@@ -488,7 +496,7 @@ class OsmeaToast extends CoreContainer {
     // Add a fade animation to all toasts for better UX
     return AnimatedOpacity(
       opacity: state.visible ? 1.0 : 0.0,
-      duration: const Duration(milliseconds: 200),
+      duration: context.durationNormal,
       child: animatedContent,
     );
   }
@@ -630,11 +638,11 @@ class _SingleToastOverlay extends StatelessWidget {
     return IgnorePointer(
       ignoring: false,
       child: SafeArea(
-        child: Stack(
+        child: OsmeaStack(
           children: [
-            Align(
+            OsmeaAlign(
               alignment: alignment,
-              child: Padding(
+              child: OsmeaPadding(
                 padding: padding,
                 child: OsmeaToast(
                   state: state,
