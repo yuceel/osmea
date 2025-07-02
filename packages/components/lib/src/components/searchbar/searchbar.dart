@@ -365,9 +365,12 @@ class _OsmeaSearchbarView extends StatelessWidget {
     return OsmeaTextField(
       controller: cubit.effectiveController,
       focusNode: cubit.effectiveFocusNode,
-      onChanged: (value) => cubit.effectiveController.text = value,
-      onSubmitted: cubit.handleSubmitted,
-      onTap: cubit.handleTap,
+      onChanged: searchbar.onChanged,
+      onSubmitted: (value) {
+        searchbar.onSubmitted?.call(value);
+        searchbar.onSearch?.call(value);
+      },
+      onTap: searchbar.onTap,
       textAlign: searchbar.textAlign,
       textCapitalization: searchbar.textCapitalization,
       keyboardType: searchbar.keyboardType,
