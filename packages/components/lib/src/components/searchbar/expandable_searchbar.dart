@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:osmea_components/src/components/buttons/button.dart';
+import 'package:osmea_components/src/components/container/container.dart';
+import 'package:osmea_components/src/components/expanded/expanded.dart';
+import 'package:osmea_components/src/components/row/row.dart';
+import 'package:osmea_components/src/components/sized_box/sized_box.dart';
 import 'package:osmea_components/src/components/text_field/text_field.dart';
 import 'package:osmea_components/src/core/text_field_widget.dart';
 import 'package:osmea_components/src/components/searchbar/cubit/searchbar_cubit.dart';
@@ -456,7 +460,7 @@ class _OsmeaExpandableSearchbarViewState
       return _buildSearchButton(context, cubit);
     }
 
-    return SizedBox(
+    return OsmeaSizedBox(
       width: widget.expandableSearchbar.expandWidth,
       child: _buildSearchbarField(context, state, cubit),
     );
@@ -477,19 +481,19 @@ class _OsmeaExpandableSearchbarViewState
 
   Widget _buildSearchbarField(BuildContext context, SearchbarCubitState state,
       ExpandableSearchbarCubit cubit) {
-    return Container(
+    return OsmeaContainer(
       decoration: _buildDecoration(context, state),
       padding: const EdgeInsets.only(left: 8),
-      child: Row(
+      child: OsmeaRow(
         children: [
           // Back button
           if (widget.expandableSearchbar.showBackButton) ...[
             _buildBackButton(context, cubit),
-            const SizedBox(width: 8),
+            const OsmeaSizedBox(width: 8),
           ],
 
           // Text field
-          Expanded(
+          OsmeaExpanded(
             child: _buildTextField(context, state, cubit),
           ),
 
@@ -574,15 +578,11 @@ class _OsmeaExpandableSearchbarViewState
 
   Widget _buildBackButton(
       BuildContext context, ExpandableSearchbarCubit cubit) {
-    return IconButton(
+    return OsmeaIconButton(
       icon: widget.expandableSearchbar.backIcon ??
           const Icon(Icons.arrow_back, size: 20),
       onPressed: cubit.handleBack,
-      padding: const EdgeInsets.all(8),
-      constraints: const BoxConstraints(
-        minWidth: 40,
-        minHeight: 40,
-      ),
+      variant: widget.expandableSearchbar.buttonVariant,
     );
   }
 
@@ -617,7 +617,7 @@ class _OsmeaExpandableSearchbarViewState
   Widget _buildLoadingIndicator(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8),
-      child: SizedBox(
+      child: OsmeaSizedBox(
         width: 16,
         height: 16,
         child: CircularProgressIndicator(
