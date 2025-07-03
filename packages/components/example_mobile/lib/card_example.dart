@@ -35,7 +35,7 @@ class _CardExampleState extends State<CardExample> {
         backgroundColor: OsmeaColors.nordicBlue,
         foregroundColor: OsmeaColors.white,
       ),
-      body: SingleChildScrollView(
+      body: OsmeaComponents.singleChildScrollView(
         padding: context.paddingNormal,
         child: OsmeaComponents.column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -278,15 +278,14 @@ class _CardExampleState extends State<CardExample> {
                 ),
               ],
             ),
-            child: const Text(
+            child: OsmeaComponents.text(
               'NEW',
-              style: TextStyle(
-                color: OsmeaColors.white,
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 0.5,
-              ),
+              color: OsmeaColors.white,
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 0.5,
             ),
+
           ),
           badgePosition: BadgePosition.topRight,
           variant: ComponentAppearance.elevated,
@@ -324,7 +323,7 @@ class _CardExampleState extends State<CardExample> {
                   color: OsmeaColors.white,
                   size: 85,
                 ),
-                SizedBox(height: 16),
+                OsmeaComponents.sizedBox(height: 16),
                 OsmeaComponents.container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
@@ -336,10 +335,9 @@ class _CardExampleState extends State<CardExample> {
                     children: [
                       Icon(Icons.favorite,
                           color: OsmeaColors.sunsetGlow, size: 16),
-                      SizedBox(width: 4),
-                      Text('72 BPM',
-                          style: TextStyle(
-                              color: OsmeaColors.white, fontSize: 12)),
+                      OsmeaComponents.sizedBox(width: 4),
+                      OsmeaComponents.text('72 BPM',
+                          color: OsmeaColors.white, fontSize: 12),
                     ],
                   ),
                 ),
@@ -1104,7 +1102,7 @@ class _CardExampleState extends State<CardExample> {
           spacing: 16,
           runSpacing: 16,
           children: [
-            SizedBox(
+            OsmeaComponents.sizedBox(
               width: 150,
               height: 125,
               child: OsmeaComponents.basicCard(
@@ -1117,7 +1115,7 @@ class _CardExampleState extends State<CardExample> {
                 onTap: () => _showSnackBar('Stats card tapped'),
               ),
             ),
-            SizedBox(
+            OsmeaComponents.sizedBox(
               width: 150,
               height: 125,
               child: OsmeaComponents.basicCard(
@@ -1130,7 +1128,7 @@ class _CardExampleState extends State<CardExample> {
                 onTap: () => _showSnackBar('Revenue card tapped'),
               ),
             ),
-            SizedBox(
+            OsmeaComponents.sizedBox(
               width: 150,
               height: 125,
               child: OsmeaComponents.basicCard(
@@ -1143,7 +1141,7 @@ class _CardExampleState extends State<CardExample> {
                 onTap: () => _showSnackBar('Growth card tapped'),
               ),
             ),
-            SizedBox(
+            OsmeaComponents.sizedBox(
               width: 150,
               height: 125,
               child: OsmeaComponents.basicCard(
