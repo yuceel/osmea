@@ -16,7 +16,7 @@ class ExpandedExampleScreen extends StatelessWidget {
         backgroundColor: OsmeaColors.nordicBlue,
         foregroundColor: OsmeaColors.white,
       ),
-      body: SingleChildScrollView(
+      body: OsmeaComponents.singleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: SafeArea(
           child: OsmeaComponents.column(
@@ -554,7 +554,7 @@ class ExpandedExampleScreen extends StatelessWidget {
                                     border:
                                         Border.all(color: Colors.grey.shade300),
                                     padding: const EdgeInsets.all(12),
-                                    child: SingleChildScrollView(
+                                    child: OsmeaComponents.singleChildScrollView(
                                       child: OsmeaComponents.column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -836,7 +836,7 @@ class ExpandedExampleScreen extends StatelessWidget {
                         ],
                       ),
                       padding: const EdgeInsets.all(16),
-                      child: Column(
+                      child: OsmeaComponents.column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Icon(Icons.star,
