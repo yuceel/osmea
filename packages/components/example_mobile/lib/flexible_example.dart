@@ -15,7 +15,7 @@ class FlexibleExampleScreen extends StatelessWidget {
       appBar: OsmeaComponents.appBar(
         title: OsmeaComponents.text('OSMEA Flexible Examples'),
       ),
-      body: SingleChildScrollView(
+      body: OsmeaComponents.singleChildScrollView(
         padding: context.paddingNormal,
         child: OsmeaComponents.column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -483,7 +483,7 @@ class FlexibleExampleScreen extends StatelessWidget {
               ),
               // Use Expanded to ensure the value gets proper space
               Expanded(
-                child: Align(
+                child: OsmeaComponents.align(
                   alignment: Alignment.centerLeft,
                   child: OsmeaComponents.text(
                     value,
