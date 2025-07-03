@@ -19,7 +19,7 @@ class RowExampleScreen extends StatelessWidget {
           fontSize: 20,
         ),
       ),
-      body: SingleChildScrollView(
+      body: OsmeaComponents.singleChildScrollView(
         padding: context.paddingNormal,
         child: OsmeaComponents.column(
           crossAxisAlignment: CrossAxisAlignment.start,
