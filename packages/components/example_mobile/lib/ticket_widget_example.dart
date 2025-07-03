@@ -116,7 +116,7 @@ class _TicketWidgetExampleState extends State<TicketWidgetExample> {
   }
 
   Widget _buildTicketForm() {
-    if (_config == null) return const SizedBox();
+    if (_config == null) return OsmeaComponents.sizedBox();
 
     return OsmeaComponents.singleChildScrollView(
       padding: const EdgeInsets.all(16),
