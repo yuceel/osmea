@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/gestures.dart';
 import 'package:osmea_components/osmea_components.dart';
+import 'package:osmea_components/src/components/toast/toast.dart'
+    show ToastManager;
 
 // Component imports
 import 'package:osmea_components/src/components/align/align.dart';
@@ -26,6 +28,8 @@ import 'package:osmea_components/src/components/rich_text/rich_text.dart';
 import 'package:osmea_components/src/components/row/row.dart';
 import 'package:osmea_components/src/components/scaffold/scaffold.dart';
 import 'package:osmea_components/src/components/single_child_scroll_view/single_child_scroll_view.dart';
+import 'package:osmea_components/src/components/fitted_box/fitted_box.dart';
+import 'package:osmea_components/src/components/clip_r_rect/clip_r_rect.dart';
 import 'package:osmea_components/src/components/sized_box/sized_box.dart';
 import 'package:osmea_components/src/components/spacer/spacer.dart';
 import 'package:osmea_components/src/components/stack/stack.dart';
@@ -1880,6 +1884,62 @@ class OsmeaComponents {
     );
   }
 
+  /// 📏 **OSMEA FittedBox** - Scale and fit child widget
+  ///
+  /// Creates a widget that scales and positions its child within itself
+  /// according to fit and alignment.
+  /// Useful for scaling images, icons, or any widget to fit available space.
+  ///
+  /// Example:
+  /// ```dart
+  /// OsmeaComponents.fittedBox(
+  ///   fit: BoxFit.contain,
+  ///   alignment: Alignment.center,
+  ///   child: Image.asset('assets/logo.png'),
+  /// )
+  /// ```
+  static Widget fittedBox({
+    Key? key,
+    BoxFit fit = BoxFit.contain,
+    AlignmentGeometry alignment = Alignment.center,
+    Clip clipBehavior = Clip.none,
+    Widget? child,
+  }) {
+    return OsmeaFittedBox(
+      key: key,
+      fit: fit,
+      alignment: alignment,
+      clipBehavior: clipBehavior,
+      child: child,
+    );
+  }
+
+  /// ✂️ **OSMEA ClipRRect** - Clip child with rounded corners
+  ///
+  /// Creates a widget that clips its child using a rounded rectangle.
+  /// Useful for creating rounded corners on images, containers, or any widget.
+  ///
+  /// Example:
+  /// ```dart
+  /// OsmeaComponents.clipRRect(
+  ///   borderRadius: BorderRadius.circular(16.0),
+  ///   child: Image.network('https://example.com/image.jpg'),
+  /// )
+  /// ```
+  static Widget clipRRect({
+    Key? key,
+    BorderRadiusGeometry borderRadius = BorderRadius.zero,
+    Clip clipBehavior = Clip.antiAlias,
+    Widget? child,
+  }) {
+    return OsmeaClipRRect(
+      key: key,
+      borderRadius: borderRadius,
+      clipBehavior: clipBehavior,
+      child: child,
+    );
+  }
+
   /// 🪨 **OSMEA Chips** - Interactive and selectable chip component
   ///
   /// Creates an interactive chip component with support for:
@@ -3127,6 +3187,76 @@ class OsmeaComponents {
       buttonIcon: buttonIcon,
       buttonTooltip: buttonTooltip,
     );
+  }
+
+  /// 🍞 **OSMEA Toast** - Show toast message with different styles
+  ///
+  /// Shows a toast message with optional title and style.
+  ///
+  /// Example:
+  /// ```dart
+  /// OsmeaComponents.toast(
+  ///   context: context,
+  ///   title: 'Success!',
+  ///   message: 'Your message has been sent successfully.',
+  ///   type: ToastType.success,
+  ///   style: ToastStyle.modern,
+  ///   position: ToastPosition.bottom,
+  ///   duration: Duration(seconds: 2),
+  ///   animation: ToastAnimation.slide,
+  ///   stacked: true, // Show multiple toasts at once (default)
+  ///   maxToasts: 5, // Maximum number of toasts visible at once (default)
+  /// );
+  /// ```
+  static void toast({
+    required BuildContext context,
+    String? title,
+    required String message,
+    ToastType type = ToastType.info,
+    ToastStyle style = ToastStyle.defaultStyle,
+    ToastPosition position = ToastPosition.bottom,
+    ToastAnimation animation = ToastAnimation.slide,
+    Duration? duration,
+    bool stacked = true,
+    int maxToasts = 5,
+  }) {
+    ToastManager().showToast(
+      context: context,
+      title: title,
+      message: message,
+      type: type,
+      style: style,
+      position: position,
+      animation: animation,
+      duration: duration,
+      stacked: stacked,
+      maxToasts: maxToasts,
+    );
+  }
+
+  /// Shows a quick toast notification (2 seconds duration) with minimal style.
+  /// Perfect for short status updates like "Copied to clipboard", "Saved", etc.
+  static void quickToast({
+    required BuildContext context,
+    required String message,
+    ToastType type = ToastType.info,
+    ToastPosition position = ToastPosition.bottom,
+  }) {
+    ToastManager().showToast(
+      context: context,
+      message: message,
+      type: type,
+      style: ToastStyle.minimal,
+      position: position,
+      duration: const Duration(seconds: 2),
+      stacked: true,
+      maxToasts: 5,
+    );
+  }
+
+  /// Hides all currently visible toasts
+  static void hideAllToasts() {
+    ToastManager().hideAllToasts();
   }
 }
 
