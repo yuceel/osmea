@@ -71,7 +71,7 @@ class UnifiedBadgeShowcaseWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // Title
-              Text(
+              const Text (
                 '🏷️ Badge Features Showcase',
                 style: TextStyle(
                   fontSize: 24,
@@ -320,80 +320,6 @@ class UnifiedBadgeShowcaseWidget extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  // Build parent widget based on selected type (matches badge_example.dart scenarios)
-  Widget _buildParentChild() {
-    switch (parentType) {
-      case 'Avatar':
-        return const CircleAvatar(
-          radius: 24,
-          backgroundColor: Colors.blue,
-          child: Icon(Icons.person, color: Colors.white, size: 20),
-        );
-      case 'Button':
-        return ElevatedButton(
-          onPressed: () {},
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.blue,
-            foregroundColor: Colors.white,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          ),
-          child: const Text('Messages'),
-        );
-      case 'Tag':
-        return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          decoration: BoxDecoration(
-            color: Colors.grey.shade100,
-            borderRadius: BorderRadius.circular(6),
-          ),
-          child: const Text('Product', style: TextStyle(fontSize: 14, color: Colors.black87)),
-        );
-      case 'Card':
-        return Container(
-          width: 60,
-          height: 40,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(color: Colors.grey.shade300),
-          ),
-          child: const Center(
-            child: Icon(Icons.credit_card, size: 20, color: Colors.black54),
-          ),
-        );
-      case 'Menu':
-        return Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          decoration: BoxDecoration(
-            color: Colors.blue.shade50,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: const Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(Icons.menu, size: 18, color: Colors.blue),
-              SizedBox(width: 8),
-              Text('Menu', style: TextStyle(fontSize: 14, color: Colors.blue, fontWeight: FontWeight.w500)),
-            ],
-          ),
-        );
-      case 'None':
-        return const SizedBox.shrink();
-      case 'Icon':
-      default:
-        return Container(
-          width: 50,
-          height: 50,
-          decoration: BoxDecoration(
-            color: Colors.grey.shade200,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: const Icon(Icons.notifications, size: 24, color: Colors.black54),
-        );
-    }
   }
 
   // Clamp position to the four corners; default to topRight if unsupported
