@@ -60,6 +60,7 @@ export 'src/utils/list_item_extensions.dart';
 export 'src/utils/stepper_extension.dart';
 export 'src/utils/progress_extensions.dart';
 export 'src/utils/toast_extensions.dart';
+export 'src/utils/snackbar_extensions.dart';
 
 // 🔢 Enums
 export 'src/enums/enums.dart';
