@@ -118,7 +118,7 @@ class _SwitchButtonExampleState extends State<SwitchButtonExample> {
               (value) => setState(() => _simpleSwitch = value),
               variant: SwitchVariant.simple,
             ),
-            const Divider(),
+            OsmeaComponents.divider(),
             _buildSwitchRow(
               '🏷️ Labeled Switch',
               'Switch with label support',
@@ -126,7 +126,7 @@ class _SwitchButtonExampleState extends State<SwitchButtonExample> {
               (value) => setState(() => _labeledSwitch = value),
               variant: SwitchVariant.labeled,
             ),
-            const Divider(),
+            OsmeaComponents.divider(),
             _buildSwitchRow(
               '🔄 Toggle Switch',
               'Classic toggle switch style',
@@ -134,7 +134,7 @@ class _SwitchButtonExampleState extends State<SwitchButtonExample> {
               (value) => setState(() => _toggleSwitch = value),
               variant: SwitchVariant.toggle,
             ),
-            const Divider(),
+            OsmeaComponents.divider(),
             _buildSwitchRow(
               '🎚️ Slider Switch',
               'Slider-style switch with smooth animation',
@@ -142,7 +142,7 @@ class _SwitchButtonExampleState extends State<SwitchButtonExample> {
               (value) => setState(() => _sliderSwitch = value),
               variant: SwitchVariant.slider,
             ),
-            const Divider(),
+            OsmeaComponents.divider(),
             _buildSwitchRow(
               '🎴 Card Switch',
               'Switch embedded in card container',
@@ -150,7 +150,7 @@ class _SwitchButtonExampleState extends State<SwitchButtonExample> {
               (value) => setState(() => _cardSwitch = value),
               variant: SwitchVariant.card,
             ),
-            const Divider(),
+            OsmeaComponents.divider(),
             _buildSwitchRow(
               '📦 Compact Switch',
               'Minimal space switch for dense layouts',
@@ -158,7 +158,7 @@ class _SwitchButtonExampleState extends State<SwitchButtonExample> {
               (value) => setState(() => _compactSwitch = value),
               variant: SwitchVariant.compact,
             ),
-            const Divider(),
+            OsmeaComponents.divider(),
             _buildSwitchRow(
               '🔧 Extended Switch',
               'Full-featured switch with maximum customization',
@@ -185,7 +185,7 @@ class _SwitchButtonExampleState extends State<SwitchButtonExample> {
               (value) => setState(() => _smallSwitch = value),
               size: SwitchSize.small,
             ),
-            const Divider(),
+            OsmeaComponents.divider(),
             _buildSwitchRow(
               '🔶 Medium Switch',
               'Standard switch size (48px)',
@@ -193,7 +193,7 @@ class _SwitchButtonExampleState extends State<SwitchButtonExample> {
               (value) => setState(() => _mediumSwitch = value),
               size: SwitchSize.medium,
             ),
-            const Divider(),
+            OsmeaComponents.divider(),
             _buildSwitchRow(
               '🔷 Large Switch',
               'Prominent switch for accessibility (64px)',
@@ -220,7 +220,7 @@ class _SwitchButtonExampleState extends State<SwitchButtonExample> {
               (value) => setState(() => _darkModeSwitch = value),
               variant: SwitchVariant.labeled,
             ),
-            const Divider(),
+            OsmeaComponents.divider(),
             _buildSwitchRow(
               '🔔 Notifications',
               'Receive push notifications',
@@ -229,7 +229,7 @@ class _SwitchButtonExampleState extends State<SwitchButtonExample> {
               variant: SwitchVariant.labeled,
               customActiveColor: Colors.green,
             ),
-            const Divider(),
+            OsmeaComponents.divider(),
             _buildSwitchRow(
               '📍 Location Services',
               'Allow location access for better experience',
@@ -238,7 +238,7 @@ class _SwitchButtonExampleState extends State<SwitchButtonExample> {
               variant: SwitchVariant.labeled,
               customActiveColor: Colors.orange,
             ),
-            const Divider(),
+            OsmeaComponents.divider(),
             _buildSwitchRow(
               '📶 Bluetooth',
               'Enable Bluetooth connectivity',
@@ -247,7 +247,7 @@ class _SwitchButtonExampleState extends State<SwitchButtonExample> {
               variant: SwitchVariant.toggle,
               customActiveColor: Colors.blue,
             ),
-            const Divider(),
+            OsmeaComponents.divider(),
             _buildSwitchRow(
               '📶 WiFi',
               'Connect to available WiFi networks',
@@ -255,7 +255,7 @@ class _SwitchButtonExampleState extends State<SwitchButtonExample> {
               (value) => setState(() => _wifiSwitch = value),
               variant: SwitchVariant.slider,
             ),
-            const Divider(),
+            OsmeaComponents.divider(),
             _buildSwitchRow(
               '💾 Auto Backup',
               'Automatically backup your data',
@@ -283,7 +283,7 @@ class _SwitchButtonExampleState extends State<SwitchButtonExample> {
               (value) {},
               state: SwitchState.enabled,
             ),
-            const Divider(),
+            OsmeaComponents.divider(),
             _buildSwitchRow(
               '⚫ Disabled Switch',
               'Non-interactive state',
@@ -291,7 +291,7 @@ class _SwitchButtonExampleState extends State<SwitchButtonExample> {
               null,
               state: SwitchState.disabled,
             ),
-            const Divider(),
+            OsmeaComponents.divider(),
             _buildSwitchRow(
               '🎯 Focused Switch',
               'Keyboard focus state',
@@ -323,7 +323,7 @@ class _SwitchButtonExampleState extends State<SwitchButtonExample> {
               inactiveColor: Colors.grey[300],
               thumbColor: Colors.white,
             ),
-            const Divider(), // Full width switch
+            OsmeaComponents.divider(), // Full width switch
             OsmeaComponents.switchButton(
               value: false,
               onChanged: (value) {},
@@ -333,7 +333,7 @@ class _SwitchButtonExampleState extends State<SwitchButtonExample> {
               activeColor: Colors.green, // Custom green color
               fullWidth: true,
             ),
-            const Divider(),
+            OsmeaComponents.divider(),
 
             // Switch with custom padding
             OsmeaComponents.container(
@@ -369,7 +369,7 @@ class _SwitchButtonExampleState extends State<SwitchButtonExample> {
               (value) => setState(() => _modernStyle = value),
               style: SwitchStyle.modern,
             ),
-            const Divider(),
+            OsmeaComponents.divider(),
             _buildSwitchRow(
               '📱 Material Style',
               'Google Material Design 3 style',
@@ -377,7 +377,7 @@ class _SwitchButtonExampleState extends State<SwitchButtonExample> {
               (value) => setState(() => _materialStyle = value),
               style: SwitchStyle.material,
             ),
-            const Divider(),
+            OsmeaComponents.divider(),
             _buildSwitchRow(
               '🍎 Cupertino Style',
               'Apple iOS style with smooth animations',
@@ -385,7 +385,7 @@ class _SwitchButtonExampleState extends State<SwitchButtonExample> {
               (value) => setState(() => _cupertinoStyle = value),
               style: SwitchStyle.cupertino,
             ),
-            const Divider(),
+            OsmeaComponents.divider(),
             _buildSwitchRow(
               '💎 Glassmorphism Style',
               'Glass-like transparency with blur effects',
@@ -393,7 +393,7 @@ class _SwitchButtonExampleState extends State<SwitchButtonExample> {
               (value) => setState(() => _glassmorphismStyle = value),
               style: SwitchStyle.glassmorphism,
             ),
-            const Divider(),
+            OsmeaComponents.divider(),
             _buildSwitchRow(
               '🔲 Minimal Style',
               'Ultra-clean design with pure geometric shapes',
