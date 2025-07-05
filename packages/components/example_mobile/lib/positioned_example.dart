@@ -396,7 +396,7 @@ class PositionedExampleScreen extends StatelessWidget {
       child: OsmeaComponents.stack(
         children: [
           // Half width, centered horizontally
-          Center(
+          OsmeaComponents.center(
             child: OsmeaComponents.positioned(
               top: 20,
               width: 180, // Use fixed width instead of infinity
@@ -682,7 +682,7 @@ class PositionedExampleScreen extends StatelessWidget {
                   child: Icon(Icons.person, color: Colors.white),
                 ),
                 OsmeaComponents.sizedBox(width: 16),
-                Expanded(
+                OsmeaComponents.expanded(
                   child: OsmeaComponents.column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
