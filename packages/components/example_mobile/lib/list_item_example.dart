@@ -184,7 +184,7 @@ class _ListItemExampleState extends State<ListItemExample> {
                   children: [
                     const Icon(Icons.label),
                     OsmeaComponents.sizedBox(width: 8),
-                    Expanded(
+                    OsmeaComponents.expanded(
                         child: OsmeaComponents.text(t('Fully customizable row',
                             'Vollständig anpassbare Zeile'))),
                     ElevatedButton(
