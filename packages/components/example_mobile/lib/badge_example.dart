@@ -106,7 +106,7 @@ class _BadgeExampleState extends State<BadgeExample> {
             ),
           ),
           OsmeaComponents.sizedBox(height: 30),
-          Wrap(
+          OsmeaComponents.wrap(
             spacing: 20,
             runSpacing: 30,
             children: [
@@ -292,7 +292,7 @@ class _BadgeExampleState extends State<BadgeExample> {
   }
 
   Widget _buildVariantShowcase() {
-    return Wrap(
+    return OsmeaComponents.wrap(
       spacing: 16,
       runSpacing: 24,
       alignment: WrapAlignment.start,
@@ -366,7 +366,7 @@ class _BadgeExampleState extends State<BadgeExample> {
   }
 
   Widget _buildSizeShowcase() {
-    return Wrap(
+    return OsmeaComponents.wrap(
       spacing: 24,
       runSpacing: 24,
       crossAxisAlignment: WrapCrossAlignment.center,
@@ -424,7 +424,7 @@ class _BadgeExampleState extends State<BadgeExample> {
   }
 
   Widget _buildShapeShowcase() {
-    return Wrap(
+    return OsmeaComponents.wrap(
       spacing: 24,
       runSpacing: 24,
       crossAxisAlignment: WrapCrossAlignment.center,
@@ -474,7 +474,7 @@ class _BadgeExampleState extends State<BadgeExample> {
   }
 
   Widget _buildStateShowcase() {
-    return Wrap(
+    return OsmeaComponents.wrap(
       spacing: 24,
       runSpacing: 24,
       crossAxisAlignment: WrapCrossAlignment.center,
@@ -519,7 +519,7 @@ class _BadgeExampleState extends State<BadgeExample> {
   }
 
   Widget _buildIconShowcase() {
-    return Wrap(
+    return OsmeaComponents.wrap(
       spacing: 24,
       runSpacing: 24,
       crossAxisAlignment: WrapCrossAlignment.center,
@@ -657,7 +657,7 @@ class _BadgeExampleState extends State<BadgeExample> {
       ),
     );
 
-    return Wrap(
+    return OsmeaComponents.wrap(
       spacing: 24,
       runSpacing: 24,
       children: [
@@ -716,7 +716,7 @@ class _BadgeExampleState extends State<BadgeExample> {
   }
 
   Widget _buildInteractiveShowcase() {
-    return Wrap(
+    return OsmeaComponents.wrap(
       spacing: 16,
       runSpacing: 16,
       children: [
@@ -751,7 +751,7 @@ class _BadgeExampleState extends State<BadgeExample> {
   }
 
   Widget _buildDotBadgeShowcase() {
-    return Wrap(
+    return OsmeaComponents.wrap(
       spacing: 24,
       runSpacing: 24,
       crossAxisAlignment: WrapCrossAlignment.center,
@@ -803,7 +803,7 @@ class _BadgeExampleState extends State<BadgeExample> {
   }
 
   Widget _buildStyleShowcase() {
-    return Wrap(
+    return OsmeaComponents.wrap(
       spacing: 24,
       runSpacing: 24,
       crossAxisAlignment: WrapCrossAlignment.center,
