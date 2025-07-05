@@ -470,7 +470,7 @@ class ColumnExampleScreen extends StatelessWidget {
             height: 200,
             color: Colors.grey.shade100,
             padding: const EdgeInsets.all(8),
-            child: Wrap(
+            child: OsmeaComponents.wrap(
               direction: Axis.vertical,
               spacing: 8,
               runSpacing: 8,
@@ -803,12 +803,12 @@ class ColumnExampleScreen extends StatelessWidget {
                           color: Colors.amber,
                           shape: BoxShape.circle,
                         ),
-                        child: const Center(
+                        child: OsmeaComponents.center(
                           child: Icon(Icons.person, color: Colors.white),
                         ),
                       ),
                       OsmeaComponents.sizedBox(width: 12),
-                      Expanded(
+                      OsmeaComponents.expanded(
                         child: OsmeaComponents.column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -824,7 +824,7 @@ class ColumnExampleScreen extends StatelessWidget {
                     ],
                   ),
                   OsmeaComponents.sizedBox(height: 12),
-                  const Divider(),
+                  OsmeaComponents.divider(),
                   OsmeaComponents.sizedBox(height: 8),
                   OsmeaComponents.row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -899,7 +899,7 @@ class ColumnExampleScreen extends StatelessWidget {
         children: [
           OsmeaComponents.row(
             children: [
-              Expanded(
+              OsmeaComponents.expanded(
                 child: OsmeaComponents.column(
                   children: [
                     OsmeaComponents.text('OSMEA Column',
@@ -935,7 +935,7 @@ class ColumnExampleScreen extends StatelessWidget {
                 ),
               ),
               OsmeaComponents.sizedBox(width: 16),
-              Expanded(
+              OsmeaComponents.expanded(
                 child: OsmeaComponents.column(
                   children: [
                     OsmeaComponents.text('Flutter Column',
