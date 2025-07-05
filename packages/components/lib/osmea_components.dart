@@ -14,6 +14,7 @@ export 'src/theme/theme.dart';
 
 // 🧭 Navigation
 export 'src/components/navbar/navbar.dart';
+export 'src/components/tabbar/tabbar.dart';
 
 // 📝 Form Elements
 export 'src/components/text_field/cubit/otp_cubit.dart';
@@ -55,6 +56,7 @@ export 'src/utils/button_shape_extensions.dart';
 export 'src/utils/icon_positions_extensions.dart';
 export 'src/utils/switch_size_extensions.dart';
 export 'src/utils/navbar_extensions.dart';
+export 'src/utils/tabbar_extensions.dart';
 export 'src/utils/radio_size_extensions.dart';
 export 'src/utils/checkbox_size_extensions.dart';
 export 'src/utils/appbar_extensions.dart';

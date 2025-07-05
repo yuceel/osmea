@@ -30,6 +30,9 @@ export 'switch_enums.dart';
 // Navbar enums
 export 'navbar_enums.dart';
 
+// TabBar enums
+export 'tabbar_enums.dart';
+
 // Text enums
 export 'text_enums.dart';
 
