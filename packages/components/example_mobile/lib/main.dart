@@ -222,7 +222,7 @@ class ComponentsScreen extends StatelessWidget {
             'OSMEA Components',
           ),
           OsmeaComponents.sizedBox(height: 16),
-          Expanded(
+          OsmeaComponents.expanded(
             child: GridView.count(
               crossAxisCount: 2,
               crossAxisSpacing: 16,
@@ -501,7 +501,7 @@ class ExamplesScreen extends StatelessWidget {
             ),
           ),
           OsmeaComponents.sizedBox(height: 16),
-          Expanded(
+          OsmeaComponents.expanded(
             child: ListView(
               children: [
                 _buildExampleTile(
@@ -902,7 +902,7 @@ class _NavbarExampleState extends State<NavbarExample> {
               });
             },
           ),
-          Expanded(
+          OsmeaComponents.expanded(
             child: OsmeaComponents.padding(
               padding: context.paddingNormal,
               child: OsmeaComponents.column(
