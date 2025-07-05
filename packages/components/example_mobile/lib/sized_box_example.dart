@@ -105,7 +105,7 @@ class SizedBoxExample extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
               ),
               child:
-                  Center(child: OsmeaComponents.text('With Container Child')),
+                  OsmeaComponents.center(child: OsmeaComponents.text('With Container Child')),
             ),
           ),
         ),
@@ -120,7 +120,7 @@ class SizedBoxExample extends StatelessWidget {
                 border: Border.all(color: Colors.blue, width: 2),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Center(
+              child: OsmeaComponents.center(
                   child: OsmeaComponents.text('With Border & BorderRadius')),
             ),
           ),
@@ -143,7 +143,7 @@ class SizedBoxExample extends StatelessWidget {
                   ),
                 ],
               ),
-              child: Center(
+              child: OsmeaComponents.center(
                   child: OsmeaComponents.text(
                 'With BoxShadow',
                 textStyle: TextStyle(
@@ -170,7 +170,7 @@ class SizedBoxExample extends StatelessWidget {
                   end: Alignment.bottomRight,
                 ),
               ),
-              child: Center(
+              child: OsmeaComponents.center(
                 child: OsmeaComponents.text(
                   'With Gradient',
                   textStyle: const TextStyle(
@@ -195,7 +195,7 @@ class SizedBoxExample extends StatelessWidget {
               ),
               child: OsmeaComponents.container(
                 color: Colors.amber,
-                child: Center(
+                child: OsmeaComponents.center(
                     child: OsmeaComponents.text('With Padding & Margin')),
               ),
             ),
@@ -223,7 +223,7 @@ class SizedBoxExample extends StatelessWidget {
                   color: Colors.grey.shade200,
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Center(
+                child: OsmeaComponents.center(
                     child: OsmeaComponents.text('Tap Me!',
                         textStyle:
                             const TextStyle(fontWeight: FontWeight.bold))),
@@ -246,7 +246,7 @@ class SizedBoxExample extends StatelessWidget {
                   color: Colors.grey.shade200,
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Center(
+                child: OsmeaComponents.center(
                     child: OsmeaComponents.text('Long Press Me!',
                         textStyle:
                             const TextStyle(fontWeight: FontWeight.bold))),
@@ -305,7 +305,7 @@ class SizedBoxExample extends StatelessWidget {
             height: 100,
             child: ColoredBox(
               color: Colors.deepPurple,
-              child: Center(
+              child: OsmeaComponents.center(
                 child: OsmeaComponents.text(
                   'Square\n100x100',
                   textAlign: TextAlign.center,
@@ -321,16 +321,16 @@ class SizedBoxExample extends StatelessWidget {
           OsmeaComponents.sizedBox(
             height: 80,
             width: 200,
-            child: Stack(
+            child: OsmeaComponents.stack(
               children: [
                 const Positioned.fill(
                   child: ColoredBox(color: Colors.grey),
                 ),
                 // Use Flutter's SizedBox.expand
                 SizedBox.expand(
-                  child: Center(
+                  child: OsmeaComponents.center(
                     child: OsmeaComponents.sizedBox(
-                      child: Center(
+                      child: OsmeaComponents.center(
                         child: OsmeaComponents.text(
                           'Expands to Fill Parent',
                           textStyle: const TextStyle(color: Colors.white),
