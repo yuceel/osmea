@@ -42,11 +42,10 @@ import 'package:osmea_components/src/components/ticket_widget/ticket_widget.dart
 import 'package:osmea_components/src/components/ticket_widget/models/ticket_models.dart';
 import 'package:osmea_components/src/components/popup/popup.dart';
 import 'package:osmea_components/src/components/stepper/stepper.dart';
-import 'components/snackbar/snackbar.dart';
+
 export 'utils/snackbar_extensions.dart';
 import 'package:osmea_components/src/components/searchbar/searchbar.dart';
 import 'package:osmea_components/src/components/searchbar/expandable_searchbar.dart';
-
 
 class OsmeaComponents {
   /// Supported Button variants - All variants are supported
@@ -3207,8 +3206,9 @@ class OsmeaComponents {
       buttonState: buttonState,
       buttonIcon: buttonIcon,
       buttonTooltip: buttonTooltip,
-    ); 
-    }
+    );
+  }
+
   /// 📑 **OSMEA TabBar** - Comprehensive tab navigation component
   ///
   /// Creates a feature-rich tab navigation component with support for:
@@ -3328,7 +3328,7 @@ class OsmeaComponents {
   ///   maxToasts: 5, // Maximum number of toasts visible at once (default)
   /// );
   /// ```
-  
+
   static void toast({
     required BuildContext context,
     String? title,

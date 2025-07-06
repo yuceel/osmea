@@ -11,8 +11,6 @@ import 'package:osmea_components/src/components/container/container.dart';
 import 'package:osmea_components/src/components/padding/padding.dart';
 import 'package:osmea_components/src/components/stack/stack.dart';
 import 'package:osmea_components/src/components/text/text.dart';
-import 'package:osmea_components/src/enums/snackbar_enums.dart';
-import 'package:osmea_components/src/styles/colors.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:osmea_components/src/components/snackbar/cubit/snackbar_cubit.dart';
 import 'package:osmea_components/src/components/snackbar/cubit/snackbar_state.dart';
@@ -20,8 +18,6 @@ import 'dart:async';
 import 'dart:ui';
 import 'package:osmea_components/src/components/buttons/button.dart';
 import 'package:osmea_components/src/components/progress/progress.dart';
-import 'package:osmea_components/src/enums/button_enums.dart';
-import 'package:osmea_components/src/enums/progress_enums.dart';
 import 'dart:math' as math;
 import 'package:osmea_components/osmea_components.dart';
 
@@ -32,17 +28,14 @@ class GlobalSnackbarOverlay {
   factory GlobalSnackbarOverlay() => _instance;
   GlobalSnackbarOverlay._internal();
   OverlayEntry? _overlayEntry;
-  bool _isShown = false;
   void ensureOverlay(BuildContext context) {
     if (_overlayEntry != null) {
       _overlayEntry!.remove();
-      _isShown = false;
     }
     _overlayEntry = OverlayEntry(
       builder: (_) => const _SnackbarOverlayWidget(),
     );
     Overlay.of(context, rootOverlay: true).insert(_overlayEntry!);
-    _isShown = true;
   }
 }
 
@@ -259,8 +252,8 @@ class OsmeaSnackbar extends StatelessWidget {
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              _typeColor().withOpacity(0.95),
-              _typeColor().withOpacity(0.7),
+              _typeColor().withAlpha((0.95 * 255).toInt()),
+              _typeColor().withAlpha((0.7 * 255).toInt()),
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -290,10 +283,11 @@ class OsmeaSnackbar extends StatelessWidget {
           child: OsmeaContainer(
             padding: const EdgeInsets.only(bottom: 20),
             decoration: BoxDecoration(
-              color: _typeColor().withOpacity(0.35),
+              color: _typeColor().withAlpha((0.35 * 255).toInt()),
               borderRadius: BorderRadius.circular(18),
-              border:
-                  Border.all(color: Colors.white.withOpacity(0.25), width: 1.5),
+              border: Border.all(
+                  color: Colors.white.withAlpha((0.25 * 255).toInt()),
+                  width: 1.5),
               boxShadow: [
                 BoxShadow(
                   color: _typeColor().withOpacity(0.18),
@@ -369,7 +363,7 @@ class OsmeaSnackbar extends StatelessWidget {
       child: OsmeaContainer(
         padding: const EdgeInsets.only(bottom: 20),
         decoration: BoxDecoration(
-          color: _typeColor().withOpacity(0.95),
+          color: _typeColor().withAlpha((0.95 * 255).toInt()),
           borderRadius: BorderRadius.circular(14),
           boxShadow: [
             BoxShadow(
@@ -395,11 +389,11 @@ class OsmeaSnackbar extends StatelessWidget {
       child: OsmeaContainer(
         padding: const EdgeInsets.only(bottom: 20),
         decoration: BoxDecoration(
-          color: _typeColor().withOpacity(0.92),
+          color: _typeColor().withAlpha((0.92 * 255).toInt()),
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: _typeColor().withOpacity(0.7),
+              color: _typeColor().withAlpha((0.7 * 255).toInt()),
               blurRadius: 32,
               spreadRadius: 4,
               offset: const Offset(0, 0),
@@ -434,7 +428,6 @@ class OsmeaSnackbar extends StatelessWidget {
       bool useGlass = false,
       bool modern = false,
       bool glow = false}) {
-    final hasAction = state.actionLabel != null && state.onAction != null;
     return OsmeaColumn(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
