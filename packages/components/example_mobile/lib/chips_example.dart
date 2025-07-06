@@ -368,12 +368,12 @@ class _ChipsExampleState extends State<ChipsExample> {
           alignment: Alignment.centerLeft,
           child: OsmeaComponents.chips(
             text: 'With Avatar',
-            avatar: const CircleAvatar(
+            avatar: CircleAvatar(
               backgroundColor: Colors.blue,
               radius: 12,
-              child: Text(
+              child: OsmeaComponents.text(
                 'A',
-                style: TextStyle(
+                textStyle: TextStyle(
                   color: Colors.white,
                   fontSize: 12,
                 ),
