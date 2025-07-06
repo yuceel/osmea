@@ -96,26 +96,57 @@ class _PositionedSnackbarGroup extends StatelessWidget {
         position == SnackbarPosition.bottom
             ? snackbars.reversed.toList()
             : snackbars;
-    if (position != SnackbarPosition.bottom) return const SizedBox.shrink();
+
+    // Tüm pozisyonlar için çalışacak şekilde düzenle
+    Alignment alignment;
+    EdgeInsets padding;
+
+    switch (position) {
+      case SnackbarPosition.top:
+        alignment = Alignment.topCenter;
+        padding = const EdgeInsets.only(top: 24, left: 16, right: 16);
+        break;
+      case SnackbarPosition.center:
+        alignment = Alignment.center;
+        padding = const EdgeInsets.symmetric(horizontal: 16);
+        break;
+      case SnackbarPosition.bottom:
+        alignment = Alignment.bottomCenter;
+        padding = EdgeInsets.only(
+          bottom: math.max(MediaQuery.of(context).viewPadding.bottom, 12),
+          left: 16,
+          right: 16,
+        );
+        break;
+    }
+
     return Align(
-      alignment: Alignment.bottomCenter,
+      alignment: alignment,
       child: SafeArea(
-        bottom: true,
+        bottom: position == SnackbarPosition.bottom,
+        top: position == SnackbarPosition.top,
         child: Padding(
-          padding: EdgeInsets.only(
-            bottom: math.max(MediaQuery.of(context).viewPadding.bottom, 12),
-          ),
+          padding: padding,
           child: ClipRect(
-            child: OsmeaColumn(
-              mainAxisSize: MainAxisSize.min,
-              children: displaySnackbars
-                  .map((snackbar) => OsmeaSnackbar(
-                        key: ValueKey(snackbar.id),
-                        state: snackbar,
-                        onClose: () =>
-                            SnackbarManager().hideSnackbar(snackbar.id),
-                      ))
-                  .toList(),
+            child: OsmeaStack(
+              children: displaySnackbars.asMap().entries.map((entry) {
+                final index = entry.key;
+                final snackbar = entry.value;
+                return Positioned(
+                  bottom: index * 8.0, // Her snackbar 8px yukarıda
+                  left: 0,
+                  right: 0,
+                  child: Transform.translate(
+                    offset: Offset(0, -index * 2.0), // Küçük offset
+                    child: OsmeaSnackbar(
+                      key: ValueKey(snackbar.id),
+                      state: snackbar,
+                      onClose: () =>
+                          SnackbarManager().hideSnackbar(snackbar.id),
+                    ),
+                  ),
+                );
+              }).toList(),
             ),
           ),
         ),
@@ -484,6 +515,18 @@ class OsmeaSnackbar extends StatelessWidget {
             ],
           ),
         ),
+        if (showProgress && state.progress != null)
+          Padding(
+            padding: const EdgeInsets.only(top: 4, left: 4, right: 4),
+            child: OsmeaProgress(
+              type: ProgressType.linear,
+              value: state.progress!,
+              size: ProgressSize.extraSmall,
+              progressColor: _lighterTypeColor(),
+              showPercentage: false,
+              strokeWidth: 1.0,
+            ),
+          ),
       ],
     );
   }
@@ -497,9 +540,6 @@ class SnackbarManager {
   static final SnackbarManager _instance = SnackbarManager._internal();
   factory SnackbarManager() => _instance;
   SnackbarManager._internal();
-  final List<_SnackbarEntry> _entries = [];
-  final Map<String, Timer> _timers = {};
-  static const int _defaultMaxSnackbars = 3;
 
   void showSnackbar({
     required BuildContext context,
@@ -511,143 +551,36 @@ class SnackbarManager {
     SnackbarAnimation animation = SnackbarAnimation.slide,
     Duration? duration,
     bool stacked = true,
-    int maxSnackbars = _defaultMaxSnackbars,
+    int maxSnackbars = 3,
     String? actionLabel,
     VoidCallback? onAction,
     Color? actionLabelColor,
   }) {
-    final overlay = Overlay.of(context, rootOverlay: true);
-    final id = UniqueKey().toString();
-    final snackbarState = SnackbarState(
-      id: id,
-      visible: true,
+    // Cubit tabanlı sisteme geçiş
+    SnackbarCubit.instance.show(
+      context: context,
+      builder: snackbarBuilder,
       title: title,
       message: message,
       type: type,
       position: position,
       animation: animation,
       style: style,
-      duration: duration ?? const Duration(seconds: 4),
+      duration: duration,
+      stacked: stacked,
+      maxSnackbars: maxSnackbars,
       actionLabel: actionLabel,
       onAction: onAction,
       actionLabelColor: actionLabelColor,
     );
-    if (!stacked) {
-      for (final entry in _entries) {
-        entry.overlayEntry.remove();
-        _timers[entry.id]?.cancel();
-        _timers.remove(entry.id);
-      }
-      _entries.clear();
-    } else if (_entries.length >= maxSnackbars) {
-      _timers[_entries.first.id]?.cancel();
-      _entries.first.overlayEntry.remove();
-      _entries.removeAt(0);
-    }
-    late OverlayEntry entry;
-    entry = OverlayEntry(
-      builder: (ctx) => _SingleSnackbarOverlay(
-        state: snackbarState,
-        onClose: () => hideSnackbar(id),
-        onAutoHide: () => hideSnackbar(id),
-      ),
-    );
-    _entries.add(_SnackbarEntry(id, entry));
-    overlay.insert(entry);
-    if (_entries.length == 1 || _entries.last.id == id) {
-      _startAutoHideTimer(_entries.last.id, snackbarState.duration);
-    }
-  }
-
-  void _startAutoHideTimer(String id, Duration duration) {
-    _timers[id]?.cancel();
-    _timers[id] = Timer(duration, () {
-      hideSnackbar(id);
-    });
   }
 
   void hideAllSnackbars() {
-    for (final entry in _entries) {
-      entry.overlayEntry.remove();
-    }
-    _entries.clear();
+    SnackbarCubit.instance.hideAll();
   }
 
   void hideSnackbar(String id) {
-    final idx = _entries.indexWhere((e) => e.id == id);
-    if (idx != -1) {
-      _timers[id]?.cancel();
-      _timers.remove(id);
-      _entries[idx].overlayEntry.remove();
-      _entries.removeAt(idx);
-      if (_entries.isNotEmpty) {
-        final nextId = _entries.last.id;
-        _startAutoHideTimer(nextId, const Duration(seconds: 4));
-      }
-    }
-  }
-}
-
-class _SnackbarEntry {
-  final String id;
-  final OverlayEntry overlayEntry;
-  _SnackbarEntry(this.id, this.overlayEntry);
-}
-
-class _SingleSnackbarOverlay extends StatelessWidget {
-  final SnackbarState state;
-  final VoidCallback onClose;
-  final VoidCallback onAutoHide;
-  const _SingleSnackbarOverlay({
-    required this.state,
-    required this.onClose,
-    required this.onAutoHide,
-  });
-  @override
-  Widget build(BuildContext context) {
-    Alignment alignment = _getAlignment(state.position);
-    EdgeInsets padding = _getPadding(state.position);
-    return IgnorePointer(
-      ignoring: false,
-      child: SafeArea(
-        child: OsmeaStack(
-          children: [
-            OsmeaAlign(
-              alignment: alignment,
-              child: OsmeaPadding(
-                padding: padding,
-                child: OsmeaSnackbar(
-                  state: state,
-                  onClose: onClose,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Alignment _getAlignment(SnackbarPosition position) {
-    switch (position) {
-      case SnackbarPosition.top:
-        return Alignment.topCenter;
-      case SnackbarPosition.center:
-        return Alignment.center;
-      case SnackbarPosition.bottom:
-        return Alignment.bottomCenter;
-    }
-  }
-
-  EdgeInsets _getPadding(SnackbarPosition position) {
-    switch (position) {
-      case SnackbarPosition.top:
-        return const EdgeInsets.only(top: 24, left: 16, right: 16);
-      case SnackbarPosition.center:
-        return const EdgeInsets.symmetric(horizontal: 16);
-      case SnackbarPosition.bottom:
-        return const EdgeInsets.only(bottom: 24, left: 16, right: 16);
-    }
+    SnackbarCubit.instance.hide(id);
   }
 }
 

@@ -40,6 +40,9 @@ class SnackbarCubit extends Cubit<List<SnackbarState>> {
     bool stacked = true,
     int maxSnackbars = _defaultMaxSnackbars,
     String? id,
+    String? actionLabel,
+    VoidCallback? onAction,
+    Color? actionLabelColor,
   }) {
     // Create new snackbar with unique ID
     final snackbarId = id ?? UniqueKey().toString();
@@ -54,6 +57,9 @@ class SnackbarCubit extends Cubit<List<SnackbarState>> {
       style: style,
       duration: duration ?? const Duration(seconds: 3),
       animationStatus: SnackbarAnimationStatus.animating,
+      actionLabel: actionLabel,
+      onAction: onAction,
+      actionLabelColor: actionLabelColor,
     );
 
     // Make a copy of the current state
@@ -98,6 +104,9 @@ class SnackbarCubit extends Cubit<List<SnackbarState>> {
     emit(newState);
     // Set auto-hide timer
     _timers[snackbarId] = Timer(snackbar.duration, () => hide(snackbarId));
+
+    // Start progress timer
+    _startProgressTimer(snackbarId, snackbar.duration);
   }
 
   /// Schedule a snackbar to be removed after animation completes
@@ -157,6 +166,27 @@ class SnackbarCubit extends Cubit<List<SnackbarState>> {
       newState[idx] = updated;
       emit(newState);
     }
+  }
+
+  /// Progress bar timer'ını başlat
+  void _startProgressTimer(String id, Duration duration) {
+    final totalMs = duration.inMilliseconds;
+    const tickMs = 50; // 50ms aralıklarla güncelle
+    int elapsed = 0;
+
+    Timer.periodic(const Duration(milliseconds: tickMs), (timer) {
+      if (!isClosed && state.any((s) => s.id == id && s.visible)) {
+        elapsed += tickMs;
+        final progress = (elapsed / totalMs).clamp(0.0, 1.0);
+        updateProgress(id, progress);
+
+        if (progress >= 1.0) {
+          timer.cancel();
+        }
+      } else {
+        timer.cancel();
+      }
+    });
   }
 
   @override
