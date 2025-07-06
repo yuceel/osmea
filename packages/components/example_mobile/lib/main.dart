@@ -28,6 +28,8 @@ import 'package:osmea_components_example/padding_example.dart';
 import 'package:osmea_components_example/sized_box_example.dart';
 import 'package:osmea_components_example/scaffold_example.dart';
 import 'package:osmea_components_example/single_child_scroll_view_example.dart';
+import 'package:osmea_components_example/fitted_box_example.dart';
+import 'package:osmea_components_example/clip_r_rect_example.dart';
 import 'package:osmea_components_example/wrap_example.dart';
 import 'package:osmea_components_example/list_item_example.dart';
 import 'package:osmea_components_example/ticket_widget_example.dart';
@@ -38,6 +40,9 @@ import 'package:osmea_components_example/positioned_example.dart';
 import 'package:osmea_components_example/spacer_example.dart';
 import 'package:osmea_components_example/rich_text_example.dart';
 import 'package:osmea_components_example/stepper_example.dart';
+import 'package:osmea_components_example/searchbar_example.dart';
+import 'package:osmea_components_example/toast_example.dart';
+import 'package:osmea_components_example/tabbar_example.dart';
 
 void main() {
   runApp(const MyApp());
@@ -390,6 +395,15 @@ class ComponentsScreen extends StatelessWidget {
                   ),
                 ),
                 _buildComponentCard(
+                    context,
+                    'SearchBar',
+                    Icons.search,
+                    () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SearchbarExample(),
+                        ))),
+                _buildComponentCard(
                   context,
                   'Stepper',
                   Icons.palette,
@@ -707,6 +721,30 @@ class ExamplesScreen extends StatelessWidget {
                 ),
                 _buildExampleTile(
                   context,
+                  'FittedBox Examples',
+                  'Scale and fit child widgets with various fit modes',
+                  Icons.fit_screen,
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const FittedBoxExample(),
+                    ),
+                  ),
+                ),
+                _buildExampleTile(
+                  context,
+                  'ClipRRect Examples',
+                  'Clip child widgets with rounded corners and custom borders',
+                  Icons.crop,
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ClipRRectExample(),
+                    ),
+                  ),
+                ),
+                _buildExampleTile(
+                  context,
                   'Wrap Examples',
                   'Flexible layout for multiple children with wrapping behavior',
                   Icons.wrap_text,
@@ -770,12 +808,41 @@ class ExamplesScreen extends StatelessWidget {
                   'TabBar Examples',
                   'Flexible tab bar with variants, sizes, and animation',
                   Icons.tab,
-                  () => Navigator.pushNamed(context, '/tabbar-example'),
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const TabBarExample(),
+                    ),
+                  ),
+                ),
+                _buildExampleTile(
+                  context,
+                  'Searchbar Examples',
+                  'Advanced search component with suggestions and history',
+                  Icons.search,
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SearchbarExample(),
+                    ),
+                  ),
+                ),
+                _buildExampleTile(
+                  context,
+                  'Toast Example',
+                  'Toast notification examples',
+                  Icons.notifications,
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ToastExamplePage(),
+                    ),
+                  ),
                 ),
               ],
             ),
           ),
-        ],
+        ]
       ),
     );
   }

@@ -14,6 +14,7 @@ export 'src/theme/theme.dart';
 
 // 🧭 Navigation
 export 'src/components/navbar/navbar.dart';
+export 'src/components/tabbar/tabbar.dart';
 
 // 📝 Form Elements
 export 'src/components/text_field/cubit/otp_cubit.dart';
@@ -29,12 +30,25 @@ export 'src/components/login_button/login_button.dart';
 // 🧩 Components
 export 'src/components.dart';
 
+// 📏 FittedBox Components
+export 'src/components/fitted_box/fitted_box.dart';
+
+// ✂️ ClipRRect Components
+export 'src/components/clip_r_rect/clip_r_rect.dart';
+
 // 🖼️ Avatars & Cards
 export 'src/utils/avatar_extensions.dart';
 export 'src/utils/card_extensions.dart';
 
 // 🛠️ Utilities
 export 'src/utils/text_field_size_extensions.dart';
+
+// 🔍 Searchbar
+export 'src/components/searchbar/cubit/searchbar_cubit.dart';
+export 'src/components/searchbar/cubit/searchbar_state.dart';
+
+// 🛠️ Utils
+// Utility functions and extensions
 export 'src/utils/sizer_extensions.dart';
 export 'src/utils/text_extensions.dart';
 export 'src/utils/button_size_extensions.dart';
@@ -42,6 +56,7 @@ export 'src/utils/button_shape_extensions.dart';
 export 'src/utils/icon_positions_extensions.dart';
 export 'src/utils/switch_size_extensions.dart';
 export 'src/utils/navbar_extensions.dart';
+export 'src/utils/tabbar_extensions.dart';
 export 'src/utils/radio_size_extensions.dart';
 export 'src/utils/checkbox_size_extensions.dart';
 export 'src/utils/appbar_extensions.dart';
@@ -53,6 +68,7 @@ export 'src/utils/carousel_extensions.dart';
 export 'src/utils/list_item_extensions.dart';
 export 'src/utils/stepper_extension.dart';
 export 'src/utils/progress_extensions.dart';
+export 'src/utils/toast_extensions.dart';
 
 // 🔢 Enums
 export 'src/enums/enums.dart';
@@ -70,5 +86,4 @@ export 'src/components/loading/cubit/loading_state.dart';
 // 📝 Rich Text
 export 'src/components/rich_text/text_span.dart';
 
-// 🪜 Stepper
 export 'src/components/stepper/stepper.dart';
