@@ -46,6 +46,7 @@ import 'package:osmea_components/src/components/popup/popup.dart';
 import 'package:osmea_components/src/components/stepper/stepper.dart';
 import 'package:osmea_components/src/components/searchbar/searchbar.dart';
 import 'package:osmea_components/src/components/searchbar/expandable_searchbar.dart';
+import 'package:osmea_components/src/components/dropdown/dropdown.dart';
 
 class OsmeaComponents {
   /// Supported Button variants - All variants are supported
@@ -851,6 +852,85 @@ class OsmeaComponents {
       // Legacy support
       username: username,
       password: password,
+    );
+  }
+
+  /// 🔽 **OSMEA Dropdown** - A comprehensive dropdown component
+  ///
+  /// Creates a feature-rich dropdown component with support for:
+  /// - All 3 variants (filled, outlined, elevated)
+  /// - All 3 sizes (small, medium, large)
+  /// - All types (regular, avatar, avatar leading, input)
+  /// - Icon positioning (leading, trailing)
+  /// - Full customization options
+  ///
+  /// Example:
+  /// ```dart
+  /// OsmeaComponents.dropdown(
+  ///   items: ['Option 1', 'Option 2', 'Option 3'],
+  ///   onChanged: (value) => print('Selected: $value'),
+  ///   hint: 'Select an option',
+  ///   variant: DropdownVariant.filled,
+  ///   size: DropdownSize.medium,
+  /// )
+  /// ```
+  static Widget dropdown<T>({
+    required List<T> items,
+    ValueChanged<T?>? onChanged,
+    T? value,
+    String? hint,
+    DropdownVariant variant = DropdownVariant.filled,
+    DropdownSize size = DropdownSize.medium,
+    DropdownType type = DropdownType.regular,
+    DropdownIconPosition iconPosition = DropdownIconPosition.trailing,
+    Widget? icon,
+    bool fullWidth = false,
+    String? label,
+    String? helperText,
+    String? errorText,
+    bool isEnabled = true,
+    bool showCheckbox = false,
+    Widget? header,
+    bool autoLayout = true,
+    bool isLoading = false,
+    Widget? leading,
+    double? maxHeight,
+    String? avatarUrl,
+    ImageProvider? avatarImage,
+    IconData? avatarIcon,
+    Color? avatarBackgroundColor,
+    bool showLeadingIcon = false,
+    Widget Function(T item, bool isSelected)? itemBuilder,
+    Widget Function(T? selectedItem)? selectedItemBuilder,
+  }) {
+    return OsmeaDropdown<T>(
+      items: items,
+      onChanged: onChanged,
+      value: value,
+      hint: hint,
+      variant: variant,
+      size: size,
+      type: type,
+      iconPosition: iconPosition,
+      icon: icon,
+      fullWidth: fullWidth,
+      label: label,
+      helperText: helperText,
+      errorText: errorText,
+      isEnabled: isEnabled,
+      showCheckbox: showCheckbox,
+      header: header,
+      autoLayout: autoLayout,
+      isLoading: isLoading,
+      leading: leading,
+      maxHeight: maxHeight,
+      avatarUrl: avatarUrl,
+      avatarImage: avatarImage,
+      avatarIcon: avatarIcon,
+      avatarBackgroundColor: avatarBackgroundColor,
+      showLeadingIcon: showLeadingIcon,
+      itemBuilder: itemBuilder,
+      selectedItemBuilder: selectedItemBuilder,
     );
   }
 
