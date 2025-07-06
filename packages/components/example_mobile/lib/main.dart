@@ -159,21 +159,17 @@ class _LoginScreenState extends State<LoginScreen> {
             color: OsmeaColors.nordicBlue,
           ),
           OsmeaComponents.sizedBox(height: 32),
-          TextField(
+          OsmeaComponents.textField(
             controller: _usernameController,
-            decoration: const InputDecoration(
-              labelText: 'Username',
-              border: OutlineInputBorder(),
-            ),
+            label: 'Username',
+            variant: TextFieldVariant.outlined,
           ),
           OsmeaComponents.sizedBox(height: 16),
-          TextField(
+          OsmeaComponents.textField(
             controller: _passwordController,
-            obscureText: true,
-            decoration: const InputDecoration(
-              labelText: 'Password',
-              border: OutlineInputBorder(),
-            ),
+            label: 'Password',
+            variant: TextFieldVariant.outlined,
+            type: TextFieldType.password,
           ),
           OsmeaComponents.sizedBox(height: 32),
           OsmeaComponents.loginButton(
