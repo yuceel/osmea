@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 // Import individual component showcases directly
 import 'components/avatar_test_modular/showcase/unified_avatar_showcase.dart';
+import 'components/badge_test_modular/showcase/unified_badge_showcase.dart';
 import 'components/button_test_modular/showcase/unified_button_showcase.dart';
 import 'components/navbar_test_modular/showcase/unified_navbar_showcase.dart';
 import 'components/appbar_test_modular/showcase/unified_appbar_showcase.dart';
@@ -72,6 +73,15 @@ List<Story> getComponentStories() {
   return [
     // Avatar component stories
     ...getUnifiedAvatarShowcase().map(
+      (story) => Story(
+        name: StoryConfig.buildComponentStoryName(story.name),
+        description: story.description,
+        builder: story.builder,
+      ),
+    ),
+    
+    // Badge component stories
+    ...getUnifiedBadgeShowcase().map(
       (story) => Story(
         name: StoryConfig.buildComponentStoryName(story.name),
         description: story.description,

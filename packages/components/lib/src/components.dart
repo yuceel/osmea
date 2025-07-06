@@ -28,8 +28,7 @@ import 'package:osmea_components/src/components/rich_text/rich_text.dart';
 import 'package:osmea_components/src/components/row/row.dart';
 import 'package:osmea_components/src/components/scaffold/scaffold.dart';
 import 'package:osmea_components/src/components/single_child_scroll_view/single_child_scroll_view.dart';
-import 'package:osmea_components/src/components/fitted_box/fitted_box.dart';
-import 'package:osmea_components/src/components/clip_r_rect/clip_r_rect.dart';
+
 import 'package:osmea_components/src/components/sized_box/sized_box.dart';
 import 'package:osmea_components/src/components/spacer/spacer.dart';
 import 'package:osmea_components/src/components/stack/stack.dart';
@@ -48,6 +47,7 @@ import 'components/snackbar/snackbar.dart';
 export 'utils/snackbar_extensions.dart';
 import 'package:osmea_components/src/components/searchbar/searchbar.dart';
 import 'package:osmea_components/src/components/searchbar/expandable_searchbar.dart';
+
 
 class OsmeaComponents {
   /// Supported Button variants - All variants are supported
@@ -3188,6 +3188,105 @@ class OsmeaComponents {
       buttonState: buttonState,
       buttonIcon: buttonIcon,
       buttonTooltip: buttonTooltip,
+    ); 
+    }
+  /// 📑 **OSMEA TabBar** - Comprehensive tab navigation component
+  ///
+  /// Creates a feature-rich tab navigation component with support for:
+  /// - All 5 variants (primary, secondary, outlined, glass, transparent)
+  /// - All 3 sizes (small, medium, large)
+  /// - All 4 positions (top, bottom, left, right)
+  /// - All 2 styles (fixed, scrollable)
+  /// - Multiple indicator styles (line, dot, fill, border, none)
+  /// - Interactive tab items with states and animations
+  /// - Full customization options
+  ///
+  /// Example:
+  /// ```dart
+  /// OsmeaComponents.tabBar(
+  ///   tabs: [
+  ///     TabItem(text: 'Home', icon: Icon(Icons.home)),
+  ///     TabItem(text: 'Search', icon: Icon(Icons.search)),
+  ///     TabItem(text: 'Profile', icon: Icon(Icons.person)),
+  ///   ],
+  ///   variant: TabBarVariant.primary,
+  ///   size: TabBarSize.medium,
+  ///   position: TabBarPosition.top,
+  ///   currentIndex: 0,
+  ///   onTabTap: (index) => handleTabChange(index),
+  /// )
+  /// ```
+  static Widget tabBar({
+    Key? key,
+    CoreTheme? customTheme,
+    required List<TabItem> tabs,
+    TabBarSize size = TabBarSize.medium,
+    TabBarVariant variant = TabBarVariant.primary,
+    TabBarPosition position = TabBarPosition.top,
+    TabBarStyle style = TabBarStyle.fixed,
+    TabBarIndicatorStyle indicatorStyle = TabBarIndicatorStyle.line,
+    Color? backgroundColor,
+    Color? borderColor,
+    Color? shadowColor,
+    Color? indicatorColor,
+    Color? activeFillColor,
+    EdgeInsetsGeometry? padding,
+    EdgeInsetsGeometry? margin,
+    BorderRadius? borderRadius,
+    double? elevation,
+    bool enableGlassEffect = false,
+    Color? textColor,
+    Color? activeTextColor,
+    Color? inactiveTextColor,
+    Color? iconColor,
+    Color? activeIconColor,
+    Color? inactiveIconColor,
+    Duration? animationDuration,
+    ValueChanged<int>? onTabTap,
+    int currentIndex = 0,
+    bool showLabels = true,
+    bool showIcons = true,
+    bool enableAnimation = true,
+    ScrollController? scrollController,
+    ScrollPhysics? physics,
+    double? spacing,
+    double? runSpacing,
+  }) {
+    return OsmeaTabBar(
+      key: key,
+      customTheme: customTheme,
+      tabs: tabs,
+      size: size,
+      variant: variant,
+      position: position,
+      style: style,
+      indicatorStyle: indicatorStyle,
+      backgroundColor: backgroundColor,
+      borderColor: borderColor,
+      shadowColor: shadowColor,
+      indicatorColor: indicatorColor,
+      activeFillColor: activeFillColor,
+      padding: padding,
+      margin: margin,
+      borderRadius: borderRadius,
+      elevation: elevation,
+      enableGlassEffect: enableGlassEffect,
+      textColor: textColor,
+      activeTextColor: activeTextColor,
+      inactiveTextColor: inactiveTextColor,
+      iconColor: iconColor,
+      activeIconColor: activeIconColor,
+      inactiveIconColor: inactiveIconColor,
+      animationDuration: animationDuration,
+      onTabTap: onTabTap,
+      currentIndex: currentIndex,
+      showLabels: showLabels,
+      showIcons: showIcons,
+      enableAnimation: enableAnimation,
+      scrollController: scrollController,
+      physics: physics,
+      spacing: spacing,
+      runSpacing: runSpacing,
     );
   }
 
@@ -3210,6 +3309,7 @@ class OsmeaComponents {
   ///   maxToasts: 5, // Maximum number of toasts visible at once (default)
   /// );
   /// ```
+  
   static void toast({
     required BuildContext context,
     String? title,

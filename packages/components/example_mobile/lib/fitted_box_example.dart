@@ -203,7 +203,7 @@ class _FittedBoxExampleState extends State<FittedBoxExample> {
             borderRadius: BorderRadius.circular(12),
             color: OsmeaColors.oceanMist.withValues(alpha: 0.3),
           ),
-          child: ClipRRect(
+          child: OsmeaComponents.clipRRect(
             borderRadius: BorderRadius.circular(10),
             child: OsmeaComponents.fittedBox(
               fit: selectedBoxFit,
@@ -307,7 +307,7 @@ class _FittedBoxExampleState extends State<FittedBoxExample> {
                 borderRadius: BorderRadius.circular(16),
                 color: OsmeaColors.crystalBay.withValues(alpha: 0.1),
               ),
-              child: ClipRRect(
+              child: OsmeaComponents.clipRRect(
                 borderRadius: BorderRadius.circular(14),
                 child: OsmeaComponents.fittedBox(
                   fit: selectedBoxFit,
