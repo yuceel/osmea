@@ -42,6 +42,12 @@ class SnackbarState {
   /// Visual design variant for the snackbar (advanced UI)
   final SnackbarVisualStyle visualStyle;
 
+  /// Animasyon durumu (ör. animating, dismissed, completed)
+  final SnackbarAnimationStatus animationStatus;
+
+  /// Progress bar değeri (0.0 - 1.0 arası, null ise gösterilmez)
+  final double? progress;
+
   /// Creates a new snackbar state
   SnackbarState({
     required this.id,
@@ -57,6 +63,8 @@ class SnackbarState {
     this.actionLabel,
     this.onAction,
     this.visualStyle = SnackbarVisualStyle.classic,
+    this.animationStatus = SnackbarAnimationStatus.animating,
+    this.progress,
   }) : createdAt = createdAt ?? DateTime.now();
 
   /// Creates a hidden snackbar state
@@ -90,6 +98,8 @@ class SnackbarState {
     String? actionLabel,
     VoidCallback? onAction,
     SnackbarVisualStyle? visualStyle,
+    SnackbarAnimationStatus? animationStatus,
+    double? progress,
   }) {
     return SnackbarState(
       id: id ?? this.id,
@@ -105,15 +115,32 @@ class SnackbarState {
       actionLabel: actionLabel ?? this.actionLabel,
       onAction: onAction ?? this.onAction,
       visualStyle: visualStyle ?? this.visualStyle,
+      animationStatus: animationStatus ?? this.animationStatus,
+      progress: progress ?? this.progress,
     );
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    return other is SnackbarState && other.id == id && other.visible == visible;
+    return other is SnackbarState &&
+        other.id == id &&
+        other.visible == visible &&
+        other.progress == progress &&
+        other.animationStatus == animationStatus;
   }
 
   @override
-  int get hashCode => id.hashCode ^ visible.hashCode;
+  int get hashCode =>
+      id.hashCode ^
+      visible.hashCode ^
+      (progress?.hashCode ?? 0) ^
+      animationStatus.hashCode;
+}
+
+/// Snackbar animasyon durumu
+enum SnackbarAnimationStatus {
+  animating,
+  completed,
+  dismissed,
 }

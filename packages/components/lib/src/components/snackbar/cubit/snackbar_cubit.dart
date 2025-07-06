@@ -39,11 +39,12 @@ class SnackbarCubit extends Cubit<List<SnackbarState>> {
     Duration? duration,
     bool stacked = true,
     int maxSnackbars = _defaultMaxSnackbars,
+    String? id,
   }) {
     // Create new snackbar with unique ID
-    final id = UniqueKey().toString();
+    final snackbarId = id ?? UniqueKey().toString();
     final snackbar = SnackbarState(
-      id: id,
+      id: snackbarId,
       visible: true,
       title: title,
       message: message,
@@ -52,6 +53,7 @@ class SnackbarCubit extends Cubit<List<SnackbarState>> {
       animation: animation,
       style: style,
       duration: duration ?? const Duration(seconds: 3),
+      animationStatus: SnackbarAnimationStatus.animating,
     );
 
     // Make a copy of the current state
@@ -95,7 +97,7 @@ class SnackbarCubit extends Cubit<List<SnackbarState>> {
     newState.add(snackbar);
     emit(newState);
     // Set auto-hide timer
-    _timers[id] = Timer(snackbar.duration, () => hide(id));
+    _timers[snackbarId] = Timer(snackbar.duration, () => hide(snackbarId));
   }
 
   /// Schedule a snackbar to be removed after animation completes
@@ -121,7 +123,8 @@ class SnackbarCubit extends Cubit<List<SnackbarState>> {
     final snackbarIndex = state.indexWhere((t) => t.id == id);
     if (snackbarIndex < 0) return;
     final List<SnackbarState> updatedState = List<SnackbarState>.from(state);
-    final snackbar = updatedState[snackbarIndex].copyWith(visible: false);
+    final snackbar = updatedState[snackbarIndex].copyWith(
+        visible: false, animationStatus: SnackbarAnimationStatus.dismissed);
     updatedState[snackbarIndex] = snackbar;
     emit(updatedState);
     _scheduleRemoval(id);
@@ -129,8 +132,10 @@ class SnackbarCubit extends Cubit<List<SnackbarState>> {
 
   /// Hides all currently visible snackbars
   void hideAll() {
-    final List<SnackbarState> animatingState =
-        state.map((snackbar) => snackbar.copyWith(visible: false)).toList();
+    final List<SnackbarState> animatingState = state
+        .map((snackbar) => snackbar.copyWith(
+            visible: false, animationStatus: SnackbarAnimationStatus.dismissed))
+        .toList();
     emit(animatingState);
     Future.delayed(const Duration(milliseconds: 300), () {
       if (!isClosed) {
@@ -141,6 +146,17 @@ class SnackbarCubit extends Cubit<List<SnackbarState>> {
         emit([]);
       }
     });
+  }
+
+  /// Progress bar değerini güncelle
+  void updateProgress(String id, double progress) {
+    final idx = state.indexWhere((t) => t.id == id);
+    if (idx != -1) {
+      final updated = state[idx].copyWith(progress: progress);
+      final newState = List<SnackbarState>.from(state);
+      newState[idx] = updated;
+      emit(newState);
+    }
   }
 
   @override
