@@ -336,13 +336,16 @@ class _DropdownView<T> extends StatelessWidget {
             _buildAvatar(context),
             const SizedBox(width: 8.0),
             OsmeaExpanded(
-              child: OsmeaText(
-                state.selectedItem?.toString() ?? hint ?? '',
-                style: textStyle.copyWith(
-                  color: state.selectedItem == null ? theme.hintColor : null,
-                ),
-                overflow: ellipsis,
-              ),
+              child: selectedItemBuilder != null && state.selectedItem != null
+                  ? selectedItemBuilder!(state.selectedItem)
+                  : OsmeaText(
+                      state.selectedItem?.toString() ?? hint ?? '',
+                      style: textStyle.copyWith(
+                        color:
+                            state.selectedItem == null ? theme.hintColor : null,
+                      ),
+                      overflow: ellipsis,
+                    ),
             ),
             dropdownIcon,
           ],
@@ -357,13 +360,16 @@ class _DropdownView<T> extends StatelessWidget {
             _buildAvatar(context),
             const OsmeaSizedBox(width: 8.0),
             OsmeaExpanded(
-              child: OsmeaText(
-                state.selectedItem?.toString() ?? hint ?? '',
-                style: textStyle.copyWith(
-                  color: state.selectedItem == null ? theme.hintColor : null,
-                ),
-                overflow: ellipsis,
-              ),
+              child: selectedItemBuilder != null && state.selectedItem != null
+                  ? selectedItemBuilder!(state.selectedItem)
+                  : OsmeaText(
+                      state.selectedItem?.toString() ?? hint ?? '',
+                      style: textStyle.copyWith(
+                        color:
+                            state.selectedItem == null ? theme.hintColor : null,
+                      ),
+                      overflow: ellipsis,
+                    ),
             ),
             if (iconPosition == DropdownIconPosition.trailing) dropdownIcon,
           ],
@@ -409,14 +415,26 @@ class _DropdownView<T> extends StatelessWidget {
             OsmeaExpanded(
               child: selectedItemBuilder != null && state.selectedItem != null
                   ? selectedItemBuilder!(state.selectedItem)
-                  : OsmeaText(
-                      state.selectedItem?.toString() ?? hint ?? '',
-                      style: textStyle.copyWith(
-                        color:
-                            state.selectedItem == null ? theme.hintColor : null,
-                      ),
-                      overflow: ellipsis,
-                    ),
+                  : (state.selectedItem is OsmeaDropdownItem &&
+                          (state.selectedItem as OsmeaDropdownItem).icon != null
+                      ? Row(
+                          children: [
+                            Icon((state.selectedItem as OsmeaDropdownItem).icon,
+                                size: 20, color: OsmeaColors.nordicBlue),
+                            const SizedBox(width: 8),
+                            Text((state.selectedItem as OsmeaDropdownItem)
+                                .label),
+                          ],
+                        )
+                      : OsmeaText(
+                          state.selectedItem?.toString() ?? hint ?? '',
+                          style: textStyle.copyWith(
+                            color: state.selectedItem == null
+                                ? theme.hintColor
+                                : null,
+                          ),
+                          overflow: ellipsis,
+                        )),
             ),
             if (!showLeadingIcon ||
                 iconPosition == DropdownIconPosition.trailing)
