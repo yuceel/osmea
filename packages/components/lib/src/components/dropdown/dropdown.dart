@@ -12,6 +12,7 @@ import 'package:osmea_components/src/components/sized_box/sized_box.dart';
 import 'package:osmea_components/src/components/text/text.dart';
 import 'package:osmea_components/src/components/dropdown/cubit/dropdown_cubit.dart';
 import 'package:osmea_components/src/components/dropdown/cubit/dropdown_state.dart';
+import 'package:osmea_components/src/components/avatar/avatar.dart';
 
 // Export the models and cubit for external use
 export 'package:osmea_components/src/components/dropdown/cubit/dropdown_cubit.dart';
@@ -506,99 +507,72 @@ class _DropdownView<T> extends StatelessWidget {
   }
 
   Widget _buildAvatar(BuildContext context) {
-    final double avatarSize = size.avatarSize;
+    // Always use small, circular avatar for closed dropdown
+    const ComponentSize avatarComponentSize = ComponentSize.small;
 
     // If the selected item is an avatar dropdown item, use its avatar
     if (state.selectedItem is OsmeaDropdownItem) {
       final item = state.selectedItem as OsmeaDropdownItem;
       if (item.isAvatar) {
-        if (item.avatarUrl != null) {
-          return CircleAvatar(
-            radius: avatarSize / 2,
-            backgroundImage: NetworkImage(item.avatarUrl!),
-            backgroundColor: avatarBackgroundColor ?? OsmeaColors.snow,
-          );
-        } else {
-          return CircleAvatar(
-            radius: avatarSize / 2,
-            backgroundColor: avatarBackgroundColor ?? OsmeaColors.snow,
-            child: OsmeaText(
-              item.label.isNotEmpty ? item.label[0].toUpperCase() : '?',
-              style: OsmeaTextStyle.bodyLarge(context).copyWith(
-                color: OsmeaColors.nordicBlue,
-                fontWeight: FontWeight.bold,
-                fontSize: avatarSize / 3,
-              ),
-            ),
-          );
-        }
+        return OsmeaAvatar(
+          size: avatarComponentSize,
+          imageUrl: item.avatarUrl,
+          text: item.label.isNotEmpty ? item.label[0].toUpperCase() : '?',
+          backgroundColor: avatarBackgroundColor ?? OsmeaColors.snow,
+        );
       }
       // If the selected item has an icon, use it
       if (item.icon != null) {
-        return CircleAvatar(
-          radius: avatarSize / 2,
+        return OsmeaAvatar(
+          size: avatarComponentSize,
+          icon: item.icon,
           backgroundColor: avatarBackgroundColor ?? OsmeaColors.snow,
-          child: Icon(
-            item.icon,
-            size: avatarSize / 2,
-            color: OsmeaColors.nordicBlue,
-          ),
         );
       }
     } else if (state.selectedItem != null) {
       // Handle primitive types: show first letter or default icon
       final label = state.selectedItem.toString();
-      return CircleAvatar(
-        radius: avatarSize / 2,
+      return OsmeaAvatar(
+        size: avatarComponentSize,
+        text: label.isNotEmpty ? label[0].toUpperCase() : '?',
         backgroundColor: avatarBackgroundColor ?? OsmeaColors.snow,
-        child: OsmeaText(
-          label.isNotEmpty ? label[0].toUpperCase() : '?',
-          style: OsmeaTextStyle.bodyLarge(context).copyWith(
-            color: OsmeaColors.nordicBlue,
-            fontWeight: FontWeight.bold,
-            fontSize: avatarSize / 3,
-          ),
-        ),
       );
     }
     // Default avatar logic
     if (avatarImage != null) {
-      return CircleAvatar(
-        radius: avatarSize / 2,
-        backgroundImage: avatarImage,
+      return OsmeaAvatar(
+        size: avatarComponentSize,
+        image: avatarImage,
         backgroundColor: avatarBackgroundColor ?? OsmeaColors.snow,
       );
     } else if (avatarUrl != null) {
-      return CircleAvatar(
-        radius: avatarSize / 2,
-        backgroundImage: NetworkImage(avatarUrl!),
+      return OsmeaAvatar(
+        size: avatarComponentSize,
+        imageUrl: avatarUrl!,
         backgroundColor: avatarBackgroundColor ?? OsmeaColors.snow,
       );
     }
-    return CircleAvatar(
-      radius: avatarSize / 2,
+    return OsmeaAvatar(
+      size: avatarComponentSize,
+      icon: avatarIcon ?? Icons.person,
       backgroundColor: avatarBackgroundColor ?? OsmeaColors.snow,
-      child: Icon(
-        avatarIcon ?? Icons.person,
-        size: avatarSize / 2,
-        color: OsmeaColors.nordicBlue,
-      ),
     );
   }
 
+  ComponentSize _mapAvatarSize(DropdownSize dropdownSize) {
+    switch (dropdownSize) {
+      case DropdownSize.small:
+        return ComponentSize.small;
+      case DropdownSize.medium:
+        return ComponentSize.medium;
+      case DropdownSize.large:
+        return ComponentSize.large;
+    }
+  }
+
   Widget _buildDropdownMenu(BuildContext context, DropdownCubit<T> cubit) {
-    // Filter out the selected item from the menu list
-    final List<T> menuItems = items.where((item) {
-      if (state.selectedItem == null) return true;
-      // For OsmeaDropdownItem, compare by value if possible
-      if (item is OsmeaDropdownItem &&
-          state.selectedItem is OsmeaDropdownItem) {
-        return (item as OsmeaDropdownItem).value !=
-            (state.selectedItem as OsmeaDropdownItem).value;
-      }
-      // For primitives, use ==
-      return item != state.selectedItem;
-    }).toList();
+    // Show all items, including the selected one
+    final List<T> menuItems = items;
     return Material(
       elevation: 8,
       borderRadius: size.borderRadius,
@@ -651,21 +625,11 @@ class _DropdownView<T> extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
           child: OsmeaRow(
             children: [
-              CircleAvatar(
-                radius: size.avatarSize / 2,
+              OsmeaAvatar(
+                size: _mapAvatarSize(size),
+                imageUrl: item.avatarUrl,
+                text: item.label.isNotEmpty ? item.label[0].toUpperCase() : '?',
                 backgroundColor: OsmeaColors.snow,
-                backgroundImage: item.avatarUrl != null
-                    ? NetworkImage(item.avatarUrl!)
-                    : null,
-                child: item.avatarUrl == null
-                    ? OsmeaText(
-                        item.label[0],
-                        style: OsmeaTextStyle.bodyLarge(context).copyWith(
-                          color: OsmeaColors.nordicBlue,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      )
-                    : null,
               ),
               const OsmeaSizedBox(width: 12),
               OsmeaExpanded(
