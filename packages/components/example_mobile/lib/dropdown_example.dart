@@ -360,7 +360,7 @@ class _DropdownExampleState extends State<DropdownExample> {
       variant: variant,
       size: size,
       selectedItemBuilder: (selected) =>
-          _iconSelectedBuilder(selected as OsmeaDropdownItem<String>?),
+          _iconSelectedBuilder(selected),
     );
   }
 
