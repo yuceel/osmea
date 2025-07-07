@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:osmea_components/osmea_components.dart';
+import 'package:osmea_storybook_example/storybook_test/components/cards_test_modular/utils/card_builder.dart';
 import '../sections/header_section.dart';
 import '../widgets/section_container_widget.dart';
 
@@ -44,8 +45,8 @@ class CardShowcaseWidget extends StatelessWidget {
 
     final Map<String, String> infoChips = {
       'Type': cardType,
-      'Variant': variant.toString().split('.').last,
-      'Size': size.toString().split('.').last,
+      'Variant': CardBuilder.enumToString(variant),
+      'Size': CardBuilder.enumToString(size),
     };
 
     return Scaffold(
