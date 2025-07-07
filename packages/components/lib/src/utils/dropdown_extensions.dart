@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:osmea_components/src/enums/dropdown_enums.dart';
+import 'package:osmea_components/osmea_components.dart';
 
 /// 🔽 **OSMEA Dropdown Extensions**
 ///
@@ -107,20 +107,20 @@ extension DropdownVariantExtensions on DropdownVariant {
     switch (this) {
       case DropdownVariant.filled:
         return BoxDecoration(
-          color: isOpen ? primaryColor.withOpacity(0.1) : surfaceColor,
-          borderRadius: BorderRadius.circular(6.0),
+          color: isOpen ? primaryColor.withValues(alpha: .1) : surfaceColor,
+          borderRadius: context.borderRadiusMinStandard,
           border: Border.all(
-            color: isOpen ? primaryColor : Colors.transparent,
+            color: isOpen ? primaryColor : OsmeaColors.transparent,
             width: 1.0,
           ),
         );
       case DropdownVariant.outlined:
         return BoxDecoration(
-          color: Colors.transparent,
+          color: OsmeaColors.transparent,
           borderRadius: BorderRadius.circular(6.0),
           border: Border.all(
             color: isOpen ? primaryColor : outlineColor,
-            width: 1.0,
+            width: .5,
           ),
         );
       case DropdownVariant.elevated:
@@ -128,14 +128,14 @@ extension DropdownVariantExtensions on DropdownVariant {
           color: surfaceColor,
           borderRadius: BorderRadius.circular(6.0),
           border: Border.all(
-            color: isOpen ? primaryColor : Colors.transparent,
+            color: isOpen ? primaryColor : OsmeaColors.transparent,
             width: 1.0,
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 4.0,
-              offset: const Offset(0, 2),
+              color: OsmeaColors.black.withValues(alpha: 0.1),
+              blurRadius: 2.0,
+              offset: const Offset(0, 1),
             ),
           ],
         );
