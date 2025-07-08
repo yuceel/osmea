@@ -22,6 +22,20 @@ class ComponentInfo {
 class ComponentRegistry {
   static final List<ComponentInfo> _components = [
     ComponentInfo(
+      name: 'Cards',
+      description: 'Flexible containers for content and actions',
+      icon: Icons.credit_card,
+      color: Colors.deepPurple,
+      storyPath: StoryConfig.buildComponentStoryName('Cards'),
+    ),
+    ComponentInfo(
+      name: 'Chips',
+      description: 'Compact elements for filtering, tagging, or selection',
+      icon: Icons.label_important,
+      color: Colors.blueGrey,
+      storyPath: StoryConfig.buildComponentStoryName('Chips'),
+    ),
+    ComponentInfo(
       name: 'Avatars',
       description: 'User profile pictures and placeholders',
       icon: Icons.account_circle,

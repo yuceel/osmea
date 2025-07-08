@@ -46,6 +46,11 @@ import 'package:osmea_components/src/components/stepper/stepper.dart';
 import 'package:osmea_components/src/components/searchbar/searchbar.dart';
 import 'package:osmea_components/src/components/searchbar/expandable_searchbar.dart';
 
+import 'package:osmea_components/src/components/image/image.dart';
+import 'package:osmea_components/src/enums/image_enums.dart';
+
+import 'package:osmea_components/src/components/dropdown/dropdown.dart';
+import 'package:osmea_components/src/components/footer/footer.dart';
 
 class OsmeaComponents {
   /// Supported Button variants - All variants are supported
@@ -851,6 +856,85 @@ class OsmeaComponents {
       // Legacy support
       username: username,
       password: password,
+    );
+  }
+
+  /// 🔽 **OSMEA Dropdown** - A comprehensive dropdown component
+  ///
+  /// Creates a feature-rich dropdown component with support for:
+  /// - All 3 variants (filled, outlined, elevated)
+  /// - All 3 sizes (small, medium, large)
+  /// - All types (regular, avatar, avatar leading, input)
+  /// - Icon positioning (leading, trailing)
+  /// - Full customization options
+  ///
+  /// Example:
+  /// ```dart
+  /// OsmeaComponents.dropdown(
+  ///   items: ['Option 1', 'Option 2', 'Option 3'],
+  ///   onChanged: (value) => print('Selected: $value'),
+  ///   hint: 'Select an option',
+  ///   variant: DropdownVariant.filled,
+  ///   size: DropdownSize.medium,
+  /// )
+  /// ```
+  static Widget dropdown<T>({
+    required List<T> items,
+    ValueChanged<T?>? onChanged,
+    T? value,
+    String? hint,
+    DropdownVariant variant = DropdownVariant.filled,
+    DropdownSize size = DropdownSize.medium,
+    DropdownType type = DropdownType.regular,
+    DropdownIconPosition iconPosition = DropdownIconPosition.trailing,
+    Widget? icon,
+    bool fullWidth = false,
+    String? label,
+    String? helperText,
+    String? errorText,
+    bool isEnabled = true,
+    bool showCheckbox = false,
+    Widget? header,
+    bool autoLayout = true,
+    bool isLoading = false,
+    Widget? leading,
+    double? maxHeight,
+    String? avatarUrl,
+    ImageProvider? avatarImage,
+    IconData? avatarIcon,
+    Color? avatarBackgroundColor,
+    bool showLeadingIcon = false,
+    Widget Function(T item, bool isSelected)? itemBuilder,
+    Widget Function(T? selectedItem)? selectedItemBuilder,
+  }) {
+    return OsmeaDropdown<T>(
+      items: items,
+      onChanged: onChanged,
+      value: value,
+      hint: hint,
+      variant: variant,
+      size: size,
+      type: type,
+      iconPosition: iconPosition,
+      icon: icon,
+      fullWidth: fullWidth,
+      label: label,
+      helperText: helperText,
+      errorText: errorText,
+      isEnabled: isEnabled,
+      showCheckbox: showCheckbox,
+      header: header,
+      autoLayout: autoLayout,
+      isLoading: isLoading,
+      leading: leading,
+      maxHeight: maxHeight,
+      avatarUrl: avatarUrl,
+      avatarImage: avatarImage,
+      avatarIcon: avatarIcon,
+      avatarBackgroundColor: avatarBackgroundColor,
+      showLeadingIcon: showLeadingIcon,
+      itemBuilder: itemBuilder,
+      selectedItemBuilder: selectedItemBuilder,
     );
   }
 
@@ -3186,8 +3270,9 @@ class OsmeaComponents {
       buttonState: buttonState,
       buttonIcon: buttonIcon,
       buttonTooltip: buttonTooltip,
-    ); 
-    }
+    );
+  }
+
   /// 📑 **OSMEA TabBar** - Comprehensive tab navigation component
   ///
   /// Creates a feature-rich tab navigation component with support for:
@@ -3307,7 +3392,7 @@ class OsmeaComponents {
   ///   maxToasts: 5, // Maximum number of toasts visible at once (default)
   /// );
   /// ```
-  
+
   static void toast({
     required BuildContext context,
     String? title,
@@ -3357,6 +3442,154 @@ class OsmeaComponents {
   /// Hides all currently visible toasts
   static void hideAllToasts() {
     ToastManager().hideAllToasts();
+  }
+
+  // ==================== IMAGE ====================
+
+  /// 🖼️ **OSMEA Image** - Universal image component
+  ///
+  /// A comprehensive image component supporting multiple sources and display modes.
+  ///
+  /// **Features:**
+  /// - 🌐 Network, asset, file, and memory sources
+  /// - 🎭 Multiple display variants (normal, rounded, circle, etc.)
+  /// - 📐 Flexible sizing and fitting options
+  /// - 🔄 Loading states and error handling
+  /// - 🎨 Overlay and filter effects
+  ///
+  /// **Example:**
+  /// ```dart
+  /// OsmeaComponents.image(
+  ///   imageUrl: 'https://example.com/image.jpg',
+  ///   variant: ImageVariant.rounded,
+  ///   size: ImageSize.large,
+  ///   fit: BoxFit.cover,
+  /// )
+  /// ```
+  static Widget image({
+    String? imageUrl,
+    String? assetPath,
+    String? filePath,
+    Uint8List? bytes,
+    ImageVariant variant = ImageVariant.normal,
+    ImageSize size = ImageSize.medium,
+    BoxFit fit = BoxFit.cover,
+    double? width,
+    double? height,
+    BorderRadius? borderRadius,
+    Border? border,
+    List<BoxShadow>? boxShadow,
+    Color? backgroundColor,
+    Widget? placeholder,
+    Widget? errorWidget,
+    bool showLoadingIndicator = true,
+    Color? overlayColor,
+    BlendMode? colorBlendMode,
+    VoidCallback? onTap,
+    String? heroTag,
+    String? semanticLabel,
+    bool excludeFromSemantics = false,
+    Alignment alignment = Alignment.center,
+    ImageRepeat repeat = ImageRepeat.noRepeat,
+    bool matchTextDirection = false,
+    FilterQuality filterQuality = FilterQuality.low,
+    Map<String, String>? headers,
+    int? cacheWidth,
+    int? cacheHeight,
+    double? scale,
+    Color? imageColor,
+    Rect? centerSlice,
+    bool gaplessPlayback = false,
+    bool isAntiAlias = false,
+    String? package,
+    ImageCacheStrategy cacheStrategy = ImageCacheStrategy.balanced,
+    int retryCount = 3,
+    Duration retryDelay = const Duration(seconds: 1),
+  }) {
+    return OsmeaImage(
+      imageUrl: imageUrl,
+      assetPath: assetPath,
+      filePath: filePath,
+      bytes: bytes,
+      variant: variant,
+      size: size,
+      fit: fit,
+      width: width,
+      height: height,
+      borderRadius: borderRadius,
+      border: border,
+      boxShadow: boxShadow,
+      backgroundColor: backgroundColor,
+      placeholder: placeholder,
+      errorWidget: errorWidget,
+      showLoadingIndicator: showLoadingIndicator,
+      overlayColor: overlayColor,
+      colorBlendMode: colorBlendMode,
+      onTap: onTap,
+      heroTag: heroTag,
+      semanticLabel: semanticLabel,
+      excludeFromSemantics: excludeFromSemantics,
+      alignment: alignment,
+      repeat: repeat,
+      matchTextDirection: matchTextDirection,
+      filterQuality: filterQuality,
+      headers: headers,
+      cacheWidth: cacheWidth,
+      cacheHeight: cacheHeight,
+      scale: scale,
+      imageColor: imageColor,
+      centerSlice: centerSlice,
+      gaplessPlayback: gaplessPlayback,
+      isAntiAlias: isAntiAlias,
+      package: package,
+      cacheStrategy: cacheStrategy,
+      retryCount: retryCount,
+      retryDelay: retryDelay,
+    );
+  }
+
+  /// 🦶 **OSMEA Footer** - Modern footer component with multiple variants
+  ///
+  /// Creates a comprehensive footer component with support for:
+  /// - Customizable footer items with labels and descriptions
+  /// - Interactive bottom sheet integration
+  /// - Divider customization
+  /// - Full customization options
+  ///
+  /// Example:
+  /// ```dart
+  /// OsmeaComponents.footer(
+  ///   items: [
+  ///     FooterItem(label: 'Privacy', description: 'Privacy policy details...'),
+  ///     FooterItem(label: 'Terms', description: 'Terms of service...'),
+  ///     FooterItem(label: 'Contact', description: 'Contact information...'),
+  ///   ],
+  ///   dividerIndent: 16,
+  ///   dividerEndIndent: 16,
+  ///   dividerThickness: 1,
+  /// )
+  /// ```
+  static Widget footer({
+    List<OsmeaFooterItem>? items,
+    double dividerIndent = 16,
+    double dividerEndIndent = 16,
+    double dividerThickness = 1.2,
+    Color? dividerColor,
+    EdgeInsetsGeometry padding = const EdgeInsets.symmetric(vertical: 8),
+    Color? backgroundColor,
+    FooterVariant variant = FooterVariant.defaultFooter,
+    String? text,
+  }) {
+    return OsmeaFooter(
+      items: items,
+      dividerIndent: dividerIndent,
+      dividerEndIndent: dividerEndIndent,
+      dividerThickness: dividerThickness,
+      dividerColor: dividerColor,
+      backgroundColor: backgroundColor,
+      variant: variant,
+      text: text,
+    );
   }
 }
 
@@ -3422,4 +3655,104 @@ class AppBarAction {
       text: text ?? this.text,
     );
   }
+}
+
+class OsmeaDropdownItem<T> {
+  final String label;
+  final T value;
+  final IconData? icon;
+  final bool isDestructive;
+  final String? shortcut;
+  final bool isAvatar;
+  final String? username;
+  final String? avatarUrl;
+  final bool? isOnline;
+
+  const OsmeaDropdownItem({
+    required this.label,
+    required this.value,
+    this.icon,
+    this.isDestructive = false,
+    this.shortcut,
+    this.isAvatar = false,
+    this.username,
+    this.avatarUrl,
+    this.isOnline,
+  });
+
+  @override
+  String toString() => label;
+}
+
+class OsmeaDropdownMenuItem {
+  static OsmeaDropdownItem<T> dropdownMenuItem<T>({
+    required String label,
+    required T value,
+    IconData? icon,
+    bool isDestructive = false,
+    String? shortcut,
+  }) =>
+      OsmeaDropdownItem<T>(
+        label: label,
+        value: value,
+        icon: icon,
+        isDestructive: isDestructive,
+        shortcut: shortcut,
+        isAvatar: false,
+      );
+
+  static OsmeaDropdownItem<T> dropdownAvatarItem<T>({
+    required String name,
+    required String username,
+    required T value,
+    String? avatarUrl,
+    bool isOnline = false,
+  }) =>
+      OsmeaDropdownItem<T>(
+        label: name,
+        value: value,
+        isAvatar: true,
+        username: username,
+        avatarUrl: avatarUrl,
+        isOnline: isOnline,
+      );
+}
+
+/// 🦶 **Footer Item** - Configuration for a single footer button
+///
+/// Represents a single item in the OSMEA Footer, including label, description, icon, and custom actions.
+/// Used to configure the content and behavior of each footer button.
+///
+/// Example:
+/// ```dart
+/// OsmeaFooterItem(
+///   label: 'GitHub',
+///   description: 'View our GitHub page',
+///   icon: Icons.code,
+///   onTap: () => launch('https://github.com/osmea'),
+/// )
+/// ```
+class OsmeaFooterItem {
+  /// The label displayed on the footer button
+  final String label;
+
+  /// The description shown in the bottom sheet when the item is tapped
+  final String description;
+
+  /// Optional icon for the footer item
+  final IconData? icon;
+
+  /// Optional custom onTap for the item (e.g., open a popup, launch a URL, etc.)
+  final VoidCallback? onTap;
+
+  /// Optional custom bottom sheet builder
+  final WidgetBuilder? bottomSheetBuilder;
+
+  const OsmeaFooterItem({
+    required this.label,
+    required this.description,
+    this.icon,
+    this.onTap,
+    this.bottomSheetBuilder,
+  });
 }

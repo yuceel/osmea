@@ -69,6 +69,8 @@ export 'src/utils/list_item_extensions.dart';
 export 'src/utils/stepper_extension.dart';
 export 'src/utils/progress_extensions.dart';
 export 'src/utils/toast_extensions.dart';
+export 'src/utils/dropdown_extensions.dart';
+export 'src/utils/footer_extensions.dart';
 
 // 🔢 Enums
 export 'src/enums/enums.dart';
@@ -85,5 +87,8 @@ export 'src/components/loading/cubit/loading_state.dart';
 
 // 📝 Rich Text
 export 'src/components/rich_text/text_span.dart';
+
+// 🖼️ Image
+export 'src/utils/image_extensions.dart';
 
 export 'src/components/stepper/stepper.dart';
