@@ -396,21 +396,21 @@ class _ButtonExampleState extends State<ButtonExample> {
           children: [
             OsmeaComponents.button(
               text: 'Custom Red',
-              backgroundColor: Colors.red,
-              textColor: Colors.white,
+              backgroundColor: OsmeaColors.red,
+              textColor: OsmeaColors.white,
               onPressed: () => _showSnackBar('Custom red pressed'),
             ),
             OsmeaComponents.button(
               text: 'Custom Green',
-              backgroundColor: Colors.green,
-              textColor: Colors.white,
+              backgroundColor: OsmeaColors.green,
+              textColor: OsmeaColors.white,
               icon: const Icon(Icons.eco),
               onPressed: () => _showSnackBar('Custom green pressed'),
             ),
             OsmeaComponents.button(
               text: 'Custom Purple',
-              backgroundColor: Colors.purple,
-              textColor: Colors.white,
+              backgroundColor: OsmeaColors.purple,
+              textColor: OsmeaColors.white,
               icon: const Icon(Icons.star),
               onPressed: () => _showSnackBar('Custom purple pressed'),
             ),
