@@ -158,10 +158,16 @@ example_mobile/
 
 ---
 
-## 📝 License
+## 📄 License
 
-This project is licensed under the MIT License.
+> 🔐 **License:** GNU AGPL v3.0  
+> 📜 This project is protected under the **GNU Affero General Public License v3.0**.  
+> If you modify and deploy this project publicly, you must also **publish your changes** under the same license.
+
+📎 Full details available in the [`LICENSE`](https://github.com/masterfabric-mobile/osmea/blob/dev/LICENSE) file.
 
 ---
 
-**Built with ❤️ using OSMEA Components**
+**Built with ❤️ by the OSMEA Team**
+
+© 2025 MasterFabric Mobile • Maintained by the OSMEA Engineering Team
