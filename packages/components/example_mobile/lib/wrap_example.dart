@@ -162,7 +162,7 @@ class WrapExample extends StatelessWidget {
               color: OsmeaColors.nordicBlue,
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Center(
+            child: OsmeaComponents.center(
               child: OsmeaComponents.text(
                 '$i',
                 textStyle: const TextStyle(
@@ -190,7 +190,7 @@ class WrapExample extends StatelessWidget {
               color: OsmeaColors.forestHeart,
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Center(
+            child: OsmeaComponents.center(
               child: OsmeaComponents.text(
                 '$i',
                 textStyle: const TextStyle(
@@ -300,7 +300,7 @@ class WrapExample extends StatelessWidget {
                   i % 2 == 0 ? OsmeaColors.nordicBlue : OsmeaColors.sunsetGlow,
               borderRadius: BorderRadius.circular(4),
             ),
-            child: Center(
+            child: OsmeaComponents.center(
               child: OsmeaComponents.text(
                 '$i',
                 textStyle: const TextStyle(
@@ -379,7 +379,7 @@ class WrapExample extends StatelessWidget {
                         : OsmeaColors.forestHeart,
                 borderRadius: BorderRadius.circular(4),
               ),
-              child: Center(
+              child: OsmeaComponents.center(
                 child: OsmeaComponents.text(
                   '$i',
                   textStyle: const TextStyle(
@@ -472,7 +472,7 @@ class WrapExample extends StatelessWidget {
               ),
             ],
           ),
-          child: Center(
+          child: OsmeaComponents.center(
             child: Icon(
               Icons.image,
               size: 32,
@@ -495,7 +495,7 @@ class WrapExample extends StatelessWidget {
           color: color,
           borderRadius: BorderRadius.circular(4),
         ),
-        child: Center(
+        child: OsmeaComponents.center(
           child: OsmeaComponents.text(
             '${index + 1}',
             textStyle: const TextStyle(

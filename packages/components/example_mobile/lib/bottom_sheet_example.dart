@@ -21,7 +21,7 @@ class _BottomSheetExampleState extends State<BottomSheetExample> {
         
         title: OsmeaComponents.text('Bottom Sheet Examples'),
         backgroundColor: OsmeaColors.nordicBlue,
-        foregroundColor: Colors.white,
+        foregroundColor: OsmeaColors.white,
         variant: AppBarVariant.primary,
         size: AppBarSize.standard,
         centerTitle: true,
@@ -91,7 +91,7 @@ class _BottomSheetExampleState extends State<BottomSheetExample> {
                 title: 'OSMEA Components Example',
                 description: 'Using OSMEA Components',
                 onPressed: () => _showWithOsmeaComponents(context),
-                color: Colors.purple,
+                color: OsmeaColors.purple,
               ),
               
               OsmeaComponents.sizedBox(height: 12),
@@ -134,13 +134,13 @@ class _BottomSheetExampleState extends State<BottomSheetExample> {
               title,
               variant: OsmeaTextVariant.titleMedium,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: OsmeaColors.white,
             ),
             OsmeaComponents.sizedBox(height: 4),
             OsmeaComponents.text(
               description,
               variant: OsmeaTextVariant.bodyMedium,
-              color: Colors.white.withOpacity(0.9),
+              color: OsmeaColors.white.withOpacity(0.9),
             ),
           ],
         ),
@@ -241,7 +241,7 @@ class _BottomSheetExampleState extends State<BottomSheetExample> {
             variant: ButtonVariant.primary,
             size: ButtonSize.large,
             backgroundColor: OsmeaColors.nordicBlue,
-            textColor: Colors.white,
+            textColor: OsmeaColors.white,
             fullWidth: true,
           ),
         ),
@@ -328,7 +328,7 @@ class _BottomSheetExampleState extends State<BottomSheetExample> {
                   variant: ButtonVariant.primary,
                   size: ButtonSize.medium,
                   backgroundColor: OsmeaColors.forestHeart,
-                  textColor: Colors.white,
+                  textColor: OsmeaColors.white,
                 ),
               ),
             ],
@@ -342,13 +342,13 @@ class _BottomSheetExampleState extends State<BottomSheetExample> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.black.withOpacity(0.5),
+      backgroundColor: OsmeaColors.black.withOpacity(0.5),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
       builder: (context) => OsmeaComponents.container(
         decoration: const BoxDecoration(
-          color: Colors.white,
+          color: OsmeaColors.white,
           borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
         ),
         child: OsmeaComponents.bottomSheet(
@@ -374,7 +374,7 @@ class _BottomSheetExampleState extends State<BottomSheetExample> {
                 OsmeaComponents.text(
                   'Tap outside to dismiss',
                   variant: OsmeaTextVariant.bodyMedium,
-                  color: Colors.grey,
+                  color: OsmeaColors.grey,
                 ),
               ],
             ),
@@ -526,8 +526,8 @@ class _BottomSheetExampleState extends State<BottomSheetExample> {
           size: ButtonSize.small,
         ),
         showActionBorder: true,
-        actionBarBackgroundColor: Colors.grey.shade50,
-        actionBarBorderColor: Colors.grey.shade300,
+        actionBarBackgroundColor: OsmeaColors.grey.shade50,
+        actionBarBorderColor: OsmeaColors.grey.shade300,
         child: OsmeaComponents.padding(
           padding: const EdgeInsets.all(20),
           child: OsmeaComponents.column(
@@ -569,7 +569,7 @@ class _BottomSheetExampleState extends State<BottomSheetExample> {
               OsmeaComponents.text(
                 'Please fill in all required fields to continue to the next step.',
                 variant: OsmeaTextVariant.bodySmall,
-                color: Colors.grey.shade600,
+                color: OsmeaColors.grey.shade600,
               ),
             ],
           ),
@@ -646,7 +646,7 @@ class _BottomSheetExampleState extends State<BottomSheetExample> {
               OsmeaComponents.text(
                 'You can change these preferences later in your account settings.',
                 variant: OsmeaTextVariant.bodySmall,
-                color: Colors.grey.shade600,
+                color: OsmeaColors.grey.shade600,
               ),
             ],
           ),
@@ -706,12 +706,12 @@ class _BottomSheetExampleState extends State<BottomSheetExample> {
                   color: OsmeaColors.forestHeart,
                 ),
                 OsmeaComponents.sizedBox(height: 12),
-                OsmeaComponents.text(
-                  'Thank you for completing the multi-step form. Your information has been saved successfully.',
-                  variant: OsmeaTextVariant.bodyMedium,
-                  color: Colors.grey.shade600,
-                  textAlign: TextAlign.center,
-                ),
+                                  OsmeaComponents.text(
+                    'Thank you for completing the multi-step form. Your information has been saved successfully.',
+                    variant: OsmeaTextVariant.bodyMedium,
+                    color: OsmeaColors.grey.shade600,
+                    textAlign: TextAlign.center,
+                  ),
                 OsmeaComponents.sizedBox(height: 24),
                 OsmeaComponents.badge(
                   content: 'Complete',

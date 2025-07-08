@@ -11,7 +11,7 @@ class SizedBoxExample extends StatelessWidget {
         title: OsmeaComponents.text('OSMEA SizedBox Examples'),
         elevation: 0,
       ),
-      body: SingleChildScrollView(
+      body: OsmeaComponents.singleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: OsmeaComponents.column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,7 +56,7 @@ class SizedBoxExample extends StatelessWidget {
             width: 200,
             height: 100,
             child: _buildColoredBox(
-                color: Colors.blue, text: 'Width: 200, Height: 100'),
+                color: OsmeaColors.nordicBlue, text: 'Width: 200, Height: 100'),
           ),
         ),
         OsmeaComponents.sizedBox(height: 16),
@@ -64,7 +64,7 @@ class SizedBoxExample extends StatelessWidget {
           'Fixed Width Only',
           OsmeaComponents.sizedBox(
             width: 150,
-            child: _buildColoredBox(color: Colors.green, text: 'Width: 150'),
+            child: _buildColoredBox(color: OsmeaColors.forestHeart, text: 'Width: 150'),
           ),
         ),
         OsmeaComponents.sizedBox(height: 16),
@@ -72,7 +72,7 @@ class SizedBoxExample extends StatelessWidget {
           'Fixed Height Only',
           OsmeaComponents.sizedBox(
             height: 60,
-            child: _buildColoredBox(color: Colors.orange, text: 'Height: 60'),
+            child: _buildColoredBox(color: OsmeaColors.sunsetGlow, text: 'Height: 60'),
           ),
         ),
         OsmeaComponents.sizedBox(height: 16),
@@ -80,9 +80,9 @@ class SizedBoxExample extends StatelessWidget {
           'Empty SizedBox as Spacer',
           OsmeaComponents.column(
             children: [
-              _buildColoredBox(color: Colors.purple, text: 'Before Spacer'),
+              _buildColoredBox(color: OsmeaColors.purple, text: 'Before Spacer'),
               OsmeaComponents.sizedBox(height: 30),
-              _buildColoredBox(color: Colors.purple, text: 'After Spacer'),
+              _buildColoredBox(color: OsmeaColors.purple, text: 'After Spacer'),
             ],
           ),
         ),
@@ -101,11 +101,11 @@ class SizedBoxExample extends StatelessWidget {
             height: 80,
             child: OsmeaComponents.container(
               decoration: BoxDecoration(
-                color: Colors.grey.shade200,
+                color: OsmeaColors.ash,
                 borderRadius: BorderRadius.circular(8),
               ),
               child:
-                  Center(child: OsmeaComponents.text('With Container Child')),
+                  OsmeaComponents.center(child: OsmeaComponents.text('With Container Child')),
             ),
           ),
         ),
@@ -117,10 +117,10 @@ class SizedBoxExample extends StatelessWidget {
             height: 80,
             child: OsmeaComponents.container(
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.blue, width: 2),
+                border: Border.all(color: OsmeaColors.nordicBlue, width: 2),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Center(
+              child: OsmeaComponents.center(
                   child: OsmeaComponents.text('With Border & BorderRadius')),
             ),
           ),
@@ -133,23 +133,23 @@ class SizedBoxExample extends StatelessWidget {
             height: 80,
             child: OsmeaComponents.container(
               decoration: BoxDecoration(
-                color: Colors.teal,
+                color: OsmeaColors.forestHeart,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.2),
+                    color: OsmeaColors.black.withOpacity(0.2),
                     blurRadius: 10,
                     spreadRadius: 2,
                     offset: const Offset(0, 4),
                   ),
                 ],
               ),
-              child: Center(
+              child: OsmeaComponents.center(
                   child: OsmeaComponents.text(
                 'With BoxShadow',
                 textStyle: TextStyle(
-                  color: Colors.teal.computeLuminance() > 0.5
-                      ? Colors.black
-                      : Colors.white,
+                  color: OsmeaColors.forestHeart.computeLuminance() > 0.5
+                      ? OsmeaColors.black
+                      : OsmeaColors.white,
                   fontWeight: FontWeight.bold,
                 ),
               )),
@@ -163,18 +163,18 @@ class SizedBoxExample extends StatelessWidget {
             width: 200,
             height: 80,
             child: OsmeaComponents.container(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Colors.blue, Colors.purple],
+                  colors: [OsmeaColors.nordicBlue, OsmeaColors.purple],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
               ),
-              child: Center(
+              child: OsmeaComponents.center(
                 child: OsmeaComponents.text(
                   'With Gradient',
                   textStyle: const TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
+                      color: OsmeaColors.white, fontWeight: FontWeight.bold),
                 ),
               ),
             ),
@@ -190,12 +190,12 @@ class SizedBoxExample extends StatelessWidget {
               margin: const EdgeInsets.all(10),
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: Colors.amber.shade100,
-                border: Border.all(color: Colors.amber),
+                color: OsmeaColors.amberFlame.withOpacity(0.2),
+                border: Border.all(color: OsmeaColors.amberFlame),
               ),
               child: OsmeaComponents.container(
-                color: Colors.amber,
-                child: Center(
+                color: OsmeaColors.amberFlame,
+                child: OsmeaComponents.center(
                     child: OsmeaComponents.text('With Padding & Margin')),
               ),
             ),
@@ -220,10 +220,10 @@ class SizedBoxExample extends StatelessWidget {
               },
               child: OsmeaComponents.container(
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade200,
+                  color: OsmeaColors.ash,
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Center(
+                child: OsmeaComponents.center(
                     child: OsmeaComponents.text('Tap Me!',
                         textStyle:
                             const TextStyle(fontWeight: FontWeight.bold))),
@@ -243,10 +243,10 @@ class SizedBoxExample extends StatelessWidget {
               },
               child: OsmeaComponents.container(
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade200,
+                  color: OsmeaColors.ash,
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Center(
+                child: OsmeaComponents.center(
                     child: OsmeaComponents.text('Long Press Me!',
                         textStyle:
                             const TextStyle(fontWeight: FontWeight.bold))),
@@ -285,7 +285,7 @@ class SizedBoxExample extends StatelessWidget {
       child: OsmeaComponents.text(
         text,
         textStyle: TextStyle(
-          color: color.computeLuminance() > 0.5 ? Colors.black : Colors.white,
+          color: color.computeLuminance() > 0.5 ? OsmeaColors.black : OsmeaColors.white,
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -304,12 +304,12 @@ class SizedBoxExample extends StatelessWidget {
             width: 100,
             height: 100,
             child: ColoredBox(
-              color: Colors.deepPurple,
-              child: Center(
+              color: OsmeaColors.nordicBlue,
+              child: OsmeaComponents.center(
                 child: OsmeaComponents.text(
                   'Square\n100x100',
                   textAlign: TextAlign.center,
-                  textStyle: const TextStyle(color: Colors.white),
+                  textStyle: const TextStyle(color: OsmeaColors.white),
                 ),
               ),
             ),
@@ -321,19 +321,19 @@ class SizedBoxExample extends StatelessWidget {
           OsmeaComponents.sizedBox(
             height: 80,
             width: 200,
-            child: Stack(
+            child: OsmeaComponents.stack(
               children: [
-                const Positioned.fill(
-                  child: ColoredBox(color: Colors.grey),
+                Positioned.fill(
+                  child: ColoredBox(color: OsmeaColors.ash),
                 ),
                 // Use Flutter's SizedBox.expand
                 SizedBox.expand(
-                  child: Center(
+                  child: OsmeaComponents.center(
                     child: OsmeaComponents.sizedBox(
-                      child: Center(
+                      child: OsmeaComponents.center(
                         child: OsmeaComponents.text(
                           'Expands to Fill Parent',
-                          textStyle: const TextStyle(color: Colors.white),
+                          textStyle: const TextStyle(color: OsmeaColors.white),
                         ),
                       ),
                     ),
@@ -351,19 +351,19 @@ class SizedBoxExample extends StatelessWidget {
               OsmeaComponents.container(
                 width: 50,
                 height: 50,
-                color: Colors.red,
+                color: OsmeaColors.sunsetGlow,
               ),
               OsmeaComponents.sizedBox(width: 20),
               OsmeaComponents.container(
                 width: 50,
                 height: 50,
-                color: Colors.blue,
+                color: OsmeaColors.nordicBlue,
               ),
               OsmeaComponents.sizedBox(width: 20),
               OsmeaComponents.container(
                 width: 50,
                 height: 50,
-                color: Colors.green,
+                color: OsmeaColors.forestHeart,
               ),
             ],
           ),
@@ -376,19 +376,19 @@ class SizedBoxExample extends StatelessWidget {
               OsmeaComponents.container(
                 width: 100,
                 height: 20,
-                color: Colors.orange,
+                color: OsmeaColors.sunsetGlow,
               ),
               OsmeaComponents.sizedBox(height: 10),
               OsmeaComponents.container(
                 width: 100,
                 height: 20,
-                color: Colors.orange,
+                color: OsmeaColors.sunsetGlow,
               ),
               OsmeaComponents.sizedBox(height: 10),
               OsmeaComponents.container(
                 width: 100,
                 height: 20,
-                color: Colors.orange,
+                color: OsmeaColors.sunsetGlow,
               ),
             ],
           ),

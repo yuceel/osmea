@@ -11,7 +11,7 @@ class CenterExample extends StatelessWidget {
         title: OsmeaComponents.text('OSMEA Center Examples'),
         elevation: 0,
       ),
-      body: SingleChildScrollView(
+      body: OsmeaComponents.singleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: OsmeaComponents.column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,7 +54,7 @@ class CenterExample extends StatelessWidget {
           'Simple Center',
           _buildContainer(
             OsmeaComponents.center(
-              child: _buildColoredBox(color: Colors.blue, text: 'Centered'),
+              child: _buildColoredBox(color: OsmeaColors.blue, text: 'Centered'),
             ),
           ),
         ),
@@ -65,7 +65,7 @@ class CenterExample extends StatelessWidget {
             OsmeaComponents.center(
               widthFactor: 0.7,
               child: _buildColoredBox(
-                  color: Colors.green,
+                  color: OsmeaColors.green,
                   width: double.infinity,
                   text: 'Width Factor: 0.7'),
             ),
@@ -78,7 +78,7 @@ class CenterExample extends StatelessWidget {
             OsmeaComponents.center(
               heightFactor: 0.5,
               child: _buildColoredBox(
-                  color: Colors.orange, text: 'Height Factor: 0.5'),
+                  color: OsmeaColors.orange, text: 'Height Factor: 0.5'),
             ),
           ),
         ),
@@ -90,7 +90,7 @@ class CenterExample extends StatelessWidget {
               widthFactor: 0.5,
               heightFactor: 0.5,
               child: _buildColoredBox(
-                  color: Colors.purple, text: 'Width: 0.5, Height: 0.5'),
+                  color: OsmeaColors.purple, text: 'Width: 0.5, Height: 0.5'),
             ),
           ),
         ),
@@ -107,12 +107,12 @@ class CenterExample extends StatelessWidget {
           _buildContainer(
             OsmeaComponents.container(
               decoration: BoxDecoration(
-                color: Colors.grey.shade200,
+                color: OsmeaColors.grey.shade200,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: OsmeaComponents.center(
                 child: _buildColoredBox(
-                    color: Colors.red, text: 'With Background'),
+                    color: OsmeaColors.red, text: 'With Background'),
               ),
             ),
           ),
@@ -123,12 +123,12 @@ class CenterExample extends StatelessWidget {
           _buildContainer(
             OsmeaComponents.container(
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.blue, width: 2),
+                border: Border.all(color: OsmeaColors.blue, width: 2),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: OsmeaComponents.center(
                 child: _buildColoredBox(
-                    color: Colors.teal, text: 'With Border & BorderRadius'),
+                    color: OsmeaColors.forestHeart, text: 'With Border & BorderRadius'),
               ),
             ),
           ),
@@ -140,13 +140,13 @@ class CenterExample extends StatelessWidget {
             OsmeaComponents.container(
               margin: const EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: Colors.grey.shade200,
+                color: OsmeaColors.grey.shade200,
               ),
               child: OsmeaComponents.padding(
                 padding: const EdgeInsets.all(10),
                 child: OsmeaComponents.center(
                   child: _buildColoredBox(
-                      color: Colors.amber, text: 'With Padding & Margin'),
+                      color: OsmeaColors.sunsetGlow, text: 'With Padding & Margin'),
                 ),
               ),
             ),
@@ -160,7 +160,7 @@ class CenterExample extends StatelessWidget {
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.3),
+                    color: OsmeaColors.black.withOpacity(0.3),
                     spreadRadius: 1,
                     blurRadius: 10,
                     offset: const Offset(0, 3),
@@ -169,7 +169,7 @@ class CenterExample extends StatelessWidget {
               ),
               child: OsmeaComponents.center(
                 child: _buildColoredBox(
-                    color: Colors.pink, text: 'With BoxShadow'),
+                    color: OsmeaColors.amberFlame, text: 'With BoxShadow'),
               ),
             ),
           ),
@@ -191,12 +191,12 @@ class CenterExample extends StatelessWidget {
               },
               child: OsmeaComponents.container(
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade200,
+                  color: OsmeaColors.grey.shade200,
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: OsmeaComponents.center(
                   child: _buildColoredBox(
-                      color: Colors.deepPurple, text: 'Tap Me!'),
+                      color: OsmeaColors.purple, text: 'Tap Me!'),
                 ),
               ),
             ),
@@ -212,12 +212,12 @@ class CenterExample extends StatelessWidget {
               },
               child: OsmeaComponents.container(
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade200,
+                  color: OsmeaColors.grey.withOpacity(0.2),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: OsmeaComponents.center(
                   child: _buildColoredBox(
-                      color: Colors.indigo, text: 'Long Press Me!'),
+                      color: OsmeaColors.nordicBlue, text: 'Long Press Me!'),
                 ),
               ),
             ),
@@ -236,7 +236,7 @@ class CenterExample extends StatelessWidget {
           _buildContainer(
             OsmeaComponents.center(
               child: _buildColoredBox(
-                  color: Colors.blue,
+                  color: OsmeaColors.blue,
                   width: double.infinity,
                   text: 'Width Factor: 0.6, Height Factor: 0.6'),
               widthFactor: 0.6,
@@ -252,7 +252,7 @@ class CenterExample extends StatelessWidget {
               child: OsmeaComponents.sizedBox(
                 width: 200,
                 child: _buildColoredBox(
-                    color: Colors.green, text: 'Fixed Width: 200'),
+                    color: OsmeaColors.forestHeart, text: 'Fixed Width: 200'),
               ),
             ),
           ),
@@ -265,7 +265,7 @@ class CenterExample extends StatelessWidget {
               child: OsmeaComponents.sizedBox(
                 height: 80,
                 child: _buildColoredBox(
-                    color: Colors.orange, text: 'Fixed Height: 80'),
+                    color: OsmeaColors.meadow, text: 'Fixed Height: 80'),
               ),
             ),
           ),
@@ -279,7 +279,7 @@ class CenterExample extends StatelessWidget {
                 width: 180,
                 height: 90,
                 child: _buildColoredBox(
-                    color: Colors.purple, text: 'Fixed Size: 180x90'),
+                    color: OsmeaColors.purple, text: 'Fixed Size: 180x90'),
               ),
             ),
           ),
@@ -323,7 +323,7 @@ class CenterExample extends StatelessWidget {
           text,
           textAlign: TextAlign.center,
           textStyle: TextStyle(
-            color: color.computeLuminance() > 0.5 ? Colors.black : Colors.white,
+            color: color.computeLuminance() > 0.5 ? OsmeaColors.steel : OsmeaColors.white,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -336,8 +336,8 @@ class CenterExample extends StatelessWidget {
       width: double.infinity,
       height: 200,
       decoration: BoxDecoration(
-        color: Colors.grey.shade100,
-        border: Border.all(color: Colors.grey.shade300),
+        color: OsmeaColors.platinum,
+        border: Border.all(color: OsmeaColors.platinum),
         borderRadius: BorderRadius.circular(8),
       ),
       child: child,

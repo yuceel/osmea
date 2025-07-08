@@ -318,7 +318,7 @@ class _TextFieldExampleState extends State<TextFieldExample> {
           onCompleted: (otp) {
             print('4-digit OTP completed: $otp');
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('4-digit OTP completed: $otp')),
+              SnackBar(content: OsmeaComponents.text('4-digit OTP completed: $otp')),
             );
           },
           validator: (otp) => otp?.length == 4 ? null : 'Please enter 4 digits',
@@ -345,7 +345,7 @@ class _TextFieldExampleState extends State<TextFieldExample> {
             setState(() => _validationMessage = 'OTP Completed: $otp');
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text('6-digit OTP completed: $otp'),
+                content: OsmeaComponents.text('6-digit OTP completed: $otp'),
                 backgroundColor: OsmeaColors.forestHeart,
               ),
             );
@@ -438,11 +438,11 @@ class _TextFieldExampleState extends State<TextFieldExample> {
             color: OsmeaColors.slate,
           ),
           OsmeaComponents.sizedBox(height: 8),
-          Wrap(
+          OsmeaComponents.wrap(
             spacing: 8,
             children: TextFieldVariant.values.map((variant) {
               return ChoiceChip(
-                label: Text(variant.toString().split('.').last),
+                label: OsmeaComponents.text(variant.toString().split('.').last),
                 selected: _selectedVariant == variant,
                 onSelected: (selected) =>
                     setState(() => _selectedVariant = variant),
@@ -458,7 +458,7 @@ class _TextFieldExampleState extends State<TextFieldExample> {
             color: OsmeaColors.slate,
           ),
           OsmeaComponents.sizedBox(height: 8),
-          Wrap(
+          OsmeaComponents.wrap(
             spacing: 8,
             children: TextFieldSize.values.map((size) {
               return ChoiceChip(
@@ -472,7 +472,7 @@ class _TextFieldExampleState extends State<TextFieldExample> {
 
           // Floating Label Toggle
           CheckboxListTile(
-            title: const Text('Floating Label'),
+            title: OsmeaComponents.text('Floating Label'),
             value: _showFloatingLabel,
             onChanged: (value) =>
                 setState(() => _showFloatingLabel = value ?? false),

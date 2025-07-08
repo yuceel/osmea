@@ -14,8 +14,8 @@ class AppbarDemo extends StatelessWidget {
       appBar: OsmeaComponents.appBar(
         title: OsmeaComponents.text('Mobile-Inspired AppBars'),
         centerTitle: true,
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
+        backgroundColor: OsmeaColors.white,
+        foregroundColor: OsmeaColors.black,
         elevation: 1,
       ),
       body: ListView(
@@ -30,7 +30,7 @@ class AppbarDemo extends StatelessWidget {
           OsmeaComponents.text(
             'AppBar designs inspired by popular mobile applications',
             fontSize: 16,
-            color: Colors.grey,
+            color: OsmeaColors.grey,
           ),
           OsmeaComponents.sizedBox(height: 32),
 
@@ -114,9 +114,9 @@ class AppbarDemo extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: OsmeaComponents.container(
         decoration: BoxDecoration(
-          color: Colors.grey[50],
+          color: OsmeaColors.grey[50],
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.grey[200]!),
+          border: Border.all(color: OsmeaColors.grey[200]!),
         ),
         child: OsmeaComponents.column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -135,14 +135,14 @@ class AppbarDemo extends StatelessWidget {
                   OsmeaComponents.text(
                     description,
                     fontSize: 14,
-                    color: Colors.grey[600],
+                    color: OsmeaColors.grey[600],
                   ),
                 ],
               ),
             ),
             OsmeaComponents.container(
               decoration: const BoxDecoration(
-                color: Colors.white,
+                color: OsmeaColors.white,
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(12),
                   bottomRight: Radius.circular(12),
@@ -173,7 +173,7 @@ class AppbarDemo extends StatelessWidget {
               type: AppBarActionType.notification,
               icon: const Icon(Icons.notifications_outlined),
               onPressed: () {},
-              badge: _buildNotificationBadge('1', Colors.green),
+              badge: _buildNotificationBadge('1', OsmeaColors.green),
             ),
           ],
         ),
@@ -204,7 +204,7 @@ class AppbarDemo extends StatelessWidget {
               type: AppBarActionType.notification,
               icon: const Icon(Icons.notifications_outlined),
               onPressed: () {},
-              badge: _buildNotificationBadge('5', Colors.red),
+              badge: _buildNotificationBadge('5', OsmeaColors.red),
             ),
           ],
         ),
@@ -241,7 +241,7 @@ class AppbarDemo extends StatelessWidget {
               type: AppBarActionType.more,
               icon: const Icon(Icons.shopping_cart_outlined),
               onPressed: () {},
-              badge: _buildNotificationBadge('3', Colors.orange),
+              badge: _buildNotificationBadge('3', OsmeaColors.orange),
             ),
           ],
         ),
@@ -341,12 +341,12 @@ class AppbarDemo extends StatelessWidget {
       height: 120,
       width: double.infinity,
       decoration: BoxDecoration(
-        color: Colors.grey[50],
+        color: OsmeaColors.grey[50],
         border: Border(
-          top: BorderSide(color: Colors.grey[200]!),
+          top: BorderSide(color: OsmeaColors.grey[200]!),
         ),
       ),
-      child: Center(
+      child: OsmeaComponents.center(
         child: OsmeaComponents.column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -362,7 +362,7 @@ class AppbarDemo extends StatelessWidget {
               'App content would appear here',
               textStyle: TextStyle(
                 fontSize: 12,
-                color: Colors.grey[600],
+                color: OsmeaColors.grey[600],
               ),
             ),
           ],
@@ -379,11 +379,11 @@ class AppbarDemo extends StatelessWidget {
         color: color,
         shape: BoxShape.circle,
       ),
-      child: Center(
+      child: OsmeaComponents.center(
         child: OsmeaComponents.text(
           count,
           textStyle: const TextStyle(
-            color: Colors.white,
+            color: OsmeaColors.white,
             fontSize: 11,
             fontWeight: FontWeight.bold,
           ),

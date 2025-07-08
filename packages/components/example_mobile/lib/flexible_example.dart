@@ -15,7 +15,7 @@ class FlexibleExampleScreen extends StatelessWidget {
       appBar: OsmeaComponents.appBar(
         title: OsmeaComponents.text('OSMEA Flexible Examples'),
       ),
-      body: SingleChildScrollView(
+      body: OsmeaComponents.singleChildScrollView(
         padding: context.paddingNormal,
         child: OsmeaComponents.column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,21 +98,21 @@ class FlexibleExampleScreen extends StatelessWidget {
     return OsmeaComponents.container(
       height: 60,
       width: double.infinity, // Set width to prevent overflow
-      color: Colors.grey.shade200,
+      color: OsmeaColors.grey.shade200,
       child: OsmeaComponents.row(
         mainAxisSize: MainAxisSize.max, // Ensure row takes full width
         children: [
           OsmeaComponents.flexible(
             flex: 1, // 1 part of space
-            child: _buildColorBox(Colors.red, 'flex: 1'),
+            child: _buildColorBox(OsmeaColors.red, 'flex: 1'),
           ),
           OsmeaComponents.flexible(
             flex: 2, // 2 parts of space (twice as much)
-            child: _buildColorBox(Colors.green, 'flex: 2'),
+            child: _buildColorBox(OsmeaColors.green, 'flex: 2'),
           ),
           OsmeaComponents.flexible(
             flex: 1, // 1 part of space
-            child: _buildColorBox(Colors.blue, 'flex: 1'),
+            child: _buildColorBox(OsmeaColors.blue, 'flex: 1'),
           ),
         ],
       ),
@@ -124,7 +124,7 @@ class FlexibleExampleScreen extends StatelessWidget {
     return OsmeaComponents.container(
       height: 60,
       width: double.infinity, // Set width to prevent overflow
-      color: Colors.grey.shade200,
+      color: OsmeaColors.grey.shade200,
       child: OsmeaComponents.row(
         mainAxisSize: MainAxisSize.max, // Ensure row takes full width
         children: [
@@ -132,12 +132,12 @@ class FlexibleExampleScreen extends StatelessWidget {
             flex: 1,
             fit: FlexFit.loose, // Default - takes needed space
             child: OsmeaComponents.container(
-              color: Colors.red,
+              color: OsmeaColors.red,
               padding: const EdgeInsets.all(8),
               child: OsmeaComponents.text(
                 'FlexFit.loose',
                 textStyle: const TextStyle(
-                  color: Colors.white,
+                  color: OsmeaColors.white,
                   fontSize: 12,
                 ),
               ),
@@ -147,13 +147,13 @@ class FlexibleExampleScreen extends StatelessWidget {
             flex: 1,
             fit: FlexFit.tight, // Forces to fill available space
             child: OsmeaComponents.container(
-              color: Colors.blue,
+              color: OsmeaColors.blue,
               padding: const EdgeInsets.all(8),
               child: OsmeaComponents.center(
                 child: OsmeaComponents.text(
                   'FlexFit.tight',
                   textStyle: const TextStyle(
-                    color: Colors.white,
+                    color: OsmeaColors.white,
                     fontSize: 12,
                   ),
                 ),
@@ -170,18 +170,18 @@ class FlexibleExampleScreen extends StatelessWidget {
     return OsmeaComponents.container(
       height: 300,
       width: double.infinity,
-      color: Colors.grey.shade200,
+      color: OsmeaColors.grey.shade200,
       child: OsmeaComponents.column(
         children: [
           OsmeaComponents.flexible(
             flex: 1, // 1 part of space
             child: OsmeaComponents.container(
-              color: Colors.red,
+              color: OsmeaColors.red,
               width: double.infinity,
               child: OsmeaComponents.center(
                 child: OsmeaComponents.text(
                   'flex: 1',
-                  textStyle: const TextStyle(color: Colors.white),
+                  textStyle: const TextStyle(color: OsmeaColors.white),
                 ),
               ),
             ),
@@ -189,12 +189,12 @@ class FlexibleExampleScreen extends StatelessWidget {
           OsmeaComponents.flexible(
             flex: 2, // 2 parts of space (twice as much)
             child: OsmeaComponents.container(
-              color: Colors.green,
+              color: OsmeaColors.green,
               width: double.infinity,
               child: OsmeaComponents.center(
                 child: OsmeaComponents.text(
                   'flex: 2',
-                  textStyle: const TextStyle(color: Colors.white),
+                  textStyle: const TextStyle(color: OsmeaColors.white),
                 ),
               ),
             ),
@@ -202,12 +202,12 @@ class FlexibleExampleScreen extends StatelessWidget {
           OsmeaComponents.flexible(
             flex: 1, // 1 part of space
             child: OsmeaComponents.container(
-              color: Colors.blue,
+              color: OsmeaColors.blue,
               width: double.infinity,
               child: OsmeaComponents.center(
                 child: OsmeaComponents.text(
                   'flex: 1',
-                  textStyle: const TextStyle(color: Colors.white),
+                  textStyle: const TextStyle(color: OsmeaColors.white),
                 ),
               ),
             ),
@@ -222,14 +222,14 @@ class FlexibleExampleScreen extends StatelessWidget {
     return OsmeaComponents.container(
       height: 60,
       width: double.infinity, // Set width to prevent overflow
-      color: Colors.grey.shade200,
+      color: OsmeaColors.grey.shade200,
       child: OsmeaComponents.row(
         mainAxisSize: MainAxisSize.max, // Ensure row takes full width
         children: [
           OsmeaComponents.flexible(
             flex: 1,
             child: OsmeaComponents.container(
-              color: Colors.amber,
+              color: OsmeaColors.sunsetGlow, // amber yerine benzer bir renk
               padding: const EdgeInsets.all(8),
               // Center text to prevent overflow
               child: OsmeaComponents.center(
@@ -243,12 +243,12 @@ class FlexibleExampleScreen extends StatelessWidget {
           OsmeaComponents.expanded(
             flex: 1,
             child: OsmeaComponents.container(
-              color: Colors.deepPurple.withOpacity(0.7),
+              color: OsmeaColors.nordicBlue.withOpacity(0.7),
               child: OsmeaComponents.center(
                 child: OsmeaComponents.text(
                   'Expanded',
                   textStyle: const TextStyle(
-                    color: Colors.white,
+                    color: OsmeaColors.white,
                     fontSize: 12,
                   ),
                 ),
@@ -278,14 +278,9 @@ class FlexibleExampleScreen extends StatelessWidget {
                 OsmeaComponents.sizedBox(width: 8),
                 OsmeaComponents.expanded(
                   // Use expanded instead of flexible
-                  child: TextField(
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      contentPadding: EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 8,
-                      ),
-                    ),
+                  child: OsmeaComponents.textField(
+                    variant: TextFieldVariant.outlined,
+                    size: TextFieldSize.medium,
                   ),
                 ),
               ],
@@ -303,14 +298,9 @@ class FlexibleExampleScreen extends StatelessWidget {
                 OsmeaComponents.expanded(
                   // Use expanded instead of flexible
                   flex: 2, // Takes more space
-                  child: TextField(
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      contentPadding: EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 8,
-                      ),
-                    ),
+                  child: OsmeaComponents.textField(
+                    variant: TextFieldVariant.outlined,
+                    size: TextFieldSize.medium,
                   ),
                 ),
               ],
@@ -326,7 +316,7 @@ class FlexibleExampleScreen extends StatelessWidget {
     return OsmeaComponents.container(
       height: 200,
       width: double.infinity,
-      color: Colors.grey.shade200,
+      color: OsmeaColors.grey.shade200,
       child: OsmeaComponents.row(
         mainAxisSize: MainAxisSize.max, // Ensure row takes full width
         children: [
@@ -334,7 +324,7 @@ class FlexibleExampleScreen extends StatelessWidget {
           OsmeaComponents.flexible(
             flex: 1,
             child: OsmeaComponents.container(
-              color: Colors.blueGrey.shade700,
+              color: OsmeaColors.slate, // blueGrey yerine benzer bir renk
               child: OsmeaComponents.padding(
                 padding: const EdgeInsets.all(12),
                 child: OsmeaComponents.column(
@@ -343,7 +333,7 @@ class FlexibleExampleScreen extends StatelessWidget {
                     OsmeaComponents.text(
                       'Dashboard',
                       textStyle: const TextStyle(
-                        color: Colors.white,
+                        color: OsmeaColors.white,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -365,13 +355,13 @@ class FlexibleExampleScreen extends StatelessWidget {
               children: [
                 // Header
                 OsmeaComponents.container(
-                  color: Colors.white,
+                  color: OsmeaColors.white,
                   padding: const EdgeInsets.all(16),
                   child: OsmeaComponents.row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
                       // Use a constrained width or Expanded for text
-                      Expanded(
+                      OsmeaComponents.expanded(
                         child: OsmeaComponents.text(
                           'Analytics Dashboard',
                           textStyle: const TextStyle(
@@ -400,7 +390,7 @@ class FlexibleExampleScreen extends StatelessWidget {
                           'Users',
                           '1,254',
                           Icons.people,
-                          Colors.blue,
+                          OsmeaColors.nordicBlue,
                         ),
                       ),
                       OsmeaComponents.expanded(
@@ -410,7 +400,7 @@ class FlexibleExampleScreen extends StatelessWidget {
                           'Revenue',
                           '\$12,345',
                           Icons.attach_money,
-                          Colors.green,
+                          OsmeaColors.meadow,
                         ),
                       ),
                     ],
@@ -431,13 +421,13 @@ class FlexibleExampleScreen extends StatelessWidget {
       child: OsmeaComponents.row(
         mainAxisSize: MainAxisSize.min, // Use min size to avoid overflow
         children: [
-          Icon(icon, color: Colors.white, size: 16),
+          Icon(icon, color: OsmeaColors.white, size: 16),
           OsmeaComponents.sizedBox(width: 8),
           // Use Expanded to contain text
-          Expanded(
+          OsmeaComponents.expanded(
             child: OsmeaComponents.text(
               label,
-              textStyle: const TextStyle(color: Colors.white),
+              textStyle: const TextStyle(color: OsmeaColors.white),
               overflow: TextOverflow.ellipsis, // Add ellipsis for long text
             ),
           ),
@@ -467,7 +457,7 @@ class FlexibleExampleScreen extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   // Wrap text in Expanded to prevent overflow
-                  Expanded(
+                  OsmeaComponents.expanded(
                     child: OsmeaComponents.text(
                       title,
                       textStyle: const TextStyle(
@@ -482,8 +472,8 @@ class FlexibleExampleScreen extends StatelessWidget {
                 ],
               ),
               // Use Expanded to ensure the value gets proper space
-              Expanded(
-                child: Align(
+              OsmeaComponents.expanded(
+                child: OsmeaComponents.align(
                   alignment: Alignment.centerLeft,
                   child: OsmeaComponents.text(
                     value,
@@ -510,7 +500,7 @@ class FlexibleExampleScreen extends StatelessWidget {
         child: OsmeaComponents.text(
           text,
           textStyle: const TextStyle(
-            color: Colors.white,
+            color: OsmeaColors.white,
             fontWeight: FontWeight.bold,
             fontSize: 12,
           ),

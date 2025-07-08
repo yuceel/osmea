@@ -181,7 +181,7 @@ class SingleChildScrollViewExample extends StatelessWidget {
                       i % 2 == 0 ? OsmeaColors.meadow : OsmeaColors.springLeaf,
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Center(
+                child: OsmeaComponents.center(
                   child: OsmeaComponents.text(
                     'Horizontal Item #$i',
                     textAlign: TextAlign.center,
@@ -237,7 +237,7 @@ class SingleChildScrollViewExample extends StatelessWidget {
                                     : OsmeaColors.nordicBlue,
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          child: Center(
+                          child: OsmeaComponents.center(
                             child: OsmeaComponents.text(
                               'Item $i',
                               textStyle:
@@ -353,7 +353,7 @@ class SingleChildScrollViewExample extends StatelessWidget {
                                 : OsmeaColors.sunsetGlow,
                         shape: BoxShape.circle,
                       ),
-                      child: Center(
+                      child: OsmeaComponents.center(
                         child: OsmeaComponents.text(
                           '$i',
                           textStyle: const TextStyle(
@@ -364,7 +364,7 @@ class SingleChildScrollViewExample extends StatelessWidget {
                       ),
                     ),
                     OsmeaComponents.sizedBox(width: 16),
-                    Expanded(
+                    OsmeaComponents.expanded(
                       child: OsmeaComponents.column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [

@@ -167,21 +167,17 @@ class _LoginScreenState extends State<LoginScreen> {
             color: OsmeaColors.nordicBlue,
           ),
           OsmeaComponents.sizedBox(height: 32),
-          TextField(
+          OsmeaComponents.textField(
             controller: _usernameController,
-            decoration: const InputDecoration(
-              labelText: 'Username',
-              border: OutlineInputBorder(),
-            ),
+            label: 'Username',
+            variant: TextFieldVariant.outlined,
           ),
           OsmeaComponents.sizedBox(height: 16),
-          TextField(
+          OsmeaComponents.textField(
             controller: _passwordController,
-            obscureText: true,
-            decoration: const InputDecoration(
-              labelText: 'Password',
-              border: OutlineInputBorder(),
-            ),
+            label: 'Password',
+            variant: TextFieldVariant.outlined,
+            type: TextFieldType.password,
           ),
           OsmeaComponents.sizedBox(height: 32),
           OsmeaComponents.loginButton(
@@ -193,7 +189,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: OsmeaComponents.text('Login successful!'),
-                  backgroundColor: Colors.green,
+                  backgroundColor: OsmeaColors.green,
                 ),
               );
             },
@@ -201,7 +197,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: OsmeaComponents.text('Login failed.'),
-                  backgroundColor: Colors.red,
+                  backgroundColor: OsmeaColors.red,
                 ),
               );
             },
@@ -230,7 +226,7 @@ class ComponentsScreen extends StatelessWidget {
             'OSMEA Components',
           ),
           OsmeaComponents.sizedBox(height: 16),
-          Expanded(
+          OsmeaComponents.expanded(
             child: GridView.count(
               crossAxisCount: 2,
               crossAxisSpacing: 16,
@@ -492,7 +488,7 @@ class ComponentsScreen extends StatelessWidget {
               Icon(
                 icon,
                 size: 48,
-                color: Colors.blue,
+                color: OsmeaColors.blue,
               ),
               OsmeaComponents.sizedBox(height: 12),
               OsmeaComponents.text(
@@ -898,7 +894,7 @@ class ExamplesScreen extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.only(bottom: 8),
       child: ListTile(
-        leading: Icon(icon, color: Colors.blue),
+        leading: Icon(icon, color: OsmeaColors.blue),
         title: OsmeaComponents.text(title),
         subtitle: OsmeaComponents.text(description),
         trailing: const Icon(Icons.arrow_forward_ios),
@@ -988,8 +984,8 @@ class _NavbarExampleState extends State<NavbarExample> {
     return OsmeaComponents.scaffold(
       appBar: OsmeaComponents.appBar(
         title: OsmeaComponents.text('🧭 Navbar Examples'),
-        backgroundColor: Colors.blue,
-        foregroundColor: Colors.white,
+        backgroundColor: OsmeaColors.blue,
+        foregroundColor: OsmeaColors.white,
       ),
       body: OsmeaComponents.column(
         children: [
@@ -1006,7 +1002,7 @@ class _NavbarExampleState extends State<NavbarExample> {
               });
             },
           ),
-          Expanded(
+          OsmeaComponents.expanded(
             child: OsmeaComponents.padding(
               padding: context.paddingNormal,
               child: OsmeaComponents.column(
