@@ -83,12 +83,12 @@ class SpacerExampleScreen extends StatelessWidget {
   Widget basicRowSpacerExample() {
     return OsmeaComponents.container(
       height: 60,
-      color: Colors.grey.shade200,
+      color: OsmeaColors.ash,
       child: OsmeaComponents.row(
         children: [
-          _buildColorBox(Colors.red, 'Left'),
+          _buildColorBox(OsmeaColors.sunsetGlow, 'Left'),
           OsmeaComponents.spacer(), // Pushes the right box to the end
-          _buildColorBox(Colors.blue, 'Right'),
+          _buildColorBox(OsmeaColors.nordicBlue, 'Right'),
         ],
       ),
     );
@@ -98,14 +98,14 @@ class SpacerExampleScreen extends StatelessWidget {
   Widget multipleSpacersExample() {
     return OsmeaComponents.container(
       height: 60,
-      color: Colors.grey.shade200,
+      color: OsmeaColors.ash,
       child: OsmeaComponents.row(
         children: [
-          _buildColorBox(Colors.red, 'Left'),
+          _buildColorBox(OsmeaColors.sunsetGlow, 'Left'),
           OsmeaComponents.spacer(flex: 1), // 1 part of space
-          _buildColorBox(Colors.green, 'Middle'),
+          _buildColorBox(OsmeaColors.forestHeart, 'Middle'),
           OsmeaComponents.spacer(flex: 2), // 2 parts of space (twice as much)
-          _buildColorBox(Colors.blue, 'Right'),
+          _buildColorBox(OsmeaColors.nordicBlue, 'Right'),
         ],
       ),
     );
@@ -116,14 +116,14 @@ class SpacerExampleScreen extends StatelessWidget {
     return OsmeaComponents.container(
       height: 300,
       width: double.infinity,
-      color: Colors.grey.shade200,
+      color: OsmeaColors.ash,
       child: OsmeaComponents.column(
         children: [
-          _buildColorBox(Colors.red, 'Top'),
+          _buildColorBox(OsmeaColors.sunsetGlow, 'Top'),
           OsmeaComponents.spacer(), // Pushes middle and bottom down
-          _buildColorBox(Colors.green, 'Middle'),
+          _buildColorBox(OsmeaColors.forestHeart, 'Middle'),
           OsmeaComponents.spacer(flex: 2), // Extra space before bottom
-          _buildColorBox(Colors.blue, 'Bottom'),
+          _buildColorBox(OsmeaColors.nordicBlue, 'Bottom'),
         ],
       ),
     );
@@ -134,24 +134,24 @@ class SpacerExampleScreen extends StatelessWidget {
     return OsmeaComponents.container(
       height: 60,
       width: double.infinity,
-      color: Colors.blue,
+      color: OsmeaColors.nordicBlue,
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: OsmeaComponents.row(
         children: [
-          const Icon(Icons.menu, color: Colors.white),
+          const Icon(Icons.menu, color: OsmeaColors.white),
           OsmeaComponents.sizedBox(width: 16),
           OsmeaComponents.text(
             'App Title',
             textStyle: const TextStyle(
-              color: Colors.white,
+              color: OsmeaColors.white,
               fontSize: 18,
               fontWeight: FontWeight.bold,
             ),
           ),
           OsmeaComponents.spacer(), // Pushes actions to the end
-          const Icon(Icons.search, color: Colors.white),
+          const Icon(Icons.search, color: OsmeaColors.white),
           OsmeaComponents.sizedBox(width: 16),
-          const Icon(Icons.more_vert, color: Colors.white),
+          const Icon(Icons.more_vert, color: OsmeaColors.white),
         ],
       ),
     );
@@ -208,7 +208,7 @@ class SpacerExampleScreen extends StatelessWidget {
         child: OsmeaComponents.text(
           text,
           textStyle: const TextStyle(
-            color: Colors.white,
+            color: OsmeaColors.white,
             fontWeight: FontWeight.bold,
           ),
         ),
