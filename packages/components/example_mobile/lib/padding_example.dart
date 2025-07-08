@@ -22,7 +22,8 @@ class PaddingExample extends StatelessWidget {
             _buildSectionTitle('Styled Padding (Using Composition)'),
             _buildStyledPaddingExamples(),
             OsmeaComponents.sizedBox(height: 32),
-            _buildSectionTitle('Interactive Padding (Using Composition)'),
+            _buildSectionTitle('Interactive Padding (Using Composition)',
+            ),
             _buildInteractivePaddingExamples(),
             OsmeaComponents.sizedBox(height: 32),
             _buildSectionTitle('Convenience Methods'),
@@ -55,7 +56,7 @@ class PaddingExample extends StatelessWidget {
           OsmeaComponents.padding(
             padding: const EdgeInsets.all(16),
             child:
-                _buildColoredBox(color: Colors.blue, text: 'Padding.all(16)'),
+                _buildColoredBox(color: OsmeaColors.blue, text: 'Padding.all(16)'),
           ),
         ),
         OsmeaComponents.sizedBox(height: 16),
@@ -64,7 +65,7 @@ class PaddingExample extends StatelessWidget {
           OsmeaComponents.padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: _buildColoredBox(
-                color: Colors.green, text: 'Padding.symmetric(horizontal: 24)'),
+                color: OsmeaColors.green, text: 'Padding.symmetric(horizontal: 24)'),
           ),
         ),
         OsmeaComponents.sizedBox(height: 16),
@@ -73,7 +74,7 @@ class PaddingExample extends StatelessWidget {
           OsmeaComponents.padding(
             padding: const EdgeInsets.symmetric(vertical: 24),
             child: _buildColoredBox(
-                color: Colors.orange, text: 'Padding.symmetric(vertical: 24)'),
+                color: OsmeaColors.orange, text: 'Padding.symmetric(vertical: 24)'),
           ),
         ),
         OsmeaComponents.sizedBox(height: 16),
@@ -82,7 +83,7 @@ class PaddingExample extends StatelessWidget {
           OsmeaComponents.padding(
             padding: const EdgeInsets.fromLTRB(32, 8, 16, 24),
             child: _buildColoredBox(
-                color: Colors.purple, text: 'Padding.fromLTRB(32, 8, 16, 24)'),
+                color: OsmeaColors.purple, text: 'Padding.fromLTRB(32, 8, 16, 24)'),
           ),
         ),
       ],
@@ -97,13 +98,13 @@ class PaddingExample extends StatelessWidget {
           'Padding with Background (Container + Padding)',
           OsmeaComponents.container(
             decoration: BoxDecoration(
-              color: Colors.grey.shade200,
+              color: OsmeaColors.grey.shade200,
               borderRadius: BorderRadius.circular(8),
             ),
             child: OsmeaComponents.padding(
               padding: const EdgeInsets.all(16),
               child:
-                  _buildColoredBox(color: Colors.red, text: 'With Background'),
+                  _buildColoredBox(color: OsmeaColors.red, text: 'With Background'),
             ),
           ),
         ),
@@ -112,13 +113,13 @@ class PaddingExample extends StatelessWidget {
           'Padding with Border & BorderRadius (Container + Padding)',
           OsmeaComponents.container(
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.blue, width: 2),
+              border: Border.all(color: OsmeaColors.blue, width: 2),
               borderRadius: BorderRadius.circular(12),
             ),
             child: OsmeaComponents.padding(
               padding: const EdgeInsets.all(16),
               child: _buildColoredBox(
-                  color: Colors.yellow, text: 'With Border & BorderRadius'),
+                  color: OsmeaColors.sunsetGlow, text: 'With Border & BorderRadius'),
             ),
           ),
         ),
@@ -127,11 +128,11 @@ class PaddingExample extends StatelessWidget {
           'Padding with BoxShadow (Container + Padding)',
           OsmeaComponents.container(
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: OsmeaColors.white,
               borderRadius: BorderRadius.circular(8),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black
+                  color: OsmeaColors.black
                       .withValues(red: 0, green: 0, blue: 0, alpha: 0.2),
                   blurRadius: 10,
                   spreadRadius: 2,
@@ -142,7 +143,7 @@ class PaddingExample extends StatelessWidget {
             child: OsmeaComponents.padding(
               padding: const EdgeInsets.all(16),
               child:
-                  _buildColoredBox(color: Colors.teal, text: 'With BoxShadow'),
+                  _buildColoredBox(color: OsmeaColors.meadow, text: 'With BoxShadow'),
             ),
           ),
         ),
@@ -152,7 +153,7 @@ class PaddingExample extends StatelessWidget {
           OsmeaComponents.container(
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [Colors.blue, Colors.purple],
+                colors: [OsmeaColors.blue, OsmeaColors.purple],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
@@ -160,7 +161,7 @@ class PaddingExample extends StatelessWidget {
             child: OsmeaComponents.padding(
               padding: const EdgeInsets.all(16),
               child:
-                  _buildColoredBox(color: Colors.white, text: 'With Gradient'),
+                  _buildColoredBox(color: OsmeaColors.white, text: 'With Gradient'),
             ),
           ),
         ),
@@ -180,12 +181,12 @@ class PaddingExample extends StatelessWidget {
             },
             child: OsmeaComponents.container(
               decoration: BoxDecoration(
-                color: Colors.grey.shade200,
+                color: OsmeaColors.grey.shade200,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: OsmeaComponents.padding(
                 padding: const EdgeInsets.all(16),
-                child: _buildColoredBox(color: Colors.cyan, text: 'Tap Me!'),
+                child: _buildColoredBox(color: OsmeaColors.azureWave, text: 'Tap Me!'),
               ),
             ),
           ),
@@ -199,13 +200,13 @@ class PaddingExample extends StatelessWidget {
             },
             child: OsmeaComponents.container(
               decoration: BoxDecoration(
-                color: Colors.grey.shade200,
+                color: OsmeaColors.grey.shade200,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: OsmeaComponents.padding(
                 padding: const EdgeInsets.all(16),
                 child: _buildColoredBox(
-                    color: Colors.deepPurple, text: 'Long Press Me!'),
+                    color: OsmeaColors.purple, text: 'Long Press Me!'),
               ),
             ),
           ),
@@ -223,7 +224,7 @@ class PaddingExample extends StatelessWidget {
           OsmeaComponents.padding(
             padding: const EdgeInsets.all(16),
             child:
-                _buildColoredBox(color: Colors.indigo, text: 'Padding.all(16)'),
+                _buildColoredBox(color: OsmeaColors.nordicBlue, text: 'Padding.all(16)'),
           ),
         ),
         OsmeaComponents.sizedBox(height: 16),
@@ -232,7 +233,7 @@ class PaddingExample extends StatelessWidget {
           OsmeaComponents.padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: _buildColoredBox(
-                color: Colors.amber, text: 'Padding.symmetric(horizontal: 24)'),
+                color: OsmeaColors.goldenHour, text: 'Padding.symmetric(horizontal: 24)'),
           ),
         ),
         OsmeaComponents.sizedBox(height: 16),
@@ -241,7 +242,7 @@ class PaddingExample extends StatelessWidget {
           OsmeaComponents.padding(
             padding: const EdgeInsets.symmetric(vertical: 24),
             child: _buildColoredBox(
-                color: Colors.lightGreen,
+                color: OsmeaColors.meadow,
                 text: 'Padding.symmetric(vertical: 24)'),
           ),
         ),
@@ -256,7 +257,7 @@ class PaddingExample extends StatelessWidget {
               bottom: 24,
             ),
             child: _buildColoredBox(
-                color: Colors.pink,
+                color: OsmeaColors.sunsetGlow,
                 text: 'Padding.only(left: 32, top: 8, right: 16, bottom: 24)'),
           ),
         ),
@@ -291,7 +292,7 @@ class PaddingExample extends StatelessWidget {
       child: OsmeaComponents.text(
         text,
         textStyle: TextStyle(
-          color: color.computeLuminance() > 0.5 ? Colors.black : Colors.white,
+          color: color.computeLuminance() > 0.5 ? OsmeaColors.black : OsmeaColors.white,
           fontWeight: FontWeight.bold,
         ),
       ),
