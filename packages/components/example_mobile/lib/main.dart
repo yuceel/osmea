@@ -5,6 +5,7 @@ import 'package:osmea_components_example/avatar_example.dart';
 import 'package:osmea_components_example/carousel_example.dart';
 import 'package:osmea_components_example/chips_example.dart';
 import 'package:osmea_components_example/divider_example.dart';
+import 'package:osmea_components_example/footer_example.dart';
 import 'package:osmea_components_example/loading_example.dart';
 import 'package:osmea_components_example/progress_example.dart';
 import 'package:osmea_components_example/services/mock_auth_service.dart';
@@ -42,6 +43,7 @@ import 'package:osmea_components_example/rich_text_example.dart';
 import 'package:osmea_components_example/stepper_example.dart';
 import 'package:osmea_components_example/searchbar_example.dart';
 import 'package:osmea_components_example/toast_example.dart';
+import 'package:osmea_components_example/dropdown_example.dart';
 import 'package:osmea_components_example/tabbar_example.dart';
 import 'package:osmea_components_example/image_example.dart';
 
@@ -396,6 +398,17 @@ class ComponentsScreen extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (context) => const DividerExample(),
+                    ),
+                  ),
+                ),
+                _buildComponentCard(
+                  context,
+                  'Footer',
+                  Icons.vertical_align_bottom,
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const FooterExample(),
                     ),
                   ),
                 ),
@@ -844,6 +857,7 @@ class ExamplesScreen extends StatelessWidget {
                       ),
                     ),
                   ),
+<<<<<<< HEAD
                   _buildExampleTile(
                     context,
                     'Toast Example',
@@ -858,6 +872,22 @@ class ExamplesScreen extends StatelessWidget {
                   ),
                 ],
               ),
+=======
+                ),
+                _buildExampleTile(
+                  context,
+                  'Dropdown Examples',
+                  'Comprehensive dropdown component with all variants and types',
+                  Icons.arrow_drop_down,
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const DropdownExample(),
+                    ),
+                  ),
+                ),
+              ],
+>>>>>>> origin/OSMEA-Docs
             ),
           ]),
     );
