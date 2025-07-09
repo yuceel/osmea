@@ -243,7 +243,7 @@ class FlexibleExampleScreen extends StatelessWidget {
           OsmeaComponents.expanded(
             flex: 1,
             child: OsmeaComponents.container(
-              color: OsmeaColors.nordicBlue.withOpacity(0.7),
+              color: Colors.deepPurple.withValues(alpha: 0.7),
               child: OsmeaComponents.center(
                 child: OsmeaComponents.text(
                   'Expanded',

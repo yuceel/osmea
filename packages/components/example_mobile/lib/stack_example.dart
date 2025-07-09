@@ -60,8 +60,9 @@ class StackExample extends StatelessWidget {
               children: [
                 _buildColoredBox(color: OsmeaColors.sunsetGlow, size: 150),
                 _buildColoredBox(
-                    color: OsmeaColors.forestHeart.withOpacity(0.7), size: 120),
-                _buildColoredBox(color: OsmeaColors.nordicBlue.withOpacity(0.7), size: 90),
+                    color: Colors.green.withValues(alpha: 0.7), size: 120),
+                _buildColoredBox(
+                    color: Colors.blue.withValues(alpha: 0.7), size: 90),
               ],
             ),
           ),
@@ -75,7 +76,7 @@ class StackExample extends StatelessWidget {
               children: [
                 _buildColoredBox(color: OsmeaColors.purple, size: 150),
                 _buildColoredBox(
-                    color: OsmeaColors.amberFlame.withOpacity(0.7), size: 100),
+                    color: Colors.amber.withValues(alpha: 0.7), size: 100),
                 OsmeaComponents.text(
                   'Centered Text',
                   textStyle: const TextStyle(
@@ -96,6 +97,9 @@ class StackExample extends StatelessWidget {
               children: [
                 _buildColoredBox(color: OsmeaColors.forestHeart, size: 150),
                 _buildColoredBox(color: OsmeaColors.sunsetGlow.withOpacity(0.7), size: 80),
+                _buildColoredBox(color: Colors.teal, size: 150),
+                _buildColoredBox(
+                    color: Colors.pink.withValues(alpha: 0.7), size: 80),
                 OsmeaComponents.padding(
                   padding: const EdgeInsets.all(8),
                   child: OsmeaComponents.text(
@@ -164,6 +168,12 @@ class StackExample extends StatelessWidget {
                 children: [
                   OsmeaComponents.container(color: OsmeaColors.forestHeart.withOpacity(0.3)),
                   OsmeaComponents.align(
+                    alignment: Alignment.center,
+                    child: OsmeaComponents.container(
+                      color: Colors.green.withValues(alpha: 0.3),
+                    ),
+                  ),
+                  Align(
                     alignment: Alignment.center,
                     child: OsmeaComponents.container(
                       width: 100,
@@ -258,7 +268,7 @@ class StackExample extends StatelessWidget {
                     bottom: 0,
                     child: OsmeaComponents.container(
                       height: 40,
-                      color: OsmeaColors.black.withOpacity(0.5),
+                      color: Colors.black.withValues(alpha: 0.5),
                       alignment: Alignment.center,
                       child: OsmeaComponents.text(
                         'Overlay Caption',
@@ -292,6 +302,8 @@ class StackExample extends StatelessWidget {
                           colors: [
                             OsmeaColors.nordicBlue.withOpacity(0.2),
                             OsmeaColors.purple.withOpacity(0.2),
+                            Colors.blue.withValues(alpha: 0.2),
+                            Colors.purple.withValues(alpha: 0.2),
                           ],
                         ),
                       ),
@@ -303,10 +315,10 @@ class StackExample extends StatelessWidget {
                     widthFactor: 0.8,
                     heightFactor: 0.3,
                     child: OsmeaComponents.container(
-                      color: OsmeaColors.amberFlame.withOpacity(0.3),
+                      color: OsmeaColors.amberFlame.withValues(alpha: 0.3),
                       child: OsmeaComponents.center(
                         child: OsmeaComponents.text(
-                            'Fractional Position (80% × 30%)'),
+                          'Fractional Position (80% × 30%)'),
                       ),
                     ),
                   ),
@@ -355,7 +367,10 @@ class StackExample extends StatelessWidget {
                             end: Alignment.bottomCenter,
                             colors: [
                               OsmeaColors.transparent,
-                              OsmeaColors.black.withOpacity(0.7),
+                              OsmeaColors.black.withValues(alpha: 0.7),
+                              Colors.transparent,
+                              Colors.black.withValues(alpha: 0.7),
+                              Colors.black.withValues(alpha: 0.5),
                             ],
                             stops: const [0.6, 1.0],
                           ),
@@ -398,7 +413,7 @@ class StackExample extends StatelessWidget {
                           vertical: 4,
                         ),
                         decoration: BoxDecoration(
-                          color: OsmeaColors.black.withOpacity(0.5),
+                          color: Colors.black.withValues(alpha: 0.5),
                           borderRadius: BorderRadius.circular(4),
                         ),
                         child: OsmeaComponents.text(
@@ -428,7 +443,7 @@ class StackExample extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
-                    color: OsmeaColors.silver.withOpacity(0.2),
+                    color: Colors.grey.withValues(alpha: 0.2),
                     blurRadius: 8,
                     offset: const Offset(0, 4),
                   ),

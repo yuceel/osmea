@@ -3,7 +3,7 @@ import 'package:osmea_components/osmea_components.dart';
 
 /// 📋 **Bottom Sheet Example**
 ///
-/// Example screen showing different sizes (S, M, L) and 
+/// Example screen showing different sizes (S, M, L) and
 /// style variants of the OSMEA Bottom Sheet component.
 
 class BottomSheetExample extends StatefulWidget {
@@ -18,7 +18,6 @@ class _BottomSheetExampleState extends State<BottomSheetExample> {
   Widget build(BuildContext context) {
     return OsmeaComponents.scaffold(
       appBar: OsmeaComponents.appBar(
-        
         title: OsmeaComponents.text('Bottom Sheet Examples'),
         backgroundColor: OsmeaColors.nordicBlue,
         foregroundColor: OsmeaColors.white,
@@ -38,7 +37,7 @@ class _BottomSheetExampleState extends State<BottomSheetExample> {
                 fontWeight: FontWeight.bold,
               ),
               OsmeaComponents.sizedBox(height: 16),
-              
+
               // Small Bottom Sheet
               _buildExampleButton(
                 title: 'Small Bottom Sheet (S)',
@@ -46,9 +45,9 @@ class _BottomSheetExampleState extends State<BottomSheetExample> {
                 onPressed: () => _showSmallBottomSheet(context),
                 color: OsmeaColors.forestHeart,
               ),
-              
+
               OsmeaComponents.sizedBox(height: 12),
-              
+
               // Medium Bottom Sheet
               _buildExampleButton(
                 title: 'Medium Bottom Sheet (M)',
@@ -56,9 +55,9 @@ class _BottomSheetExampleState extends State<BottomSheetExample> {
                 onPressed: () => _showMediumBottomSheet(context),
                 color: OsmeaColors.nordicBlue,
               ),
-              
+
               OsmeaComponents.sizedBox(height: 12),
-              
+
               // Large Bottom Sheet
               _buildExampleButton(
                 title: 'Large Bottom Sheet (L)',
@@ -66,16 +65,16 @@ class _BottomSheetExampleState extends State<BottomSheetExample> {
                 onPressed: () => _showLargeBottomSheet(context),
                 color: OsmeaColors.sunsetGlow,
               ),
-              
+
               OsmeaComponents.sizedBox(height: 32),
-              
+
               OsmeaComponents.text(
                 'Bottom Sheet Variants',
                 variant: OsmeaTextVariant.headlineMedium,
                 fontWeight: FontWeight.bold,
               ),
               OsmeaComponents.sizedBox(height: 16),
-              
+
               // Modal Bottom Sheet
               _buildExampleButton(
                 title: 'Modal Bottom Sheet',
@@ -83,9 +82,9 @@ class _BottomSheetExampleState extends State<BottomSheetExample> {
                 onPressed: () => _showModalBottomSheet(context),
                 color: OsmeaColors.eclipse,
               ),
-              
+
               OsmeaComponents.sizedBox(height: 12),
-              
+
               // Custom Widget Example
               _buildExampleButton(
                 title: 'OSMEA Components Example',
@@ -93,9 +92,9 @@ class _BottomSheetExampleState extends State<BottomSheetExample> {
                 onPressed: () => _showWithOsmeaComponents(context),
                 color: OsmeaColors.purple,
               ),
-              
+
               OsmeaComponents.sizedBox(height: 12),
-              
+
               // Action Bar Bottom Sheet
               _buildExampleButton(
                 title: 'Action Bar Bottom Sheet',
@@ -140,7 +139,7 @@ class _BottomSheetExampleState extends State<BottomSheetExample> {
             OsmeaComponents.text(
               description,
               variant: OsmeaTextVariant.bodyMedium,
-              color: OsmeaColors.white.withOpacity(0.9),
+              color: Colors.white.withValues(alpha: 0.9),
             ),
           ],
         ),
@@ -342,7 +341,7 @@ class _BottomSheetExampleState extends State<BottomSheetExample> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: OsmeaColors.black.withOpacity(0.5),
+      backgroundColor: Colors.black.withValues(alpha: 0.5),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -409,25 +408,25 @@ class _BottomSheetExampleState extends State<BottomSheetExample> {
               ),
             ),
             OsmeaComponents.sizedBox(height: 20),
-            
+
             // Title with OSMEA Text
             OsmeaComponents.text(
               'OSMEA Components',
               variant: OsmeaTextVariant.headlineMedium,
               color: OsmeaColors.nordicBlue,
             ),
-            
+
             OsmeaComponents.sizedBox(height: 8),
-            
+
             // Subtitle
             OsmeaComponents.text(
               'Created using OSMEA components',
               variant: OsmeaTextVariant.bodyMedium,
               color: const Color(0xFF757575),
             ),
-            
+
             OsmeaComponents.sizedBox(height: 24),
-            
+
             // OSMEA Badge examples
             OsmeaComponents.row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -449,9 +448,9 @@ class _BottomSheetExampleState extends State<BottomSheetExample> {
                 ),
               ],
             ),
-            
+
             OsmeaComponents.sizedBox(height: 24),
-            
+
             // OSMEA Button examples
             OsmeaComponents.button(
               text: 'Primary Button',
@@ -459,18 +458,18 @@ class _BottomSheetExampleState extends State<BottomSheetExample> {
               size: ButtonSize.medium,
               onPressed: () {},
             ),
-            
+
             OsmeaComponents.sizedBox(height: 12),
-            
+
             OsmeaComponents.button(
               text: 'Secondary Button',
               variant: ButtonVariant.secondary,
               size: ButtonSize.medium,
               onPressed: () {},
             ),
-            
+
             OsmeaComponents.sizedBox(height: 12),
-            
+
             OsmeaComponents.button(
               text: 'Success Button',
               variant: ButtonVariant.success,
@@ -478,11 +477,11 @@ class _BottomSheetExampleState extends State<BottomSheetExample> {
               icon: const Icon(Icons.check),
               onPressed: () {},
             ),
-            
+
             OsmeaComponents.expanded(
               child: OsmeaComponents.sizedBox(),
             ),
-            
+
             // Close button
             OsmeaComponents.button(
               text: 'Close',
@@ -611,8 +610,9 @@ class _BottomSheetExampleState extends State<BottomSheetExample> {
           size: ButtonSize.small,
         ),
         showActionBorder: true,
-        actionBarBackgroundColor: OsmeaColors.forestHeart.withOpacity(0.1),
-        actionBarBorderColor: OsmeaColors.forestHeart.withOpacity(0.3),
+        actionBarBackgroundColor:
+            OsmeaColors.forestHeart.withValues(alpha: 0.1),
+        actionBarBorderColor: OsmeaColors.forestHeart.withValues(alpha: 0.3),
         child: OsmeaComponents.padding(
           padding: const EdgeInsets.all(20),
           child: OsmeaComponents.column(
@@ -685,8 +685,8 @@ class _BottomSheetExampleState extends State<BottomSheetExample> {
           size: ButtonSize.small,
         ),
         showActionBorder: true,
-        actionBarBackgroundColor: OsmeaColors.sunsetGlow.withOpacity(0.1),
-        actionBarBorderColor: OsmeaColors.sunsetGlow.withOpacity(0.3),
+        actionBarBackgroundColor: OsmeaColors.sunsetGlow.withValues(alpha: 0.1),
+        actionBarBorderColor: OsmeaColors.sunsetGlow.withValues(alpha: 0.3),
         child: OsmeaComponents.padding(
           padding: const EdgeInsets.all(20),
           child: OsmeaComponents.center(
@@ -706,12 +706,12 @@ class _BottomSheetExampleState extends State<BottomSheetExample> {
                   color: OsmeaColors.forestHeart,
                 ),
                 OsmeaComponents.sizedBox(height: 12),
-                                  OsmeaComponents.text(
-                    'Thank you for completing the multi-step form. Your information has been saved successfully.',
-                    variant: OsmeaTextVariant.bodyMedium,
-                    color: OsmeaColors.grey.shade600,
-                    textAlign: TextAlign.center,
-                  ),
+                OsmeaComponents.text(
+                  'Thank you for completing the multi-step form. Your information has been saved successfully.',
+                  variant: OsmeaTextVariant.bodyMedium,
+                  color: OsmeaColors.grey.shade600,
+                  textAlign: TextAlign.center,
+                ),
                 OsmeaComponents.sizedBox(height: 24),
                 OsmeaComponents.badge(
                   content: 'Complete',

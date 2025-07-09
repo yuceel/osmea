@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:osmea_components/osmea_components.dart';
-import 'package:osmea_components/src/enums/components_enum.dart';
 
 /// 🃏 **OSMEA Card Examples**
 ///
@@ -27,7 +26,7 @@ class _CardExampleState extends State<CardExample> {
   @override
   Widget build(BuildContext context) {
     return OsmeaComponents.scaffold(
-        appBar: OsmeaComponents.appBar(
+      appBar: OsmeaComponents.appBar(
         title: OsmeaComponents.text(
           '🃏 OSMEA Card Examples',
           variant: OsmeaTextVariant.headlineMedium,
@@ -246,7 +245,7 @@ class _CardExampleState extends State<CardExample> {
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
-                  color: OsmeaColors.nordicBlue.withOpacity(0.4),
+                  color: OsmeaColors.nordicBlue.withValues(alpha: 0.4),
                   blurRadius: 20,
                   offset: const Offset(0, 10),
                 ),
@@ -272,7 +271,7 @@ class _CardExampleState extends State<CardExample> {
               borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
-                  color: OsmeaColors.forestHeart.withOpacity(0.3),
+                  color: OsmeaColors.forestHeart.withValues(alpha: 0.3),
                   blurRadius: 8,
                   offset: const Offset(0, 4),
                 ),
@@ -297,7 +296,7 @@ class _CardExampleState extends State<CardExample> {
           spacing: 16.0,
           borderRadius: BorderRadius.circular(20),
           elevation: 8.0,
-          shadowColor: OsmeaColors.nordicBlue.withOpacity(0.3),
+          shadowColor: OsmeaColors.nordicBlue.withValues(alpha: 0.3),
           margin: const EdgeInsets.only(bottom: 24),
           semanticLabel: 'Premium wireless earbuds product card',
           onTap: () => _showSnackBar('Premium earbuds tapped - ₺1,299'),
@@ -327,7 +326,7 @@ class _CardExampleState extends State<CardExample> {
                 OsmeaComponents.container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: OsmeaColors.sunsetGlow.withOpacity(0.2),
+                    color: OsmeaColors.sunsetGlow.withValues(alpha: 0.2),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: OsmeaComponents.row(
@@ -428,7 +427,7 @@ class _CardExampleState extends State<CardExample> {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8, vertical: 4),
                         decoration: BoxDecoration(
-                          color: OsmeaColors.white.withOpacity(0.2),
+                          color: OsmeaColors.white.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: OsmeaComponents.text(
@@ -510,7 +509,8 @@ class _CardExampleState extends State<CardExample> {
                           borderRadius: BorderRadius.circular(4),
                           boxShadow: [
                             BoxShadow(
-                              color: OsmeaColors.azureWave.withOpacity(0.6),
+                              color:
+                                  OsmeaColors.azureWave.withValues(alpha: 0.6),
                               blurRadius: 10,
                               spreadRadius: 2,
                             ),
@@ -614,12 +614,12 @@ class _CardExampleState extends State<CardExample> {
                 ),
                 OsmeaComponents.padding(
                   padding: const EdgeInsets.all(12.0),
-                  child:OsmeaComponents.row(
+                  child: OsmeaComponents.row(
                     children: [
                       OsmeaComponents.container(
                         padding: const EdgeInsets.all(4),
                         decoration: BoxDecoration(
-                          color: OsmeaColors.nordicBlue.withOpacity(0.1),
+                          color: OsmeaColors.nordicBlue.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(6),
                         ),
                         child: Icon(
@@ -703,8 +703,8 @@ class _CardExampleState extends State<CardExample> {
           contentSpacing: 20.0,
           variant: ComponentAppearance.outlined,
           size: ComponentSize.medium,
-          borderColor: OsmeaColors.sunsetGlow.withOpacity(0.3),
-          backgroundColor: OsmeaColors.sunsetGlow.withOpacity(0.05),
+          borderColor: OsmeaColors.sunsetGlow.withValues(alpha: 0.3),
+          backgroundColor: OsmeaColors.sunsetGlow.withValues(alpha: 0.5),
           titleColor: OsmeaColors.sunsetGlow,
           subtitleColor: OsmeaColors.amberFlame,
           contentColor: OsmeaColors.amberFlame,
@@ -770,7 +770,7 @@ class _CardExampleState extends State<CardExample> {
           contentSpacing: 16.0,
           variant: ComponentAppearance.filled,
           size: ComponentSize.medium,
-          backgroundColor: OsmeaColors.forestHeart.withOpacity(0.1),
+          backgroundColor: OsmeaColors.forestHeart.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(12),
           titleColor: OsmeaColors.thunder,
           subtitleColor: OsmeaColors.slate,
@@ -838,7 +838,7 @@ class _CardExampleState extends State<CardExample> {
           variant: ComponentAppearance.outlined,
           size: ComponentSize.medium,
           borderColor: OsmeaColors.nordicBlue,
-          backgroundColor: OsmeaColors.nordicBlue.withOpacity(0.05),
+          backgroundColor: OsmeaColors.nordicBlue.withValues(alpha: 0.05),
           titleColor: OsmeaColors.nordicBlue,
           subtitleColor: OsmeaColors.nordicBlue,
           contentColor: OsmeaColors.thunder,
@@ -871,7 +871,7 @@ class _CardExampleState extends State<CardExample> {
           contentSpacing: 16.0,
           variant: ComponentAppearance.filled,
           size: ComponentSize.medium,
-          backgroundColor: OsmeaColors.nordicBlue.withOpacity(0.1),
+          backgroundColor: OsmeaColors.nordicBlue.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(14),
           titleColor: OsmeaColors.deepSea,
           subtitleColor: OsmeaColors.nordicBlue,
@@ -899,7 +899,7 @@ class _CardExampleState extends State<CardExample> {
               size: ComponentSize.medium,
               width: 180,
               elevation: 8.0,
-              shadowColor: OsmeaColors.nordicBlue.withOpacity(0.3),
+              shadowColor: OsmeaColors.nordicBlue.withValues(alpha: 0.3),
               margin: const EdgeInsets.all(8),
               onTap: () => _showSnackBar('Elevated card tapped'),
             ),
@@ -919,7 +919,7 @@ class _CardExampleState extends State<CardExample> {
               variant: ComponentAppearance.filled,
               size: ComponentSize.medium,
               width: 180,
-              backgroundColor: OsmeaColors.crystalBay.withOpacity(0.1),
+              backgroundColor: OsmeaColors.crystalBay.withValues(alpha: 0.1),
               margin: const EdgeInsets.all(8),
               onTap: () => _showSnackBar('Filled card tapped'),
             ),
@@ -938,7 +938,7 @@ class _CardExampleState extends State<CardExample> {
               variant: ComponentAppearance.flat,
               size: ComponentSize.medium,
               width: 180,
-              backgroundColor: OsmeaColors.ash.withOpacity(0.1),
+              backgroundColor: OsmeaColors.ash.withValues(alpha: 0.1),
               margin: const EdgeInsets.all(8),
               onTap: () => _showSnackBar('Flat card tapped'),
             ),
@@ -1038,7 +1038,7 @@ class _CardExampleState extends State<CardExample> {
         OsmeaComponents.basicCard(
           variant: ComponentAppearance.filled,
           size: ComponentSize.medium,
-          backgroundColor: OsmeaColors.ash.withOpacity(0.05),
+          backgroundColor: OsmeaColors.ash.withValues(alpha: 0.05),
           borderRadius: BorderRadius.circular(12),
           spacing: 16.0,
           margin: const EdgeInsets.only(bottom: 16),

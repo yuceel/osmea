@@ -7,7 +7,6 @@ import 'package:osmea_components/src/components/text_field/text_field.dart';
 import 'package:osmea_components/src/core/text_field_widget.dart';
 import 'package:osmea_components/src/components/searchbar/cubit/searchbar_cubit.dart';
 import 'package:osmea_components/src/components/searchbar/cubit/searchbar_state.dart';
-import 'package:osmea_components/src/enums/components_enum.dart';
 import 'package:osmea_components/src/enums/enums.dart';
 import 'package:osmea_components/src/styles/colors.dart';
 import 'package:osmea_components/src/utils/sizer_extensions.dart';

@@ -302,8 +302,8 @@ class SingleChildScrollViewExample extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            OsmeaColors.nordicBlue.withOpacity(0.1),
-            OsmeaColors.sunsetGlow.withOpacity(0.1),
+            OsmeaColors.nordicBlue.withValues(alpha: 0.1),
+            OsmeaColors.sunsetGlow.withValues(alpha: 0.1),
           ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,

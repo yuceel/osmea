@@ -320,15 +320,15 @@ class _ScaffoldExampleState extends State<ScaffoldExample> {
         foregroundColor: OsmeaColors.white,
         actions: [
           AppBarAction(
-              type: AppBarActionType.search,
-              icon: const Icon(Icons.search),
-              onPressed: () {},
-            ),
+            type: AppBarActionType.search,
+            icon: const Icon(Icons.search),
+            onPressed: () {},
+          ),
           AppBarAction(
-              type: AppBarActionType.search,
-              icon: const Icon(Icons.notifications),
-              onPressed: () {},
-            ),
+            type: AppBarActionType.search,
+            icon: const Icon(Icons.notifications),
+            onPressed: () {},
+          ),
         ],
       ),
       drawer: Drawer(

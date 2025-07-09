@@ -218,7 +218,7 @@ class PositionedExampleScreen extends StatelessWidget {
             top: 0,
             child: OsmeaComponents.container(
               height: 30,
-              color: OsmeaColors.red.withOpacity(0.5),
+              color: Colors.red.withValues(alpha: 0.5),
               child: OsmeaComponents.center(
                 child: OsmeaComponents.text('Top Edge'),
               ),
@@ -232,7 +232,7 @@ class PositionedExampleScreen extends StatelessWidget {
             bottom: 0,
             child: OsmeaComponents.container(
               height: 30,
-              color: OsmeaColors.blue.withOpacity(0.5),
+              color: Colors.blue.withValues(alpha: 0.5),
               child: OsmeaComponents.center(
                 child: OsmeaComponents.text('Bottom Edge'),
               ),
@@ -246,7 +246,7 @@ class PositionedExampleScreen extends StatelessWidget {
             bottom: 50,
             child: OsmeaComponents.container(
               width: 30,
-              color: OsmeaColors.green.withOpacity(0.5),
+              color: Colors.green.withValues(alpha: 0.5),
               child: OsmeaComponents.center(
                 child: RotatedBox(
                   quarterTurns: 3,
@@ -263,7 +263,7 @@ class PositionedExampleScreen extends StatelessWidget {
             bottom: 50,
             child: OsmeaComponents.container(
               width: 30,
-              color: OsmeaColors.purple.withOpacity(0.5),
+              color: Colors.purple.withValues(alpha: 0.5),
               child: OsmeaComponents.center(
                 child: RotatedBox(
                   quarterTurns: 1,
@@ -287,7 +287,7 @@ class PositionedExampleScreen extends StatelessWidget {
           // Background element that fills the entire stack
           OsmeaComponents.positionedFill(
             child: OsmeaComponents.container(
-              color: OsmeaColors.blue.withOpacity(0.2),
+              color: Colors.blue.withValues(alpha: 0.2),
             ),
           ),
 
@@ -299,8 +299,8 @@ class PositionedExampleScreen extends StatelessWidget {
             bottom: 20,
             child: OsmeaComponents.container(
               decoration: BoxDecoration(
-                color: OsmeaColors.sunsetGlow.withOpacity(0.2),
                 border: Border.all(color: OsmeaColors.sunsetGlow),
+                color: Colors.pink.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: OsmeaComponents.center(
@@ -323,7 +323,7 @@ class PositionedExampleScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(4),
                 boxShadow: [
                   BoxShadow(
-                    color: OsmeaColors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                     blurRadius: 4,
                     offset: const Offset(0, 2),
                   ),
@@ -402,7 +402,7 @@ class PositionedExampleScreen extends StatelessWidget {
               width: 180, // Use fixed width instead of infinity
               height: 60, // Use fixed height instead of infinity
               child: OsmeaComponents.container(
-                color: OsmeaColors.green.withOpacity(0.5),
+                color: Colors.green.withValues(alpha: 0.5),
                 child: OsmeaComponents.center(
                   child: OsmeaComponents.text(
                     'width: 180px\nheight: 60px',
@@ -421,7 +421,7 @@ class PositionedExampleScreen extends StatelessWidget {
             height: 40, // Use fixed height instead of infinity
             child: OsmeaComponents.container(
               decoration: BoxDecoration(
-                color: OsmeaColors.purple.withOpacity(0.5),
+                color: Colors.purple.withValues(alpha: 0.5),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: OsmeaComponents.center(
@@ -444,7 +444,7 @@ class PositionedExampleScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(4),
                 boxShadow: [
                   BoxShadow(
-                    color: OsmeaColors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                     blurRadius: 2,
                   ),
                 ],
@@ -471,7 +471,7 @@ class PositionedExampleScreen extends StatelessWidget {
           image: const NetworkImage('https://picsum.photos/seed/osmea/800/400'),
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(
-            OsmeaColors.black.withOpacity(0.2),
+            OsmeaColors.black.withValues(alpha: 0.2),
             BlendMode.darken,
           ),
           onError: (exception, stackTrace) {
@@ -531,12 +531,13 @@ class PositionedExampleScreen extends StatelessWidget {
             child: OsmeaComponents.container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
-                color: OsmeaColors.black.withOpacity(0.6),
+                color: Colors.black.withValues(alpha: 0.6),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: OsmeaComponents.row(
                 children: [
-                  const Icon(Icons.photo_camera, size: 16, color: OsmeaColors.white),
+                  const Icon(Icons.photo_camera,
+                      size: 16, color: OsmeaColors.white),
                   OsmeaComponents.sizedBox(width: 4),
                   OsmeaComponents.text(
                     'Featured',
@@ -579,7 +580,7 @@ class PositionedExampleScreen extends StatelessWidget {
             right: 0,
             height: 40,
             child: OsmeaComponents.container(
-              color: OsmeaColors.blue.withOpacity(0.3),
+              color: Colors.blue.withValues(alpha: 0.3),
               child: OsmeaComponents.center(
                 child: OsmeaComponents.text(
                   'Top Spacer',
@@ -596,7 +597,7 @@ class PositionedExampleScreen extends StatelessWidget {
             right: 0,
             height: 40,
             child: OsmeaComponents.container(
-              color: OsmeaColors.green.withOpacity(0.3),
+              color: Colors.green.withValues(alpha: 0.3),
               child: OsmeaComponents.center(
                 child: OsmeaComponents.text(
                   'Bottom Spacer',
@@ -613,7 +614,7 @@ class PositionedExampleScreen extends StatelessWidget {
             left: 0,
             width: 40,
             child: OsmeaComponents.container(
-              color: OsmeaColors.red.withOpacity(0.3),
+              color: Colors.red.withValues(alpha: 0.3),
               child: OsmeaComponents.center(
                 child: RotatedBox(
                   quarterTurns: 3,
@@ -633,7 +634,7 @@ class PositionedExampleScreen extends StatelessWidget {
             right: 0,
             width: 40,
             child: OsmeaComponents.container(
-              color: OsmeaColors.purple.withOpacity(0.3),
+              color: Colors.purple.withValues(alpha: 0.3),
               child: OsmeaComponents.center(
                 child: RotatedBox(
                   quarterTurns: 1,
@@ -667,7 +668,7 @@ class PositionedExampleScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
               boxShadow: [
                 BoxShadow(
-                  color: OsmeaColors.black.withOpacity(0.1),
+                  color: Colors.black.withValues(alpha: 0.1),
                   blurRadius: 4,
                   offset: const Offset(0, 2),
                 ),
@@ -786,5 +787,4 @@ class PositionedExampleScreen extends StatelessWidget {
       color: color,
     );
   }
-
 }

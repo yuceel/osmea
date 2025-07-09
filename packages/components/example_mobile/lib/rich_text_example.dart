@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:osmea_components/osmea_components.dart';
 
@@ -24,7 +23,8 @@ class RichTextExample extends StatelessWidget {
             // Section title
             OsmeaComponents.text(
               '📝 Basic Rich Text',
-              textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              textStyle:
+                  const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             OsmeaComponents.sizedBox(height: 16),
 
@@ -43,7 +43,8 @@ class RichTextExample extends StatelessWidget {
             // Section title for text variants
             OsmeaComponents.text(
               '🎨 Text Style Variants',
-              textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              textStyle:
+                  const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             OsmeaComponents.sizedBox(height: 16),
 
@@ -56,7 +57,8 @@ class RichTextExample extends StatelessWidget {
             // Section title for alignment
             OsmeaComponents.text(
               '↔️ Text Alignment',
-              textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              textStyle:
+                  const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             OsmeaComponents.sizedBox(height: 16),
 
@@ -69,7 +71,8 @@ class RichTextExample extends StatelessWidget {
             // Section title for selectable text
             OsmeaComponents.text(
               '👆 Selectable Rich Text',
-              textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              textStyle:
+                  const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             OsmeaComponents.sizedBox(height: 16),
 
@@ -82,7 +85,8 @@ class RichTextExample extends StatelessWidget {
             // Section title for advanced examples
             OsmeaComponents.text(
               '🚀 Advanced Examples',
-              textStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              textStyle:
+                  const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             OsmeaComponents.sizedBox(height: 16),
 
@@ -151,7 +155,7 @@ class RichTextExample extends StatelessWidget {
           OsmeaTextSpan(text: 'Visit our '),
           OsmeaTextSpan(
             text: 'website',
-            style:TextStyle(
+            style: TextStyle(
               color: OsmeaColors.nordicBlue,
               decoration: TextDecoration.underline,
             ),
@@ -164,7 +168,7 @@ class RichTextExample extends StatelessWidget {
           OsmeaTextSpan(text: ' or contact '),
           OsmeaTextSpan(
             text: 'support',
-            style:TextStyle(
+            style: TextStyle(
               color: OsmeaColors.meadow,
               decoration: TextDecoration.underline,
             ),
@@ -193,7 +197,7 @@ class RichTextExample extends StatelessWidget {
             border: Border.all(color: OsmeaColors.platinum),
             boxShadow: [
               BoxShadow(
-                color: OsmeaColors.black.withOpacity(0.05),
+                color: Colors.black.withValues(alpha: 0.05),
                 blurRadius: 4,
                 offset: const Offset(0, 2),
               ),
@@ -233,7 +237,8 @@ class RichTextExample extends StatelessWidget {
                     style: TextStyle(color: OsmeaColors.purple),
                   ),
                   OsmeaTextSpan(
-                    text: ' with more text to demonstrate the larger body style.',
+                    text:
+                        ' with more text to demonstrate the larger body style.',
                   ),
                 ],
               ),
@@ -372,41 +377,78 @@ class RichTextExample extends StatelessWidget {
             textSpans: [
               OsmeaTextSpan(
                 text: 'void ',
-                style:TextStyle(color: OsmeaColors.nordicBlue, fontFamily: 'monospace'),
+                style: TextStyle(
+                    color: OsmeaColors.nordicBlue, fontFamily: 'monospace'),
               ),
               OsmeaTextSpan(
                 text: 'main',
-                style: TextStyle(color: OsmeaColors.sunsetGlow, fontFamily: 'monospace'),
+                style: TextStyle(
+                    color: OsmeaColors.sunsetGlow, fontFamily: 'monospace'),
               ),
               OsmeaTextSpan(
                 text: '() {\n  ',
-                style: TextStyle(color: OsmeaColors.white, fontFamily: 'monospace'),
+                style: TextStyle(
+                    color: OsmeaColors.white, fontFamily: 'monospace'),
               ),
               OsmeaTextSpan(
                 text: 'print',
-                style: TextStyle(color: OsmeaColors.nordicBlue, fontFamily: 'monospace'),
+                style: TextStyle(
+                    color: OsmeaColors.nordicBlue, fontFamily: 'monospace'),
               ),
               OsmeaTextSpan(
                 text: '(',
-                style: TextStyle(color: OsmeaColors.white, fontFamily: 'monospace'),
+                style: TextStyle(
+                    color: OsmeaColors.white, fontFamily: 'monospace'),
               ),
               OsmeaTextSpan(
                 text: "'Hello, world!'",
-                style: TextStyle(color: OsmeaColors.meadow, fontFamily: 'monospace'),
+                style: TextStyle(
+                    color: OsmeaColors.meadow, fontFamily: 'monospace'),
               ),
               OsmeaTextSpan(
                 text: ');\n}',
-                style: TextStyle(color: OsmeaColors.white, fontFamily: 'monospace'),
+                style: TextStyle(
+                    color: OsmeaColors.white, fontFamily: 'monospace'),
+              ),
+              OsmeaTextSpan(
+                text: 'main',
+                style: const TextStyle(
+                    color: Colors.yellow, fontFamily: 'monospace'),
+              ),
+              OsmeaTextSpan(
+                text: '() {\n  ',
+                style: const TextStyle(
+                    color: Colors.white, fontFamily: 'monospace'),
+              ),
+              OsmeaTextSpan(
+                text: 'print',
+                style: const TextStyle(
+                    color: Colors.lightBlue, fontFamily: 'monospace'),
+              ),
+              OsmeaTextSpan(
+                text: '(',
+                style: const TextStyle(
+                    color: Colors.white, fontFamily: 'monospace'),
+              ),
+              OsmeaTextSpan(
+                text: "'Hello, world!'",
+                style: const TextStyle(
+                    color: Colors.green, fontFamily: 'monospace'),
+              ),
+              OsmeaTextSpan(
+                text: ');\n}',
+                style: const TextStyle(
+                    color: Colors.white, fontFamily: 'monospace'),
               ),
             ],
           ),
         ),
-        
+
         // Notification example
         OsmeaComponents.container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: OsmeaColors.nordicBlue.withOpacity(0.1),
+            color: Colors.blue.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(8),
             border: Border.all(color: OsmeaColors.nordicBlue),
           ),
@@ -416,7 +458,8 @@ class RichTextExample extends StatelessWidget {
               WidgetSpan(
                 child: OsmeaComponents.padding(
                   padding: const EdgeInsets.only(right: 8.0),
-                  child: Icon(Icons.info, color: OsmeaColors.nordicBlue, size: 20),
+                  child:
+                      Icon(Icons.info, color: OsmeaColors.nordicBlue, size: 20),
                 ),
               ),
               OsmeaTextSpan(
@@ -445,7 +488,7 @@ class RichTextExample extends StatelessWidget {
             ],
           ),
         ),
-        
+
         // Price tag example
         OsmeaComponents.container(
           padding: const EdgeInsets.all(16),

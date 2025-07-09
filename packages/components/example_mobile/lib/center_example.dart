@@ -54,7 +54,8 @@ class CenterExample extends StatelessWidget {
           'Simple Center',
           _buildContainer(
             OsmeaComponents.center(
-              child: _buildColoredBox(color: OsmeaColors.blue, text: 'Centered'),
+              child:
+                  _buildColoredBox(color: OsmeaColors.blue, text: 'Centered'),
             ),
           ),
         ),
@@ -128,7 +129,8 @@ class CenterExample extends StatelessWidget {
               ),
               child: OsmeaComponents.center(
                 child: _buildColoredBox(
-                    color: OsmeaColors.forestHeart, text: 'With Border & BorderRadius'),
+                    color: OsmeaColors.forestHeart,
+                    text: 'With Border & BorderRadius'),
               ),
             ),
           ),
@@ -146,7 +148,8 @@ class CenterExample extends StatelessWidget {
                 padding: const EdgeInsets.all(10),
                 child: OsmeaComponents.center(
                   child: _buildColoredBox(
-                      color: OsmeaColors.sunsetGlow, text: 'With Padding & Margin'),
+                      color: OsmeaColors.sunsetGlow,
+                      text: 'With Padding & Margin'),
                 ),
               ),
             ),
@@ -160,7 +163,7 @@ class CenterExample extends StatelessWidget {
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
-                    color: OsmeaColors.black.withOpacity(0.3),
+                    color: Colors.black.withValues(alpha: 0.3),
                     spreadRadius: 1,
                     blurRadius: 10,
                     offset: const Offset(0, 3),
@@ -323,7 +326,9 @@ class CenterExample extends StatelessWidget {
           text,
           textAlign: TextAlign.center,
           textStyle: TextStyle(
-            color: color.computeLuminance() > 0.5 ? OsmeaColors.steel : OsmeaColors.white,
+            color: color.computeLuminance() > 0.5
+                ? OsmeaColors.steel
+                : OsmeaColors.white,
             fontWeight: FontWeight.bold,
           ),
         ),

@@ -42,12 +42,10 @@ import 'package:osmea_components/src/components/list_item/list_item.dart';
 import 'package:osmea_components/src/components/ticket_widget/ticket_widget.dart';
 import 'package:osmea_components/src/components/ticket_widget/models/ticket_models.dart';
 import 'package:osmea_components/src/components/popup/popup.dart';
-import 'package:osmea_components/src/components/stepper/stepper.dart';
 import 'package:osmea_components/src/components/searchbar/searchbar.dart';
 import 'package:osmea_components/src/components/searchbar/expandable_searchbar.dart';
 
 import 'package:osmea_components/src/components/image/image.dart';
-import 'package:osmea_components/src/enums/image_enums.dart';
 
 import 'package:osmea_components/src/components/dropdown/dropdown.dart';
 import 'package:osmea_components/src/components/footer/footer.dart';
@@ -607,7 +605,7 @@ class OsmeaComponents {
   ///   top: 5,
   ///   right: 5,
   ///   bottom: 5,
-  ///   child: Container(color: Colors.black.withOpacity(0.5)),
+  ///   child: Container(color: Colors.black.withValues(alpha: 0.5)),
   /// )
   /// ```
   static Widget positionedFill({
