@@ -400,7 +400,7 @@ class _CardExampleState extends State<CardExample> {
                     children: [
                       OsmeaComponents.text(
                         '5G',
-                        textStyle: const TextStyle(
+                        textStyle: OsmeaTextStyle.labelLarge(context).copyWith(
                           color: OsmeaColors.white,
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -432,8 +432,10 @@ class _CardExampleState extends State<CardExample> {
                         ),
                         child: OsmeaComponents.text(
                           '1TB Storage',
-                          textStyle: const TextStyle(
-                              color: OsmeaColors.white, fontSize: 12),
+                          textStyle: OsmeaTextStyle.bodySmall(context).copyWith(
+                            color: OsmeaColors.white,
+                            fontSize: 12,
+                          ),
                         ),
                       ),
                       OsmeaComponents.spacer(),
@@ -456,7 +458,7 @@ class _CardExampleState extends State<CardExample> {
             ),
             child: OsmeaComponents.text(
               '25% OFF',
-              textStyle: const TextStyle(
+              textStyle: OsmeaTextStyle.labelSmall(context).copyWith(
                 color: OsmeaColors.white,
                 fontSize: 12,
                 fontWeight: FontWeight.bold,
@@ -545,7 +547,7 @@ class _CardExampleState extends State<CardExample> {
             ),
             child: OsmeaComponents.text(
               'GAMING',
-              textStyle: const TextStyle(
+              textStyle: OsmeaTextStyle.labelSmall(context).copyWith(
                 color: OsmeaColors.white,
                 fontSize: 11,
                 fontWeight: FontWeight.bold,
@@ -648,7 +650,7 @@ class _CardExampleState extends State<CardExample> {
             ),
             child: OsmeaComponents.text(
               'SMART',
-              textStyle: const TextStyle(
+              textStyle: OsmeaTextStyle.labelSmall(context).copyWith(
                 color: OsmeaColors.white,
                 fontSize: 11,
                 fontWeight: FontWeight.bold,
