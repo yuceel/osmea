@@ -35,8 +35,7 @@ class _ScaffoldExampleState extends State<ScaffoldExample> {
             // Section title
             OsmeaComponents.text(
               '🏗️ Basic Scaffold Examples',
-              textStyle:
-                  const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              textStyle: OsmeaTextStyle.titleLarge(context).copyWith(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             OsmeaComponents.sizedBox(height: 16),
 
@@ -83,8 +82,7 @@ class _ScaffoldExampleState extends State<ScaffoldExample> {
             // Advanced Scaffold
             OsmeaComponents.text(
               '🧰 Advanced Scaffold Examples',
-              textStyle:
-                  const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              textStyle: OsmeaTextStyle.titleLarge(context).copyWith(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             OsmeaComponents.sizedBox(height: 16),
 
@@ -111,13 +109,12 @@ class _ScaffoldExampleState extends State<ScaffoldExample> {
           children: [
             OsmeaComponents.text(
               title,
-              textStyle:
-                  const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              textStyle: OsmeaTextStyle.titleMedium(context).copyWith(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             OsmeaComponents.sizedBox(height: 8),
             OsmeaComponents.text(
               description,
-              textStyle: const TextStyle(fontSize: 14),
+              textStyle: OsmeaTextStyle.bodyMedium(context).copyWith(fontSize: 14),
               color: OsmeaColors.pewter,
             ),
             OsmeaComponents.sizedBox(height: 16),
@@ -166,7 +163,7 @@ class _ScaffoldExampleState extends State<ScaffoldExample> {
       body: OsmeaComponents.center(
         child: OsmeaComponents.text(
           'Tab ${_currentIndex + 1} Content',
-          textStyle: const TextStyle(fontSize: 20),
+          textStyle: OsmeaTextStyle.titleLarge(context).copyWith(fontSize: 20),
           textAlign: TextAlign.center,
         ),
       ),
@@ -220,7 +217,7 @@ class _ScaffoldExampleState extends State<ScaffoldExample> {
               ),
               child: OsmeaComponents.text(
                 'Navigation Drawer',
-                textStyle: const TextStyle(
+                textStyle: OsmeaTextStyle.headlineSmall(context).copyWith(
                   color: OsmeaColors.white,
                   fontSize: 24,
                 ),
@@ -341,7 +338,7 @@ class _ScaffoldExampleState extends State<ScaffoldExample> {
               ),
               child: OsmeaComponents.text(
                 'Navigation',
-                textStyle: const TextStyle(
+                textStyle: OsmeaTextStyle.headlineSmall(context).copyWith(
                   color: OsmeaColors.white,
                   fontSize: 24,
                 ),
