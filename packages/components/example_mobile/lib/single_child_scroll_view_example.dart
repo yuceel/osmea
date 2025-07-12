@@ -119,7 +119,7 @@ class SingleChildScrollViewExample extends StatelessWidget {
                 border: Border.all(color: OsmeaColors.silver),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: ClipRRect(
+              child: OsmeaComponents.clipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: example,
               ),
