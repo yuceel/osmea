@@ -76,31 +76,13 @@ class _ToastExamplePageState extends State<ToastExamplePage> {
   Widget build(BuildContext context) {
     return OsmeaComponents.scaffold(
       backgroundColor: OsmeaColors.snow,
-      appBar: AppBar(
+      appBar: OsmeaComponents.appBar(
         title: OsmeaComponents.text('Toast Demo',
             maxLines: 1, overflow: TextOverflow.ellipsis),
         centerTitle: true,
-        backgroundColor: OsmeaColors.white,
+        backgroundColor: const Color.fromARGB(255, 238, 196, 196),
         elevation: 0.5,
         foregroundColor: OsmeaColors.black54,
-        actions: [
-          OsmeaComponents.padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: OsmeaComponents.row(
-              children: [
-                OsmeaComponents.text(
-                  'Stacked',
-                  fontWeight: FontWeight.w500,
-                ),
-                Switch(
-                  value: _stacked,
-                  onChanged: (val) => setState(() => _stacked = val),
-                  activeColor: OsmeaColors.meadow,
-                ),
-              ],
-            ),
-          ),
-        ],
       ),
       body: OsmeaComponents.center(
         child: OsmeaComponents.singleChildScrollView(
@@ -255,7 +237,7 @@ class _ToastExamplePageState extends State<ToastExamplePage> {
       items: items
           .map((item) => DropdownMenuItem(
                 value: item,
-                child: Text(labels[item] ?? item.toString()),
+                child: OsmeaComponents.text(labels[item] ?? item.toString()),
               ))
           .toList(),
       onChanged: onChanged,
