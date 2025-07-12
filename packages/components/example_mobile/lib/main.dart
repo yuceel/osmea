@@ -10,7 +10,7 @@ import 'package:osmea_components_example/loading_example.dart';
 import 'package:osmea_components_example/progress_example.dart';
 import 'package:osmea_components_example/services/mock_auth_service.dart';
 import 'package:osmea_components_example/center_example.dart';
-import 'package:osmea_components_example/appbars_demo.dart';
+import 'package:osmea_components_example/appbar_example.dart';
 import 'package:osmea_components_example/switch_button_example.dart';
 import 'package:osmea_components_example/radio_button_example.dart';
 import 'package:osmea_components_example/text_example.dart';
