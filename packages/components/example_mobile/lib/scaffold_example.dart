@@ -124,7 +124,7 @@ class _ScaffoldExampleState extends State<ScaffoldExample> {
                 border: Border.all(color: OsmeaColors.silver),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: ClipRRect(
+              child: OsmeaComponents.clipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: example,
               ),
@@ -200,7 +200,7 @@ class _ScaffoldExampleState extends State<ScaffoldExample> {
         title: OsmeaComponents.text('With Drawer'),
         backgroundColor: OsmeaColors.sunsetGlow,
         foregroundColor: OsmeaColors.white,
-        leading: IconButton(
+        leading: OsmeaComponents.iconButton(
           icon: const Icon(Icons.menu),
           onPressed: () {
             // This would open the drawer in a real app
