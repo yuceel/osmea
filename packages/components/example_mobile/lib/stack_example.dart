@@ -340,7 +340,7 @@ class StackExample extends StatelessWidget {
             OsmeaComponents.sizedBox(
               width: double.infinity,
               height: 200,
-              child: ClipRRect(
+              child: OsmeaComponents.clipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: OsmeaComponents.stack(
                   fit: StackFit.expand,
