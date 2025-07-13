@@ -674,7 +674,7 @@ class _ClipRRectExampleState extends State<ClipRRectExample> {
           ),
         ),
         child: OsmeaComponents.center(
-          child: Icon(
+          child: const Icon(
             Icons.person,
             color: OsmeaColors.white,
             size: 32,
@@ -690,13 +690,13 @@ class _ClipRRectExampleState extends State<ClipRRectExample> {
       child: OsmeaComponents.container(
         width: 100,
         height: 80,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: OsmeaColors.white,
           boxShadow: [
             BoxShadow(
               color: OsmeaColors.shadowLight,
               blurRadius: 4,
-              offset: const Offset(0, 2),
+              offset:  Offset(0, 2),
             ),
           ],
         ),
@@ -763,7 +763,7 @@ class _ClipRRectExampleState extends State<ClipRRectExample> {
           child: OsmeaComponents.column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
+              const Icon(
                 Icons.photo_library,
                 color: OsmeaColors.white,
                 size: 24,
