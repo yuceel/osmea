@@ -44,10 +44,8 @@ The **OSMEA Packages** is a modular Flutter ecosystem designed to provide develo
 **A comprehensive UI component library for building beautiful, accessible Flutter applications.**
 
 #### ✨ Key Features
-- **🎨 50+ UI Components**: Buttons, forms, layouts, navigation, feedback, and more
-- **🌙 Theme System**: Light/dark themes with customizable design tokens
+- **🎨 45+ UI Components**: Buttons, forms, layouts, navigation, dynamic, and more
 - **📱 Responsive Design**: Mobile-first approach with adaptive layouts
-- **♿ Accessibility**: WCAG 2.1 AA compliant with screen reader support
 - **🎯 Type Safety**: Full TypeScript-like type safety with Dart
 - **🔧 Customization**: Extensive theming and styling options
 
@@ -56,7 +54,7 @@ The **OSMEA Packages** is a modular Flutter ecosystem designed to provide develo
 - **Forms**: Input fields, Checkboxes, Radio buttons, Switches, Dropdowns
 - **Layout**: Containers, Grid system, Spacing, Alignment, Flexible layouts
 - **Navigation**: App bars, Navigation bars, Tab bars, Bottom sheets
-- **Feedback**: Loading indicators, Toast notifications, Progress bars
+- **Dynamic**: Loading indicators, Toast notifications, Progress bars
 - **Advanced**: Carousels, Search bars, Rich text, Color pickers
 
 #### 🚀 Quick Start
@@ -281,15 +279,6 @@ void main() async {
 }
 ```
 
-### 📱 Platform Support
-
-| Package | iOS | Android | Web | macOS | Windows | Linux |
-|---------|-----|---------|-----|-------|---------|-------|
-| **Components** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **Core** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **APIs** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-
----
 
 ## 🎯 Use Cases
 
@@ -345,24 +334,6 @@ flutter run
 # APIs example
 cd packages/apis/example
 flutter run
-```
-
-### 🧪 Testing
-
-#### **Run All Tests**
-```bash
-# Test all packages
-flutter test packages/components/
-flutter test packages/core/
-flutter test packages/apis/
-```
-
-#### **Test Coverage**
-```bash
-# Generate coverage reports
-flutter test --coverage packages/components/
-flutter test --coverage packages/core/
-flutter test --coverage packages/apis/
 ```
 
 ### 📝 Code Generation
