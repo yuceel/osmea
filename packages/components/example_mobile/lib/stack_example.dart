@@ -93,7 +93,7 @@ class StackExample extends StatelessWidget {
               alignment: Alignment.bottomRight,
               children: [
                 _buildColoredBox(context, color: OsmeaColors.forestHeart, size: 150),
-                _buildColoredBox(context, color: OsmeaColors.sunsetGlow.withOpacity(0.7), size: 80),
+                _buildColoredBox(context, color: OsmeaColors.sunsetGlow.withValues(alpha: 0.7), size: 80),  
                 _buildColoredBox(context, color: OsmeaColors.meadow, size: 150),
                 _buildColoredBox(context, color: OsmeaColors.sunsetGlow.withValues(alpha: 0.7), size: 80),
                 OsmeaComponents.padding(
@@ -162,7 +162,7 @@ class StackExample extends StatelessWidget {
               child: OsmeaComponents.stack(
                 fit: StackFit.expand,
                 children: [
-                  OsmeaComponents.container(color: OsmeaColors.forestHeart.withOpacity(0.3)),
+                  OsmeaComponents.container(color: OsmeaColors.forestHeart.withValues(alpha: 0.3)),
                   OsmeaComponents.align(
                     alignment: Alignment.center,
                     child: OsmeaComponents.container(
@@ -290,8 +290,8 @@ class StackExample extends StatelessWidget {
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
                           colors: [
-                            OsmeaColors.nordicBlue.withOpacity(0.2),
-                            OsmeaColors.purple.withOpacity(0.2),
+                            OsmeaColors.nordicBlue.withValues(alpha: 0.2),
+                            OsmeaColors.purple.withValues(alpha: 0.2),
                             OsmeaColors.blue.withValues(alpha: 0.2),
                             OsmeaColors.purple.withValues(alpha: 0.2),
                           ],
@@ -387,7 +387,7 @@ class StackExample extends StatelessWidget {
                           OsmeaComponents.text(
                             'Nature Photography',
                             textStyle: OsmeaTextStyle.bodyMedium(context).copyWith(
-                              color: OsmeaColors.white.withOpacity(0.7),
+                              color: OsmeaColors.white.withValues(alpha: 0.7),
                               fontSize: 14,
                             ),
                           ),
