@@ -10,7 +10,7 @@ import 'package:osmea_components_example/loading_example.dart';
 import 'package:osmea_components_example/progress_example.dart';
 import 'package:osmea_components_example/services/mock_auth_service.dart';
 import 'package:osmea_components_example/center_example.dart';
-import 'package:osmea_components_example/appbars_demo.dart';
+import 'package:osmea_components_example/appbar_example.dart';
 import 'package:osmea_components_example/switch_button_example.dart';
 import 'package:osmea_components_example/radio_button_example.dart';
 import 'package:osmea_components_example/text_example.dart';
@@ -495,7 +495,7 @@ class ComponentsScreen extends StatelessWidget {
               OsmeaComponents.sizedBox(height: 12),
               OsmeaComponents.text(
                 title,
-                textStyle: const TextStyle(
+                textStyle: OsmeaTextStyle.bodyLarge(context).copyWith(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                 ),
@@ -517,6 +517,32 @@ class ExamplesScreen extends StatelessWidget {
     return OsmeaComponents.padding(
       padding: context.paddingNormal,
       child: OsmeaComponents.column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            OsmeaComponents.text(
+              'Interactive Examples',
+              textStyle: OsmeaTextStyle.headlineSmall(context).copyWith(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            OsmeaComponents.sizedBox(height: 16),
+            OsmeaComponents.expanded(
+              child: ListView(
+                children: [
+                  _buildExampleTile(
+                    context,
+                    'Positioned Examples',
+                    'Precise widget placement within a Stack',
+                    Icons.fullscreen,
+                    () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const PositionedExampleScreen(),
+                      ),
+                    ),
+                  ),
+                  _buildExampleTile(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           OsmeaComponents.text(
@@ -907,7 +933,7 @@ class SettingsScreen extends StatelessWidget {
         children: [
           OsmeaComponents.text(
             'Settings',
-            textStyle: const TextStyle(
+            textStyle: OsmeaTextStyle.headlineSmall(context).copyWith(
               fontSize: 24,
               fontWeight: FontWeight.bold,
             ),
@@ -1001,7 +1027,7 @@ class _NavbarExampleState extends State<NavbarExample> {
                 children: [
                   OsmeaComponents.text(
                     'Different Navbar Variants:',
-                    textStyle: const TextStyle(
+                    textStyle: OsmeaTextStyle.titleMedium(context).copyWith(
                         fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   OsmeaComponents.sizedBox(height: 16),
@@ -1025,8 +1051,8 @@ class _NavbarExampleState extends State<NavbarExample> {
                   OsmeaComponents.sizedBox(height: 16),
 
                   OsmeaComponents.text(
-                    'Selected Index: $_currentIndex',
-                    textStyle: const TextStyle(fontSize: 16),
+                    'Selected Index: _currentIndex',
+                    textStyle: OsmeaTextStyle.bodyLarge(context).copyWith(fontSize: 16),
                   ),
                 ],
               ),

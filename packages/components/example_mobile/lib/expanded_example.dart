@@ -596,12 +596,12 @@ class ExpandedExampleScreen extends StatelessWidget {
                             variant: OsmeaTextVariant.bodySmall),
                         OsmeaComponents.row(
                           children: [
-                            IconButton(
+                            OsmeaComponents.iconButton(
                               icon: Icon(Icons.help_outline,
                                   size: 18, color: OsmeaColors.thunder),
                               onPressed: () {},
                             ),
-                            IconButton(
+                            OsmeaComponents.iconButton(
                               icon: Icon(Icons.info_outline,
                                   size: 18, color: OsmeaColors.thunder),
                               onPressed: () {},
