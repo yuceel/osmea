@@ -12,6 +12,7 @@ import 'components/appbar_test_modular/showcase/unified_appbar_showcase.dart';
 import 'components/checkbox_test_modular/showcase/unified_checkbox_showcase.dart';
 import 'components/radio_button_test_modular/showcase/unified_radio_button_showcase.dart';
 import 'components/switch_button_test_modular/showcase/unified_switch_button_showcase.dart';
+import 'components/loading_test_modular/showcase/unified_loading_showcase.dart';
 
 /// Model for component information displayed on home page and stories
 class ComponentInfo {
@@ -121,5 +122,13 @@ final List<ComponentInfo> allComponents = [
     color: Colors.indigo,
     storyPath: StoryConfig.buildComponentStoryName('Switch Buttons'),
     getStories: getUnifiedSwitchButtonShowcase,
+  ),
+  ComponentInfo(
+    name: 'Loading Animations',
+    description: 'Interactive loading indicators and spinners',
+    icon: Icons.autorenew,
+    color: Colors.lightBlue,
+    storyPath: StoryConfig.buildComponentStoryName('Loading Animations'),
+    getStories: getUnifiedLoadingShowcase,
   ),
 ];
