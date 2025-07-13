@@ -330,10 +330,10 @@ class SingleChildScrollViewExample extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: OsmeaColors.white,
                   borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                       color: OsmeaColors.shadowLight,
-                      offset: const Offset(0, 2),
+                      offset: Offset(0, 2),
                       blurRadius: 6,
                     ),
                   ],

@@ -524,7 +524,7 @@ class ContainerExampleScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
                 color: OsmeaColors.white
                     .withValues(red: 255, green: 255, blue: 255, alpha: 0.2),
-                child: Icon(
+                child: const Icon(
                   Icons.star,
                   color: OsmeaColors.white,
                 ),

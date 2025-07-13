@@ -132,19 +132,19 @@ class ColumnExampleScreen extends StatelessWidget {
         children: [
           OsmeaComponents.container(
             height: 40,
-            color: OsmeaColors.nordicBlue.withOpacity(0.1),
+            color: OsmeaColors.nordicBlue.withValues(alpha: 0.1),
             alignment: Alignment.center,
             child: OsmeaComponents.text('Item 1'),
           ),
           OsmeaComponents.container(
             height: 40,
-            color: OsmeaColors.nordicBlue.withOpacity(0.2),
+            color: OsmeaColors.nordicBlue.withValues(alpha: 0.2),
             alignment: Alignment.center,
             child: OsmeaComponents.text('Item 2'),
           ),
           OsmeaComponents.container(
             height: 40,
-            color: OsmeaColors.nordicBlue.withOpacity(0.3),
+            color: OsmeaColors.nordicBlue.withValues(alpha: 0.3),
             alignment: Alignment.center,
             child: OsmeaComponents.text('Item 3'),
           ),
@@ -304,11 +304,11 @@ class ColumnExampleScreen extends StatelessWidget {
             padding: const EdgeInsets.all(8),
             child: OsmeaComponents.column(
               children: [
-                OsmeaComponents.container(height: 30, color: OsmeaColors.goldenHour.withOpacity(0.3)),
+                OsmeaComponents.container(height: 30, color: OsmeaColors.goldenHour.withValues(alpha: 0.3)),
                 OsmeaComponents.sizedBox(height: 8),
-                OsmeaComponents.container(height: 30, color: OsmeaColors.goldenHour.withOpacity(0.4)),
+                OsmeaComponents.container(height: 30, color: OsmeaColors.goldenHour.withValues(alpha: 0.4)),
                 OsmeaComponents.sizedBox(height: 8),
-                OsmeaComponents.container(height: 30, color: OsmeaColors.goldenHour.withOpacity(0.5)),
+                OsmeaComponents.container(height: 30, color: OsmeaColors.goldenHour.withValues(alpha: 0.5)),
               ],
             ),
           ),
@@ -354,9 +354,9 @@ class ColumnExampleScreen extends StatelessWidget {
             child: OsmeaComponents.column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                OsmeaComponents.container(height: 30, color: OsmeaColors.azureWave.withOpacity(0.3)),
-                OsmeaComponents.container(height: 30, color: OsmeaColors.azureWave.withOpacity(0.4)),
-                OsmeaComponents.container(height: 30, color: OsmeaColors.azureWave.withOpacity(0.5)),
+                OsmeaComponents.container(height: 30, color: OsmeaColors.azureWave.withValues(alpha: 0.3)),
+                OsmeaComponents.container(height: 30, color: OsmeaColors.azureWave.withValues(alpha: 0.4)),
+                OsmeaComponents.container(height: 30, color: OsmeaColors.azureWave.withValues(alpha: 0.5)),
               ],
             ),
           ),
@@ -370,9 +370,9 @@ class ColumnExampleScreen extends StatelessWidget {
             child: OsmeaComponents.column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                OsmeaComponents.container(height: 30, color: OsmeaColors.sunsetGlow.withOpacity(0.3)),
-                OsmeaComponents.container(height: 30, color: OsmeaColors.sunsetGlow.withOpacity(0.4)),
-                OsmeaComponents.container(height: 30, color: OsmeaColors.sunsetGlow.withOpacity(0.5)),
+                OsmeaComponents.container(height: 30, color: OsmeaColors.sunsetGlow.withValues(alpha: 0.3)),
+                OsmeaComponents.container(height: 30, color: OsmeaColors.sunsetGlow.withValues(alpha: 0.4)),
+                OsmeaComponents.container(height: 30, color: OsmeaColors.sunsetGlow.withValues(alpha: 0.5)),
               ],
             ),
           ),
@@ -386,9 +386,9 @@ class ColumnExampleScreen extends StatelessWidget {
             child: OsmeaComponents.column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                OsmeaComponents.container(height: 30, color: OsmeaColors.sunsetGlow.withOpacity(0.3)),
-                OsmeaComponents.container(height: 30, color: OsmeaColors.sunsetGlow.withOpacity(0.4)),
-                OsmeaComponents.container(height: 30, color: OsmeaColors.sunsetGlow.withOpacity(0.5)),
+                OsmeaComponents.container(height: 30, color: OsmeaColors.sunsetGlow.withValues(alpha: 0.3)),
+                OsmeaComponents.container(height: 30, color: OsmeaColors.sunsetGlow.withValues(alpha: 0.4)),
+                OsmeaComponents.container(height: 30, color: OsmeaColors.sunsetGlow.withValues(alpha: 0.5)),
               ],
             ),
           ),
@@ -418,9 +418,9 @@ class ColumnExampleScreen extends StatelessWidget {
             child: OsmeaComponents.column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                OsmeaComponents.container(height: 30, color: OsmeaColors.blue.withOpacity(0.3)),
-                OsmeaComponents.container(height: 30, color: OsmeaColors.blue.withOpacity(0.4)),
-                OsmeaComponents.container(height: 30, color: OsmeaColors.blue.withOpacity(0.5)),
+                OsmeaComponents.container(height: 30, color: OsmeaColors.blue.withValues(alpha: 0.3)),
+                OsmeaComponents.container(height: 30, color: OsmeaColors.blue.withValues(alpha: 0.4)),
+                OsmeaComponents.container(height: 30, color: OsmeaColors.blue.withValues(alpha: 0.5)),
               ],
             ),
           ),
@@ -453,7 +453,7 @@ class ColumnExampleScreen extends StatelessWidget {
                   OsmeaComponents.container(
                     height: 30,
                     width: double.infinity,
-                    color: OsmeaColors.nordicBlue.withOpacity(0.1 * (i + 1)),
+                    color: OsmeaColors.nordicBlue.withValues(alpha: 0.1 * (i + 1)), 
                     alignment: Alignment.center,
                     child: OsmeaComponents.text('Item ${i + 1}'),
                   ),
@@ -477,7 +477,7 @@ class ColumnExampleScreen extends StatelessWidget {
                   OsmeaComponents.container(
                     height: 30,
                     width: 50,
-                    color: OsmeaColors.purple.withOpacity((0.3 + (i * 0.1)).clamp(0.0, 1.0)),
+                    color: OsmeaColors.purple.withValues(alpha: (0.3 + (i * 0.1)).clamp(0.0, 1.0)),
                     alignment: Alignment.center,
                     child: OsmeaComponents.text(
                       '${i + 1}',
@@ -509,14 +509,14 @@ class ColumnExampleScreen extends StatelessWidget {
           OsmeaComponents.container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [OsmeaColors.blue.withOpacity(0.1), OsmeaColors.blue.withOpacity(0.3)],
+                colors: [OsmeaColors.blue.withValues(alpha: 0.1), OsmeaColors.blue.withValues(alpha: 0.3)],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
               borderRadius: BorderRadius.circular(8),
               boxShadow: [
                 BoxShadow(
-                  color: OsmeaColors.black.withOpacity(0.1),
+                  color: OsmeaColors.black.withValues(alpha: 0.1),
                   blurRadius: 8,
                   offset: const Offset(0, 2),
                 ),
@@ -528,7 +528,7 @@ class ColumnExampleScreen extends StatelessWidget {
                 OsmeaComponents.container(
                   height: 40,
                   decoration: BoxDecoration(
-                    color: OsmeaColors.white.withOpacity(0.8),
+                    color: OsmeaColors.white.withValues(alpha: 0.8),
                     borderRadius: BorderRadius.circular(4),
                   ),
                   alignment: Alignment.center,
@@ -538,7 +538,7 @@ class ColumnExampleScreen extends StatelessWidget {
                 OsmeaComponents.container(
                   height: 40,
                   decoration: BoxDecoration(
-                    color: OsmeaColors.white.withOpacity(0.8),
+                    color: OsmeaColors.white.withValues(alpha: 0.8),
                     borderRadius: BorderRadius.circular(4),
                   ),
                   alignment: Alignment.center,
@@ -549,7 +549,7 @@ class ColumnExampleScreen extends StatelessWidget {
                 OsmeaComponents.container(
                   height: 40,
                   decoration: BoxDecoration(
-                    color: OsmeaColors.white.withOpacity(0.8),
+                    color: OsmeaColors.white.withValues(alpha: 0.8),
                     borderRadius: BorderRadius.circular(4),
                   ),
                   alignment: Alignment.center,
@@ -565,7 +565,7 @@ class ColumnExampleScreen extends StatelessWidget {
           OsmeaComponents.sizedBox(height: 8),
           OsmeaComponents.container(
             decoration: BoxDecoration(
-              color: OsmeaColors.meadow.withOpacity(0.1),
+              color: OsmeaColors.meadow.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(16),
             ),
             padding: const EdgeInsets.all(16),
@@ -575,7 +575,7 @@ class ColumnExampleScreen extends StatelessWidget {
                 OsmeaComponents.container(
                   height: 40,
                   decoration: BoxDecoration(
-                    color: OsmeaColors.meadow.withOpacity(0.1),
+                    color: OsmeaColors.meadow.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   alignment: Alignment.center,
@@ -586,7 +586,7 @@ class ColumnExampleScreen extends StatelessWidget {
                 OsmeaComponents.container(
                   height: 40,
                   decoration: BoxDecoration(
-                    color: OsmeaColors.meadow.withOpacity(0.7),
+                    color: OsmeaColors.meadow.withValues(alpha: 0.7),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   alignment: Alignment.center,
@@ -597,7 +597,7 @@ class ColumnExampleScreen extends StatelessWidget {
                 OsmeaComponents.container(
                   height: 40,
                   decoration: BoxDecoration(
-                    color: OsmeaColors.meadow.withOpacity(0.6),
+                    color: OsmeaColors.meadow.withValues(alpha: 0.6),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   alignment: Alignment.center,
@@ -633,7 +633,7 @@ class ColumnExampleScreen extends StatelessWidget {
             },
             child: OsmeaComponents.container(
               decoration: BoxDecoration(
-                color: OsmeaColors.nordicBlue.withOpacity(0.1),
+                color: OsmeaColors.nordicBlue.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
               padding: const EdgeInsets.all(12),
@@ -671,7 +671,7 @@ class ColumnExampleScreen extends StatelessWidget {
                   },
                   child: OsmeaComponents.container(
                     decoration: BoxDecoration(
-                      color: OsmeaColors.purple.withOpacity(0.1),
+                      color: OsmeaColors.purple.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     padding: const EdgeInsets.all(12),
@@ -698,7 +698,7 @@ class ColumnExampleScreen extends StatelessWidget {
                   },
                   child: OsmeaComponents.container(
                     decoration: BoxDecoration(
-                      color: OsmeaColors.blue.withOpacity(0.1),
+                      color: OsmeaColors.blue.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     padding: const EdgeInsets.all(12),
@@ -725,7 +725,7 @@ class ColumnExampleScreen extends StatelessWidget {
                   },
                   child: OsmeaComponents.container(
                     decoration: BoxDecoration(
-              color: OsmeaColors.meadow.withOpacity(0.1),
+                color: OsmeaColors.meadow.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     padding: const EdgeInsets.all(12),
@@ -796,7 +796,7 @@ class ColumnExampleScreen extends StatelessWidget {
                           shape: BoxShape.circle,
                         ),
                         child: OsmeaComponents.center(
-                          child: Icon(Icons.person, color: OsmeaColors.white),
+                          child: const Icon(Icons.person, color: OsmeaColors.white),
                         ),
                       ),
                       OsmeaComponents.sizedBox(width: 12),
@@ -897,8 +897,8 @@ class ColumnExampleScreen extends StatelessWidget {
                     OsmeaComponents.container(
                       height: 200,
                       decoration: BoxDecoration(
-                        color: OsmeaColors.blue.withOpacity(0.1),
-                        border: Border.all(color: OsmeaColors.blue.withOpacity(0.3)),
+                        color: OsmeaColors.blue.withValues(alpha: 0.1),
+                        border: Border.all(color: OsmeaColors.blue.withValues(alpha: 0.3)),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       padding: const EdgeInsets.all(8),
@@ -909,10 +909,10 @@ class ColumnExampleScreen extends StatelessWidget {
                             OsmeaComponents.container(
                               height: 40,
                               color: i == 1
-                                  ? OsmeaColors.blue.withOpacity(0.1)
+                                  ? OsmeaColors.blue.withValues(alpha: 0.1)
                                   : (i == 2
-                                      ? OsmeaColors.blue.withOpacity(0.2)
-                                      : OsmeaColors.blue.withOpacity(0.3)),
+                                      ? OsmeaColors.blue.withValues(alpha: 0.2)
+                                      : OsmeaColors.blue.withValues(alpha: 0.3)),
                               alignment: Alignment.center,
                               child: OsmeaComponents.text('Item $i',
                                   textStyle: OsmeaTextStyle.bodyLarge(context)),
@@ -933,8 +933,8 @@ class ColumnExampleScreen extends StatelessWidget {
                     OsmeaComponents.container(
                       height: 200,
                       decoration: BoxDecoration(
-                        color: OsmeaColors.green.withOpacity(0.1),
-                        border: Border.all(color: OsmeaColors.green.withOpacity(0.3)),
+                        color: OsmeaColors.green.withValues(alpha: 0.1),
+                        border: Border.all(color: OsmeaColors.green.withValues(alpha: 0.3)),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       padding: const EdgeInsets.all(8),
@@ -945,10 +945,10 @@ class ColumnExampleScreen extends StatelessWidget {
                             OsmeaComponents.container(
                               height: 40,
                               color: i == 1
-                                  ? OsmeaColors.green.withOpacity(0.1)
+                                  ? OsmeaColors.green.withValues(alpha: 0.1)
                                   : (i == 2
-                                      ? OsmeaColors.green.withOpacity(0.2)
-                                      : OsmeaColors.green.withOpacity(0.3)),
+                                      ? OsmeaColors.green.withValues(alpha: 0.2)
+                                      : OsmeaColors.green.withValues(alpha: 0.3)),
                               alignment: Alignment.center,
                               child: OsmeaComponents.text('Item $i',
                                   textStyle: OsmeaTextStyle.bodyLarge(context)),
@@ -964,7 +964,7 @@ class ColumnExampleScreen extends StatelessWidget {
           OsmeaComponents.sizedBox(height: 16),
           OsmeaComponents.container(
             decoration: BoxDecoration(
-              color: OsmeaColors.grey.withOpacity(0.1),
+              color: OsmeaColors.grey.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8),
             ),
             padding: const EdgeInsets.all(12),

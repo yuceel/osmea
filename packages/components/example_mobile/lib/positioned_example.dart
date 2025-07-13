@@ -505,7 +505,7 @@ class PositionedExampleScreen extends StatelessWidget {
                 OsmeaComponents.sizedBox(height: 4),
                 OsmeaComponents.text(
                   'Using positioned for overlay text on images',
-                  textStyle: OsmeaTextStyle.bodySmall(context).copyWith(color: OsmeaColors.white.withOpacity(0.7), fontSize: 14),
+                  textStyle: OsmeaTextStyle.bodySmall(context).copyWith(color: OsmeaColors.white.withValues(alpha: 0.7), fontSize: 14), 
                 ),
               ],
             ),

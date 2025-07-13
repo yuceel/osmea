@@ -283,18 +283,18 @@ class _ScaffoldExampleState extends State<ScaffoldExample> {
         foregroundColor: OsmeaColors.white,
       ),
       body: OsmeaComponents.container(
-        color: OsmeaColors.ash.withOpacity(0.1),
+        color: OsmeaColors.ash.withValues(alpha: 0.1),
         child: OsmeaComponents.center(
           child: OsmeaComponents.container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
               color: OsmeaColors.white,
               borderRadius: BorderRadius.circular(8),
-              boxShadow: [
+              boxShadow: const [
                 BoxShadow(
                   color: OsmeaColors.shadowLight,
                   blurRadius: 5,
-                  offset: const Offset(0, 2),
+                  offset:  Offset(0, 2),
                 ),
               ],
             ),

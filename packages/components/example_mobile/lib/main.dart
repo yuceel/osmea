@@ -47,7 +47,7 @@ import 'package:osmea_components_example/dropdown_example.dart';
 import 'package:osmea_components_example/tabbar_example.dart';
 import 'package:osmea_components_example/counter_example.dart';
 import 'package:osmea_components_example/image_example.dart';
-import 'package:osmea_components_example/counter_example.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -526,32 +526,8 @@ class ExamplesScreen extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            OsmeaComponents.sizedBox(height: 16),
-            OsmeaComponents.expanded(
-              child: ListView(
-                children: [
-                  _buildExampleTile(
-                    context,
-                    'Positioned Examples',
-                    'Precise widget placement within a Stack',
-                    Icons.fullscreen,
-                    () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const PositionedExampleScreen(),
-                      ),
-                    ),
-                  ),
-                  _buildExampleTile(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          OsmeaComponents.text(
-            'Interactive Examples',
-            textStyle: const TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+           
+              
           OsmeaComponents.sizedBox(height: 16),
           Expanded(
             child: ListView(
@@ -664,6 +640,31 @@ class ExamplesScreen extends StatelessWidget {
                     ),
                   ),
                 ),
+                _buildExampleTile(
+                  context,
+                  'Dropdown Examples',
+                  'Comprehensive dropdown component with all variants and types',
+                  Icons.arrow_drop_down,
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const DropdownExample(),
+                    ),
+                  ),
+                ),
+                  _buildExampleTile(
+                  context,
+                  'Image Examples',
+                  'Image component with variants and animations',
+                  Icons.image,
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ImageExample(),
+                    ),
+                  ),
+                ),
+                 
                 _buildExampleTile(
                   context,
                   'Colors Examples',
@@ -897,8 +898,8 @@ class ExamplesScreen extends StatelessWidget {
             ),
           ),
         ]
-      ),
-    );
+      ,
+          ));
   }
 
   Widget _buildExampleTile(
