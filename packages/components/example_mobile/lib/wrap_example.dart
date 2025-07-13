@@ -428,11 +428,11 @@ class WrapExample extends StatelessWidget {
           decoration: BoxDecoration(
             color: color,
             borderRadius: BorderRadius.circular(8),
-            boxShadow: [
+            boxShadow: const [
               BoxShadow(
                 color: OsmeaColors.shadowLight,
                 blurRadius: 4,
-                offset: const Offset(0, 2),
+                offset: Offset(0, 2),
               ),
             ],
           ),
