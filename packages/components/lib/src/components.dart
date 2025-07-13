@@ -38,13 +38,17 @@ import 'package:osmea_components/src/components/text_field/otp_text_field.dart';
 import 'package:osmea_components/src/components/wrap/wrap.dart';
 import 'package:osmea_components/src/components/text/text.dart';
 import 'package:osmea_components/src/components/carousel/carousel.dart';
+import 'package:osmea_components/src/components/counter/counter.dart';
 import 'package:osmea_components/src/components/list_item/list_item.dart';
 import 'package:osmea_components/src/components/ticket_widget/ticket_widget.dart';
 import 'package:osmea_components/src/components/ticket_widget/models/ticket_models.dart';
 import 'package:osmea_components/src/components/popup/popup.dart';
-import 'package:osmea_components/src/components/stepper/stepper.dart';
+
 import 'package:osmea_components/src/components/searchbar/searchbar.dart';
 import 'package:osmea_components/src/components/searchbar/expandable_searchbar.dart';
+
+import 'package:osmea_components/src/components/image/image.dart';
+
 import 'package:osmea_components/src/components/dropdown/dropdown.dart';
 import 'package:osmea_components/src/components/footer/footer.dart';
 
@@ -603,7 +607,7 @@ class OsmeaComponents {
   ///   top: 5,
   ///   right: 5,
   ///   bottom: 5,
-  ///   child: Container(color: Colors.black.withOpacity(0.5)),
+  ///   child: Container(color: Colors.black.withValues(alpha: 0.5)),
   /// )
   /// ```
   static Widget positionedFill({
@@ -3440,6 +3444,110 @@ class OsmeaComponents {
     ToastManager().hideAllToasts();
   }
 
+  // ==================== IMAGE ====================
+
+  /// 🖼️ **OSMEA Image** - Universal image component
+  ///
+  /// A comprehensive image component supporting multiple sources and display modes.
+  ///
+  /// **Features:**
+  /// - 🌐 Network, asset, file, and memory sources
+  /// - 🎭 Multiple display variants (normal, rounded, circle, etc.)
+  /// - 📐 Flexible sizing and fitting options
+  /// - 🔄 Loading states and error handling
+  /// - 🎨 Overlay and filter effects
+  ///
+  /// **Example:**
+  /// ```dart
+  /// OsmeaComponents.image(
+  ///   imageUrl: 'https://example.com/image.jpg',
+  ///   variant: ImageVariant.rounded,
+  ///   size: ImageSize.large,
+  ///   fit: BoxFit.cover,
+  /// )
+  /// ```
+  static Widget image({
+    String? imageUrl,
+    String? assetPath,
+    String? filePath,
+    Uint8List? bytes,
+    ImageVariant variant = ImageVariant.normal,
+    ImageSize size = ImageSize.medium,
+    BoxFit fit = BoxFit.cover,
+    double? width,
+    double? height,
+    BorderRadius? borderRadius,
+    Border? border,
+    List<BoxShadow>? boxShadow,
+    Color? backgroundColor,
+    Widget? placeholder,
+    Widget? errorWidget,
+    bool showLoadingIndicator = true,
+    Color? overlayColor,
+    BlendMode? colorBlendMode,
+    VoidCallback? onTap,
+    String? heroTag,
+    String? semanticLabel,
+    bool excludeFromSemantics = false,
+    Alignment alignment = Alignment.center,
+    ImageRepeat repeat = ImageRepeat.noRepeat,
+    bool matchTextDirection = false,
+    FilterQuality filterQuality = FilterQuality.low,
+    Map<String, String>? headers,
+    int? cacheWidth,
+    int? cacheHeight,
+    double? scale,
+    Color? imageColor,
+    Rect? centerSlice,
+    bool gaplessPlayback = false,
+    bool isAntiAlias = false,
+    String? package,
+    ImageCacheStrategy cacheStrategy = ImageCacheStrategy.balanced,
+    int retryCount = 3,
+    Duration retryDelay = const Duration(seconds: 1),
+  }) {
+    return OsmeaImage(
+      imageUrl: imageUrl,
+      assetPath: assetPath,
+      filePath: filePath,
+      bytes: bytes,
+      variant: variant,
+      size: size,
+      fit: fit,
+      width: width,
+      height: height,
+      borderRadius: borderRadius,
+      border: border,
+      boxShadow: boxShadow,
+      backgroundColor: backgroundColor,
+      placeholder: placeholder,
+      errorWidget: errorWidget,
+      showLoadingIndicator: showLoadingIndicator,
+      overlayColor: overlayColor,
+      colorBlendMode: colorBlendMode,
+      onTap: onTap,
+      heroTag: heroTag,
+      semanticLabel: semanticLabel,
+      excludeFromSemantics: excludeFromSemantics,
+      alignment: alignment,
+      repeat: repeat,
+      matchTextDirection: matchTextDirection,
+      filterQuality: filterQuality,
+      headers: headers,
+      cacheWidth: cacheWidth,
+      cacheHeight: cacheHeight,
+      scale: scale,
+      imageColor: imageColor,
+      centerSlice: centerSlice,
+      gaplessPlayback: gaplessPlayback,
+      isAntiAlias: isAntiAlias,
+      package: package,
+      cacheStrategy: cacheStrategy,
+      retryCount: retryCount,
+      retryDelay: retryDelay,
+    );
+  }
+
   /// 🦶 **OSMEA Footer** - Modern footer component with multiple variants
   ///
   /// Creates a comprehensive footer component with support for:
@@ -3481,6 +3589,90 @@ class OsmeaComponents {
       backgroundColor: backgroundColor,
       variant: variant,
       text: text,
+    );
+  }
+
+  /// 🔢 **OSMEA Counter** - Interactive numeric counter component with cubit state management
+  ///
+  /// Creates a counter component with increment/decrement controls.
+  /// Features cubit-based state management, customizable styling, size variants, and value constraints.
+  ///
+  /// Example:
+  /// ```dart
+  /// OsmeaComponents.counter(
+  ///   initialValue: counterValue,
+  ///   onChanged: (newValue) => print('Counter: $newValue'),
+  ///   minValue: 0,
+  ///   maxValue: 100,
+  ///   size: CounterSize.medium,
+  ///   variant: CounterVariant.outlined,
+  /// )
+  /// ```
+  static Widget counter({
+    Key? key,
+    CoreTheme? customTheme,
+    int initialValue = 0,
+    ValueChanged<int>? onChanged,
+    int minValue = 0,
+    int maxValue = 100,
+    int step = 1,
+    CounterSize size = CounterSize.medium,
+    CounterVariant variant = CounterVariant.outlined,
+    CounterIconVariant? iconVariant,
+    Widget? incrementIcon,
+    Widget? decrementIcon,
+    bool showValue = true,
+    TextStyle? valueTextStyle,
+    Color? buttonColor,
+    Color? backgroundColor,
+    Color? borderColor,
+    EdgeInsetsGeometry? padding,
+    EdgeInsetsGeometry? margin,
+    double? width,
+    double? height,
+    BorderRadius? borderRadius,
+    bool enabled = true,
+    ValueChanged<int>? onIncrement,
+    ValueChanged<int>? onDecrement,
+    VoidCallback? onMinReached,
+    VoidCallback? onMaxReached,
+    ValueChanged<String>? onErrorOccurred,
+    String? Function(int value)? validator,
+    Duration animationDuration = const Duration(milliseconds: 150),
+    Duration debounceDuration = const Duration(milliseconds: 100),
+  }) {
+    return OsmeaCounter(
+      key: key,
+      customTheme: customTheme,
+      initialValue: initialValue,
+      onChanged: onChanged,
+      minValue: minValue,
+      maxValue: maxValue,
+      step: step,
+      size: size,
+      variant: variant,
+      iconVariant: iconVariant,
+      incrementIcon: incrementIcon,
+      decrementIcon: decrementIcon,
+      showValue: showValue,
+      valueTextStyle: valueTextStyle,
+      buttonColor: buttonColor,
+      backgroundColor: backgroundColor,
+      borderColor: borderColor,
+      padding: padding,
+      margin: margin,
+      width: width,
+      height: height,
+      borderRadius: borderRadius,
+      enabled: enabled,
+      onIncrement: onIncrement,
+      onDecrement: onDecrement,
+      onMinReached: onMinReached,
+      onMaxReached: onMaxReached,
+      onErrorOccurred: onErrorOccurred,
+      validator: validator,
+      animationDuration: animationDuration,
+      debounceDuration: debounceDuration,
     );
   }
 }

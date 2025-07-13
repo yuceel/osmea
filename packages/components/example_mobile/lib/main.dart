@@ -10,7 +10,7 @@ import 'package:osmea_components_example/loading_example.dart';
 import 'package:osmea_components_example/progress_example.dart';
 import 'package:osmea_components_example/services/mock_auth_service.dart';
 import 'package:osmea_components_example/center_example.dart';
-import 'package:osmea_components_example/appbars_demo.dart';
+import 'package:osmea_components_example/appbar_example.dart';
 import 'package:osmea_components_example/switch_button_example.dart';
 import 'package:osmea_components_example/radio_button_example.dart';
 import 'package:osmea_components_example/text_example.dart';
@@ -45,6 +45,9 @@ import 'package:osmea_components_example/searchbar_example.dart';
 import 'package:osmea_components_example/toast_example.dart';
 import 'package:osmea_components_example/dropdown_example.dart';
 import 'package:osmea_components_example/tabbar_example.dart';
+import 'package:osmea_components_example/counter_example.dart';
+import 'package:osmea_components_example/image_example.dart';
+import 'package:osmea_components_example/counter_example.dart';
 
 void main() {
   runApp(const MyApp());
@@ -59,7 +62,7 @@ class MyApp extends StatelessWidget {
       title: 'OSMEA Components Example',
       theme: CoreTheme.lightTheme,
       darkTheme: CoreTheme.darkTheme,
-      themeMode: ThemeMode.system,
+      themeMode: ThemeMode.light,
       home: const MainScreen(),
     );
   }
@@ -166,21 +169,17 @@ class _LoginScreenState extends State<LoginScreen> {
             color: OsmeaColors.nordicBlue,
           ),
           OsmeaComponents.sizedBox(height: 32),
-          TextField(
+          OsmeaComponents.textField(
             controller: _usernameController,
-            decoration: const InputDecoration(
-              labelText: 'Username',
-              border: OutlineInputBorder(),
-            ),
+            label: 'Username',
+            variant: TextFieldVariant.outlined,
           ),
           OsmeaComponents.sizedBox(height: 16),
-          TextField(
+          OsmeaComponents.textField(
             controller: _passwordController,
-            obscureText: true,
-            decoration: const InputDecoration(
-              labelText: 'Password',
-              border: OutlineInputBorder(),
-            ),
+            label: 'Password',
+            variant: TextFieldVariant.outlined,
+            type: TextFieldType.password,
           ),
           OsmeaComponents.sizedBox(height: 32),
           OsmeaComponents.loginButton(
@@ -192,7 +191,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: OsmeaComponents.text('Login successful!'),
-                  backgroundColor: Colors.green,
+                  backgroundColor: OsmeaColors.green,
                 ),
               );
             },
@@ -200,7 +199,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: OsmeaComponents.text('Login failed.'),
-                  backgroundColor: Colors.red,
+                  backgroundColor: OsmeaColors.red,
                 ),
               );
             },
@@ -229,7 +228,7 @@ class ComponentsScreen extends StatelessWidget {
             'OSMEA Components',
           ),
           OsmeaComponents.sizedBox(height: 16),
-          Expanded(
+          OsmeaComponents.expanded(
             child: GridView.count(
               crossAxisCount: 2,
               crossAxisSpacing: 16,
@@ -491,12 +490,12 @@ class ComponentsScreen extends StatelessWidget {
               Icon(
                 icon,
                 size: 48,
-                color: Colors.blue,
+                color: OsmeaColors.blue,
               ),
               OsmeaComponents.sizedBox(height: 12),
               OsmeaComponents.text(
                 title,
-                textStyle: const TextStyle(
+                textStyle: OsmeaTextStyle.bodyLarge(context).copyWith(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                 ),
@@ -518,6 +517,32 @@ class ExamplesScreen extends StatelessWidget {
     return OsmeaComponents.padding(
       padding: context.paddingNormal,
       child: OsmeaComponents.column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            OsmeaComponents.text(
+              'Interactive Examples',
+              textStyle: OsmeaTextStyle.headlineSmall(context).copyWith(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            OsmeaComponents.sizedBox(height: 16),
+            OsmeaComponents.expanded(
+              child: ListView(
+                children: [
+                  _buildExampleTile(
+                    context,
+                    'Positioned Examples',
+                    'Precise widget placement within a Stack',
+                    Icons.fullscreen,
+                    () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const PositionedExampleScreen(),
+                      ),
+                    ),
+                  ),
+                  _buildExampleTile(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           OsmeaComponents.text(
@@ -834,6 +859,18 @@ class ExamplesScreen extends StatelessWidget {
                 ),
                 _buildExampleTile(
                   context,
+                  'Counter Examples',
+                  'Interactive numeric counter with increment/decrement controls',
+                  Icons.add_circle_outline,
+                  () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const CounterExample(),
+                    ),
+                  ),
+                ),
+                _buildExampleTile(
+                  context,
                   'Searchbar Examples',
                   'Advanced search component with suggestions and history',
                   Icons.search,
@@ -856,18 +893,6 @@ class ExamplesScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                _buildExampleTile(
-                  context,
-                  'Dropdown Examples',
-                  'Comprehensive dropdown component with all variants and types',
-                  Icons.arrow_drop_down,
-                  () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const DropdownExample(),
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
@@ -886,7 +911,7 @@ class ExamplesScreen extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.only(bottom: 8),
       child: ListTile(
-        leading: Icon(icon, color: Colors.blue),
+        leading: Icon(icon, color: OsmeaColors.blue),
         title: OsmeaComponents.text(title),
         subtitle: OsmeaComponents.text(description),
         trailing: const Icon(Icons.arrow_forward_ios),
@@ -908,7 +933,7 @@ class SettingsScreen extends StatelessWidget {
         children: [
           OsmeaComponents.text(
             'Settings',
-            textStyle: const TextStyle(
+            textStyle: OsmeaTextStyle.headlineSmall(context).copyWith(
               fontSize: 24,
               fontWeight: FontWeight.bold,
             ),
@@ -976,8 +1001,8 @@ class _NavbarExampleState extends State<NavbarExample> {
     return OsmeaComponents.scaffold(
       appBar: OsmeaComponents.appBar(
         title: OsmeaComponents.text('🧭 Navbar Examples'),
-        backgroundColor: Colors.blue,
-        foregroundColor: Colors.white,
+        backgroundColor: OsmeaColors.blue,
+        foregroundColor: OsmeaColors.white,
       ),
       body: OsmeaComponents.column(
         children: [
@@ -994,7 +1019,7 @@ class _NavbarExampleState extends State<NavbarExample> {
               });
             },
           ),
-          Expanded(
+          OsmeaComponents.expanded(
             child: OsmeaComponents.padding(
               padding: context.paddingNormal,
               child: OsmeaComponents.column(
@@ -1002,7 +1027,7 @@ class _NavbarExampleState extends State<NavbarExample> {
                 children: [
                   OsmeaComponents.text(
                     'Different Navbar Variants:',
-                    textStyle: const TextStyle(
+                    textStyle: OsmeaTextStyle.titleMedium(context).copyWith(
                         fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   OsmeaComponents.sizedBox(height: 16),
@@ -1026,8 +1051,8 @@ class _NavbarExampleState extends State<NavbarExample> {
                   OsmeaComponents.sizedBox(height: 16),
 
                   OsmeaComponents.text(
-                    'Selected Index: $_currentIndex',
-                    textStyle: const TextStyle(fontSize: 16),
+                    'Selected Index: _currentIndex',
+                    textStyle: OsmeaTextStyle.bodyLarge(context).copyWith(fontSize: 16),
                   ),
                 ],
               ),

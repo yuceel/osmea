@@ -27,6 +27,9 @@ export 'src/components/text_field/controllers/text_field_controller.dart';
 export 'src/components/radio_button/radio_button.dart';
 export 'src/components/login_button/login_button.dart';
 
+// 🔢 Counter
+export 'src/utils/counter_extensions.dart';
+
 // 🧩 Components
 export 'src/components.dart';
 
@@ -87,5 +90,8 @@ export 'src/components/loading/cubit/loading_state.dart';
 
 // 📝 Rich Text
 export 'src/components/rich_text/text_span.dart';
+
+// 🖼️ Image
+export 'src/utils/image_extensions.dart';
 
 export 'src/components/stepper/stepper.dart';
