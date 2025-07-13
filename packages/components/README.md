@@ -7,7 +7,7 @@
 
 ## 📦 What's Inside?
 
-### ✔️ 40+ Production-ready Components  
+### ✔️ 45+ Production-ready Components  
 From layout scaffolds to dynamic carousels and complex form controls.
 
 ### ✔️ Built-in Theming System  
@@ -185,61 +185,23 @@ packages/components/
 
 ---
 
-## 🟦 Expandable & Collapsible Components
+### 🟦 Expandable & Collapsible Components
 
-OSMEA offers powerful, flexible widgets for building expandable/collapsible UIs, perfect for settings, menus, FAQs, and more!
-
-### 🟦 Expandable List Item (Accordion)
-
-Universal, flexible list/menu item that can act as an accordion/expansion panel.
+| Component                | Description                                                      |
+|--------------------------|------------------------------------------------------------------|
+| `Expandable List Item`   | Flexible list/menu item acting as expansion panel       |
+| `Expandable Searchbar`   | Searchbar that expands from an icon/button into a full search UI  |
 
 **Key Features:**
-- `variant: ListItemVariant.expandable` for accordion behavior
-- `children: List<Widget>` for nested content
-- `initiallyExpanded`, `expanded`, `onExpansionChanged`, `maintainState` for state control
+- Multi-level nesting and smooth animation
+- State control: `initiallyExpanded`, `expanded`, `onExpansionChanged`, `maintainState`
 - Customizable expand/collapse icons
-- Supports multi-level nesting
-- Smooth animation and themeable
+- Supports all standard searchbar features (suggestions, history, etc.)
+- Themeable and highly customizable
 
-**Basic Example:**
-```dart
-OsmeaComponents.listItem(
-  title: 'Settings',
-  variant: ListItemVariant.expandable,
-  initiallyExpanded: false,
-  children: [
-    OsmeaComponents.listItem(title: 'Account'),
-    OsmeaComponents.listItem(title: 'Privacy'),
-  ],
-)
-```
 
-**Controlled Expansion:**
-```dart
-bool isExpanded = false;
-OsmeaComponents.listItem(
-  title: 'Advanced',
-  variant: ListItemVariant.expandable,
-  expanded: isExpanded,
-  onExpansionChanged: (expanded) => setState(() => isExpanded = expanded),
-  children: [
-    OsmeaComponents.listItem(title: 'Option 1'),
-    OsmeaComponents.listItem(title: 'Option 2'),
-  ],
-)
-```
 
-### 🔍 Expandable Searchbar
-
-A searchbar that expands from an icon/button into a full search field.
-
-**Key Features:**
-- `expandDirection` (right, left, up, down)
-- `expandWidth`, `expandDuration`, `collapseDuration`
-- Collapses on blur or back button
-- All standard searchbar features (suggestions, history, etc.)
-
-**Example:**
+**Expandable Searchbar:**
 ```dart
 OsmeaComponents.expandableSearchbar(
   onSearch: (query) => performSearch(query),
@@ -314,39 +276,11 @@ class MyHomePage extends StatelessWidget {
 
 ---
 
-## 🎨 Theming & Customization
-
-OSMEA Components come with a built-in theme system for global consistency:
-
-```dart
-// Apply the default OSMEA theme
-MaterialApp(
-  theme: OsmeaTheme.lightTheme,
-  darkTheme: OsmeaTheme.darkTheme,
-)
-
-// Or customize with your own theme
-MaterialApp(
-  theme: OsmeaTheme.createCustomTheme(
-    primaryColor: Colors.blue,
-    accentColor: Colors.orange,
-  ),
-)
-```
-
-**Theme Features:**
-- **Color System:** All colors are defined in `lib/src/styles/colors.dart` and follow a design token approach
-- **Typography:** Consistent text styles via `lib/src/styles/text_style.dart`
-- **Component Variants & Sizes:** Most components support multiple variants and sizes for different use cases
-
----
-
 ## 🧩 Core Architecture
 
 - **Core (`lib/src/core/`)**: Abstract widgets, basic layout and behavior infrastructure for all components
 - **Enums (`lib/src/enums/`)**: Central enum definitions for size, variant, state, style options for all components
 - **Styles (`lib/src/styles/`)**: Color palettes, typography and other style constants
-- **Theme (`lib/src/theme/`)**: OSMEA's Material 3-based theme system and customizable theme functions
 - **Utils (`lib/src/utils/`)**: Frequently used helper functions, extensions and component-specific helpers
 
 ---
