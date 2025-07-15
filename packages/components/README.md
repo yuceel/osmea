@@ -1,7 +1,17 @@
-# 🌟 OSMEA Components
+# �� OSMEA Components
 
-> **A powerful, mobile-first Flutter UI library built for e-commerce.**  
-> Modular. Themed. Ready to scale.
+<div align="center">
+
+[![Flutter](https://img.shields.io/badge/Flutter-3.19.0+-blue?logo=flutter)](https://flutter.dev)
+[![Dart](https://img.shields.io/badge/Dart-2.17.0+-blue?logo=dart)](https://dart.dev)
+[![License](https://img.shields.io/badge/License-GNU%20AGPL%20v3.0-green.svg)](LICENSE)
+
+**A powerful, mobile-first Flutter UI library built for e-commerce.**  
+**Modular. Themed. Ready to scale.**
+
+[🚀 Live Demo](https://osmea-app.web.app) • [📚 Documentation](https://github.com/masterfabric-mobile/osmea/tree/dev/packages/components) • [🐛 Report Issues](https://github.com/masterfabric-mobile/osmea/issues)
+
+</div>
 
 ---
 
@@ -161,12 +171,12 @@ packages/components/
 ### 🔘 Interactive Elements
 | Component      | Description                                               |
 |----------------|-----------------------------------------------------------|
-| `Button`        | Action triggers: primary, secondary, icon-based, etc.   |
-| `Card`          | Content blocks with optional actions and visuals        |
-| `Carousel`      | Swipable image or content sliders                      |
-| `Bottom Sheet`  | Modal slide-up panel for actions or content            |
-| `Popup`         | Modal windows and overlays for dialogs                 |
-| `Toast`         | Temporary alert or success messages                    |
+| `Button`        | Action triggers: primary, secondary, icon-based, etc.    |
+| `Card`          | Content blocks with optional actions and visuals         |
+| `Carousel`      | Swipable image or content sliders                        |
+| `Bottom Sheet`  | Modal slide-up panel for actions or content              |
+| `Popup`         | Modal windows and overlays for dialogs                   |
+| `Toast`         | Temporary alert or success messages                      |
 
 ### 🧭 Navigation
 | Component   | Description                                      |
@@ -174,12 +184,12 @@ packages/components/
 | `AppBar`    | Top bar with title, actions, and navigation      |
 | `Navbar`    | Bottom or top navigation menus                   |
 | `Stepper`   | Visual step-based navigation flow                |
-| `TabBar`    | Tabbed navigation                               |
+| `TabBar`    | Tabbed navigation                                |
 | `Searchbar` | Search input with suggestions and history        |
 
 ### 🎪 Specialized
 | Component       | Description                                          |
-|----------------|------------------------------------------------------|
+|----------------|------------------------------------------------------ |
 | `Login Button`    | Auth-ready button with prebuilt logic              |
 | `Ticket Widget`   | Dynamic ticket creation UI for support flows       |
 
@@ -187,9 +197,9 @@ packages/components/
 
 ### 🟦 Expandable & Collapsible Components
 
-| Component                | Description                                                      |
-|--------------------------|------------------------------------------------------------------|
-| `Expandable List Item`   | Flexible list/menu item acting as expansion panel       |
+| Component                | Description                                                       |
+|--------------------------|------------------------------------------------------------------ |
+| `Expandable List Item`   | Flexible list/menu item acting as expansion panel                 |
 | `Expandable Searchbar`   | Searchbar that expands from an icon/button into a full search UI  |
 
 **Key Features:**
