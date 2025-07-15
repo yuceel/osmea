@@ -342,3 +342,6 @@ export 'handlers/smart_collection_handlers/create_smart_collection_handler.dart'
 export 'handlers/smart_collection_handlers/updates_existing_smart_collection_handler.dart';
 export 'handlers/smart_collection_handlers/updates_ordering_type_of_products_smart_collection_handler.dart';
 export 'handlers/smart_collection_handlers/delete_smart_collection_handler.dart';
+
+// 📦 Coupons Handlers
+export 'handlers/coupons_handlers/coupons_handler.dart';
