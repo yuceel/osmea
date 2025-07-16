@@ -19,7 +19,7 @@ class ProgressBuilder {
       type: type,
       value: value,
       size: size,
-      color: color ?? ProgressUtils.getDefaultColorForType(type),
+      progressColor: color ?? ProgressUtils.getDefaultColorForType(type),
       showPercentage: showPercentage,
       speed: speed,
     );
