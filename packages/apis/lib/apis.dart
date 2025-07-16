@@ -74,8 +74,7 @@ class ApiNetwork {
   static Future<GetIt> initFromConfig(GetIt getIt) async {
     final configHelper = await JsonConfigHelper.load('assets/config.json');
     final storeName = configHelper.get('root.shopify.storeName');
-    final shopifyAccessToken =
-        configHelper.get('root.shopify.shopifyAccessToken');
+    final shopifyAccessToken = configHelper.get('root.shopify.accessToken');
     final apiVersion = configHelper.get('root.shopify.apiVersion');
     if (storeName.isEmpty || shopifyAccessToken.isEmpty || apiVersion.isEmpty) {
       // Geliştiriciye uyarı
@@ -169,20 +168,36 @@ class WooNetwork {
     final username = configHelper.get('root.woocommerce.username');
     final password = configHelper.get('root.woocommerce.password');
     final apiVersion = configHelper.get('root.woocommerce.apiVersion');
+
+    print('[WooNetwork DEBUG] storeUrl: "$storeUrl"');
+    print('[WooNetwork DEBUG] username: "$username"');
+    print(
+        '[WooNetwork DEBUG] password: "${password.isNotEmpty ? "***" : "EMPTY"}"');
+    print('[WooNetwork DEBUG] apiVersion: "$apiVersion"');
+
     if (storeUrl.isEmpty ||
         username.isEmpty ||
         password.isEmpty ||
         apiVersion.isEmpty) {
       // Geliştiriciye uyarı
       print('[WooNetwork] WooCommerce config eksik veya hatalı!');
+      print('[WooNetwork] storeUrl.isEmpty: ${storeUrl.isEmpty}');
+      print('[WooNetwork] username.isEmpty: ${username.isEmpty}');
+      print('[WooNetwork] password.isEmpty: ${password.isEmpty}');
+      print('[WooNetwork] apiVersion.isEmpty: ${apiVersion.isEmpty}');
     }
-    return init(
+
+    final result = init(
       getIt,
       storeUrl: storeUrl,
       username: username,
       password: password,
       apiVersion: apiVersion,
     );
+
+    print(
+        '[WooNetwork] Initialization completed. storeUrl: "${WooNetwork.storeUrl}"');
+    return result;
   }
 
   static String get baseUrl {
@@ -222,8 +237,23 @@ class WooNetwork {
 ///   await initNetworksFromConfig(GetIt.instance);
 Future<void> initNetworksFromConfig(GetIt getIt) async {
   final configHelper = await JsonConfigHelper.load('assets/config.json');
-  final hasShopify = configHelper.get('root.shopify.storeName').isNotEmpty;
-  final hasWoo = configHelper.get('root.woocommerce.storeUrl').isNotEmpty;
+
+  // Debug: Config değerlerini kontrol et
+  final shopifyStoreName = configHelper.get('root.shopify.storeName');
+  final wooStoreUrl = configHelper.get('root.woocommerce.storeUrl');
+  final wooUsername = configHelper.get('root.woocommerce.username');
+  final wooPassword = configHelper.get('root.woocommerce.password');
+
+  print('[DEBUG] Shopify storeName: "$shopifyStoreName"');
+  print('[DEBUG] WooCommerce storeUrl: "$wooStoreUrl"');
+  print('[DEBUG] WooCommerce username: "$wooUsername"');
+  print(
+      '[DEBUG] WooCommerce password: "${wooPassword.isNotEmpty ? "***" : "EMPTY"}"');
+
+  final hasShopify = shopifyStoreName.isNotEmpty;
+  final hasWoo = wooStoreUrl.isNotEmpty;
+
+  print('[DEBUG] hasShopify: $hasShopify, hasWoo: $hasWoo');
 
   if (hasShopify) {
     await ApiNetwork.initFromConfig(getIt);
