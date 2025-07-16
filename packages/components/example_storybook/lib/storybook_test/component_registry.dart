@@ -14,6 +14,7 @@ import 'components/radio_button_test_modular/showcase/unified_radio_button_showc
 import 'components/switch_button_test_modular/showcase/unified_switch_button_showcase.dart';
 import 'components/loading_test_modular/showcase/unified_loading_showcase.dart';
 import 'components/text_test_modular/texts.dart';
+import 'components/progress_test_modular/showcase/unified_progress_showcase.dart';
 
 /// Model for component information displayed on home page and stories
 class ComponentInfo {
@@ -124,6 +125,14 @@ final List<ComponentInfo> allComponents = [
     storyPath: StoryConfig.buildComponentStoryName('Switch Buttons'),
     getStories: getUnifiedSwitchButtonShowcase,
   ),
+  ComponentInfo(
+      name: 'Progress Indicators',
+      description: 'Interactive progress bars and circular indicators',
+      icon: Icons.timeline,
+      color: Colors.lightBlue,
+      storyPath: StoryConfig.buildComponentStoryName('Progress'),
+      getStories: getUnifiedProgressShowcase,
+    ),
   ComponentInfo(
     name: 'Text',
     description: 'Typography, headings, and text styles',
