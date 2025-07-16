@@ -3,7 +3,7 @@ import 'package:apis/apis.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'dart:convert';
-import 'package:apis/network/remote/demo_woo/abstract/coupons_service.dart';
+import 'package:apis/network/remote/woocommerce/coupons/abstract/coupons_service.dart';
 
 // 🔄 Dependency injection
 import 'di/config/config_di.dart';
@@ -167,7 +167,9 @@ class _WooCouponsHomeViewState extends State<WooCouponsHomeView> {
     });
     try {
       final couponsService = GetIt.I.get<CouponsService>();
-      final response = await couponsService.listAllCoupons();
+      final response = await couponsService.listAllCoupons(
+        apiVersion: WooNetwork.apiVersion,
+      );
       _responseJson = const JsonEncoder.withIndent('  ')
           .convert(response.map((e) => e.toJson()).toList());
     } catch (e) {
