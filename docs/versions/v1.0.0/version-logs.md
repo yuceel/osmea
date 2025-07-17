@@ -48,9 +48,6 @@
 
 - **Badge Storybook Module** ([#74](https://github.com/masterfabric-mobile/osmea/pull/74)):  
   Added Badge component examples to Storybook.
-
-- **SearchBar Component** ([#70](https://github.com/masterfabric-mobile/osmea/pull/70)):  
-  Implemented a modern `SearchBar` widget.
   
 - **SearchBar Component** ([#70](https://github.com/masterfabric-mobile/osmea/pull/70)):  
   Added a modern and customizable `SearchBar` widget.
@@ -72,9 +69,6 @@
 
 - **Checklist Component** ([#62](https://github.com/masterfabric-mobile/osmea/pull/62)):  
   Introduced a checklist module for project planning and documentation tracking.
-
-- **Loading Component** ([#55](https://github.com/masterfabric-mobile/osmea/pull/55)):  
-  Added `Loading` indicator for asynchronous processes.  
 
 - **Loading Component** ([#55](https://github.com/masterfabric-mobile/osmea/pull/55)):  
   Added a loading indicator widget for asynchronous operations.
