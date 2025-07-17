@@ -159,7 +159,7 @@ class _WooCouponsHomeViewState extends State<WooCouponsHomeView> {
     );
   }
 
-  /// 🔄 Sends the GET request to list coupons using apis DI/servis mimarisi
+  /// 🔄 Sends the GET request to list coupons using APIs DI/service architecture
   Future<void> _listCoupons() async {
     setState(() {
       _loading = true;
