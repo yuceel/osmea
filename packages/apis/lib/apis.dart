@@ -7,7 +7,7 @@ import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 import 'package:apis/helpers/json_config_helper.dart';
 
-// WooCommerce için Basic Auth ve yapılandırma
+// For WooCommerce: Basic Auth and configuration
 import 'dart:convert';
 
 /// 🛠️ Provides a singleton [Logger] instance for the entire app.
@@ -74,10 +74,11 @@ class ApiNetwork {
   static Future<GetIt> initFromConfig(GetIt getIt) async {
     final configHelper = await JsonConfigHelper.load('assets/config.json');
     final storeName = configHelper.get('root.shopify.storeName');
-    final shopifyAccessToken = configHelper.get('root.shopify.accessToken');
+    final shopifyAccessToken =
+        configHelper.get('root.shopify.shopifyAccessToken');
     final apiVersion = configHelper.get('root.shopify.apiVersion');
     if (storeName.isEmpty || shopifyAccessToken.isEmpty || apiVersion.isEmpty) {
-      // Geliştiriciye uyarı
+      // Developer warning
       print('[ApiNetwork] Shopify config eksik veya hatalı!');
     }
     return init(
@@ -153,15 +154,17 @@ class WooNetwork {
     WooNetwork.username = username;
     WooNetwork.password = password;
     WooNetwork.apiVersion = apiVersion ?? 'v3';
-    // WooCommerce bağımlılıklarını burada kaydedebilirsin
-    // örn: configureWooDependencies();
+
+    // You can register WooCommerce dependencies here
+    // e.g.: configureWooDependencies();
     return getIt;
   }
 
-  /// WooCommerce için config.json'dan başlatma
+  /// WooCommerce from config.json
   ///
   /// Example usage:
   ///   await WooNetwork.initFromConfig(GetIt.instance);
+  /// Initializes WooCommerce from config.json
   static Future<GetIt> initFromConfig(GetIt getIt) async {
     final configHelper = await JsonConfigHelper.load('assets/config.json');
     final storeUrl = configHelper.get('root.woocommerce.storeUrl');
@@ -179,7 +182,7 @@ class WooNetwork {
         username.isEmpty ||
         password.isEmpty ||
         apiVersion.isEmpty) {
-      // Geliştiriciye uyarı
+      // Developer warning
       print('[WooNetwork] WooCommerce config eksik veya hatalı!');
       print('[WooNetwork] storeUrl.isEmpty: ${storeUrl.isEmpty}');
       print('[WooNetwork] username.isEmpty: ${username.isEmpty}');
@@ -223,7 +226,7 @@ class WooNetwork {
     WooNetwork.apiVersion = version;
   }
 
-  /// Basic Auth header'ı üretir
+  /// Generates Basic Auth header
   static String basicAuthHeader() {
     String credentials = '${WooNetwork.username}:${WooNetwork.password}';
     String encoded = base64Encode(utf8.encode(credentials));
@@ -231,14 +234,14 @@ class WooNetwork {
   }
 }
 
-/// Merkezi başlatıcı: config.json'da shopify, woocommerce veya her ikisi varsa ilgili networkleri başlatır.
+/// Central initializer: If config.json contains shopify, woocommerce, or both, initializes the relevant networks.
 ///
 /// Example usage:
 ///   await initNetworksFromConfig(GetIt.instance);
+/// Central initializer: If config.json contains shopify, woocommerce, or both, initializes the relevant networks.
 Future<void> initNetworksFromConfig(GetIt getIt) async {
   final configHelper = await JsonConfigHelper.load('assets/config.json');
-
-  // Debug: Config değerlerini kontrol et
+  // Debug: Check config values
   final shopifyStoreName = configHelper.get('root.shopify.storeName');
   final wooStoreUrl = configHelper.get('root.woocommerce.storeUrl');
   final wooUsername = configHelper.get('root.woocommerce.username');
@@ -265,11 +268,11 @@ Future<void> initNetworksFromConfig(GetIt getIt) async {
   }
   if (!hasShopify && !hasWoo) {
     print(
-        '[initNetworksFromConfig] Uyarı: config.json dosyasında shopify veya woocommerce alanı bulunamadı!');
+        '[initNetworksFromConfig] Warning: shopify or woocommerce field not found in config.json!');
   }
 }
 
-/// Config'e göre hangi platformların aktif olduğunu belirten değişkenler
+/// Variables indicating which platforms are active according to config
 bool isShopifyEnabled = false;
 bool isWooEnabled = false;
 
