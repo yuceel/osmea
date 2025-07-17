@@ -183,7 +183,7 @@ class WooNetwork {
         password.isEmpty ||
         apiVersion.isEmpty) {
       // Developer warning
-      print('[WooNetwork] WooCommerce config eksik veya hatalı!');
+      print('[WooNetwork] WooCommerce configuration is missing or invalid!');
       print('[WooNetwork] storeUrl.isEmpty: ${storeUrl.isEmpty}');
       print('[WooNetwork] username.isEmpty: ${username.isEmpty}');
       print('[WooNetwork] password.isEmpty: ${password.isEmpty}');
