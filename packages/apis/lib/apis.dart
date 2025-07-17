@@ -264,7 +264,7 @@ Future<void> initNetworksFromConfig(GetIt getIt) async {
   }
   if (hasWoo) {
     await WooNetwork.initFromConfig(getIt);
-    print('[initNetworksFromConfig] WooCommerce başlatıldı.');
+    print('[initNetworksFromConfig] WooCommerce initialized successfully.');
   }
   if (!hasShopify && !hasWoo) {
     print(
