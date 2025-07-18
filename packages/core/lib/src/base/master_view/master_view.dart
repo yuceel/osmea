@@ -109,7 +109,6 @@ abstract class MasterView<V extends BaseViewModelBloc<E, S>, E, S>
         body: Stack(
           fit: StackFit.expand,
           children: [
-            if (showDevGrid) const DevGridOverlay(margin: 0, columnWidth: 16),
             SafeArea(
               child: BaseView<V, E, S>(
                 onViewModelReady: initialContent,
