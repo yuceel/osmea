@@ -20,7 +20,7 @@ class DividerExampleWidget extends StatelessWidget {
   final bool showIcon;
 
   const DividerExampleWidget({
-    Key? key,
+    super.key,
     required this.variant,
     required this.size,
     required this.direction,
@@ -30,12 +30,12 @@ class DividerExampleWidget extends StatelessWidget {
     this.icon,
     this.showLabel = true,
     this.showIcon = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     final thickness = _getThickness(size);
-    final verticalPadding = max(20.0, thickness * 2.5); // mobile-first: bol padding
+    final verticalPadding = max(20.0, thickness * 2.5); 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -52,7 +52,7 @@ class DividerExampleWidget extends StatelessWidget {
         ],
         Container(
           width: direction == Axis.horizontal ? double.infinity : 400,
-          // height: kaldırıldı, responsive olacak
+      
           decoration: BoxDecoration(
             color: Colors.grey.shade50,
             borderRadius: BorderRadius.circular(8),
@@ -99,7 +99,7 @@ class DividerExampleWidget extends StatelessWidget {
       thickness: _getThickness(size),
       color: color ?? Colors.grey.shade400,
       direction: direction,
-      text: (variant == DividerVariant.label && label != null) ? label : null, // Label variant için showLabel kontrolü kaldırıldı
+      text: (variant == DividerVariant.label && label != null) ? label : null, 
       icon: (variant == DividerVariant.icon && showIcon && icon != null) ? Icon(icon) : null,
       height: direction == Axis.vertical ? _getDividerHeight() : null,
     );
@@ -124,19 +124,19 @@ class DividerExampleWidget extends StatelessWidget {
 
   double _getDividerWidth() {
     if (variant == DividerVariant.double) {
-      return 120.0; // Double variant için sabit genişlik
+      return 120.0; 
     }
     if (variant == DividerVariant.icon) {
-      return 80.0; // Icon variant için yeterli genişlik (icon + divider lines)
+      return 80.0; 
     }
     return _getThickness(size);
   }
 
   double _getDividerHeight() {
     if (variant == DividerVariant.icon && direction == Axis.vertical) {
-      return 100.0; // Vertical icon için yeterli yükseklik
+      return 100.0; 
     }
-    return 50.0; // Varsayılan yükseklik
+    return 50.0; 
   }
 
   String _getVariantLabel(DividerVariant variant) {
@@ -182,13 +182,13 @@ class DividerGridExampleWidget extends StatelessWidget {
   final double spacing;
 
   const DividerGridExampleWidget({
-    Key? key,
+    super.key,
     required this.variants,
     required this.size,
     required this.direction,
     this.color,
     this.spacing = 16.0,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -234,12 +234,12 @@ class SizeComparisonExampleWidget extends StatelessWidget {
   final double spacing;
 
   const SizeComparisonExampleWidget({
-    Key? key,
+    super.key,
     required this.variant,
     required this.direction,
     this.color,
     this.spacing = 16.0,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -269,9 +269,9 @@ class SizeComparisonExampleWidget extends StatelessWidget {
                   direction: direction,
                   color: color,
                   showLabel: false,
-                  showIcon: variant == DividerVariant.icon, // Icon variant için icon göster
-                  label: variant == DividerVariant.label ? 'LABEL' : null, // Label variant için text
-                  icon: variant == DividerVariant.icon ? Icons.star : null, // Icon variant için default icon
+                  showIcon: variant == DividerVariant.icon, 
+                  label: variant == DividerVariant.label ? 'LABEL' : null, 
+                  icon: variant == DividerVariant.icon ? Icons.star : null, 
                 ),
               ),
             ],
