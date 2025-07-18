@@ -12,10 +12,10 @@ class SizeInfoSection extends StatelessWidget {
   final bool isDark;
 
   const SizeInfoSection({
-    Key? key,
+    super.key,
     required this.size,
     this.isDark = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
