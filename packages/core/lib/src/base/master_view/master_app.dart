@@ -10,6 +10,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
+import 'package:core/src/base/master_view/dev_grid_overlay.dart';
+
+// Global variable for dev mode spacer control
+bool globalDevModeSpacer = true;
 
 /// 🚀 MasterApp: The main entry point for the application
 /// This class initializes Firebase, sets up local storage, and manages app settings.
@@ -197,10 +201,10 @@ class MasterApp extends StatelessWidget {
     this.textDirection = TextDirection.ltr, // Text direction for localization
     this.fontScale = 1.0, // Scale factor for text size
     this.themeMode = ThemeMode.light, // Default to light theme
-  })  : assert(router != null,
-            'Router cannot be null! 🚫'), // Ensure router is provided
-        assert(fontScale > 0,
-            'Font scale must be greater than 0! 🔍'); // Ensure font scale is positive
+    this.devModeGrid = true,
+    this.devModeSpacer = true,
+  })  : assert(router != null, 'Router cannot be null! 🚫'),
+        assert(fontScale > 0, 'Font scale must be greater than 0! 🔍');
 
   final GoRouter router; // Router for navigation
   final bool shouldSetOrientation; // Flag to manage orientation
@@ -210,6 +214,8 @@ class MasterApp extends StatelessWidget {
   final TextDirection textDirection; // Text direction for the app
   final double fontScale; // Font scaling factor
   final ThemeMode themeMode; // Theme mode for the app
+  final bool devModeGrid;
+  final bool devModeSpacer;
 
   @override
   Widget build(BuildContext context) {
@@ -252,14 +258,34 @@ class MasterApp extends StatelessWidget {
             textScaler:
                 TextScaler.linear(fontScale), // Apply linear text scaling
           );
-          return MediaQuery(
+          Widget appContent = MediaQuery(
             data: mediaQueryData, // Provide the modified MediaQuery data
             child: Directionality(
               textDirection: textDirection, // Set the text direction
-              // Only wrap the app content (child) in SafeArea, not the whole tree
-              child: SafeArea(child: child!, bottom: true, top: false),
+              child: child!, // Remove SafeArea from here
             ),
           );
+
+          // Set global dev mode spacer
+          globalDevModeSpacer = devModeSpacer;
+
+          // Create overlays - grid should be on top of everything
+          final overlays = <Widget>[];
+
+          // First add the app content with SafeArea
+          overlays.add(SafeArea(child: appContent, bottom: true, top: false));
+
+          // Then add grid overlay on top if enabled
+          if (devModeGrid) {
+            overlays.add(const DevGridOverlay(margin: 0, columnWidth: 16));
+          }
+
+          appContent = Stack(
+            fit: StackFit.expand,
+            children: overlays,
+          );
+
+          return appContent;
         },
       ),
     );
