@@ -1,6 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+// Import the global variable from master_app.dart
+import 'base/master_view/master_app.dart' show globalDevModeSpacer;
+
 class CoreSpacers {
   static const double s4 = 4;
   static const double s8 = 8;
@@ -38,7 +41,7 @@ class CoreSpacer extends StatelessWidget {
         ? SizedBox(height: size, key: widgetKey)
         : SizedBox(width: size, key: widgetKey);
 
-    if (!kDebugMode) return spacer;
+    if (!kDebugMode || !globalDevModeSpacer) return spacer;
 
     return direction == Axis.vertical
         ? Container(
@@ -80,21 +83,27 @@ class CoreSpacer extends StatelessWidget {
 
 Widget vSpacer([double size = CoreSpacers.s16]) =>
     CoreSpacer(size: size, direction: Axis.vertical);
-Widget hSpacer([double size = 16]) => Container(
-      width: size,
-      height: 40,
-      color: Colors.blue.withOpacity(0.7),
-      alignment: Alignment.center,
-      child: RotatedBox(
-        quarterTurns: 3,
-        child: Text(
-          '${size.toInt()}',
-          style: TextStyle(
-            fontSize: 14,
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            backgroundColor: Colors.blue,
-          ),
+Widget hSpacer([double size = 16]) {
+  if (!kDebugMode || !globalDevModeSpacer) {
+    return SizedBox(width: size);
+  }
+
+  return Container(
+    width: size,
+    height: 40,
+    color: Colors.blue.withOpacity(0.7),
+    alignment: Alignment.center,
+    child: RotatedBox(
+      quarterTurns: 3,
+      child: Text(
+        '${size.toInt()}',
+        style: TextStyle(
+          fontSize: 14,
+          color: Colors.white,
+          fontWeight: FontWeight.bold,
+          backgroundColor: Colors.blue,
         ),
       ),
-    );
+    ),
+  );
+}
