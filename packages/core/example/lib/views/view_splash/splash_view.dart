@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 class SplashView extends MasterView<SplashViewModel, SplashEvent, SplashState> {
   SplashView(
       {super.key,
-      super.appBar,
       super.arguments,
       super.currentView,
       super.snackBarFunction});
