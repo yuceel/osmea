@@ -10,7 +10,7 @@ class DevGridOverlay extends StatelessWidget {
 
   const DevGridOverlay({
     super.key,
-    this.columns = 5, // 5 grid columns
+    this.columns = 5,
     this.margin = 16,
     this.columnWidth = 16,
     this.columnColor = const Color.fromARGB(100, 255, 0, 0),
