@@ -42,7 +42,7 @@ class HomeView extends MasterView<HomeViewModel, HomeViewEvent, HomeViewState> {
             child: Center(
               child: TextButton.icon(
                 icon: Icon(Icons.delete_sweep, color: Colors.red),
-                label: Text('Tüm Ürünleri Sil',
+                label: Text('Delete All Products',
                     style: TextStyle(color: Colors.red)),
                 onPressed: () => _confirmClearAllStatic(context, viewModel),
               ),
