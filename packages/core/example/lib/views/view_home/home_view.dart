@@ -4,27 +4,107 @@ import 'package:example/views/view_home/models/product_model.dart';
 import 'package:example/views/view_home/module/events.dart';
 import 'package:example/views/view_home/module/states.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class HomeView extends MasterView<HomeViewModel, HomeViewEvent, HomeViewState> {
   HomeView({
     super.key,
-    super.appBar,
     super.arguments,
     super.currentView,
     super.snackBarFunction,
   }) : super(
-          // Provide the footer widget as the bottomNavigationBar
-          bottomNavigationBar: Container(
+          coreAppBar: (context, viewModel) => AppBar(
+            title: Text(arguments["productTitle"]),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.circle),
+                onPressed: () => GoRouter.of(context).go('/'),
+                tooltip: 'Go to Splash Screen',
+              ),
+              IconButton(
+                icon: const Icon(Icons.refresh),
+                onPressed: () => viewModel.loadProducts(),
+                tooltip: 'Refresh Products',
+              ),
+              Builder(
+                builder: (context) => IconButton(
+                  icon: const Icon(Icons.delete_sweep),
+                  onPressed: () => _confirmClearAllStatic(context, viewModel),
+                  tooltip: 'Clear All Products',
+                ),
+              ),
+            ],
+          ),
+          coreBottomBar: (context, viewModel) => Container(
             height: 48,
             width: double.infinity,
-            alignment: Alignment.center,
             color: Colors.grey.shade200,
-            child: const Text('Footer Area'),
+            child: Center(
+              child: TextButton.icon(
+                icon: Icon(Icons.delete_sweep, color: Colors.red),
+                label: Text('Tüm Ürünleri Sil',
+                    style: TextStyle(color: Colors.red)),
+                onPressed: () => _confirmClearAllStatic(context, viewModel),
+              ),
+            ),
           ),
-          hasBottomBar: true,
         );
 
   final LocalStorageHelper _localStorageHelper = LocalStorageHelper();
+
+  static void _navigateToStatic(BuildContext context, String path) {
+    GoRouter.of(context).go(path);
+  }
+
+  static void _confirmClearAllStatic(
+      BuildContext context, HomeViewModel viewModel) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        title: const Text(
+          'Clear All Products',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        content: const Text(
+          'Are you sure you want to delete ALL products? '
+          'This cannot be undone and all product data will be permanently removed.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            style: TextButton.styleFrom(
+              foregroundColor: Colors.grey[700],
+            ),
+            child: Text(resources.cancel),
+          ),
+          TextButton(
+            onPressed: () {
+              viewModel.clearAll();
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('All products cleared'),
+                  duration: Duration(seconds: 2),
+                ),
+              );
+            },
+            style: TextButton.styleFrom(
+              foregroundColor: Colors.red,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+            child: const Text('Clear All'),
+          ),
+        ],
+        actionsPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      ),
+    );
+  }
 
   @override
   void initialContent(HomeViewModel viewModel, BuildContext context) {
@@ -36,26 +116,7 @@ class HomeView extends MasterView<HomeViewModel, HomeViewEvent, HomeViewState> {
       BuildContext context, HomeViewModel viewModel, HomeViewState state) {
     return Column(
       children: [
-        AppBar(
-          title: Text(arguments["productTitle"]),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.circle),
-              onPressed: () => navigateTo(context, '/'),
-              tooltip: 'Go to Splash Screen',
-            ),
-            IconButton(
-              icon: const Icon(Icons.refresh),
-              onPressed: () => viewModel.loadProducts(),
-              tooltip: 'Refresh Products',
-            ),
-            IconButton(
-              icon: const Icon(Icons.delete_sweep),
-              onPressed: () => _confirmClearAll(context, viewModel),
-              tooltip: 'Clear All Products',
-            ),
-          ],
-        ),
+        // AppBar is now handled by buildAppBar, so remove it from here
         Expanded(
           child: Stack(
             children: [
@@ -67,7 +128,8 @@ class HomeView extends MasterView<HomeViewModel, HomeViewEvent, HomeViewState> {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasError) {
-                    return Center(child: Text('Error: ${snapshot.error}'));
+                    return Center(
+                        child: Text('Error:  [36m${snapshot.error} [39m'));
                   } else if (snapshot.hasData) {
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -107,9 +169,9 @@ class HomeView extends MasterView<HomeViewModel, HomeViewEvent, HomeViewState> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Icon(Icons.error_outline, color: Colors.red, size: 48),
-            vSpacer(24),
+            CoreSpacer(CoreSpacerType.content),
             Text(state.message, textAlign: TextAlign.center),
-            vSpacer(24),
+            CoreSpacer(CoreSpacerType.content),
             ElevatedButton(
               onPressed: () => viewModel.loadProducts(),
               child: const Text('Retry'),
@@ -132,12 +194,12 @@ class HomeView extends MasterView<HomeViewModel, HomeViewEvent, HomeViewState> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(Icons.inventory, size: 64, color: Colors.grey),
-            vSpacer(24),
+            CoreSpacer(CoreSpacerType.content),
             Text(
               'No products yet',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            vSpacer(8),
+            CoreSpacer(CoreSpacerType.content),
             Text(
               'Tap + to add a new encrypted product',
               style: TextStyle(color: Colors.grey),
@@ -176,27 +238,27 @@ class HomeView extends MasterView<HomeViewModel, HomeViewEvent, HomeViewState> {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    hSpacer(8),
+                    CoreSpacer(CoreSpacerType.horizontal),
                     IconButton(
-                      icon: const Icon(Icons.delete, color: Colors.red),
+                      icon: Icon(Icons.delete, color: Colors.red),
                       onPressed: () =>
                           _confirmDelete(context, viewModel, product),
                     ),
                   ],
                 ),
-                vSpacer(8),
+                CoreSpacer(CoreSpacerType.content),
                 Text(
                   'Price: \$${product.price.toStringAsFixed(2)}',
-                  style: const TextStyle(fontSize: 16, color: Colors.green),
+                  style: TextStyle(fontSize: 16, color: Colors.green),
                 ),
                 if (product.description.isNotEmpty) ...[
-                  vSpacer(8),
+                  CoreSpacer(CoreSpacerType.content),
                   Text(
                     'Description: ${product.description}',
                     style: const TextStyle(fontSize: 14),
                   ),
                 ],
-                vSpacer(8),
+                CoreSpacer(CoreSpacerType.content),
                 const Text(
                   '🔒 Stored with encryption',
                   style: TextStyle(
@@ -210,7 +272,7 @@ class HomeView extends MasterView<HomeViewModel, HomeViewEvent, HomeViewState> {
           ),
         );
       },
-      separatorBuilder: (context, index) => vSpacer(24),
+      separatorBuilder: (context, index) => CoreSpacer(CoreSpacerType.section),
     );
   }
 
@@ -248,7 +310,7 @@ class HomeView extends MasterView<HomeViewModel, HomeViewEvent, HomeViewState> {
                   ),
                 ),
               ),
-              vSpacer(16),
+              CoreSpacer(CoreSpacerType.content),
               TextField(
                 controller: priceController,
                 decoration: InputDecoration(
@@ -264,7 +326,7 @@ class HomeView extends MasterView<HomeViewModel, HomeViewEvent, HomeViewState> {
                 ),
                 keyboardType: TextInputType.number,
               ),
-              vSpacer(16),
+              CoreSpacer(CoreSpacerType.content),
               TextField(
                 controller: descriptionController,
                 decoration: InputDecoration(
@@ -351,55 +413,6 @@ class HomeView extends MasterView<HomeViewModel, HomeViewEvent, HomeViewState> {
               ),
             ),
             child: const Text('Delete'),
-          ),
-        ],
-        actionsPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      ),
-    );
-  }
-
-  void _confirmClearAll(BuildContext context, HomeViewModel viewModel) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        title: const Text(
-          'Clear All Products',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        content: const Text(
-          'Are you sure you want to delete ALL products? '
-          'This cannot be undone and all product data will be permanently removed.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            style: TextButton.styleFrom(
-              foregroundColor: Colors.grey[700],
-            ),
-            child: Text(resources.cancel),
-          ),
-          TextButton(
-            onPressed: () {
-              viewModel.clearAll();
-              Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('All products cleared'),
-                  duration: Duration(seconds: 2),
-                ),
-              );
-            },
-            style: TextButton.styleFrom(
-              foregroundColor: Colors.red,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-              ),
-            ),
-            child: const Text('Clear All'),
           ),
         ],
         actionsPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
