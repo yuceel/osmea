@@ -3,6 +3,7 @@ library master_view; // Define a library name
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter/foundation.dart';
 
 part 'master_view_enums.dart'; // Include the enums part
 part 'master_view_mixins.dart'; // Include the mixins part
@@ -38,6 +39,12 @@ abstract class MasterView<V extends BaseViewModelBloc<E, S>, E, S>
   final AppBar? appBar; // AppBar for the view
   final bool showDevGrid;
 
+  /// Indicates if there is a bottom bar or footer in the Scaffold. If true, show the 36px dev spacer at the bottom.
+  final bool hasBottomBar;
+
+  /// Optional bottom navigation bar widget for the Scaffold.
+  final Widget? bottomNavigationBar;
+
   MasterView({
     super.key,
     this.arguments = const {}, // Default to an empty map
@@ -45,6 +52,8 @@ abstract class MasterView<V extends BaseViewModelBloc<E, S>, E, S>
     this.snackBarFunction = defaultSnackBarFunction,
     this.appBar, // Default to a predefined function
     this.showDevGrid = true,
+    this.hasBottomBar = false, // Default: no bottom bar/footer
+    this.bottomNavigationBar, // Optional bottom navigation bar
   })  : assert(arguments != null,
             'Arguments must not be null'), // Ensure arguments is not null
         assert(arguments.isNotEmpty,
@@ -106,20 +115,37 @@ abstract class MasterView<V extends BaseViewModelBloc<E, S>, E, S>
         extendBodyBehindAppBar: true,
         key: _scaffoldMessengerKey,
         appBar: appBar, // Set the appBar of the scaffold
-        body: Stack(
-          fit: StackFit.expand,
-          children: [
-            SafeArea(
-              child: BaseView<V, E, S>(
-                onViewModelReady: initialContent,
-                builder: (viewModel, context, state) {
-                  return viewContent(
-                      context, viewModel, state); // Render the view content
-                },
+        body: SafeArea(
+          child: Column(
+            children: [
+              // DEV MODE: 24px blue spacer just below the AppBar (only if AppBar exists)
+              if (globalDevModeSpacer && kDebugMode && appBar != null)
+                const CoreSpacer(
+                  size: 24,
+                  direction: Axis.vertical,
+                  color: Colors.orange,
+                ),
+              // Main content from the view
+              Expanded(
+                child: BaseView<V, E, S>(
+                  onViewModelReady: initialContent,
+                  builder: (viewModel, context, state) {
+                    return viewContent(context, viewModel, state);
+                  },
+                ),
               ),
-            ),
-          ],
+              // DEV MODE: 36px blue spacer at the bottom ONLY if there IS a bottom bar/footer
+              if (globalDevModeSpacer && kDebugMode && hasBottomBar)
+                const CoreSpacer(
+                  size: 36,
+                  direction: Axis.vertical,
+                  color: Colors.blue,
+                ),
+            ],
+          ),
         ),
+        // Pass the bottomNavigationBar to the Scaffold
+        bottomNavigationBar: bottomNavigationBar,
       );
     }, context);
   }
