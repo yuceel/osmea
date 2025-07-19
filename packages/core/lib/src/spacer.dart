@@ -1,8 +1,6 @@
+import 'package:core/core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'helper/spacer_helper.dart';
-// Import the global variable from master_app.dart
-import 'base/master_view/master_app.dart' show globalDevModeSpacer;
 
 class CoreSpacer extends StatelessWidget {
   final CoreSpacerType type;
@@ -13,45 +11,41 @@ class CoreSpacer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final config = SpacerHelper.configOf(type);
-    final Widget spacer = config.direction == Axis.vertical
-        ? SizedBox(height: config.size, key: widgetKey)
-        : SizedBox(width: config.size, key: widgetKey);
+    final Widget spacer = config.direction == vertical
+        ? OsmeaComponents.sizedBox(height: config.size, key: widgetKey)
+        : OsmeaComponents.sizedBox(width: config.size, key: widgetKey);
 
     if (!kDebugMode || !globalDevModeSpacer) return spacer;
 
     // Show colored container in debug/dev mode
-    return config.direction == Axis.vertical
-        ? Container(
+    return config.direction == vertical
+        ? OsmeaComponents.container(
             height: config.size,
             width: double.infinity,
             color: config.color.withAlpha((0.5 * 255).toInt()),
-            alignment: Alignment.center,
-            child: Text(
-              '${config.size.toInt()}',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 10,
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-                backgroundColor: Colors.white.withAlpha((0.9 * 255).toInt()),
-              ),
-            ),
+            alignment: center,
+            child: OsmeaComponents.text('${config.size.toInt()}',
+                textAlign: textCenter,
+                textStyle: OsmeaTextStyle.displaySmall(context).copyWith(
+                  fontSize: 10,
+                  color: OsmeaColors.white,
+                  fontWeight: FontWeight.bold,
+                )),
           )
-        : Container(
+        : OsmeaComponents.container(
             width: config.size,
             height: 40,
             color: config.color.withAlpha((0.7 * 255).toInt()),
-            alignment: Alignment.center,
+            alignment: center,
             child: RotatedBox(
               quarterTurns: 3,
-              child: Text(
+              child: OsmeaComponents.text(
                 '${config.size.toInt()}',
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                textStyle: TextStyle(
                   fontSize: 10,
-                  color: Colors.white,
+                  color: OsmeaColors.white,
                   fontWeight: FontWeight.bold,
-                  backgroundColor: Colors.blue,
                 ),
               ),
             ),
