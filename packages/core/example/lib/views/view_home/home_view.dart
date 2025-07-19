@@ -12,7 +12,17 @@ class HomeView extends MasterView<HomeViewModel, HomeViewEvent, HomeViewState> {
     super.arguments,
     super.currentView,
     super.snackBarFunction,
-  });
+  }) : super(
+          // Provide the footer widget as the bottomNavigationBar
+          bottomNavigationBar: Container(
+            height: 48,
+            width: double.infinity,
+            alignment: Alignment.center,
+            color: Colors.grey.shade200,
+            child: const Text('Footer Area'),
+          ),
+          hasBottomBar: true,
+        );
 
   final LocalStorageHelper _localStorageHelper = LocalStorageHelper();
 
