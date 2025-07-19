@@ -52,10 +52,6 @@ class HomeView extends MasterView<HomeViewModel, HomeViewEvent, HomeViewState> {
 
   final LocalStorageHelper _localStorageHelper = LocalStorageHelper();
 
-  static void _navigateToStatic(BuildContext context, String path) {
-    GoRouter.of(context).go(path);
-  }
-
   static void _confirmClearAllStatic(
       BuildContext context, HomeViewModel viewModel) {
     showDialog(
