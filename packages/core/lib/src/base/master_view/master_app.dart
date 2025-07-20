@@ -10,7 +10,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
-import 'package:core/src/dev_grid_overlay.dart';
+import 'package:core/src/layout/grid.dart';
 
 // Global variable for dev mode spacer control
 bool globalDevModeSpacer = true;

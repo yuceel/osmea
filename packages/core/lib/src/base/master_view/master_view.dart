@@ -122,16 +122,14 @@ abstract class MasterView<V extends BaseViewModelBloc<E, S>, E, S>
             body: SafeArea(
               child: Column(
                 children: [
-                  // DEV MODE: 24px blue spacer just below the AppBar (only if AppBar exists)
-                  if (globalDevModeSpacer && kDebugMode && coreAppBar != null)
-                    const CoreSpacer(CoreSpacerType.navbar),
+                  // Her zaman navbar altı spacer
+                  const CoreSpacer(CoreSpacerType.navbar),
                   // Main content from the view
                   Expanded(
                     child: viewContent(context, viewModel, state),
                   ),
-                  // DEV MODE: 36px blue spacer at the bottom ONLY if there IS a bottom bar/footer
-                  if (globalDevModeSpacer && kDebugMode && hasAnyBottomBar)
-                    const CoreSpacer(CoreSpacerType.footer),
+                  // Her zaman footer üstü spacer
+                  const CoreSpacer(CoreSpacerType.footer),
                 ],
               ),
             ),
@@ -252,5 +250,25 @@ abstract class MasterView<V extends BaseViewModelBloc<E, S>, E, S>
       BuildContext context, String path, Map<String, dynamic> arguments) {
     GoRouter.of(context)
         .go(path, extra: arguments); // Use GoRouter to navigate with arguments
+  }
+}
+
+/// Footer area widget that only allows a CoreSpacer of type footer.
+class FooterArea extends StatelessWidget {
+  const FooterArea({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const CoreSpacer(CoreSpacerType.footer);
+  }
+}
+
+/// Navbar area widget that only allows a CoreSpacer of type navbar.
+class NavbarArea extends StatelessWidget {
+  const NavbarArea({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const CoreSpacer(CoreSpacerType.navbar);
   }
 }
