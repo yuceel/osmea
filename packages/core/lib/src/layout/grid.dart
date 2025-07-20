@@ -2,7 +2,6 @@ import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:core/src/helper/grid_helper.dart';
 
-/// Developer grid overlay. Only visible in kDebugMode.
 class DevGridOverlay extends StatelessWidget {
   final int columns;
   final double margin;
@@ -25,7 +24,7 @@ class DevGridOverlay extends StatelessWidget {
         columnColor ?? GridHelper.defaultColumnColor;
     final Color resolvedMarginColor =
         marginColor ?? GridHelper.defaultMarginColor;
-    // Remove kDebugMode check to make grid always visible when enabled
+
     return MediaQuery.removePadding(
       context: context,
       removeTop: true,
