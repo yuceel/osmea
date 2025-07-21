@@ -22,6 +22,7 @@ class ModernSidebar extends StatefulWidget {
 
 class _ModernSidebarState extends State<ModernSidebar>
     with SingleTickerProviderStateMixin {
+  ApiCategory? _selectedMainCategory;
   ApiCategory? _selectedCategory;
   String? _selectedSubcategory;
   late AnimationController _categoryAnimationController;
@@ -48,6 +49,22 @@ class _ModernSidebarState extends State<ModernSidebar>
     _categoryAnimationController.dispose();
     _scrollController.dispose();
     super.dispose();
+  }
+
+  void _selectMainCategory(ApiCategory mainCategory) {
+    setState(() {
+      if (_selectedMainCategory == mainCategory) {
+        _selectedMainCategory = null;
+        _selectedCategory = null;
+        _selectedSubcategory = null;
+        _categoryAnimationController.reverse();
+      } else {
+        _selectedMainCategory = mainCategory;
+        _selectedCategory = null;
+        _selectedSubcategory = null;
+        _categoryAnimationController.forward();
+      }
+    });
   }
 
   void _selectCategory(ApiCategory category) {
@@ -333,315 +350,383 @@ class _ModernSidebarState extends State<ModernSidebar>
                     controller: _scrollController,
                     padding: EdgeInsets.all(isNarrow ? 6 : 8),
                     itemCount: ApiServiceRegistry.categories.length,
-                    itemBuilder: (context, index) {
-                      final category = ApiServiceRegistry.categories[index];
-                      final isSelected = _selectedCategory == category;
-                      final subcategories =
-                          ApiServiceRegistry.getSubcategoriesByCategory(
-                              category);
+                    itemBuilder: (context, mainIndex) {
+                      final mainCategory =
+                          ApiServiceRegistry.categories[mainIndex];
+                      final isMainSelected =
+                          _selectedMainCategory == mainCategory;
+                      final subCategories = mainCategory == ApiCategory.shopify
+                          ? ApiServiceRegistry.getShopifyCategories()
+                          : ApiServiceRegistry.getWooCommerceCategories();
 
-                      return AnimatedContainer(
-                        duration: const Duration(milliseconds: 200),
-                        margin: EdgeInsets.only(bottom: isNarrow ? 2 : 4),
-                        child: Column(
-                          children: [
-                            // Category Header
-                            AnimatedContainer(
-                              duration: const Duration(milliseconds: 200),
-                              decoration: BoxDecoration(
-                                color: isSelected
-                                    ? Theme.of(context)
-                                        .colorScheme
-                                        .primary
-                                        .withValues(
-                                            alpha:
-                                                0.01) // Use dynamic primary color
-                                    : Colors.transparent,
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: ListTile(
-                                dense: !widget.expanded || isMobile,
-                                contentPadding: EdgeInsets.symmetric(
-                                  horizontal: widget.expanded
-                                      ? (isNarrow ? 12 : 16)
-                                      : 8,
-                                  vertical: isMobile ? 2 : 4,
-                                ),
-                                leading: Icon(
-                                  _getCategoryIcon(category),
-                                  color: isSelected
-                                      ? Theme.of(context)
-                                          .colorScheme
-                                          .primary // Use dynamic primary color
-                                      : Theme.of(context)
-                                          .iconTheme
-                                          .color, // Use dynamic icon color
-                                  size: isNarrow ? 18 : 20,
-                                ),
-                                title: widget.expanded
-                                    ? Text(
-                                        category.displayName,
-                                        style: TextStyle(
-                                          color: isSelected
-                                              ? Theme.of(context)
-                                                  .colorScheme
-                                                  .primary // Use dynamic primary color
-                                              : Theme.of(context)
-                                                  .textTheme
-                                                  .bodyMedium
-                                                  ?.color, // Use dynamic text color
-                                          fontWeight: isSelected
-                                              ? FontWeight.w600
-                                              : FontWeight.w500,
-                                          fontSize: isNarrow ? 12 : 14,
-                                        ),
-                                        overflow: TextOverflow.ellipsis,
-                                      )
-                                    : null,
-                                trailing: widget.expanded &&
-                                        subcategories.isNotEmpty
-                                    ? AnimatedRotation(
-                                        turns: isSelected ? 0.25 : 0,
-                                        duration:
-                                            const Duration(milliseconds: 200),
-                                        child: Icon(
-                                          Icons.chevron_right,
-                                          size: isNarrow ? 16 : 18,
-                                          color: isSelected
-                                              ? Theme.of(context)
-                                                  .colorScheme
-                                                  .primary // Use dynamic primary color
-                                              : Theme.of(context)
-                                                  .iconTheme
-                                                  .color, // Use dynamic icon color
-                                        ),
-                                      )
-                                    : null,
-                                onTap: () => _selectCategory(category),
-                              ),
+                      return Column(
+                        children: [
+                          // Main Category Header
+                          AnimatedContainer(
+                            duration: const Duration(milliseconds: 200),
+                            decoration: BoxDecoration(
+                              color: isMainSelected
+                                  ? Theme.of(context)
+                                      .colorScheme
+                                      .primary
+                                      .withValues(alpha: 0.03)
+                                  : Colors.transparent,
+                              borderRadius: BorderRadius.circular(12),
                             ),
-
-                            // Subcategories with animation
-                            if (isSelected && widget.expanded)
-                              AnimatedBuilder(
-                                animation: _categoryAnimation,
-                                builder: (context, child) {
-                                  return SizeTransition(
-                                    sizeFactor: _categoryAnimation,
-                                    child: Container(
-                                      margin: EdgeInsets.only(
-                                        left: isNarrow ? 16 : 24,
-                                        bottom: isNarrow ? 6 : 8,
+                            child: ListTile(
+                              dense: !widget.expanded || isMobile,
+                              contentPadding: EdgeInsets.symmetric(
+                                horizontal:
+                                    widget.expanded ? (isNarrow ? 12 : 16) : 8,
+                                vertical: isMobile ? 2 : 4,
+                              ),
+                              leading: Icon(
+                                _getCategoryIcon(mainCategory),
+                                color: isMainSelected
+                                    ? Theme.of(context).colorScheme.primary
+                                    : Theme.of(context).iconTheme.color,
+                                size: isNarrow ? 20 : 22,
+                              ),
+                              title: widget.expanded
+                                  ? Text(
+                                      mainCategory.displayName,
+                                      style: TextStyle(
+                                        color: isMainSelected
+                                            ? Theme.of(context)
+                                                .colorScheme
+                                                .primary
+                                            : Theme.of(context)
+                                                .textTheme
+                                                .bodyMedium
+                                                ?.color,
+                                        fontWeight: isMainSelected
+                                            ? FontWeight.w700
+                                            : FontWeight.w600,
+                                        fontSize: isNarrow ? 13 : 15,
                                       ),
-                                      child: Column(
-                                        children:
-                                            subcategories.map((subcategory) {
-                                          final services = ApiServiceRegistry
-                                              .getBySubcategory(
-                                                  category, subcategory);
-                                          final isSubSelected =
-                                              _selectedSubcategory ==
-                                                  subcategory;
+                                      overflow: TextOverflow.ellipsis,
+                                    )
+                                  : null,
+                              trailing: widget.expanded
+                                  ? AnimatedRotation(
+                                      turns: isMainSelected ? 0.25 : 0,
+                                      duration:
+                                          const Duration(milliseconds: 200),
+                                      child: Icon(
+                                        Icons.chevron_right,
+                                        size: isNarrow ? 16 : 18,
+                                        color: isMainSelected
+                                            ? Theme.of(context)
+                                                .colorScheme
+                                                .primary
+                                            : Theme.of(context).iconTheme.color,
+                                      ),
+                                    )
+                                  : null,
+                              onTap: () => _selectMainCategory(mainCategory),
+                            ),
+                          ),
 
-                                          return Column(
-                                            children: [
-                                              // Subcategory Header
-                                              ListTile(
-                                                dense: true,
-                                                contentPadding:
-                                                    EdgeInsets.symmetric(
-                                                  horizontal:
-                                                      isNarrow ? 12 : 16,
-                                                  vertical: isMobile ? 2 : 4,
-                                                ),
-                                                title: Text(
-                                                  subcategory,
-                                                  style: TextStyle(
-                                                    fontSize:
-                                                        isNarrow ? 12 : 14,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: isSubSelected
-                                                        ? Theme.of(context)
-                                                            .colorScheme
-                                                            .primary // Use dynamic primary color
-                                                        : Theme.of(context)
-                                                            .textTheme
-                                                            .bodyMedium
-                                                            ?.color, // Use dynamic text color
-                                                  ),
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
-                                                trailing: Container(
-                                                  padding: EdgeInsets.symmetric(
-                                                    horizontal:
-                                                        isNarrow ? 6 : 8,
-                                                    vertical: 2,
-                                                  ),
-                                                  decoration: BoxDecoration(
-                                                    color: Theme.of(context)
+                          if (isMainSelected && widget.expanded)
+                            AnimatedBuilder(
+                              animation: _categoryAnimation,
+                              builder: (context, child) {
+                                return SizeTransition(
+                                  sizeFactor: _categoryAnimation,
+                                  child: Container(
+                                    margin: EdgeInsets.only(
+                                      left: isNarrow ? 16 : 24,
+                                      bottom: isNarrow ? 6 : 8,
+                                    ),
+                                    child: Column(
+                                      children: subCategories.map((category) {
+                                        final isSelected =
+                                            _selectedCategory == category;
+                                        final subcategories = ApiServiceRegistry
+                                            .getSubcategoriesByCategory(
+                                                category);
+                                        return Column(
+                                          children: [
+                                            // Category Header
+                                            ListTile(
+                                              dense: true,
+                                              contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                horizontal: isNarrow ? 12 : 16,
+                                                vertical: isMobile ? 2 : 4,
+                                              ),
+                                              leading: Icon(
+                                                _getCategoryIcon(category),
+                                                color: isSelected
+                                                    ? Theme.of(context)
                                                         .colorScheme
                                                         .primary
-                                                        .withValues(
-                                                            alpha:
-                                                                0.1), // Use dynamic primary color
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            4),
-                                                  ),
-                                                  child: Text(
-                                                    '${services.length}',
-                                                    style: TextStyle(
-                                                      fontSize:
-                                                          isNarrow ? 10 : 12,
-                                                      color: Theme.of(context)
-                                                          .colorScheme
-                                                          .primary, // Use dynamic primary color
-                                                    ),
-                                                  ),
-                                                ),
-                                                onTap: () => _selectSubcategory(
-                                                    subcategory),
+                                                    : Theme.of(context)
+                                                        .iconTheme
+                                                        .color,
+                                                size: isNarrow ? 18 : 20,
                                               ),
+                                              title: Text(
+                                                category.displayName,
+                                                style: TextStyle(
+                                                  color: isSelected
+                                                      ? Theme.of(context)
+                                                          .colorScheme
+                                                          .primary
+                                                      : Theme.of(context)
+                                                          .textTheme
+                                                          .bodyMedium
+                                                          ?.color,
+                                                  fontWeight: isSelected
+                                                      ? FontWeight.w600
+                                                      : FontWeight.w500,
+                                                  fontSize: isNarrow ? 12 : 14,
+                                                ),
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                              trailing: subcategories.isNotEmpty
+                                                  ? AnimatedRotation(
+                                                      turns:
+                                                          isSelected ? 0.25 : 0,
+                                                      duration: const Duration(
+                                                          milliseconds: 200),
+                                                      child: Icon(
+                                                        Icons.chevron_right,
+                                                        size:
+                                                            isNarrow ? 14 : 16,
+                                                        color: isSelected
+                                                            ? Theme.of(context)
+                                                                .colorScheme
+                                                                .primary
+                                                            : Theme.of(context)
+                                                                .iconTheme
+                                                                .color,
+                                                      ),
+                                                    )
+                                                  : null,
+                                              onTap: () =>
+                                                  _selectCategory(category),
+                                            ),
 
-                                              // Services
-                                              if (isSubSelected)
-                                                ...services
-                                                    .asMap()
-                                                    .entries
-                                                    .map((entry) {
-                                                  final index = entry.key;
-                                                  final service = entry.value;
-                                                  final isServiceSelected =
-                                                      widget.selectedService ==
-                                                          service;
-
-                                                  return AnimatedContainer(
-                                                    duration: Duration(
-                                                        milliseconds:
-                                                            200 + (index * 50)),
-                                                    margin: EdgeInsets.only(
-                                                      left: isNarrow ? 12 : 16,
-                                                      bottom: isNarrow ? 2 : 4,
-                                                    ),
-                                                    child: Material(
-                                                      color: Colors.transparent,
-                                                      child: InkWell(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8),
-                                                        onTap: () => widget
-                                                            .onServiceSelected(
-                                                                service),
-                                                        child: Container(
-                                                          padding:
-                                                              EdgeInsets.all(
-                                                                  isNarrow
-                                                                      ? 6
-                                                                      : 8),
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color:
-                                                                isServiceSelected
-                                                                    ? Theme.of(
+                                            // Subcategories with animation
+                                            if (isSelected && widget.expanded)
+                                              AnimatedBuilder(
+                                                animation: _categoryAnimation,
+                                                builder: (context, child) {
+                                                  return SizeTransition(
+                                                    sizeFactor:
+                                                        _categoryAnimation,
+                                                    child: Container(
+                                                      margin: EdgeInsets.only(
+                                                        left:
+                                                            isNarrow ? 16 : 24,
+                                                        bottom:
+                                                            isNarrow ? 6 : 8,
+                                                      ),
+                                                      child: Column(
+                                                        children: subcategories
+                                                            .map((subcategory) {
+                                                          final services =
+                                                              ApiServiceRegistry
+                                                                  .getBySubcategory(
+                                                                      category,
+                                                                      subcategory);
+                                                          final isSubSelected =
+                                                              _selectedSubcategory ==
+                                                                  subcategory;
+                                                          return Column(
+                                                            children: [
+                                                              // Subcategory Header
+                                                              ListTile(
+                                                                dense: true,
+                                                                contentPadding:
+                                                                    EdgeInsets
+                                                                        .symmetric(
+                                                                  horizontal:
+                                                                      isNarrow
+                                                                          ? 12
+                                                                          : 16,
+                                                                  vertical:
+                                                                      isMobile
+                                                                          ? 2
+                                                                          : 4,
+                                                                ),
+                                                                title: Text(
+                                                                  subcategory,
+                                                                  style:
+                                                                      TextStyle(
+                                                                    fontSize:
+                                                                        isNarrow
+                                                                            ? 12
+                                                                            : 14,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    color: isSubSelected
+                                                                        ? Theme.of(context)
+                                                                            .colorScheme
+                                                                            .primary
+                                                                        : Theme.of(context)
+                                                                            .textTheme
+                                                                            .bodyMedium
+                                                                            ?.color,
+                                                                  ),
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                ),
+                                                                trailing:
+                                                                    Container(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .symmetric(
+                                                                    horizontal:
+                                                                        isNarrow
+                                                                            ? 6
+                                                                            : 8,
+                                                                    vertical: 2,
+                                                                  ),
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    color: Theme.of(
                                                                             context)
                                                                         .colorScheme
                                                                         .primary
                                                                         .withValues(
                                                                             alpha:
-                                                                                0.1) // Use dynamic primary color
-                                                                    : Colors
-                                                                        .transparent,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        8),
-                                                            border:
-                                                                isServiceSelected
-                                                                    ? Border
-                                                                        .all(
-                                                                        color: Theme.of(context)
-                                                                            .colorScheme
-                                                                            .primary
-                                                                            .withValues(alpha: 0.3), // Use dynamic primary color
-                                                                        width:
-                                                                            1,
-                                                                      )
-                                                                    : null,
-                                                          ),
-                                                          child: Row(
-                                                            children: [
-                                                              Container(
-                                                                width: isNarrow
-                                                                    ? 3
-                                                                    : 4,
-                                                                height: isNarrow
-                                                                    ? 12
-                                                                    : 16,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  color:
-                                                                      isServiceSelected
-                                                                          ? Theme.of(context)
-                                                                              .colorScheme
-                                                                              .primary // Use dynamic primary color
-                                                                          : Colors
-                                                                              .transparent,
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              2),
-                                                                ),
-                                                              ),
-                                                              SizedBox(
-                                                                  width:
-                                                                      isNarrow
-                                                                          ? 6
-                                                                          : 8),
-                                                              Expanded(
-                                                                child: Text(
-                                                                  service.name,
-                                                                  style:
-                                                                      TextStyle(
-                                                                    fontSize:
-                                                                        isNarrow
-                                                                            ? 11
-                                                                            : 13,
-                                                                    color: isServiceSelected
-                                                                        ? Theme.of(context).colorScheme.primary // Use dynamic primary color
-                                                                        : Theme.of(context).textTheme.bodyMedium?.color, // Use dynamic text color
-                                                                    fontWeight: isServiceSelected
-                                                                        ? FontWeight
-                                                                            .w500
-                                                                        : FontWeight
-                                                                            .w400,
+                                                                                0.1),
+                                                                    borderRadius:
+                                                                        BorderRadius
+                                                                            .circular(4),
                                                                   ),
-                                                                  overflow:
-                                                                      TextOverflow
-                                                                          .ellipsis,
-                                                                  maxLines:
-                                                                      isNarrow
-                                                                          ? 2
-                                                                          : 1,
+                                                                  child: Text(
+                                                                    '${services.length}',
+                                                                    style:
+                                                                        TextStyle(
+                                                                      fontSize:
+                                                                          isNarrow
+                                                                              ? 10
+                                                                              : 12,
+                                                                      color: Theme.of(
+                                                                              context)
+                                                                          .colorScheme
+                                                                          .primary,
+                                                                    ),
+                                                                  ),
                                                                 ),
+                                                                onTap: () =>
+                                                                    _selectSubcategory(
+                                                                        subcategory),
                                                               ),
+
+                                                              // Services
+                                                              if (isSubSelected)
+                                                                ...services
+                                                                    .asMap()
+                                                                    .entries
+                                                                    .map(
+                                                                        (entry) {
+                                                                  final index =
+                                                                      entry.key;
+                                                                  final service =
+                                                                      entry
+                                                                          .value;
+                                                                  final isServiceSelected =
+                                                                      widget.selectedService ==
+                                                                          service;
+                                                                  return AnimatedContainer(
+                                                                    duration: Duration(
+                                                                        milliseconds:
+                                                                            200 +
+                                                                                (index * 50)),
+                                                                    margin:
+                                                                        EdgeInsets
+                                                                            .only(
+                                                                      left: isNarrow
+                                                                          ? 12
+                                                                          : 16,
+                                                                      bottom:
+                                                                          isNarrow
+                                                                              ? 2
+                                                                              : 4,
+                                                                    ),
+                                                                    child:
+                                                                        Material(
+                                                                      color: Colors
+                                                                          .transparent,
+                                                                      child:
+                                                                          InkWell(
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(8),
+                                                                        onTap: () =>
+                                                                            widget.onServiceSelected(service),
+                                                                        child:
+                                                                            Container(
+                                                                          padding: EdgeInsets.all(isNarrow
+                                                                              ? 6
+                                                                              : 8),
+                                                                          decoration:
+                                                                              BoxDecoration(
+                                                                            color: isServiceSelected
+                                                                                ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.1)
+                                                                                : Colors.transparent,
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(8),
+                                                                            border: isServiceSelected
+                                                                                ? Border.all(
+                                                                                    color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.3),
+                                                                                    width: 1,
+                                                                                  )
+                                                                                : null,
+                                                                          ),
+                                                                          child:
+                                                                              Row(
+                                                                            children: [
+                                                                              Container(
+                                                                                width: isNarrow ? 3 : 4,
+                                                                                height: isNarrow ? 12 : 16,
+                                                                                decoration: BoxDecoration(
+                                                                                  color: isServiceSelected ? Theme.of(context).colorScheme.primary : Colors.transparent,
+                                                                                  borderRadius: BorderRadius.circular(2),
+                                                                                ),
+                                                                              ),
+                                                                              SizedBox(width: isNarrow ? 6 : 8),
+                                                                              Expanded(
+                                                                                child: Text(
+                                                                                  service.name,
+                                                                                  style: TextStyle(
+                                                                                    fontSize: isNarrow ? 11 : 13,
+                                                                                    color: isServiceSelected ? Theme.of(context).colorScheme.primary : Theme.of(context).textTheme.bodyMedium?.color,
+                                                                                    fontWeight: isServiceSelected ? FontWeight.w500 : FontWeight.w400,
+                                                                                  ),
+                                                                                  overflow: TextOverflow.ellipsis,
+                                                                                  maxLines: isNarrow ? 2 : 1,
+                                                                                ),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  );
+                                                                }),
                                                             ],
-                                                          ),
-                                                        ),
+                                                          );
+                                                        }).toList(),
                                                       ),
                                                     ),
                                                   );
-                                                }),
-                                            ],
-                                          );
-                                        }).toList(),
-                                      ),
+                                                },
+                                              ),
+                                          ],
+                                        );
+                                      }).toList(),
                                     ),
-                                  );
-                                },
-                              ),
-                          ],
-                        ),
+                                  ),
+                                );
+                              },
+                            ),
+                        ],
                       );
                     },
                   ),
@@ -656,6 +741,10 @@ class _ModernSidebarState extends State<ModernSidebar>
 
   IconData _getCategoryIcon(ApiCategory category) {
     switch (category) {
+      case ApiCategory.shopify:
+        return Icons.shopping_bag_rounded;
+      case ApiCategory.woocommerce:
+        return Icons.shopping_cart_checkout_rounded;
       case ApiCategory.access:
         return Icons.security_rounded;
       case ApiCategory.storefront:
@@ -692,9 +781,6 @@ class _ModernSidebarState extends State<ModernSidebar>
         return Icons.account_balance_wallet_rounded;
       case ApiCategory.webhooks:
         return Icons.webhook_rounded;
-      // WooCommerce categories
-      case ApiCategory.woocommerce:
-        return Icons.shopping_bag_rounded;
       case ApiCategory.woocommerceCoupons:
         return Icons.local_offer_rounded;
       case ApiCategory.woocommerceProducts:
