@@ -12,9 +12,6 @@ final GoRouter appRouter = GoRouter(
       path: '/home',
       builder: (BuildContext context, GoRouterState state) {
         return HomeView(
-          appBar: AppBar(
-            title: Text("Home View"),
-          ),
           arguments: {
             "productTitle": "Products (Encrypted Storage)",
             "cardType": "Content Card",
@@ -30,7 +27,6 @@ final GoRouter appRouter = GoRouter(
         return SplashView(
           arguments: {"title": "Splash View"},
           currentView: MasterViewTypes.content,
-         
         );
       },
     ),

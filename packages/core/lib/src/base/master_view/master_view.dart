@@ -35,14 +35,22 @@ abstract class MasterView<V extends BaseViewModelBloc<E, S>, E, S>
   final Map<String, dynamic> arguments; // Arguments passed to the view
   final MasterViewTypes currentView; // Current view type for the master view
   final Function snackBarFunction; // Function to handle Snackbar actions
-  final AppBar? appBar; // AppBar for the view
+  final PreferredSizeWidget Function(BuildContext, V)? coreAppBar;
+  final Widget? Function(BuildContext, V)? coreBottomBar;
+  final bool showDevGrid;
+
+  /// Optional bottom navigation bar widget for the Scaffold.
+  final Widget? bottomNavigationBar;
 
   MasterView({
     super.key,
     this.arguments = const {}, // Default to an empty map
     this.currentView = MasterViewTypes.content, // Default to content state
     this.snackBarFunction = defaultSnackBarFunction,
-    this.appBar, // Default to a predefined function
+    this.coreAppBar, // Default to a predefined function
+    this.coreBottomBar, // New: function to build bottom bar
+    this.showDevGrid = true,
+    this.bottomNavigationBar, // Optional bottom navigation bar
   })  : assert(arguments != null,
             'Arguments must not be null'), // Ensure arguments is not null
         assert(arguments.isNotEmpty,
@@ -52,7 +60,8 @@ abstract class MasterView<V extends BaseViewModelBloc<E, S>, E, S>
         assert(snackBarFunction != null, 'SnackBar function must not be null') {
     // Global Flutter error handler
     FlutterError.onError = (FlutterErrorDetails details) {
-      debugPrint('FlutterError: ${details.exception}');
+      debugPrint(
+          'FlutterError: \u001b[36m[36m${details.exception}\u001b[39m\u001b[39m');
       debugPrintStack(stackTrace: details.stack);
     };
   }
@@ -99,22 +108,36 @@ abstract class MasterView<V extends BaseViewModelBloc<E, S>, E, S>
   /// Builds the main scaffold for the view, including the body content.
   Widget _scaffold(BuildContext context) {
     return _handleScaffoldErrors(() {
-      return Scaffold(
-        extendBody: true,
-        extendBodyBehindAppBar: true,
-        key: _scaffoldMessengerKey,
-        appBar: appBar, // Set the appBar of the scaffold 
-        body: BaseView<V, E, S>(
-          onViewModelReady: initialContent,
-          builder: (viewModel, context, state) {
-            return viewContent(
-                context, viewModel, state); // Render the view content
-          },
-        ),
+      return BaseView<V, E, S>(
+        onViewModelReady: initialContent,
+        builder: (viewModel, context, state) {
+          return Scaffold(
+            extendBody: true,
+            extendBodyBehindAppBar: true,
+            key: _scaffoldMessengerKey,
+            appBar: coreAppBar?.call(context, viewModel),
+            body: SafeArea(
+              child: Column(
+                children: [
+                  // Always a spacer below the navbar
+                  const CoreSpacer(CoreSpacerType.navbar),
+                  // Main content from the view
+                  Expanded(
+                    child: viewContent(context, viewModel, state),
+                  ),
+                  // Always footer top spacer
+                  const CoreSpacer(CoreSpacerType.footer),
+                ],
+              ),
+            ),
+            bottomNavigationBar: coreBottomBar != null
+                ? coreBottomBar!.call(context, viewModel)
+                : bottomNavigationBar,
+          );
+        },
       );
     }, context);
   }
-
 
   /// Handles errors that may occur during scaffold building.
   Widget _handleScaffoldErrors(
@@ -139,7 +162,6 @@ abstract class MasterView<V extends BaseViewModelBloc<E, S>, E, S>
   /// Creates a scaffold with the specified body content.
   Widget _createScaffold({required Widget body}) {
     return Scaffold(
-      appBar: appBar, // Set the appBar of the scaffold
       key: _scaffoldMessengerKey,
       body: body, // Set the body of the scaffold
     );
@@ -205,7 +227,7 @@ abstract class MasterView<V extends BaseViewModelBloc<E, S>, E, S>
       debugPrint('Error showing snackbar: $e');
       debugPrintStack(
           stackTrace:
-              s); // Log any errors that occur while showing the Snackbar
+              s); // Log any errors that occur while showing the SnackBar
     }
   }
 
@@ -225,5 +247,25 @@ abstract class MasterView<V extends BaseViewModelBloc<E, S>, E, S>
       BuildContext context, String path, Map<String, dynamic> arguments) {
     GoRouter.of(context)
         .go(path, extra: arguments); // Use GoRouter to navigate with arguments
+  }
+}
+
+/// Footer area widget that only allows a CoreSpacer of type footer.
+class FooterArea extends StatelessWidget {
+  const FooterArea({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const CoreSpacer(CoreSpacerType.footer);
+  }
+}
+
+/// Navbar area widget that only allows a CoreSpacer of type navbar.
+class NavbarArea extends StatelessWidget {
+  const NavbarArea({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const CoreSpacer(CoreSpacerType.navbar);
   }
 }

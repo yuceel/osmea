@@ -18,3 +18,15 @@ export 'package:core/src/resources/resources.g.dart';
 
 // 🧩 Exports the helper for local storage
 export 'package:core/src/helper/local_storage/local_storage_helper.dart';
+
+// 🧩 Exports the spacer helper for CoreSpacerType
+export 'package:core/src/helper/spacer_helper.dart';
+
+// 🧩 Exports the grid class for Master View
+export 'package:core/src/layout/grid.dart';
+
+// 🧩 Exports the spacer class for Master View
+export 'package:core/src/layout/spacer.dart';
+
+// 🧩 Exports the Osmea Component UI Kit for Master View
+export 'package:osmea_components/osmea_components.dart';

@@ -3,14 +3,13 @@ import 'package:example/config/config_di.dart';
 import 'package:example/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 
-void main() async {
-  
+launchApp() async {
   /// Initializes necessary components before the app starts.
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Perform any necessary setup before the app starts
   await MasterApp.runBefore(
-    allowCollectDataTelemetry: true
+    allowCollectDataTelemetry: true,
   );
   // Configure dependency injection for the application
   configureDependencies();
