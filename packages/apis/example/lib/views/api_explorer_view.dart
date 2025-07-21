@@ -194,22 +194,31 @@ class _ApiExplorerViewState extends State<ApiExplorerView>
       _loading = true;
     });
 
-    // Simulate API request
-    await Future.delayed(const Duration(seconds: 2));
+    try {
+      // Call the actual handler
+      final response = await _selectedService!.handler.handleRequest(
+        _selectedMethod,
+        _parameters,
+      );
 
-    if (!mounted) return;
-    setState(() {
-      _loading = false;
-      _responseData = {
-        'status': 'success',
-        'data': {
-          'message': 'API request completed successfully',
+      if (!mounted) return;
+      setState(() {
+        _loading = false;
+        _responseData = response;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _loading = false;
+        _responseData = {
+          'status': 'error',
+          'error': e.toString(),
           'timestamp': DateTime.now().toIso8601String(),
           'service': _selectedService!.name,
           'method': _selectedMethod,
           'parameters': _parameters,
-        }
-      };
-    });
+        };
+      });
+    }
   }
 }
