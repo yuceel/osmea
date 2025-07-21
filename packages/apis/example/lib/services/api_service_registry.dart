@@ -1,6 +1,8 @@
 import 'package:example/services/index.dart';
 
 enum ApiCategory {
+  shopify,
+  woocommerce,
   access,
   storefront,
   admin,
@@ -19,8 +21,6 @@ enum ApiCategory {
   storeProperties,
   tendertransaction,
   webhooks,
-  // WooCommerce categories
-  woocommerce,
   woocommerceCoupons,
   woocommerceProducts,
   woocommerceOrders,
@@ -30,6 +30,10 @@ enum ApiCategory {
 extension ApiCategoryExtension on ApiCategory {
   String get displayName {
     switch (this) {
+      case ApiCategory.shopify:
+        return 'Shopify';
+      case ApiCategory.woocommerce:
+        return 'WooCommerce';
       case ApiCategory.access:
         return 'Access APIs';
       case ApiCategory.storefront:
@@ -66,9 +70,6 @@ extension ApiCategoryExtension on ApiCategory {
         return 'Tender Transaction APIs';
       case ApiCategory.webhooks:
         return 'Webhooks APIs';
-      // WooCommerce categories
-      case ApiCategory.woocommerce:
-        return 'WooCommerce APIs';
       case ApiCategory.woocommerceCoupons:
         return 'WooCommerce Coupons APIs';
       case ApiCategory.woocommerceProducts:
@@ -2707,8 +2708,42 @@ class ApiServiceRegistry {
 
   static List<ApiService> get all => _services;
 
-  static List<ApiCategory> get categories =>
-      _services.map((s) => s.category).toSet().toList();
+  static List<ApiCategory> get categories {
+    // Ana kategoriler
+    return [ApiCategory.shopify, ApiCategory.woocommerce];
+  }
+
+  static List<ApiCategory> getShopifyCategories() {
+    return [
+      ApiCategory.access,
+      ApiCategory.storefront,
+      ApiCategory.admin,
+      ApiCategory.catalog,
+      ApiCategory.billing,
+      ApiCategory.customer,
+      ApiCategory.discounts,
+      ApiCategory.events,
+      ApiCategory.inventory,
+      ApiCategory.orders,
+      ApiCategory.marketingEvent,
+      ApiCategory.giftCard,
+      ApiCategory.metafield,
+      ApiCategory.onlineStore,
+      ApiCategory.products,
+      ApiCategory.storeProperties,
+      ApiCategory.tendertransaction,
+      ApiCategory.webhooks,
+    ];
+  }
+
+  static List<ApiCategory> getWooCommerceCategories() {
+    return [
+      ApiCategory.woocommerceCoupons,
+      ApiCategory.woocommerceProducts,
+      ApiCategory.woocommerceOrders,
+      ApiCategory.woocommerceCustomers,
+    ];
+  }
 
   static List<ApiService> getByCategory(ApiCategory category) =>
       _services.where((s) => s.category == category).toList();
@@ -2729,6 +2764,10 @@ class ApiServiceRegistry {
 
   static String getCategoryName(ApiCategory category) {
     switch (category) {
+      case ApiCategory.shopify:
+        return 'Shopify';
+      case ApiCategory.woocommerce:
+        return 'WooCommerce';
       case ApiCategory.access:
         return 'Access';
       case ApiCategory.storefront:
@@ -2766,8 +2805,6 @@ class ApiServiceRegistry {
       case ApiCategory.webhooks:
         return 'Webhooks';
       // WooCommerce categories
-      case ApiCategory.woocommerce:
-        return 'WooCommerce';
       case ApiCategory.woocommerceCoupons:
         return 'WooCommerce Coupons';
       case ApiCategory.woocommerceProducts:
