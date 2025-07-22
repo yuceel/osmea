@@ -5,7 +5,43 @@ import 'package:osmea_components/osmea_components.dart';
 /// 
 /// Helper utilities for list item construction and configuration
 
+/// File type data holder
+class _FileTypeData {
+  const _FileTypeData(this.icon, this.color);
+  final IconData icon;
+  final Color color;
+}
+
 class ListItemBuilder {
+  /// Static map for file extension to icon data mapping for better performance
+  static const Map<String, _FileTypeData> _fileTypeMap = {
+    'pdf': _FileTypeData(Icons.picture_as_pdf, Color(0xFFD32F2F)),
+    'doc': _FileTypeData(Icons.description, Color(0xFF1976D2)),
+    'docx': _FileTypeData(Icons.description, Color(0xFF1976D2)),
+    'xls': _FileTypeData(Icons.table_chart, Color(0xFF388E3C)),
+    'xlsx': _FileTypeData(Icons.table_chart, Color(0xFF388E3C)),
+    'ppt': _FileTypeData(Icons.slideshow, Color(0xFFF57C00)),
+    'pptx': _FileTypeData(Icons.slideshow, Color(0xFFF57C00)),
+    'jpg': _FileTypeData(Icons.image, Color(0xFF7B1FA2)),
+    'jpeg': _FileTypeData(Icons.image, Color(0xFF7B1FA2)),
+    'png': _FileTypeData(Icons.image, Color(0xFF7B1FA2)),
+    'gif': _FileTypeData(Icons.image, Color(0xFF7B1FA2)),
+    'mp4': _FileTypeData(Icons.video_file, Color(0xFF303F9F)),
+    'avi': _FileTypeData(Icons.video_file, Color(0xFF303F9F)),
+    'mov': _FileTypeData(Icons.video_file, Color(0xFF303F9F)),
+    'mp3': _FileTypeData(Icons.audio_file, Color(0xFF00796B)),
+    'wav': _FileTypeData(Icons.audio_file, Color(0xFF00796B)),
+    'flac': _FileTypeData(Icons.audio_file, Color(0xFF00796B)),
+    'zip': _FileTypeData(Icons.folder_zip, Color(0xFF5D4037)),
+    'rar': _FileTypeData(Icons.folder_zip, Color(0xFF5D4037)),
+    '7z': _FileTypeData(Icons.folder_zip, Color(0xFF5D4037)),
+  };
+
+  /// Default file icon and color for unknown extensions
+  static const _FileTypeData _defaultFileType = _FileTypeData(
+    Icons.insert_drive_file,
+    Color(0xFF757575),
+  );
   /// Convert enum to string representation
   static String enumToString(dynamic enumValue) {
     return enumValue.toString().split('.').last;
@@ -167,63 +203,16 @@ class ListItemBuilder {
     );
   }
 
-  /// Create a file type icon based on extension
+  /// Create a file type icon based on extension (optimized with static map)
   static Widget createFileIcon(String filename) {
     final extension = filename.split('.').last.toLowerCase();
-    IconData iconData;
-    Color iconColor;
+    final fileTypeData = _fileTypeMap[extension] ?? _defaultFileType;
 
-    switch (extension) {
-      case 'pdf':
-        iconData = Icons.picture_as_pdf;
-        iconColor = Colors.red.shade600;
-        break;
-      case 'doc':
-      case 'docx':
-        iconData = Icons.description;
-        iconColor = Colors.blue.shade600;
-        break;
-      case 'xls':
-      case 'xlsx':
-        iconData = Icons.table_chart;
-        iconColor = Colors.green.shade600;
-        break;
-      case 'ppt':
-      case 'pptx':
-        iconData = Icons.slideshow;
-        iconColor = Colors.orange.shade600;
-        break;
-      case 'jpg':
-      case 'jpeg':
-      case 'png':
-      case 'gif':
-        iconData = Icons.image;
-        iconColor = Colors.purple.shade600;
-        break;
-      case 'mp4':
-      case 'avi':
-      case 'mov':
-        iconData = Icons.video_file;
-        iconColor = Colors.indigo.shade600;
-        break;
-      case 'mp3':
-      case 'wav':
-      case 'flac':
-        iconData = Icons.audio_file;
-        iconColor = Colors.teal.shade600;
-        break;
-      case 'zip':
-      case 'rar':
-      case '7z':
-        iconData = Icons.folder_zip;
-        iconColor = Colors.brown.shade600;
-        break;
-      default:
-        iconData = Icons.insert_drive_file;
-        iconColor = Colors.grey.shade600;
-    }
-
-    return Icon(iconData, color: iconColor, size: 24);
+    return Icon(
+      fileTypeData.icon,
+      color: fileTypeData.color,
+      size: 24,
+    );
   }
 
   /// Get sample titles for different contexts
