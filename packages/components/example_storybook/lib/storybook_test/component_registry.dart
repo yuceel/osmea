@@ -17,6 +17,7 @@ import 'components/text_test_modular/texts.dart';
 import 'components/progress_test_modular/showcase/unified_progress_showcase.dart';
 import 'components/divider_test_modular/showcase/unified_divider_showcase.dart';
 import 'components/list_item_test_modular/list_items.dart';
+import 'components/counter_test_modular/showcase/unified_counter_showcase.dart';
 
 /// Model for component information displayed on home page and stories
 class ComponentInfo {
@@ -166,5 +167,13 @@ final List<ComponentInfo> allComponents = [
     color: Colors.pink,
     storyPath: StoryConfig.buildComponentStoryName('List Item'),
     getStories: getAllListItemStories,
+  ),
+  ComponentInfo(
+    name: 'Counters',
+    description: 'Interactive counters with various styles and sizes',
+    icon: Icons.add_shopping_cart,
+    color: Colors.deepOrange,
+    storyPath: StoryConfig.buildComponentStoryName('Counters'),
+    getStories: getUnifiedCounterShowcase,
   ),
 ];
