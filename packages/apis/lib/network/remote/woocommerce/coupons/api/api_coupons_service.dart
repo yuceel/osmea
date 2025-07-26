@@ -70,7 +70,7 @@ abstract class CouponsServiceClient implements CouponsService {
   Future<UpdateCouponResponse> updateCoupon({
     @Path('api_version') required String apiVersion,
     @Path('coupon_id') required int couponId,
-    @Body() required Map<String, dynamic> couponData,
+    @Body() required UpdateCouponRequest couponData,
   });
 
   /// 🗑️ Delete a coupon from WooCommerce API
