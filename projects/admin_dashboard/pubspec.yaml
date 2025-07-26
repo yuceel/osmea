@@ -1,53 +1,116 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+# PROJECT METADATA
+# ═══════════════════════════════════════════════════════════════════════════════
 name: admin_dashboard
-description: "Shopify Admin Dasboard App"
-
-
+description: "Ecommerce Admin Dashboard App - A modern Flutter application for managing products, orders, and analytics with modular architecture."
 publish_to: 'none' 
 version: 1.0.0+1
 
+# ═══════════════════════════════════════════════════════════════════════════════
+# ENVIRONMENT CONSTRAINTS
+# ═══════════════════════════════════════════════════════════════════════════════
 environment:
   sdk: ^3.7.2
 
+# ═══════════════════════════════════════════════════════════════════════════════
+# MAIN DEPENDENCIES
+# ═══════════════════════════════════════════════════════════════════════════════
 dependencies:
+  # ────────────────────────────────
+  # FLUTTER SDK
+  # ────────────────────────────────
   flutter:
-    sdk: flutter
+    sdk: flutter # Core framework dependency (required)
 
+  # ────────────────────────────────
+  # LOCAL PACKAGES
+  # ────────────────────────────────
   core:
-    path: ../../packages/core
+    path: ../../packages/core # Shared business logic, constants, utilities
   apis:
-    path: ../../packages/apis
+    path: ../../packages/apis # Networking layer (REST, GraphQL, etc.)
 
-  cupertino_icons: ^1.0.8
-  flutter_bloc: ^9.1.1
-  flavor: ^2.0.0
-  get_it: ^7.7.0
-  go_router: ^15.1.3
-  injectable: ^2.5.0
-  
-  slang: ^4.7.3
-  slang_flutter: ^4.7.0
-  flutter_gen: ^5.10.0
-  
-  
+  # ────────────────────────────────
+  # UI & ICONS
+  # ────────────────────────────────
+  cupertino_icons: ^1.0.8 # iOS-style icons provided by the Cupertino library
 
+  # ────────────────────────────────
+  # STATE MANAGEMENT & DEPENDENCY INJECTION
+  # ────────────────────────────────
+  flutter_bloc: ^9.1.1     # BLoC pattern for managing application state
+  get_it: ^7.7.0           # Simple service locator (manual DI)
+  injectable: ^2.5.0       # Annotation-based code generation for get_it
+
+  # ────────────────────────────────
+  # ROUTING / NAVIGATION
+  # ────────────────────────────────
+  go_router: ^15.1.3       # Declarative navigation with deep linking support
+
+  # ────────────────────────────────
+  # ENVIRONMENT CONFIGURATION
+  # ────────────────────────────────
+  flavor: ^2.0.0           # Manage multiple environments (dev, staging, prod)
+
+  # ────────────────────────────────
+  # LOCALIZATION (i18n)
+  # ────────────────────────────────
+  slang: ^4.7.3            # JSON-based translation tool with advanced features
+  slang_flutter: ^4.7.0    # Flutter bindings for the slang localization package
+
+  # ────────────────────────────────
+  # CODE GENERATION / ASSET MANAGEMENT
+  # ────────────────────────────────
+  flutter_gen: ^5.10.0     # Generates strongly typed asset references (images, fonts, etc.)
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# DEPENDENCY OVERRIDES
+# ═══════════════════════════════════════════════════════════════════════════════
 dependency_overrides:
-  logger: ^2.5.0
+  logger: ^2.5.0 # Force a specific version of the logger package (overrides transitive dependencies)
 
+# ═══════════════════════════════════════════════════════════════════════════════
+# DEVELOPMENT DEPENDENCIES
+# ═══════════════════════════════════════════════════════════════════════════════
 dev_dependencies:
+  # ────────────────────────────────
+  # TESTING
+  # ────────────────────────────────
   flutter_test:
-    sdk: flutter
-  flutter_lints: ^5.0.0
-  injectable_generator: 2.6.2
-  build_runner: ^2.5.4
-  slang_build_runner: ^4.7.0
-  flutter_gen_runner: any
+    sdk: flutter # Flutter's built-in testing framework
 
+  # ────────────────────────────────
+  # LINTING / ANALYSIS
+  # ────────────────────────────────
+  flutter_lints: ^5.0.0 # Official recommended lints for Flutter projects
+
+  # ────────────────────────────────
+  # CODE GENERATION
+  # ────────────────────────────────
+  injectable_generator: 2.6.2     # Generates code for injectable (DI)
+  build_runner: ^2.5.4            # Core tool for running code generation
+  slang_build_runner: ^4.7.0      # Code generator for slang localization
+  flutter_gen_runner: any         # Generator for flutter_gen (assets, colors, fonts, etc.)
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# FLUTTER GEN CONFIGURATION
+# ═══════════════════════════════════════════════════════════════════════════════
 flutter_gen:
-  output: lib/gen # Optional (default: lib/gen/)
-  line_length: 80 # Optional (default: 80)
+  output: lib/gen       # Output directory for generated code (default: lib/gen/)
+  line_length: 80       # Maximum line length for generated Dart files
 
+# ═══════════════════════════════════════════════════════════════════════════════
+# FLUTTER PROJECT CONFIGURATION
+# ═══════════════════════════════════════════════════════════════════════════════
 flutter:
+  # ────────────────────────────────
+  # ASSET MANAGEMENT
+  # ────────────────────────────────
   assets:
-    - assets/i18n/
-    - assets/images/
-  uses-material-design: true
+    - assets/i18n/      # Localization JSON files (used by slang)
+    - assets/images/    # Image assets used throughout the application
+
+  # ────────────────────────────────
+  # MATERIAL DESIGN
+  # ────────────────────────────────
+  uses-material-design: true # Enables use of Material Design icons and themes
