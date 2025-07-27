@@ -790,7 +790,7 @@ class _ModernSidebarState extends State<ModernSidebar>
       case ApiCategory.woocommerceCustomers:
         return Icons.people_rounded;
       case ApiCategory.woocommerceReports:
-        return Icons.bar_chart_rounded;
+        return Icons.analytics_rounded;
     }
   }
 }
