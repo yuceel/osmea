@@ -6,6 +6,7 @@ import 'package:apis/network/remote/woocommerce/products/reviews/freezed_model/r
 import 'package:apis/network/remote/woocommerce/products/reviews/freezed_model/response/update_product_review_response.dart';
 import 'package:apis/network/remote/woocommerce/products/reviews/freezed_model/response/delete_product_review_response.dart';
 
+/// 📝 Abstract service for WooCommerce Product Reviews API operations
 abstract class ProductReviewsService {
   Future<List<ListProductReviewsResponse>> listAllProductReviews({
     required String apiVersion,
