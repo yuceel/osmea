@@ -5,6 +5,9 @@ allprojects {
     }
 }
 
+// Ensure all plugins use the correct compileSdkVersion
+extra["compileSdkVersion"] = 35
+
 val newBuildDir: Directory = rootProject.layout.buildDirectory.dir("../../build").get()
 rootProject.layout.buildDirectory.value(newBuildDir)
 

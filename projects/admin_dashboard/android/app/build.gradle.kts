@@ -7,8 +7,8 @@ plugins {
 
 android {
     namespace = "com.example.admin_dashboard"
-    compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    compileSdk = 35
+    ndkVersion = "27.0.12077973"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -38,17 +38,17 @@ android {
         }
     }
 
-    flavorDimensions "default"
+    flavorDimensions += "default"
 
     productFlavors {
-        prod {
-            dimension "default"
-            resValue "string", "app_name", "Admin Dashboard"
+        create("prod") {
+            dimension = "default"
+            resValue("string", "app_name", "Admin Dashboard")
         }
-        dev {
-            dimension "default"
-            resValue "string", "app_name", "Admin Dashboard-dev"
-            applicationIdSuffix ".dev"
+        create("dev") {
+            dimension = "default"
+            resValue("string", "app_name", "Admin Dashboard-dev")
+            applicationIdSuffix = ".dev"
         }
     }
 }
