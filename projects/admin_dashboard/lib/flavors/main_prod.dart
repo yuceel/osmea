@@ -6,18 +6,22 @@ import 'package:core/core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize flavor with production environment
+  const environment = Environment.production;
   Flavor.create(
-    Environment.production,
-    name: 'PROD',
-    properties: {
-      Keys.apiUrl: 'https://api.example.com',
-    },
+    environment,
+    name: environment.toString().split('.').last.toUpperCase(),
+    color: Colors.blue,
+    properties: {'apiUrl': 'https://api.example.com'},
   );
-  await MasterApp.runBefore(allowCollectDataTelemetry: false);
+
+  debugPrint('Flavor set at startup: ${Flavor.I.name}');
   await configureDependencies(environment: 'prod');
-  runApp(MasterApp(
-    devModeGrid: false,
-    devModeSpacer: false,
-    router: appRouter,
-  ));
+
+  await MasterApp.runBefore(allowCollectDataTelemetry: false);
+
+  runApp(
+    MasterApp(router: appRouter, devModeGrid: false, devModeSpacer: false),
+  );
 }
