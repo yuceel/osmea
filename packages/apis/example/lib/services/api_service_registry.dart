@@ -29,6 +29,11 @@ enum ApiCategory {
   woocommerceSystemStatus,
   woocommerceShippingMethods,
   woocommercePaymentGateways,
+  woocommerceData,
+  woocommerceContinents,
+  woocommerceCountries,
+  woocommerceCurrencies,
+  woocommerceRefunds,
    woocommerceReports, 
 }
 
@@ -93,6 +98,16 @@ extension ApiCategoryExtension on ApiCategory {
         return 'WooCommerce Shipping Methods APIs';
       case ApiCategory.woocommercePaymentGateways:
         return 'WooCommerce Payment Gateways APIs';
+      case ApiCategory.woocommerceData:
+        return 'WooCommerce Data APIs';
+      case ApiCategory.woocommerceContinents:
+        return 'WooCommerce Continents APIs';
+      case ApiCategory.woocommerceCountries:
+        return 'WooCommerce Countries APIs';
+      case ApiCategory.woocommerceCurrencies:
+        return 'WooCommerce Currencies APIs';
+      case ApiCategory.woocommerceRefunds:
+        return 'WooCommerce Refunds APIs';
     }
   }
 }
@@ -3442,6 +3457,11 @@ class ApiServiceRegistry {
       ApiCategory.woocommerceReports,
       ApiCategory.woocommerceShippingMethods,
       ApiCategory.woocommercePaymentGateways,
+      ApiCategory.woocommerceData,
+      ApiCategory.woocommerceContinents,
+      ApiCategory.woocommerceCountries,
+      ApiCategory.woocommerceCurrencies,
+      ApiCategory.woocommerceRefunds,
     ];
   }
 
@@ -3523,6 +3543,16 @@ class ApiServiceRegistry {
         return 'WooCommerce Shipping Methods';
       case ApiCategory.woocommercePaymentGateways:
         return 'WooCommerce Payment Gateways';
+      case ApiCategory.woocommerceData:
+        return 'WooCommerce Data';
+      case ApiCategory.woocommerceContinents:
+        return 'WooCommerce Continents';
+      case ApiCategory.woocommerceCountries:
+        return 'WooCommerce Countries';
+      case ApiCategory.woocommerceCurrencies:
+        return 'WooCommerce Currencies';
+      case ApiCategory.woocommerceRefunds:
+        return 'WooCommerce Refunds';
     }
   }
 }
