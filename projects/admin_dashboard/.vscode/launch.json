@@ -14,6 +14,7 @@
       "type": "dart",
       "program": "lib/flavors/main_prod.dart",
       "args": ["--flavor", "prod"]
-    }
-  ]
+    },
+  ],
+  "dart.hotRestartOnSave": true
 }
