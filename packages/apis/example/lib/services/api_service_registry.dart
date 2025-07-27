@@ -29,7 +29,7 @@ enum ApiCategory {
   woocommerceSystemStatus,
   woocommerceShippingMethods,
   woocommercePaymentGateways,
-  woocommerceReports, 
+   woocommerceReports, 
 }
 
 extension ApiCategoryExtension on ApiCategory {
@@ -87,12 +87,12 @@ extension ApiCategoryExtension on ApiCategory {
         return 'WooCommerce Webhooks APIs';
       case ApiCategory.woocommerceSystemStatus:
         return 'WooCommerce System Status APIs';
+      case ApiCategory.woocommerceReports:
+        return 'WooCommerce Reports APIs';
       case ApiCategory.woocommerceShippingMethods:
         return 'WooCommerce Shipping Methods APIs';
       case ApiCategory.woocommercePaymentGateways:
         return 'WooCommerce Payment Gateways APIs';
-      case ApiCategory.woocommerceReports:
-        return 'WooCommerce Reports APIs';
     }
   }
 }
@@ -3359,8 +3359,44 @@ class ApiServiceRegistry {
       subcategory: 'WooCommerce Reports',
       handler: RetrieveTopSellerReportHandler(),
     ),
+    // 🚚 WooCommerce Shipping Methods
+    ApiService(
+      name: 'WooCommerce List All Shipping Methods',
+      endpoint: '/wp-json/wc/v3/shipping_methods',
+      category: ApiCategory.woocommerceShippingMethods,
+      subcategory: 'WooCommerce Shipping Methods',
+      handler: ListAllShippingMethodsHandler(),
+    ),
+    ApiService(
+      name: 'WooCommerce Retrieve Shipping Method',
+      endpoint: '/wp-json/wc/v3/shipping_methods/{id}',
+      category: ApiCategory.woocommerceShippingMethods,
+      subcategory: 'WooCommerce Shipping Methods',
+      handler: RetrieveShippingMethodHandler(),
+    ),
 
-
+    // 💳 WooCommerce Payment Gateways
+    ApiService(
+      name: 'WooCommerce List All Payment Gateways',
+      endpoint: '/wp-json/wc/v3/payment_gateways',
+      category: ApiCategory.woocommercePaymentGateways,
+      subcategory: 'WooCommerce Payment Gateways',
+      handler: ListAllPaymentGatewaysHandler(),
+    ),
+    ApiService(
+      name: 'WooCommerce Retrieve Payment Gateway',
+      endpoint: '/wp-json/wc/v3/payment_gateways/{id}',
+      category: ApiCategory.woocommercePaymentGateways,
+      subcategory: 'WooCommerce Payment Gateways',
+      handler: RetrievePaymentGatewayHandler(),
+    ),
+    ApiService(
+      name: 'WooCommerce Update Payment Gateway',
+      endpoint: '/wp-json/wc/v3/payment_gateways/{id}',
+      category: ApiCategory.woocommercePaymentGateways,
+      subcategory: 'WooCommerce Payment Gateways',
+      handler: UpdatePaymentGatewayHandler(),
+    ),
   ];
 
   static void initialize() {}
@@ -3403,9 +3439,9 @@ class ApiServiceRegistry {
       ApiCategory.woocommerceCustomers,
       ApiCategory.woocommerceWebhooks,
       ApiCategory.woocommerceSystemStatus,
+      ApiCategory.woocommerceReports,
       ApiCategory.woocommerceShippingMethods,
       ApiCategory.woocommercePaymentGateways,
-      ApiCategory.woocommerceReports,
     ];
   }
 
@@ -3481,12 +3517,12 @@ class ApiServiceRegistry {
         return 'WooCommerce Webhooks';
       case ApiCategory.woocommerceSystemStatus:
         return 'WooCommerce System Status';
+      case ApiCategory.woocommerceReports:
+        return 'WooCommerce Reports';
       case ApiCategory.woocommerceShippingMethods:
         return 'WooCommerce Shipping Methods';
       case ApiCategory.woocommercePaymentGateways:
         return 'WooCommerce Payment Gateways';
-      case ApiCategory.woocommerceReports:
-        return 'WooCommerce Reports';
     }
   }
 }
