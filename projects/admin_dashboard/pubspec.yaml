@@ -87,7 +87,7 @@ dev_dependencies:
   # ────────────────────────────────
   # CODE GENERATION
   # ────────────────────────────────
-  injectable_generator: 2.6.2     # Generates code for injectable (DI)
+  injectable_generator: ^2.6.2     # Generates code for injectable (DI)
   build_runner: ^2.5.4            # Core tool for running code generation
   slang_build_runner: ^4.7.0      # Code generator for slang localization
   flutter_gen_runner: any         # Generator for flutter_gen (assets, colors, fonts, etc.)
