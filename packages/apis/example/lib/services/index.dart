@@ -495,3 +495,5 @@ export 'package:example/services/handlers/woocommerce/settings_handlers/update_s
 export 'handlers/woocommerce/taxes_handlers/taxes_classes_handlers/list_tax_classes_handler.dart';
 export 'handlers/woocommerce/taxes_handlers/taxes_classes_handlers/create_tax_class_handler.dart';
 export 'handlers/woocommerce/taxes_handlers/taxes_classes_handlers/delete_tax_class_handler.dart';
+export 'handlers/woocommerce/taxes_handlers/taxes_rates_handlers/retrieve_tax_rate_handler.dart';
+export 'handlers/woocommerce/taxes_handlers/taxes_rates_handlers/delete_tax_rate_handler.dart';
