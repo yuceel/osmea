@@ -490,3 +490,8 @@ export 'handlers/woocommerce/reports_handlers/retrieve_review_totals_handler.dar
 export 'package:example/services/handlers/woocommerce/settings_handlers/list_settings_groups_handler.dart';
 export 'package:example/services/handlers/woocommerce/settings_handlers/retrieve_setting_option_handler.dart';
 export 'package:example/services/handlers/woocommerce/settings_handlers/update_settings_option_handler.dart';
+
+// taxes handlers
+export 'handlers/woocommerce/taxes_handlers/taxes_classes_handlers/list_tax_classes_handler.dart';
+export 'handlers/woocommerce/taxes_handlers/taxes_classes_handlers/create_tax_class_handler.dart';
+export 'handlers/woocommerce/taxes_handlers/taxes_classes_handlers/delete_tax_class_handler.dart';

@@ -34,8 +34,9 @@ enum ApiCategory {
   woocommerceCountries,
   woocommerceCurrencies,
   woocommerceRefunds,
-   woocommerceReports, 
-   woocommerceSetting,
+  woocommerceReports, 
+  woocommerceSetting,
+  woocommerceTaxes,
 }
 
 extension ApiCategoryExtension on ApiCategory {
@@ -111,6 +112,8 @@ extension ApiCategoryExtension on ApiCategory {
         return 'WooCommerce Refunds APIs';
       case ApiCategory.woocommerceSetting:
         return 'WooCommerce Settings';
+      case ApiCategory.woocommerceTaxes:
+        return 'WooCommerce Taxes APIs';
     }
   }
 }
@@ -3439,6 +3442,28 @@ class ApiServiceRegistry {
       handler: UpdateSettingsOptionHandler(),
     ),
 
+    ApiService(
+     name: 'WooCommerce List All Tax Classes',
+     endpoint: '/wp-json/wc/v3/taxes/classes', 
+     category: ApiCategory.woocommerceTaxes,
+     subcategory: 'WooCommerce Tax Classes',
+      handler: ListTaxClassesHandler(),
+),
+
+ApiService(
+  name: 'WooCommerce Create Tax Class',
+  endpoint: '/wp-json/wc/v3/taxes/classes',
+  category: ApiCategory.woocommerceTaxes,
+  subcategory: 'WooCommerce Tax Classes',
+  handler: CreateTaxClassHandler(),
+),
+ApiService(
+  name: 'WooCommerce Delete Tax Class',
+  endpoint: '/wp-json/wc/v3/taxes/classes/{slug}',
+  category: ApiCategory.woocommerceTaxes,
+  subcategory: 'WooCommerce Tax Classes',
+  handler: DeleteTaxClassHandler(),
+),
 
   ];
 
@@ -3491,6 +3516,7 @@ class ApiServiceRegistry {
       ApiCategory.woocommerceCountries,
       ApiCategory.woocommerceCurrencies,
       ApiCategory.woocommerceRefunds,
+      ApiCategory.woocommerceTaxes,
     ];
   }
 
@@ -3584,6 +3610,8 @@ class ApiServiceRegistry {
         return 'WooCommerce Currencies';
       case ApiCategory.woocommerceRefunds:
         return 'WooCommerce Refunds';
+      case ApiCategory.woocommerceTaxes:
+        return 'WooCommerce Taxes';
     }
   }
 }
