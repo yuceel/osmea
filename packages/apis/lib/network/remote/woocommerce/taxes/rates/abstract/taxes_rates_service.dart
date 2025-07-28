@@ -3,6 +3,8 @@ import 'package:apis/network/remote/woocommerce/taxes/rates/freezed_model/respon
 import 'package:apis/network/remote/woocommerce/taxes/rates/freezed_model/response/list_tax_rates_response.dart';
 import 'package:apis/network/remote/woocommerce/taxes/rates/freezed_model/request/create_tax_rate_request.dart';
 import 'package:apis/network/remote/woocommerce/taxes/rates/freezed_model/response/create_tax_rate_response.dart';
+import 'package:apis/network/remote/woocommerce/taxes/rates/freezed_model/request/update_tax_rate_request.dart';
+import 'package:apis/network/remote/woocommerce/taxes/rates/freezed_model/response/update_tax_rate_response.dart';
 
 /// 🔑 Abstract contract for WooCommerce Tax Rates Service
 /// Implement this to fetch tax rates from WooCommerce API! 🌐
@@ -54,7 +56,14 @@ abstract class TaxesRatesService {
     CreateTaxRateRequest? taxRateData,
   });
 
-  /// 🗑️ Deletes a tax rate from the WooCommerce API.
+  /// � Updates an existing tax rate in the WooCommerce API.
+  Future<UpdateTaxRateResponse> updateTaxRate({
+    String? apiVersion,
+    int? taxRateId,
+    UpdateTaxRateRequest? taxRateData,
+  });
+
+  /// �🗑️ Deletes a tax rate from the WooCommerce API.
   Future<DeleteTaxRateResponse> deleteTaxRate({
     String? apiVersion,
     int? taxRateId,

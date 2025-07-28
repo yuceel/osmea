@@ -6,6 +6,8 @@ import 'package:apis/network/remote/woocommerce/taxes/rates/freezed_model/respon
 import 'package:apis/network/remote/woocommerce/taxes/rates/freezed_model/response/list_tax_rates_response.dart';
 import 'package:apis/network/remote/woocommerce/taxes/rates/freezed_model/request/create_tax_rate_request.dart';
 import 'package:apis/network/remote/woocommerce/taxes/rates/freezed_model/response/create_tax_rate_response.dart';
+import 'package:apis/network/remote/woocommerce/taxes/rates/freezed_model/request/update_tax_rate_request.dart';
+import 'package:apis/network/remote/woocommerce/taxes/rates/freezed_model/response/update_tax_rate_response.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
@@ -71,7 +73,16 @@ abstract class TaxesRatesServiceClient implements TaxesRatesService {
     @Body() CreateTaxRateRequest? taxRateData,
   });
 
-  /// 🔓 Get all tax rates from WooCommerce API
+  /// � Update an existing tax rate in WooCommerce API
+  @override
+  @PUT('/wp-json/wc/{api_version}/taxes/{tax_rate_id}')
+  Future<UpdateTaxRateResponse> updateTaxRate({
+    @Path('api_version') String? apiVersion,
+    @Path('tax_rate_id') int? taxRateId,
+    @Body() UpdateTaxRateRequest? taxRateData,
+  });
+
+  /// �🔓 Get all tax rates from WooCommerce API
   @override
   @GET('/wp-json/wc/{api_version}/taxes')
   Future<List<ListTaxRatesResponse>> listAllTaxRates({
