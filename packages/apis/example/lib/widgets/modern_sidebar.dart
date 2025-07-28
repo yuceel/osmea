@@ -811,6 +811,9 @@ class _ModernSidebarState extends State<ModernSidebar>
         return Icons.attach_money_rounded;
       case ApiCategory.woocommerceRefunds:
         return Icons.money_off_rounded;
+      case ApiCategory.woocommerceTaxes:
+        return Icons.receipt_long_rounded;
+
     }
   }
 }
