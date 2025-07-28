@@ -3,6 +3,7 @@ library master_view; // Define a library name
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:core/src/helper/grid_helper.dart';
 
 part 'master_view_enums.dart'; // Include the enums part
 part 'master_view_mixins.dart'; // Include the mixins part
@@ -123,7 +124,11 @@ abstract class MasterView<V extends BaseViewModelBloc<E, S>, E, S>
                   const CoreSpacer(CoreSpacerType.navbar),
                   // Main content from the view
                   Expanded(
-                    child: viewContent(context, viewModel, state),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: GridHelper.defaultMargin),
+                      child: viewContent(context, viewModel, state),
+                    ),
                   ),
                   // Always footer top spacer
                   const CoreSpacer(CoreSpacerType.footer),

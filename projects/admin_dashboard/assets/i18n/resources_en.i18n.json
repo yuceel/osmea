@@ -1,0 +1,12 @@
+{
+    "application_config": {
+        "app_name": "Dashboard",
+        "app_version": "1.0.0"
+    },
+     "views": {
+            "splash": {
+                "made_by": "Made by",
+                "mf":"MasterFabric"
+        }
+    }
+}
