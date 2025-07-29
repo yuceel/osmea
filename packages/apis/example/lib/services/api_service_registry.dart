@@ -3538,6 +3538,13 @@ class ApiServiceRegistry {
       subcategory: 'Tax Rates',
       handler: ListTaxRatesHandler(),
     ),
+    ApiService(
+      name: 'Batch Update Tax Rates',
+      endpoint: '/wp-json/wc/v3/taxes/batch',
+      category: ApiCategory.woocommerceTaxes,
+      subcategory: 'Tax Rates',
+      handler: BatchUpdateTaxesRatesHandler(),
+    ),
 
     // 🚚 WooCommerce Shipping Zones
     ApiService(

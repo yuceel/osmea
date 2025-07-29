@@ -518,3 +518,4 @@ export 'handlers/woocommerce/taxes_handlers/taxes_rates_handlers/delete_tax_rate
 export 'handlers/woocommerce/taxes_handlers/taxes_rates_handlers/list_tax_rates_handler.dart';
 export 'handlers/woocommerce/taxes_handlers/taxes_rates_handlers/create_tax_rate_handler.dart';
 export 'handlers/woocommerce/taxes_handlers/taxes_rates_handlers/update_tax_rate_handler.dart';
+export 'handlers/woocommerce/taxes_handlers/taxes_rates_handlers/batch_update_taxes_rates_handler.dart';
