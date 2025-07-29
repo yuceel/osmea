@@ -9,6 +9,8 @@ import 'package:apis/network/remote/woocommerce/products/attributes/freezed_mode
 import 'package:apis/network/remote/woocommerce/products/attributes/freezed_model/response/retrieve_product_attribute_response.dart';
 import 'package:apis/network/remote/woocommerce/products/attributes/freezed_model/response/update_product_attribute_response.dart';
 import 'package:apis/network/remote/woocommerce/products/attributes/freezed_model/response/delete_product_attribute_response.dart';
+import 'package:apis/network/remote/woocommerce/products/attributes/freezed_model/request/batch_update_product_attribute_request.dart';
+import 'package:apis/network/remote/woocommerce/products/attributes/freezed_model/response/batch_update_product_attribute_response.dart';
 
 part 'api_product_attributes_service.g.dart';
 
@@ -67,5 +69,13 @@ abstract class ProductAttributesServiceClient
     @Path('apiVersion') required String apiVersion,
     @Path('attributeId') required int attributeId,
     @Query('force') bool? force,
+  });
+
+  /// 📦 Batch update product attributes in WooCommerce API
+  @override
+  @PATCH('/wp-json/wc/{apiVersion}/products/attributes/batch')
+  Future<BatchUpdateProductAttributeResponse> batchUpdateProductAttributes({
+    @Path('apiVersion') required String apiVersion,
+    @Body() required BatchUpdateProductAttributeRequest batchData,
   });
 }

@@ -11,6 +11,8 @@ import 'package:apis/network/remote/woocommerce/products/reviews/freezed_model/r
 import 'package:apis/network/remote/woocommerce/products/reviews/freezed_model/request/update_product_review_request.dart';
 import 'package:apis/network/remote/woocommerce/products/reviews/freezed_model/response/update_product_review_response.dart';
 import 'package:apis/network/remote/woocommerce/products/reviews/freezed_model/response/delete_product_review_response.dart';
+import 'package:apis/network/remote/woocommerce/products/reviews/freezed_model/request/batch_update_product_reviews_request.dart';
+import 'package:apis/network/remote/woocommerce/products/reviews/freezed_model/response/batch_update_product_reviews_response.dart';
 
 part 'api_product_reviews_service.g.dart';
 
@@ -73,5 +75,13 @@ abstract class ProductReviewsServiceClient implements ProductReviewsService {
     @Path('apiVersion') required String apiVersion,
     @Path('reviewId') required int reviewId,
     @Query('force') bool? force,
+  });
+
+  /// 📦 Batch update product reviews in WooCommerce API
+  @override
+  @PATCH('/wp-json/wc/{apiVersion}/products/reviews/batch')
+  Future<BatchUpdateProductReviewsResponse> batchUpdateProductReviews({
+    @Path('apiVersion') required String apiVersion,
+    @Body() required BatchUpdateProductReviewsRequest batchData,
   });
 }

@@ -7,6 +7,8 @@ import 'package:apis/network/remote/woocommerce/webhooks/freezed_model/response/
 import 'package:apis/network/remote/woocommerce/webhooks/freezed_model/response/list_all_webhooks_response.dart';
 import 'package:apis/network/remote/woocommerce/webhooks/freezed_model/response/retrieve_webhook_response.dart';
 import 'package:apis/network/remote/woocommerce/webhooks/freezed_model/response/update_webhook_response.dart';
+import 'package:apis/network/remote/woocommerce/webhooks/freezed_model/request/batch_update_webhooks_request.dart';
+import 'package:apis/network/remote/woocommerce/webhooks/freezed_model/response/batch_update_webhooks_response.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:retrofit/retrofit.dart';
@@ -65,5 +67,13 @@ abstract class WebhooksServiceClient implements WebhooksService {
     @Path('apiVersion') required String apiVersion,
     @Path('webhookId') required int webhookId,
     @Query('force') bool? force,
+  });
+
+  /// 📦 Batch update webhooks in WooCommerce API
+  @override
+  @PATCH('/wp-json/wc/{apiVersion}/webhooks/batch')
+  Future<BatchUpdateWebhooksResponse> batchUpdateWebhooks({
+    @Path('apiVersion') required String apiVersion,
+    @Body() required BatchUpdateWebhooksRequest batchData,
   });
 }

@@ -4,6 +4,8 @@ import 'package:apis/network/remote/woocommerce/webhooks/freezed_model/response/
 import 'package:apis/network/remote/woocommerce/webhooks/freezed_model/response/list_all_webhooks_response.dart';
 import 'package:apis/network/remote/woocommerce/webhooks/freezed_model/response/retrieve_webhook_response.dart';
 import 'package:apis/network/remote/woocommerce/webhooks/freezed_model/response/update_webhook_response.dart';
+import 'package:apis/network/remote/woocommerce/webhooks/freezed_model/request/batch_update_webhooks_request.dart';
+import 'package:apis/network/remote/woocommerce/webhooks/freezed_model/response/batch_update_webhooks_response.dart';
 
 abstract class WebhooksService {
   /// List all webhooks
@@ -44,5 +46,11 @@ abstract class WebhooksService {
     required String apiVersion,
     required int webhookId,
     bool? force,
+  });
+
+  /// 📦 Batch update webhooks in the WooCommerce API.
+  Future<BatchUpdateWebhooksResponse> batchUpdateWebhooks({
+    required String apiVersion,
+    required BatchUpdateWebhooksRequest batchData,
   });
 }

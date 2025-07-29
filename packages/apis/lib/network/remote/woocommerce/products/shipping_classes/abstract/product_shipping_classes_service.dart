@@ -5,6 +5,8 @@ import 'package:apis/network/remote/woocommerce/products/shipping_classes/freeze
 import 'package:apis/network/remote/woocommerce/products/shipping_classes/freezed_model/request/update_product_shipping_class_request.dart';
 import 'package:apis/network/remote/woocommerce/products/shipping_classes/freezed_model/response/update_product_shipping_class_response.dart';
 import 'package:apis/network/remote/woocommerce/products/shipping_classes/freezed_model/response/delete_product_shipping_class_response.dart';
+import 'package:apis/network/remote/woocommerce/products/shipping_classes/freezed_model/request/batch_update_product_shipping_classes_request.dart';
+import 'package:apis/network/remote/woocommerce/products/shipping_classes/freezed_model/response/batch_update_product_shipping_classes_response.dart';
 
 /// 📦 Abstract service for WooCommerce Product Shipping Classes API operations
 abstract class ProductShippingClassesService {
@@ -49,5 +51,11 @@ abstract class ProductShippingClassesService {
     required String apiVersion,
     required int shippingClassId,
     bool? force,
+  });
+
+  /// 📦 Batch update product shipping classes
+  Future<BatchUpdateProductShippingClassesResponse> batchUpdateProductShippingClasses({
+    required String apiVersion,
+    required BatchUpdateProductShippingClassesRequest batchData,
   });
 }
