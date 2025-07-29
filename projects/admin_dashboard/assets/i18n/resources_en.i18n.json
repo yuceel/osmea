@@ -31,7 +31,9 @@
             "done": "done",
             "next":"next",
             "retry": "Retry",
-            "completed": "Onboarding completed!"
+            "completed": "Onboarding completed!",
+            "redirecting": "Redirecting to dashboard...",
+            "image_missing": "Image missing"
         }
     }
 }
