@@ -10,6 +10,8 @@ import 'package:apis/network/remote/woocommerce/products/categories/freezed_mode
 import 'package:apis/network/remote/woocommerce/products/categories/freezed_model/response/retrieve_product_category_response.dart';
 import 'package:apis/network/remote/woocommerce/products/categories/freezed_model/response/update_product_category_response.dart';
 import 'package:apis/network/remote/woocommerce/products/categories/freezed_model/response/delete_product_category_response.dart';
+import 'package:apis/network/remote/woocommerce/products/categories/freezed_model/request/batch_update_product_categories_request.dart';
+import 'package:apis/network/remote/woocommerce/products/categories/freezed_model/response/batch_update_product_categories_response.dart';
 
 part 'api_product_categories_service.g.dart';
 
@@ -71,5 +73,13 @@ abstract class ProductCategoriesServiceClient
     @Path('apiVersion') required String apiVersion,
     @Path('id') required int categoryId,
     @Query('force') bool? force,
+  });
+
+  /// 📦 Batch update product categories in WooCommerce API
+  @override
+  @PATCH('/wp-json/wc/{apiVersion}/products/categories/batch')
+  Future<BatchUpdateProductCategoriesResponse> batchUpdateProductCategories({
+    @Path('apiVersion') required String apiVersion,
+    @Body() required BatchUpdateProductCategoriesRequest batchData,
   });
 }
