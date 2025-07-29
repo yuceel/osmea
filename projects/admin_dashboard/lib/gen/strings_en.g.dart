@@ -90,8 +90,12 @@ class TranslationsViewsOnboardingEn {
 	String get back => 'Back';
 	String get loading => 'Loading...';
 	String get error_title => 'Something went wrong!';
+	String get done => 'done';
+	String get next => 'next';
 	String get retry => 'Retry';
 	String get completed => 'Onboarding completed!';
+	String get redirecting => 'Redirecting to dashboard...';
+	String get image_missing => 'Image missing';
 }
 
 // Path: views.onboarding.page1
@@ -152,8 +156,12 @@ extension on Translations {
 			case 'views.onboarding.back': return 'Back';
 			case 'views.onboarding.loading': return 'Loading...';
 			case 'views.onboarding.error_title': return 'Something went wrong!';
+			case 'views.onboarding.done': return 'done';
+			case 'views.onboarding.next': return 'next';
 			case 'views.onboarding.retry': return 'Retry';
 			case 'views.onboarding.completed': return 'Onboarding completed!';
+			case 'views.onboarding.redirecting': return 'Redirecting to dashboard...';
+			case 'views.onboarding.image_missing': return 'Image missing';
 			default: return null;
 		}
 	}
