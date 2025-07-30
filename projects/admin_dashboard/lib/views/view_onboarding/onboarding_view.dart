@@ -59,6 +59,7 @@ class OnboardingView
             itemBuilder: (context, index) {
               final pageData = onboardingData[index];
               return OnboardingPageContentWidget(
+                isLastPage: viewModel.isLastPage,
                 progressValue: viewModel.progressValue,
                 totalPages: viewModel.totalPages,
                 currentPage: index,

@@ -13,13 +13,16 @@ class OnboardingNavigationWidget extends StatelessWidget {
   final int currentPage;
   final int totalPages;
   final VoidCallback onNext;
+  final bool isLastPage;
 
   const OnboardingNavigationWidget({
     super.key,
     required this.currentPage,
     required this.totalPages,
     required this.onNext,
+    required this.isLastPage,
   });
+
 
   bool get _isLastPage => currentPage == totalPages - 1;
 
@@ -30,11 +33,11 @@ class OnboardingNavigationWidget extends StatelessWidget {
       children: [
         OsmeaComponents.button(
           text:
-              _isLastPage
+              isLastPage
                   ? resource.views.onboarding.done
                   : resource.views.onboarding.next,
           onPressed: onNext,
-          variant: _isLastPage ? ButtonVariant.success : ButtonVariant.primary,
+          variant: isLastPage ? ButtonVariant.success : ButtonVariant.primary,
           size: ButtonSize.medium,
           icon: Icon(
             _isLastPage ? Icons.check : Icons.arrow_forward,
