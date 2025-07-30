@@ -1,8 +1,8 @@
 /*
  * OnboardingView
  * --------------
- * A 3-page onboarding flow matching the provided design mockups.
- * Features dynamic progress indicator and proper OSMEA standards.
+ * A 3-page onboarding flow following OSMEA architecture.
+ * Uses MasterView pattern with BLoC state management.
  */
 
 import 'package:admin_dashboard/constants/text_constants.dart';
@@ -13,7 +13,7 @@ import 'package:admin_dashboard/views/view_onboarding/models/module/events.dart'
 import 'package:admin_dashboard/views/view_onboarding/models/module/states.dart';
 import 'package:admin_dashboard/views/view_onboarding/widgets/onboarding_widgets.dart';
 
-/// OnboardingView displays a 3-page onboarding flow with mockup-based design
+/// OnboardingView displays a 3-page onboarding flow
 class OnboardingView
     extends MasterView<OnboardingViewModel, OnboardingEvent, OnboardingState> {
   OnboardingView({
@@ -29,7 +29,7 @@ class OnboardingView
     BuildContext context,
   ) async {
     // Initialize onboarding
-    viewModel.initial();
+    viewModel.initialize();
   }
 
   @override
@@ -40,11 +40,11 @@ class OnboardingView
   ) {
     // Error state
     if (state is OnboardingErrorState) {
-      return OnboardingErrorWidget(onRetry: () => viewModel.initial());
+      return OnboardingErrorWidget(onRetry: () => viewModel.initialize());
     }
 
-    // Done state
-    if (state is OnboardingDoneState) {
+    // Complete state
+    if (state is OnboardingCompleteState || state is OnboardingDoneState) {
       return const OnboardingCompletedWidget();
     }
 
@@ -54,17 +54,18 @@ class OnboardingView
         OsmeaComponents.expanded(
           child: PageView.builder(
             controller: viewModel.pageController,
-            onPageChanged: (index) => viewModel.onPageChanged(index),
+            onPageChanged: viewModel.onPageChanged,
             itemCount: viewModel.totalPages,
             itemBuilder: (context, index) {
               final pageData = onboardingData[index];
               return OnboardingPageContentWidget(
+                progressValue: viewModel.progressValue,
                 totalPages: viewModel.totalPages,
                 currentPage: index,
                 title: pageData['title']!,
                 description: pageData['description']!,
                 imagePath: pageData['imagePath']!,
-                onNext: () => viewModel.nextPage(context),
+                onNext: viewModel.nextPage,
               );
             },
           ),
