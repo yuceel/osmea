@@ -55,10 +55,11 @@ class OnboardingView
           child: PageView.builder(
             controller: viewModel.pageController,
             onPageChanged: (index) => viewModel.onPageChanged(index),
-            itemCount: 3,
+            itemCount: viewModel.totalPages,
             itemBuilder: (context, index) {
               final pageData = onboardingData[index];
               return OnboardingPageContentWidget(
+                totalPages: viewModel.totalPages,
                 currentPage: index,
                 title: pageData['title']!,
                 description: pageData['description']!,
