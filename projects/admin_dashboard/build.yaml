@@ -1,0 +1,22 @@
+# Build Runner Configuration for OSMEA Dashboard
+# ═══════════════════════════════════════════════════════════════════════════════
+# This file configures build_runner and its builders
+# ═══════════════════════════════════════════════════════════════════════════════
+
+targets:
+  $default:
+    builders:
+      # Flutter Gen Builder
+      flutter_gen_runner:
+        enabled: true
+        
+      # Slang Builder
+      slang_build_runner:
+        enabled: false
+        
+      # Injectable Builders 
+      injectable_generator|injectable_builder:
+        enabled: true
+        
+      injectable_generator|injectable_config_builder:
+        enabled: true
