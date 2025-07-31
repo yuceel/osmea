@@ -13,6 +13,7 @@ class OnboardingNavigationWidget extends StatelessWidget {
   final int currentPage;
   final int totalPages;
   final VoidCallback onNext;
+  final VoidCallback? onSkip;
   final bool isLastPage;
 
   const OnboardingNavigationWidget({
@@ -20,6 +21,7 @@ class OnboardingNavigationWidget extends StatelessWidget {
     required this.currentPage,
     required this.totalPages,
     required this.onNext,
+    this.onSkip,
     required this.isLastPage,
   });
 
@@ -28,6 +30,7 @@ class OnboardingNavigationWidget extends StatelessWidget {
     return OsmeaComponents.row(
       mainAxisAlignment: end,
       children: [
+        // Next/Done button
         OsmeaComponents.button(
           text:
               isLastPage
