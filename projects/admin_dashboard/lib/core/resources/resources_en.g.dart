@@ -90,8 +90,8 @@ class TranslationsViewsOnboardingEn {
 	String get back => TranslationOverrides.string(_root.$meta, 'views.onboarding.back', {}) ?? 'Back';
 	String get loading => TranslationOverrides.string(_root.$meta, 'views.onboarding.loading', {}) ?? 'Loading...';
 	String get error_title => TranslationOverrides.string(_root.$meta, 'views.onboarding.error_title', {}) ?? 'Something went wrong!';
-	String get done => TranslationOverrides.string(_root.$meta, 'views.onboarding.done', {}) ?? 'done';
-	String get next => TranslationOverrides.string(_root.$meta, 'views.onboarding.next', {}) ?? 'next';
+	String get done => TranslationOverrides.string(_root.$meta, 'views.onboarding.done', {}) ?? 'Done';
+	String get next => TranslationOverrides.string(_root.$meta, 'views.onboarding.next', {}) ?? 'Next';
 	String get retry => TranslationOverrides.string(_root.$meta, 'views.onboarding.retry', {}) ?? 'Retry';
 	String get completed => TranslationOverrides.string(_root.$meta, 'views.onboarding.completed', {}) ?? 'Onboarding completed!';
 	String get redirecting => TranslationOverrides.string(_root.$meta, 'views.onboarding.redirecting', {}) ?? 'Redirecting to dashboard...';
@@ -156,8 +156,8 @@ extension on Translations {
 			case 'views.onboarding.back': return TranslationOverrides.string(_root.$meta, 'views.onboarding.back', {}) ?? 'Back';
 			case 'views.onboarding.loading': return TranslationOverrides.string(_root.$meta, 'views.onboarding.loading', {}) ?? 'Loading...';
 			case 'views.onboarding.error_title': return TranslationOverrides.string(_root.$meta, 'views.onboarding.error_title', {}) ?? 'Something went wrong!';
-			case 'views.onboarding.done': return TranslationOverrides.string(_root.$meta, 'views.onboarding.done', {}) ?? 'done';
-			case 'views.onboarding.next': return TranslationOverrides.string(_root.$meta, 'views.onboarding.next', {}) ?? 'next';
+			case 'views.onboarding.done': return TranslationOverrides.string(_root.$meta, 'views.onboarding.done', {}) ?? 'Done';
+			case 'views.onboarding.next': return TranslationOverrides.string(_root.$meta, 'views.onboarding.next', {}) ?? 'Next';
 			case 'views.onboarding.retry': return TranslationOverrides.string(_root.$meta, 'views.onboarding.retry', {}) ?? 'Retry';
 			case 'views.onboarding.completed': return TranslationOverrides.string(_root.$meta, 'views.onboarding.completed', {}) ?? 'Onboarding completed!';
 			case 'views.onboarding.redirecting': return TranslationOverrides.string(_root.$meta, 'views.onboarding.redirecting', {}) ?? 'Redirecting to dashboard...';
