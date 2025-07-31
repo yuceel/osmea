@@ -69,7 +69,7 @@ class SplashView extends MasterView<SplashViewModel, SplashEvent, SplashState> {
                 mainAxisAlignment: end,
                 children: [
                   OsmeaComponents.container(
-                    size: ContainerSize.small,
+                    size: ContainerSize.tiny,
                     color: OsmeaColors.atlantic,
                   ),
                 ],
