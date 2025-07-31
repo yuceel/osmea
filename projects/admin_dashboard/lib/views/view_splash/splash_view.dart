@@ -69,8 +69,7 @@ class SplashView extends MasterView<SplashViewModel, SplashEvent, SplashState> {
                 mainAxisAlignment: end,
                 children: [
                   OsmeaComponents.container(
-                    height: 36,
-                    width: 36,
+                    size: ContainerSize.small,
                     color: OsmeaColors.atlantic,
                   ),
                 ],
@@ -129,8 +128,7 @@ class SplashView extends MasterView<SplashViewModel, SplashEvent, SplashState> {
                   height: context.normalValue,
                   child: OsmeaComponents.image(
                     assetPath: Assets.images.mfLogo.path,
-                    width: 12,
-                    height: 12,
+                    size: ImageSize.small,
                   ),
                 ),
                 CoreSpacer(CoreSpacerType.horizontal),
