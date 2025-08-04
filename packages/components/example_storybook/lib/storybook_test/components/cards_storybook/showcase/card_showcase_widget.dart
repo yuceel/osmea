@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:osmea_components/osmea_components.dart';
-import 'package:osmea_storybook_example/storybook_test/components/cards_test_modular/utils/card_builder.dart';
+import 'package:osmea_storybook_example/storybook_test/components/cards_storybook/utils/card_builder.dart';
 import '../sections/header_section.dart';
 import '../widgets/section_container_widget.dart';
 
