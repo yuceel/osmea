@@ -77,7 +77,7 @@ class OnboardingViewModel
       // Complete onboarding and navigate
       emit(OnboardingCompleteState());
       if (_onNavigate != null) {
-        _onNavigate!('/home');
+        _onNavigate!('/welcome');
       }
     }
   }
@@ -89,7 +89,7 @@ class OnboardingViewModel
     // Skip directly to completion
     emit(OnboardingCompleteState());
     if (_onNavigate != null) {
-      _onNavigate!('/home');
+      _onNavigate!('/welcome');
     }
   }
 
