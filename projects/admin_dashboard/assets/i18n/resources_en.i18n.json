@@ -3,10 +3,36 @@
         "app_name": "Dashboard",
         "app_version": "1.0.0"
     },
-     "views": {
-            "splash": {
-                "made_by": "Made by",
-                "mf":"MasterFabric"
+    "common": {
+        "skip": "Skip",
+        "back": "Back",
+        "next": "Next",
+        "done": "Done",
+        "continue": "Continue",
+        "cancel": "Cancel",
+        "save": "Save",
+        "edit": "Edit",
+        "delete": "Delete",
+        "loading": "Loading...",
+        "please_wait": "Please wait...",
+        "success": "Success!",
+        "error": "Error",
+        "warning": "Warning",
+        "info": "Information",
+        "error_title": "Something went wrong!",
+        "error_message": "An unexpected error occurred. Please try again.",
+        "retry": "Retry",
+        "refresh": "Refresh",
+        "completed": "Completed!",
+        "redirecting": "Redirecting...",
+        "image_missing": "Image missing",
+        "no_data": "No data available",
+        "coming_soon": "Coming soon"
+    },
+    "views": {
+        "splash": {
+            "made_by": "Made by",
+            "mf": "MasterFabric"
         },
         "onboarding": {
             "page1": {
@@ -24,16 +50,18 @@
                 "description": "OSMEA Dashboard scales with your business, delivering smart, secure tools to manage any number of storefronts efficiently and on brand.",
                 "button_text": "Done"
             },
-            "skip": "Skip",
-            "back": "Back",
-            "loading": "Loading...",
-            "error_title": "Something went wrong!",
-            "done": "Done",
-            "next":"Next",
-            "retry": "Retry",
-            "completed": "Onboarding completed!",
-            "redirecting": "Redirecting to dashboard...",
-            "image_missing": "Image missing"
+            "skip": "Skip"
+        },
+        "welcome": {
+            "title": "Welcome to OSMEA Dashboard",
+            "subtitle": "Ready to start managing your store?",
+            "description": "Your complete e-commerce management solution is ready. Start organizing your products, tracking orders, and growing your business with powerful analytics and insights.",
+            "manage_your_store": "Manage Your Store",
+            "get_started": "Get Started",
+            "button_text": "Done",
+            "loading_message": "Setting up your dashboard...",
+            "success_message": "Welcome setup completed successfully!",
+            "error_message": "Failed to initialize welcome screen"
         }
     }
 }

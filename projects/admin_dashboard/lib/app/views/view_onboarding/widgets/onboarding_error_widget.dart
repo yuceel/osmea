@@ -23,12 +23,12 @@ class OnboardingErrorWidget extends StatelessWidget {
           mainAxisAlignment: centerMain,
           children: [
             OsmeaComponents.text(
-              resource.views.onboarding.error_title,
+              resource.common.error_title,
               textStyle: OsmeaTextStyle.headlineSmall(context),
             ),
             CoreSpacer(CoreSpacerType.section),
             OsmeaComponents.button(
-              text: resource.views.onboarding.retry,
+              text: resource.common.retry,
               onPressed: onRetry,
               variant: ButtonVariant.primary,
             ),

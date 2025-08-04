@@ -21,12 +21,12 @@ class OnboardingCompletedWidget extends StatelessWidget {
           mainAxisAlignment: centerMain,
           children: [
             OsmeaComponents.text(
-              resource.views.onboarding.completed,
+              resource.common.completed,
               textStyle: OsmeaTextStyle.headlineSmall(context),
             ),
             CoreSpacer(CoreSpacerType.section),
             OsmeaComponents.text(
-              resource.views.onboarding.redirecting,
+              resource.common.redirecting,
               textStyle: OsmeaTextStyle.bodyLarge(context),
             ),
           ],
