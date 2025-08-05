@@ -168,6 +168,7 @@ abstract class MasterView<V extends BaseViewModelBloc<E, S>, E, S>
   Widget _createScaffold({required Widget body}) {
     return Scaffold(
       key: _scaffoldMessengerKey,
+      backgroundColor: OsmeaColors.white,
       body: body, // Set the body of the scaffold
     );
   }
