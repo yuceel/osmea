@@ -30,3 +30,10 @@ class SplashEventStartSplash extends SplashEvent {
 
   SplashEventStartSplash({required this.context, this.onNavigate});
 }
+
+/// Event: Initial splash event for onboarding logic
+class SplashViewInitialEvent extends SplashEvent {
+  final BuildContext context;
+
+  SplashViewInitialEvent(this.context);
+}

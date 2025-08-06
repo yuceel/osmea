@@ -24,6 +24,9 @@ class OnboardingViewModel
     on<OnboardingPageChangedEvent>(_onboardingPageChangedEvent);
   }
 
+  // Dependencies
+  final OnboardingStorageHelper _onboardingHelper = OnboardingStorageHelper();
+
   // Page Controller and State
   PageController pageController = PageController(initialPage: 0);
   int currentIndex = 0;
@@ -74,6 +77,8 @@ class OnboardingViewModel
       );
       emit(OnboardingLoadedState(currentIndex: currentIndex));
     } else {
+      // Mark onboarding as completed
+      await _onboardingHelper.markOnboardingSeen();
       // Complete onboarding and navigate
       emit(OnboardingCompleteState());
       if (_onNavigate != null) {
@@ -86,6 +91,8 @@ class OnboardingViewModel
     OnboardingSkipEvent event,
     Emitter<OnboardingState> emit,
   ) async {
+    // Mark onboarding as completed even when skipped
+    await _onboardingHelper.markOnboardingSeen();
     // Skip directly to completion
     emit(OnboardingCompleteState());
     if (_onNavigate != null) {
