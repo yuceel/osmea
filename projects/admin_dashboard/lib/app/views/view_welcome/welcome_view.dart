@@ -21,7 +21,11 @@ class WelcomeView
     super.arguments,
     super.currentView,
     super.snackBarFunction,
-  }) : super(coreAppBar: (context, viewModel) => welcomeCoreAppBar(context));
+  }) : super(
+         coreAppBar:
+             (context, viewModel) =>
+                 welcomeCoreAppBar(context, viewModel, arguments),
+       );
 
   @override
   void initialContent(WelcomeViewModel viewModel, BuildContext context) async {
@@ -44,7 +48,7 @@ class WelcomeView
     if (state is WelcomeErrorState) {
       return OsmeaComponents.center(
         child: OsmeaComponents.column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: centerMain,
           children: [
             Icon(
               Icons.error_outline,
@@ -60,7 +64,7 @@ class WelcomeView
             OsmeaComponents.text(
               state.message,
               textStyle: OsmeaTextStyle.bodyMedium(context),
-              textAlign: TextAlign.center,
+              textAlign: textCenter,
             ),
             context.emptySizedHeightBoxMedium,
             OsmeaComponents.button(
@@ -93,7 +97,7 @@ class WelcomeView
             OsmeaComponents.text(
               state.message,
               textStyle: OsmeaTextStyle.bodyMedium(context),
-              textAlign: TextAlign.center,
+              textAlign: textCenter,
             ),
           ],
         ),

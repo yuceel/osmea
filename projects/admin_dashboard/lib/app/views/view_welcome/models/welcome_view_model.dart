@@ -11,6 +11,7 @@ import 'package:admin_dashboard/app/views/view_welcome/models/module/states.dart
 import 'package:admin_dashboard/core/resources/resources.g.dart';
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
@@ -26,9 +27,32 @@ class WelcomeViewModel extends BaseViewModelBloc<WelcomeEvent, WelcomeState> {
   // Navigation callback
   Function(String route)? _onNavigate;
 
+  // OnboardingStorageHelper for DEV reset functionality
+  final OnboardingStorageHelper _onboardingHelper = OnboardingStorageHelper();
+
   /// Set navigation callback from view
   void setNavigationCallback(Function(String route)? onNavigate) {
     _onNavigate = onNavigate;
+  }
+
+  /// Reset onboarding status (DEV mode only)
+  Future<void> resetOnboardingForDev(BuildContext context) async {
+    if (kDebugMode) {
+      try {
+        await _onboardingHelper.resetOnboardingStatus();
+
+        if (context.mounted) {
+          context.snackbarSuccess(
+            "🔄 Onboarding reset! Restart app to test.",
+            duration: context.durationSlow,
+          );
+        }
+      } catch (e) {
+        if (context.mounted) {
+          context.snackbarError("❌ Error resetting onboarding");
+        }
+      }
+    }
   }
 
   // Public trigger functions - following pattern

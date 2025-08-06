@@ -26,8 +26,8 @@ class WelcomeContentWidget extends StatelessWidget {
       children: [
         // Main content
         OsmeaComponents.column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: centerMain,
+          crossAxisAlignment: crossCenter,
           children: [
             // Welcome Icon
             OsmeaComponents.container(
@@ -44,7 +44,7 @@ class WelcomeContentWidget extends StatelessWidget {
               resource.views.welcome.title,
               textStyle: OsmeaTextStyle.headlineLarge(context),
               color: OsmeaColors.black,
-              textAlign: TextAlign.center,
+              textAlign: textCenter,
             ),
             CoreSpacer(CoreSpacerType.section),
             // Description
@@ -53,7 +53,7 @@ class WelcomeContentWidget extends StatelessWidget {
               child: OsmeaComponents.text(
                 resource.views.welcome.description,
                 textStyle: OsmeaTextStyle.bodyLarge(context),
-                textAlign: TextAlign.center,
+                textAlign: textCenter,
               ),
             ),
           ],
