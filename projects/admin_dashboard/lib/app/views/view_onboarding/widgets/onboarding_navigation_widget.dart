@@ -32,10 +32,7 @@ class OnboardingNavigationWidget extends StatelessWidget {
       children: [
         // Next/Done button
         OsmeaComponents.button(
-          text:
-              isLastPage
-                  ? resource.views.onboarding.done
-                  : resource.views.onboarding.next,
+          text: isLastPage ? resource.common.done : resource.common.next,
           onPressed: onNext,
           variant: isLastPage ? ButtonVariant.success : ButtonVariant.primary,
           size: ButtonSize.medium,

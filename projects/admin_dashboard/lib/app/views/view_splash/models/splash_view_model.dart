@@ -12,8 +12,11 @@
 import 'package:admin_dashboard/app/views/view_splash/models/module/events.dart';
 import 'package:admin_dashboard/app/views/view_splash/models/module/states.dart';
 import 'package:core/core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:async';
 
 /// ViewModel for the Splash screen.
 ///
@@ -27,7 +30,14 @@ class SplashViewModel extends BaseViewModelBloc<SplashEvent, SplashState> {
     on<SplashEventCheckUser>(_onCheckUser);
     on<SplashEventNavigateHome>(_onNavigateHome);
     on<SplashEventStartSplash>(_onStartSplash);
+    on<SplashViewInitialEvent>(_splashEvent);
   }
+
+  Map<String, dynamic> deviceData = {};
+  final OnboardingStorageHelper _onboardingHelper = OnboardingStorageHelper();
+
+  // Navigation callback
+  Function(String route)? _navigationCallback;
 
   /// Starts the splash logic and triggers navigation after a delay.
   ///
@@ -37,8 +47,9 @@ class SplashViewModel extends BaseViewModelBloc<SplashEvent, SplashState> {
     BuildContext context,
     Function(String route)? onNavigate,
   ) async {
+    _navigationCallback = onNavigate;
     // Add the event to the bloc for proper state management
-    add(SplashEventStartSplash(context: context, onNavigate: onNavigate));
+    add(SplashViewInitialEvent(context));
   }
 
   /// Handles the start splash event with context-dependent duration.
@@ -61,22 +72,48 @@ class SplashViewModel extends BaseViewModelBloc<SplashEvent, SplashState> {
   void _onNavigateHome(SplashEventNavigateHome event, emit) {
     emit(SplashStateNavigateHome());
   }
-}
 
-/// Handles the user check event.
-///
-/// Simulates a user check with a delay, then emits content or error state.
-void _onCheckUser(SplashEventCheckUser event, emit) async {
-  emit(SplashStateLoading()); // Set state to loading
-  try {
-    await Future.delayed(
-      event.context.durationVeryLong,
-    ); // Use context-dependent duration
-    emit(
-      SplashStateContent(contentValue: "Content coming from View Model logic!"),
-    ); // Emit content state with a message
-  } catch (e) {
-    debugPrint('Error occurred: $e'); // Log error
-    emit(SplashStateError(contentValue: 'Failed to load content'));
+  /// Handles the user check event.
+  ///
+  /// Simulates a user check with a delay, then emits content or error state.
+  void _onCheckUser(SplashEventCheckUser event, emit) async {
+    emit(SplashStateLoading()); // Set state to loading
+    try {
+      await Future.delayed(
+        event.context.durationVeryLong,
+      ); // Use context-dependent duration
+      emit(
+        SplashStateContent(
+          contentValue: "Content coming from View Model logic!",
+        ),
+      ); // Emit content state with a message
+    } catch (e) {
+      debugPrint('Error occurred: $e'); // Log error
+      emit(SplashStateError(contentValue: 'Failed to load content'));
+    }
+  }
+
+  void splashInitial(BuildContext context) =>
+      add(SplashViewInitialEvent(context));
+
+  FutureOr<void> _splashEvent(
+    SplashViewInitialEvent event,
+    Emitter<SplashState> emit,
+  ) async {
+    emit(SplashStateLoading());
+
+    // Check onboarding status with debug info
+    final hasSeenOnboarding = await _onboardingHelper.hasSeenOnboarding();
+
+    // Additional debug info
+    await _onboardingHelper.getOnboardingDebugInfo();
+    Future.delayed(const Duration(seconds: 2), () {
+      // PROD mode logic: Check if onboarding was seen
+      if (hasSeenOnboarding) {
+        _navigationCallback?.call('/welcome');
+      } else {
+        _navigationCallback?.call('/onboarding');
+      }
+    });
   }
 }

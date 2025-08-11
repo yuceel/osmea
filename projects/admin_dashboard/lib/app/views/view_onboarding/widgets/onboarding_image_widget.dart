@@ -37,7 +37,7 @@ class OnboardingImageWidget extends StatelessWidget {
                       ),
                       context.emptySizedHeightBoxMedium,
                       OsmeaComponents.text(
-                        resource.views.onboarding.image_missing,
+                        resource.common.image_missing,
                         textStyle: OsmeaTextStyle.bodyLarge(context),
                         textAlign: TextAlign.center,
                       ),

@@ -19,6 +19,9 @@ export 'package:core/src/resources/resources.g.dart';
 // 🧩 Exports the helper for local storage
 export 'package:core/src/helper/local_storage/local_storage_helper.dart';
 
+// 🧩 Exports the onboarding storage helper
+export 'package:core/src/helper/onboarding_helper.dart';
+
 // 🧩 Exports the spacer helper for CoreSpacerType
 export 'package:core/src/helper/spacer_helper.dart';
 
