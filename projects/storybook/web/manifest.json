@@ -1,6 +1,6 @@
 {
-    "name": "osmea_storybook_example",
-    "short_name": "osmea_storybook_example",
+    "name": "osmea_storybook",
+    "short_name": "osmea_storybook",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

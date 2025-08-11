@@ -27,6 +27,43 @@ interface GitHubStatisticsProps {
   config: SiteConfig;
 }
 
+// Helper function to count all items using pagination
+async function countAllItems(baseUrl: string, state?: string): Promise<number> {
+  let totalCount = 0;
+  let page = 1;
+  const perPage = 100;
+
+  while (true) {
+    const url = state 
+      ? `${baseUrl}?state=${state}&per_page=${perPage}&page=${page}`
+      : `${baseUrl}?per_page=${perPage}&page=${page}`;
+    
+    const response = await fetch(url);
+    
+    if (!response.ok) {
+      console.warn(`Failed to fetch page ${page}:`, response.status);
+      break;
+    }
+
+    const items = await response.json();
+    
+    if (!Array.isArray(items) || items.length === 0) {
+      break;
+    }
+
+    totalCount += items.length;
+    
+    // If we got less than perPage items, we've reached the end
+    if (items.length < perPage) {
+      break;
+    }
+
+    page++;
+  }
+
+  return totalCount;
+}
+
 export default function GitHubStatistics({ config }: GitHubStatisticsProps) {
   const [stats, setStats] = useState<GitHubStats | null>(null);
   const [loading, setLoading] = useState(true);
@@ -67,34 +104,20 @@ export default function GitHubStatistics({ config }: GitHubStatisticsProps) {
           console.warn('Failed to fetch contributors:', error);
         }
 
-        // Fetch pull requests (both open and closed for total count)
+        // Fetch pull requests using pagination to get accurate count
         try {
-          // First try to get all PRs (closed + open)
-          const [openPRsResponse, closedPRsResponse] = await Promise.all([
-            fetch(`${config.api.github}/pulls?state=open&per_page=100`),
-            fetch(`${config.api.github}/pulls?state=closed&per_page=100`)
+          // Count all PRs (open + closed + merged)
+          const [openPRs, closedPRs, mergedPRs] = await Promise.all([
+            countAllItems(`${config.api.github}/pulls`, 'open'),
+            countAllItems(`${config.api.github}/pulls`, 'closed'),
+            countAllItems(`${config.api.github}/pulls`, 'merged')
           ]);
 
-          let totalPRs = 0;
-          
-          if (openPRsResponse.ok) {
-            const openPRs = await openPRsResponse.json();
-            if (Array.isArray(openPRs)) {
-              totalPRs += openPRs.length;
-            }
-          }
-          
-          if (closedPRsResponse.ok) {
-            const closedPRs = await closedPRsResponse.json();
-            if (Array.isArray(closedPRs)) {
-              totalPRs += closedPRs.length;
-            }
-          }
-
-          stats.pullRequests = totalPRs;
+          stats.pullRequests = openPRs + closedPRs + mergedPRs;
         } catch (error) {
-          console.warn('Failed to fetch pull requests:', error);
-          // Fallback to open PRs only if total fails
+          console.warn('Failed to fetch pull requests with pagination:', error);
+          
+          // Fallback to simple count if pagination fails
           try {
             const openPRsResponse = await fetch(`${config.api.github}/pulls?state=open&per_page=100`);
             if (openPRsResponse.ok) {

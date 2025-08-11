@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Github, ExternalLink } from "lucide-react";
+import { Github, ExternalLink, MessageCircle } from "lucide-react";
 
 interface FooterLink {
   text: string;
@@ -51,6 +51,42 @@ export default function FooterSection({ data }: FooterSectionProps) {
   return (
     <footer className="py-12 px-4 bg-gray-900 text-white">
       <div className="container mx-auto max-w-6xl">
+        {/* Discussions CTA Section */}
+        <div className="bg-white border border-gray-200 rounded-lg p-8 mb-8 text-center shadow-sm">
+          <div className="max-w-2xl mx-auto">
+            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <MessageCircle className="w-8 h-8 text-gray-600" />
+            </div>
+            
+            <h3 className="text-2xl font-bold mb-3 text-gray-900">
+              Have questions? Want to contribute?
+            </h3>
+            
+            <p className="text-gray-600 mb-6 text-lg">
+              Ask questions about the OSMEA project, share your suggestions, and engage with the community.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button
+                variant="default"
+                size="lg"
+                asChild
+                className="bg-gray-900 text-white hover:bg-gray-800"
+              >
+                <Link
+                  href="https://github.com/masterfabric-mobile/osmea/discussions"
+                  target="_blank"
+                  className="flex items-center gap-2"
+                >
+                  <MessageCircle className="w-5 h-5" />
+                  Join Discussions
+                  <ExternalLink className="w-4 h-4" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+
         <div className="grid md:grid-cols-3 gap-8 mb-8">
           <div>
             <h3 className="text-2xl font-bold mb-4">{data.company.name}</h3>

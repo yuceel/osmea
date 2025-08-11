@@ -2,6 +2,63 @@
 
 > This changelog is generated from the latest closed pull requests. For a full, always-up-to-date changelog, visit [Closed PRs on GitHub](https://github.com/masterfabric-mobile/osmea/pulls?state=closed&sort=updated&direction=desc).  
 
+## v1.20.11
+
+## 🆕 Added & Improvements
+
+- **#122 – OSMEA - Package - API → Network woocommerce shipping zone**  
+  [PR #122](https://github.com/masterfabric-mobile/osmea/pull/122)  
+  Integrated WooCommerce Shipping Zones and Shipping Zone Methods APIs, including CRUD services, handlers, and UI elements for zone management.
+
+- **#123 – OSMEA - Package - Docs → woocommerce config pop and sidebar menu**  
+  [PR #123](https://github.com/masterfabric-mobile/osmea/pull/123)  
+  Standardized ApiServiceRegistry category/subcategory naming and added WooCommerce-specific configuration fields to the config popup.
+
+- **#124 – OSMEA - Package - API → Network woocommerce patch operations**  
+  [PR #124](https://github.com/masterfabric-mobile/osmea/pull/124)  
+  Introduced batch update functionality for WooCommerce Coupons, Customers, and Orders via new API handlers and service registry updates.
+
+- **#126 – OSMEA - Package - API → Network woocommerce patch operations**  
+  [PR #126](https://github.com/masterfabric-mobile/osmea/pull/126)  
+  Added batch update operations for multiple WooCommerce resources (products, categories, attributes, reviews, shipping methods, tax rates, webhooks), with new handlers and registry integration.
+
+---
+
+## 🐞 Bug Fixes
+
+- **#125 – OSMEA - Projects → Admin Dashboard - Onboarding View**  
+  [PR #125](https://github.com/masterfabric-mobile/osmea/pull/125)  
+  Implemented an onboarding view for the admin dashboard, introducing a responsive, multi-step onboarding UI with improved navigation and error handling; no breaking changes.
+
+- **#129 – OSMEA - Fix → Project Admin Dashboard**  
+  [PR #129](https://github.com/masterfabric-mobile/osmea/pull/129)  
+  Structural improvements, refactors, and bug fixes for the Admin Dashboard and Onboarding modules, including navigation, event handling, and UI consistency updates.
+
+---
+
+## 📚 Documentation
+
+- **#127 – OSMEA - Components - Storybook → Carousel**  
+  [PR #127](https://github.com/masterfabric-mobile/osmea/pull/127)  
+  Adds a comprehensive interactive Storybook showcase for the Carousel component, including all variants, real-time configuration, and documentation.
+
+- **#128 – OSMEA - Components - Storybook → Searchbar**  
+  [PR #128](https://github.com/masterfabric-mobile/osmea/pull/128)  
+  Introduces an interactive Storybook showcase for the Searchbar component, supporting multiple variants, live knob controls, and style previews.
+
+- **#130 – OSMEA - Components - Storybook → Ticket**  
+  [PR #130](https://github.com/masterfabric-mobile/osmea/pull/130)  
+  Implements a modular, interactive Storybook for the Ticket Widget, with live controls for all field types, styling, and documentation.
+
+---
+
+## ⚠️ Known Issues
+
+_No explicit known issues listed in the provided closed pull requests._
+
+
+
+
 ## v1.13.9
 
 ### 🆕 Added & Improvements

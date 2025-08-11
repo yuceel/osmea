@@ -52,57 +52,6 @@ class _DeviceFrameWrapperState extends State<DeviceFrameWrapper> {
       'safeAreaPadding': const EdgeInsets.only(bottom: 40.0),
     },
   ];
-  
-  // Use global settings that persist across story changes
-  bool get showBothDevices => _DeviceFrameSettings.showBothDevices;
-  set showBothDevices(bool value) {
-    setState(() {
-      _DeviceFrameSettings.showBothDevices = value;
-    });
-  }
-  
-  bool get isFrameVisible => _DeviceFrameSettings.isFrameVisible;
-  set isFrameVisible(bool value) {
-    setState(() {
-      _DeviceFrameSettings.isFrameVisible = value;
-    });
-  }
-  
-  double get scale => _DeviceFrameSettings.scale;
-  set scale(double value) {
-    setState(() {
-      _DeviceFrameSettings.scale = value;
-    });
-  }
-
-  bool get useSafeAreaPositioning => _DeviceFrameSettings.useSafeAreaPositioning;
-  set useSafeAreaPositioning(bool value) {
-    setState(() {
-      _DeviceFrameSettings.useSafeAreaPositioning = value;
-    });
-  }
-
-  bool get isMainPageScrollable => _DeviceFrameSettings.isMainPageScrollable;
-  set isMainPageScrollable(bool value) {
-    setState(() {
-      _DeviceFrameSettings.isMainPageScrollable = value;
-    });
-  }
-
-  int get selectedDeviceIndex => _DeviceFrameSettings.selectedDeviceIndex;
-  set selectedDeviceIndex(int value) {
-    setState(() {
-      _DeviceFrameSettings.selectedDeviceIndex = value;
-    });
-  }
-
-  Map<String, dynamic> get _currentDevice => _deviceOptions[selectedDeviceIndex];
-
-  // Cached safe area calculations to avoid repeated computations
-  Offset get _safeAreaOffsetIOS => useSafeAreaPositioning ? const Offset(0, 50) : Offset.zero;
-  Offset get _safeAreaOffsetAndroid => useSafeAreaPositioning ? const Offset(0, 40) : Offset.zero;
-  EdgeInsets get _safeAreaPaddingIOS => useSafeAreaPositioning ? const EdgeInsets.only(bottom: 50.0) : EdgeInsets.zero;
-  EdgeInsets get _safeAreaPaddingAndroid => useSafeAreaPositioning ? const EdgeInsets.only(bottom: 40.0) : EdgeInsets.zero;
 
   @override
   Widget build(BuildContext context) {
@@ -135,13 +84,17 @@ class _DeviceFrameWrapperState extends State<DeviceFrameWrapper> {
         IconButton(
           icon: const Icon(Icons.zoom_out, color: Colors.black87),
           tooltip: 'Scale Down',
-          onPressed: scale > 0.3 ? () {
-            scale = ((scale * 100 - 5) / 100).clamp(0.3, 2.0);
+          onPressed: _DeviceFrameSettings.scale > 0.3 ? () {
+            setState(() {
+              _DeviceFrameSettings.scale = ((_DeviceFrameSettings.scale * 100 - 5) / 100).clamp(0.3, 2.0);
+            });
           } : null,
         ),
         GestureDetector(
           onTap: () {
-            scale = 0.60; // Reset to 60%
+            setState(() {
+              _DeviceFrameSettings.scale = 0.60; // Reset to 60%
+            });
           },
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -150,7 +103,7 @@ class _DeviceFrameWrapperState extends State<DeviceFrameWrapper> {
               borderRadius: BorderRadius.circular(4),
             ),
             child: Text(
-              '${(scale * 100).round()}%',
+              '${(_DeviceFrameSettings.scale * 100).round()}%',
               style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
@@ -162,8 +115,10 @@ class _DeviceFrameWrapperState extends State<DeviceFrameWrapper> {
         IconButton(
           icon: const Icon(Icons.zoom_in, color: Colors.black87),
           tooltip: 'Scale Up',
-          onPressed: scale < 2.0 ? () {
-            scale = ((scale * 100 + 5) / 100).clamp(0.3, 2.0);
+          onPressed: _DeviceFrameSettings.scale < 2.0 ? () {
+            setState(() {
+              _DeviceFrameSettings.scale = ((_DeviceFrameSettings.scale * 100 + 5) / 100).clamp(0.3, 2.0);
+            });
           } : null,
         ),
       ],
@@ -181,7 +136,7 @@ class _DeviceFrameWrapperState extends State<DeviceFrameWrapper> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          if (showBothDevices) ...[
+          if (_DeviceFrameSettings.showBothDevices) ...[
             // iPhone Info
             const Icon(Icons.phone_iphone, size: 16, color: Colors.blue),
             const SizedBox(width: 4),
@@ -201,19 +156,21 @@ class _DeviceFrameWrapperState extends State<DeviceFrameWrapper> {
             // Single Device Info with clickable device switching
             GestureDetector(
               onTap: () {
-                selectedDeviceIndex = (selectedDeviceIndex + 1) % _deviceOptions.length;
+                setState(() {
+                  _DeviceFrameSettings.selectedDeviceIndex = (_DeviceFrameSettings.selectedDeviceIndex + 1) % _deviceOptions.length;
+                });
               },
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(
-                    _currentDevice['icon'] as IconData,
+                    _deviceOptions[_DeviceFrameSettings.selectedDeviceIndex]['icon'] as IconData,
                     size: 16,
-                    color: _currentDevice['color'] as Color,
+                    color: _deviceOptions[_DeviceFrameSettings.selectedDeviceIndex]['color'] as Color,
                   ),
                   const SizedBox(width: 4),
                   Text(
-                    _currentDevice['name'] as String,
+                    _deviceOptions[_DeviceFrameSettings.selectedDeviceIndex]['name'] as String,
                     style: const TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
@@ -242,7 +199,7 @@ class _DeviceFrameWrapperState extends State<DeviceFrameWrapper> {
               ),
             ),
           ),
-          if (useSafeAreaPositioning) ...[
+          if (_DeviceFrameSettings.useSafeAreaPositioning) ...[
             const SizedBox(width: 4),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
@@ -272,45 +229,53 @@ class _DeviceFrameWrapperState extends State<DeviceFrameWrapper> {
         // Device Toggle Button
         IconButton(
           icon: Icon(
-            showBothDevices ? Icons.devices : Icons.phone_iphone,
+            _DeviceFrameSettings.showBothDevices ? Icons.devices : Icons.phone_iphone,
             color: Colors.black87,
           ),
-          tooltip: showBothDevices ? 'Single Device (Better Performance)' : 'Both Devices (Comparison)',
+          tooltip: _DeviceFrameSettings.showBothDevices ? 'Single Device (Better Performance)' : 'Both Devices (Comparison)',
           onPressed: () {
-            showBothDevices = !showBothDevices;
+            setState(() {
+              _DeviceFrameSettings.showBothDevices = !_DeviceFrameSettings.showBothDevices;
+            });
           },
         ),
         // Main Page Scroll Toggle
         IconButton(
           icon: Icon(
-            isMainPageScrollable ? Icons.unfold_more : Icons.pan_tool,
+            _DeviceFrameSettings.isMainPageScrollable ? Icons.unfold_more : Icons.pan_tool,
             color: Colors.black87,
           ),
-          tooltip: isMainPageScrollable ? 'Disable Main Page Scroll' : 'Enable Main Page Scroll',
+          tooltip: _DeviceFrameSettings.isMainPageScrollable ? 'Disable Main Page Scroll' : 'Enable Main Page Scroll',
           onPressed: () {
-            isMainPageScrollable = !isMainPageScrollable;
+            setState(() {
+              _DeviceFrameSettings.isMainPageScrollable = !_DeviceFrameSettings.isMainPageScrollable;
+            });
           },
         ),
         // Safe Area Positioning Toggle
         IconButton(
           icon: Icon(
-            useSafeAreaPositioning ? Icons.camera_alt : Icons.camera_alt_outlined,
+            _DeviceFrameSettings.useSafeAreaPositioning ? Icons.camera_alt : Icons.camera_alt_outlined,
             color: Colors.black87,
           ),
-          tooltip: useSafeAreaPositioning ? 'Disable Safe Area (Show Camera)' : 'Enable Safe Area (Avoid Camera)',
+          tooltip: _DeviceFrameSettings.useSafeAreaPositioning ? 'Disable Safe Area (Show Camera)' : 'Enable Safe Area (Avoid Camera)',
           onPressed: () {
-            useSafeAreaPositioning = !useSafeAreaPositioning;
+            setState(() {
+              _DeviceFrameSettings.useSafeAreaPositioning = !_DeviceFrameSettings.useSafeAreaPositioning;
+            });
           },
         ),
         // Frame Visibility Toggle
         IconButton(
           icon: Icon(
-            isFrameVisible ? Icons.smartphone : Icons.crop_free,
+            _DeviceFrameSettings.isFrameVisible ? Icons.smartphone : Icons.crop_free,
             color: Colors.black87,
           ),
-          tooltip: isFrameVisible ? 'Hide Device Frame' : 'Show Device Frame',
+          tooltip: _DeviceFrameSettings.isFrameVisible ? 'Hide Device Frame' : 'Show Device Frame',
           onPressed: () {
-            isFrameVisible = !isFrameVisible;
+            setState(() {
+              _DeviceFrameSettings.isFrameVisible = !_DeviceFrameSettings.isFrameVisible;
+            });
           },
         ),
       ],
@@ -320,7 +285,7 @@ class _DeviceFrameWrapperState extends State<DeviceFrameWrapper> {
   Widget _buildBody() {
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (isMainPageScrollable) {
+        if (_DeviceFrameSettings.isMainPageScrollable) {
           // Scrollable mode: Use proper SingleChildScrollView with sufficient space
           return SingleChildScrollView(
             padding: const EdgeInsets.all(16),
@@ -365,11 +330,11 @@ class _DeviceFrameWrapperState extends State<DeviceFrameWrapper> {
               fit: BoxFit.scaleDown,
               alignment: Alignment.topCenter,
               child: Transform.scale(
-                scale: scale,
+                scale: _DeviceFrameSettings.scale,
                 alignment: Alignment.topCenter,
                 child: IntrinsicWidth(
                   child: IntrinsicHeight(
-                    child: showBothDevices 
+                    child: _DeviceFrameSettings.showBothDevices 
                       ? _buildDualDevices()
                       : _buildSingleDevice(),
                   ),
@@ -392,8 +357,8 @@ class _DeviceFrameWrapperState extends State<DeviceFrameWrapper> {
           name: 'iPhone 16 Pro Max',
           device: Devices.ios.iPhone16ProMax,
           color: Colors.blue[700]!,
-          safeAreaOffset: _safeAreaOffsetIOS,
-          safeAreaPadding: _safeAreaPaddingIOS,
+          safeAreaOffset: _DeviceFrameSettings.useSafeAreaPositioning ? const Offset(0, 50) : Offset.zero,
+          safeAreaPadding: _DeviceFrameSettings.useSafeAreaPositioning ? const EdgeInsets.only(bottom: 50.0) : EdgeInsets.zero,
         ),
         const SizedBox(width: 32),
         // Samsung Device
@@ -401,21 +366,21 @@ class _DeviceFrameWrapperState extends State<DeviceFrameWrapper> {
           name: 'Samsung Galaxy S25',
           device: Devices.android.samsungGalaxyS25,
           color: Colors.green[700]!,
-          safeAreaOffset: _safeAreaOffsetAndroid,
-          safeAreaPadding: _safeAreaPaddingAndroid,
+          safeAreaOffset: _DeviceFrameSettings.useSafeAreaPositioning ? const Offset(0, 40) : Offset.zero,
+          safeAreaPadding: _DeviceFrameSettings.useSafeAreaPositioning ? const EdgeInsets.only(bottom: 40.0) : EdgeInsets.zero,
         ),
       ],
     );
   }
 
   Widget _buildSingleDevice() {
-    final device = _currentDevice;
+    final device = _deviceOptions[_DeviceFrameSettings.selectedDeviceIndex];
     return _buildDeviceColumn(
       name: device['name'] as String,
       device: device['device'] as DeviceInfo,
       color: (device['color'] as MaterialColor)[700]!,
-      safeAreaOffset: useSafeAreaPositioning ? device['safeAreaOffset'] as Offset : Offset.zero,
-      safeAreaPadding: useSafeAreaPositioning ? device['safeAreaPadding'] as EdgeInsets : EdgeInsets.zero,
+      safeAreaOffset: _DeviceFrameSettings.useSafeAreaPositioning ? device['safeAreaOffset'] as Offset : Offset.zero,
+      safeAreaPadding: _DeviceFrameSettings.useSafeAreaPositioning ? device['safeAreaPadding'] as EdgeInsets : EdgeInsets.zero,
     );
   }
 
@@ -442,7 +407,7 @@ class _DeviceFrameWrapperState extends State<DeviceFrameWrapper> {
         ),
         DeviceFrame(
           device: device,
-          isFrameVisible: isFrameVisible,
+          isFrameVisible: _DeviceFrameSettings.isFrameVisible,
           orientation: Orientation.portrait,
           screen: ClipRect(
             child: Transform.translate(
@@ -456,5 +421,42 @@ class _DeviceFrameWrapperState extends State<DeviceFrameWrapper> {
         ),
       ],
     );
+  }
+}
+
+/// Device Frame Configuration Helper
+/// 
+/// Provides utilities for managing device frame settings and configurations
+class DeviceFrameConfig {
+  /// Reset all settings to defaults
+  static void resetToDefaults() {
+    _DeviceFrameSettings.showBothDevices = false;
+    _DeviceFrameSettings.isFrameVisible = true;
+    _DeviceFrameSettings.scale = 0.60;
+    _DeviceFrameSettings.useSafeAreaPositioning = true;
+    _DeviceFrameSettings.isMainPageScrollable = false;
+    _DeviceFrameSettings.selectedDeviceIndex = 0;
+  }
+  
+  /// Get current settings as a map
+  static Map<String, dynamic> getCurrentSettings() {
+    return {
+      'showBothDevices': _DeviceFrameSettings.showBothDevices,
+      'isFrameVisible': _DeviceFrameSettings.isFrameVisible,
+      'scale': _DeviceFrameSettings.scale,
+      'useSafeAreaPositioning': _DeviceFrameSettings.useSafeAreaPositioning,
+      'isMainPageScrollable': _DeviceFrameSettings.isMainPageScrollable,
+      'selectedDeviceIndex': _DeviceFrameSettings.selectedDeviceIndex,
+    };
+  }
+  
+  /// Apply settings from a map
+  static void applySettings(Map<String, dynamic> settings) {
+    _DeviceFrameSettings.showBothDevices = settings['showBothDevices'] ?? false;
+    _DeviceFrameSettings.isFrameVisible = settings['isFrameVisible'] ?? true;
+    _DeviceFrameSettings.scale = settings['scale'] ?? 0.60;
+    _DeviceFrameSettings.useSafeAreaPositioning = settings['useSafeAreaPositioning'] ?? true;
+    _DeviceFrameSettings.isMainPageScrollable = settings['isMainPageScrollable'] ?? false;
+    _DeviceFrameSettings.selectedDeviceIndex = settings['selectedDeviceIndex'] ?? 0;
   }
 }
