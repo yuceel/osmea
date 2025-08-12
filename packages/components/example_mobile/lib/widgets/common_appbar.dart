@@ -28,7 +28,7 @@ class OsmeaComponentsAppBar extends StatefulWidget
 }
 
 class _OsmeaComponentsAppBarState extends State<OsmeaComponentsAppBar> {
-  String _title = 'OSMEA Examples';
+  String _title = '';
 
   @override
   void initState() {
