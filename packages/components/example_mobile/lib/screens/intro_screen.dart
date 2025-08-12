@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:osmea_components/osmea_components.dart';
 import 'package:go_router/go_router.dart';
+import '../utils/asset_paths.dart';
 
 class IntroScreen extends StatefulWidget {
   const IntroScreen({super.key});
@@ -95,23 +96,33 @@ class _IntroScreenState extends State<IntroScreen>
   @override
   Widget build(BuildContext context) {
     return OsmeaComponents.scaffold(
-      backgroundColor: OsmeaColors.black,
+      backgroundColor: OsmeaColors.white,
       body: SafeArea(
         child: FadeTransition(
           opacity: _fadeAnimation,
           child: OsmeaComponents.column(
             children: [
-              // Skip button
-              OsmeaComponents.align(
-                alignment: Alignment.topRight,
-                child: OsmeaComponents.padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: OsmeaComponents.button(
-                    text: 'Skip',
-                    variant: ButtonVariant.ghost,
-                    onPressed: _goToLogin,
-                    textColor: OsmeaColors.white,
-                  ),
+              // Header with Logo and Skip button
+              OsmeaComponents.padding(
+                padding: const EdgeInsets.all(16.0),
+                child: OsmeaComponents.row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    // Logo on the left
+                    OsmeaComponents.image(
+                      width: 40,
+                      height: 40,
+                      assetPath: AssetPaths.osmeaLogo,
+                      fit: BoxFit.contain,
+                    ),
+                    // Skip button on the right
+                    OsmeaComponents.button(
+                      text: 'Skip',
+                      variant: ButtonVariant.ghost,
+                      onPressed: _goToLogin,
+                      textColor: OsmeaColors.black,
+                    ),
+                  ],
                 ),
               ),
 
@@ -147,7 +158,7 @@ class _IntroScreenState extends State<IntroScreen>
                           height: 8,
                           decoration: BoxDecoration(
                             color: _currentPage == index
-                                ? OsmeaColors.white
+                                ? OsmeaColors.black
                                 : OsmeaColors.grayMaterial,
                             borderRadius: BorderRadius.circular(4),
                           ),
@@ -165,8 +176,8 @@ class _IntroScreenState extends State<IntroScreen>
                       variant: ButtonVariant.primary,
                       onPressed: _nextPage,
                       fullWidth: true,
-                      backgroundColor: OsmeaColors.white,
-                      textColor: OsmeaColors.black,
+                      backgroundColor: OsmeaColors.black,
+                      textColor: OsmeaColors.white,
                     ),
                   ],
                 ),
@@ -184,19 +195,19 @@ class _IntroScreenState extends State<IntroScreen>
       child: OsmeaComponents.column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Logo Image instead of Icon
+          // Icon instead of Logo Image
           OsmeaComponents.container(
             width: 120,
             height: 120,
             decoration: BoxDecoration(
-              color: OsmeaColors.white.withOpacity(0.1),
+              color: OsmeaColors.grayMaterial,
               borderRadius: BorderRadius.circular(60),
             ),
             child: OsmeaComponents.center(
-              child: OsmeaComponents.image(
-                imageUrl: 'assets/images/osmea_logo_black.png',
-                variant: ImageVariant.normal,
-                size: ImageSize.medium,
+              child: Icon(
+                page.icon,
+                size: 60,
+                color: OsmeaColors.black,
               ),
             ),
           ),
@@ -207,7 +218,7 @@ class _IntroScreenState extends State<IntroScreen>
           OsmeaComponents.text(
             page.title,
             variant: OsmeaTextVariant.headlineLarge,
-            color: OsmeaColors.white,
+            color: OsmeaColors.black,
             fontWeight: FontWeight.bold,
             textAlign: TextAlign.center,
           ),
@@ -218,7 +229,7 @@ class _IntroScreenState extends State<IntroScreen>
           OsmeaComponents.text(
             page.subtitle,
             variant: OsmeaTextVariant.titleMedium,
-            color: OsmeaColors.grayMaterial,
+            color: OsmeaColors.slate,
             textAlign: TextAlign.center,
           ),
 
@@ -228,7 +239,7 @@ class _IntroScreenState extends State<IntroScreen>
           OsmeaComponents.text(
             page.description,
             variant: OsmeaTextVariant.bodyLarge,
-            color: OsmeaColors.white.withOpacity(0.8),
+            color: OsmeaColors.grayMaterial,
             textAlign: TextAlign.center,
           ),
         ],

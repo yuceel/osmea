@@ -23,7 +23,7 @@ class _ModernLoginScreenState extends State<ModernLoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return OsmeaComponents.container(
       color: OsmeaColors.white,
       child: OsmeaComponents.padding(
         padding: context.paddingNormal,
@@ -32,7 +32,7 @@ class _ModernLoginScreenState extends State<ModernLoginScreen> {
             // Logo Section
             OsmeaComponents.sizedBox(height: 60),
             Center(
-              child: Container(
+              child: OsmeaComponents.container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: OsmeaColors.white,
@@ -61,7 +61,7 @@ class _ModernLoginScreenState extends State<ModernLoginScreen> {
 
             // Welcome Text
             OsmeaComponents.text(
-              'Welcome Back',
+              'Ready to Explore?',
               textStyle: OsmeaTextStyle.headlineMedium(context).copyWith(
                 fontWeight: FontWeight.w700,
                 color: OsmeaColors.black,
@@ -70,7 +70,7 @@ class _ModernLoginScreenState extends State<ModernLoginScreen> {
             ),
             OsmeaComponents.sizedBox(height: 8),
             OsmeaComponents.text(
-              'Sign in to continue to OSMEA Components',
+              'Access the complete OSMEA Components library',
               textStyle: OsmeaTextStyle.bodyMedium(context).copyWith(
                 color: OsmeaColors.slate,
               ),
@@ -96,7 +96,7 @@ class _ModernLoginScreenState extends State<ModernLoginScreen> {
             OsmeaComponents.sizedBox(height: 24),
 
             // Login Button
-            Container(
+            OsmeaComponents.container(
               width: double.infinity,
               height: 56,
               decoration: BoxDecoration(
@@ -161,7 +161,7 @@ class _ModernLoginScreenState extends State<ModernLoginScreen> {
             OsmeaComponents.sizedBox(height: 24),
 
             // Production Login Note
-            Container(
+            OsmeaComponents.container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: OsmeaColors.white,

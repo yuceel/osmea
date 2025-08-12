@@ -7,7 +7,7 @@ class ProductionAuthService implements AuthService {
     await Future.delayed(const Duration(milliseconds: 500));
 
     // Production authentication logic with specific credentials
-    if (username.toLowerCase() == 'istanbul' && password == 'MasterFabric') {
+    if (username.toLowerCase() == 'Istanbul' && password == 'MasterFabric') {
       return AuthResult.success(
         userDisplayName: 'Istanbul User',
         userData: {'id': 1, 'role': 'user', 'location': 'Istanbul'},

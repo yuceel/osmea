@@ -404,7 +404,7 @@ class _ModernComponentsScreenState extends State<ModernComponentsScreen> {
         decoration: BoxDecoration(
           color: OsmeaColors.white,
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: OsmeaColors.grayMaterial.withOpacity(0.1)),
+          border: Border.all(color: OsmeaColors.silver),
         ),
         child: InkWell(
           onTap: () => Navigator.push(
@@ -460,8 +460,7 @@ class _ModernComponentsScreenState extends State<ModernComponentsScreen> {
           decoration: BoxDecoration(
             color: OsmeaColors.white,
             borderRadius: BorderRadius.circular(12),
-            border:
-                Border.all(color: OsmeaColors.grayMaterial.withOpacity(0.1)),
+            border: Border.all(color: OsmeaColors.silver),
           ),
           child: ListView.builder(
             shrinkWrap: true,
@@ -505,7 +504,7 @@ class _ModernComponentsScreenState extends State<ModernComponentsScreen> {
       backgroundColor: OsmeaColors.white,
       borderVariant:
           isLast ? ListItemBorderVariant.none : ListItemBorderVariant.bottom,
-      borderColor: OsmeaColors.grayMaterial.withOpacity(0.1),
+      borderColor: OsmeaColors.silver,
       borderWidth: 0.5,
     );
   }

@@ -83,7 +83,7 @@ class _ModernInfoScreenState extends State<ModernInfoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return OsmeaComponents.scaffold(
       backgroundColor: OsmeaColors.white,
       body: SafeArea(
         child: CustomScrollView(
@@ -140,8 +140,7 @@ class _ModernInfoScreenState extends State<ModernInfoScreen> {
                     children: [
                       OsmeaComponents.text(
                         'LOGO',
-                        textStyle: TextStyle(
-                          fontSize: 8,
+                        textStyle: OsmeaTextStyle.labelSmall(context).copyWith(
                           fontWeight: FontWeight.w700,
                           color: OsmeaColors.white,
                           letterSpacing: -0.5,
@@ -149,8 +148,7 @@ class _ModernInfoScreenState extends State<ModernInfoScreen> {
                       ),
                       OsmeaComponents.text(
                         'ERROR',
-                        textStyle: TextStyle(
-                          fontSize: 8,
+                        textStyle: OsmeaTextStyle.labelSmall(context).copyWith(
                           fontWeight: FontWeight.w700,
                           color: OsmeaColors.white,
                           letterSpacing: -0.5,
@@ -165,34 +163,17 @@ class _ModernInfoScreenState extends State<ModernInfoScreen> {
                 child: OsmeaComponents.column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    OsmeaComponents.image(
-                      width: 120,
-                      height: 32,
-                      assetPath: AssetPaths.osmeaLogo,
-                      fit: BoxFit.contain,
-                      errorWidget: OsmeaComponents.container(
-                        width: 120,
-                        height: 32,
-                        decoration: BoxDecoration(
-                          color: OsmeaColors.red,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: OsmeaComponents.center(
-                          child: OsmeaComponents.text(
-                            'LOGO ERROR: ${AssetPaths.osmeaLogo}',
-                            textStyle: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w700,
-                              color: OsmeaColors.white,
-                            ),
-                          ),
-                        ),
+                    OsmeaComponents.text(
+                      'Components App',
+                      textStyle: OsmeaTextStyle.headlineSmall(context).copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: OsmeaColors.black,
                       ),
                     ),
+                    OsmeaComponents.sizedBox(height: 8),
                     OsmeaComponents.text(
                       'Modern UI Kit',
-                      textStyle: TextStyle(
-                        fontSize: 16,
+                      textStyle: OsmeaTextStyle.titleMedium(context).copyWith(
                         fontWeight: FontWeight.w500,
                         color: OsmeaColors.slate,
                       ),
@@ -208,8 +189,7 @@ class _ModernInfoScreenState extends State<ModernInfoScreen> {
           // Description
           OsmeaComponents.text(
             'Enterprise-grade Flutter UI components designed for modern applications.',
-            textStyle: TextStyle(
-              fontSize: 16,
+            textStyle: OsmeaTextStyle.bodyLarge(context).copyWith(
               fontWeight: FontWeight.w400,
               color: OsmeaColors.slate,
               height: 1.4,
@@ -238,9 +218,10 @@ class _ModernInfoScreenState extends State<ModernInfoScreen> {
       content: '$value $label',
       variant: BadgeVariant.primary,
       size: BadgeSize.medium,
-      style: BadgeStyle.normal,
-      backgroundColor: OsmeaColors.black,
-      textColor: OsmeaColors.white,
+      style: BadgeStyle.outlined,
+      backgroundColor: OsmeaColors.white,
+      textColor: OsmeaColors.black,
+      borderColor: OsmeaColors.silver,
     );
   }
 
@@ -324,8 +305,7 @@ class _ModernInfoScreenState extends State<ModernInfoScreen> {
               children: [
                 OsmeaComponents.text(
                   action['title'],
-                  textStyle: TextStyle(
-                    fontSize: 14,
+                  textStyle: OsmeaTextStyle.labelLarge(context).copyWith(
                     fontWeight: FontWeight.w600,
                     color: OsmeaColors.black,
                   ),
@@ -333,8 +313,7 @@ class _ModernInfoScreenState extends State<ModernInfoScreen> {
                 OsmeaComponents.sizedBox(height: 2),
                 OsmeaComponents.text(
                   action['subtitle'],
-                  textStyle: TextStyle(
-                    fontSize: 12,
+                  textStyle: OsmeaTextStyle.bodySmall(context).copyWith(
                     fontWeight: FontWeight.w400,
                     color: OsmeaColors.slate,
                   ),
@@ -353,34 +332,35 @@ class _ModernInfoScreenState extends State<ModernInfoScreen> {
       child: OsmeaComponents.column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          OsmeaComponents.sizedBox(height: 20),
           OsmeaComponents.text(
             'Contributors',
-            textStyle: TextStyle(
-              fontSize: 20,
+            textStyle: OsmeaTextStyle.headlineSmall(context).copyWith(
               fontWeight: FontWeight.w700,
               color: OsmeaColors.black,
             ),
           ),
           OsmeaComponents.sizedBox(height: 16),
           if (isLoading)
-            const Center(
-              child: CircularProgressIndicator(
+            OsmeaComponents.center(
+              child: OsmeaComponents.loading(
+                type: LoadingType.circularFade,
+                size: 36,
                 color: OsmeaColors.black,
               ),
             )
           else if (contributors.isEmpty)
-            Center(
+            OsmeaComponents.center(
               child: OsmeaComponents.text(
                 'No contributors found',
-                textStyle: TextStyle(
-                  fontSize: 14,
+                textStyle: OsmeaTextStyle.bodyMedium(context).copyWith(
                   fontWeight: FontWeight.w500,
                   color: OsmeaColors.slate,
                 ),
               ),
             )
           else
-            SizedBox(
+            OsmeaComponents.sizedBox(
               height: 80,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
@@ -430,7 +410,7 @@ class _ModernInfoScreenState extends State<ModernInfoScreen> {
                   width: 1,
                 ),
               ),
-              child: ClipRRect(
+              child: OsmeaComponents.clipRRect(
                 borderRadius: BorderRadius.circular(12),
                 child: Image.network(
                   avatarUrl,
@@ -438,7 +418,7 @@ class _ModernInfoScreenState extends State<ModernInfoScreen> {
                   errorBuilder: (context, error, stackTrace) {
                     return OsmeaComponents.container(
                       decoration: BoxDecoration(
-                        color: OsmeaColors.silver,
+                        color: OsmeaColors.slate,
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Icon(
@@ -454,8 +434,7 @@ class _ModernInfoScreenState extends State<ModernInfoScreen> {
             OsmeaComponents.sizedBox(height: 6),
             OsmeaComponents.text(
               username,
-              textStyle: TextStyle(
-                fontSize: 11,
+              textStyle: OsmeaTextStyle.labelSmall(context).copyWith(
                 fontWeight: FontWeight.w500,
                 color: OsmeaColors.black,
               ),
@@ -491,8 +470,7 @@ class _ModernInfoScreenState extends State<ModernInfoScreen> {
               child: OsmeaComponents.center(
                 child: OsmeaComponents.text(
                   'MF',
-                  textStyle: TextStyle(
-                    fontSize: 12,
+                  textStyle: OsmeaTextStyle.labelMedium(context).copyWith(
                     fontWeight: FontWeight.w700,
                     color: OsmeaColors.white,
                   ),
@@ -503,8 +481,7 @@ class _ModernInfoScreenState extends State<ModernInfoScreen> {
           OsmeaComponents.sizedBox(width: 12),
           OsmeaComponents.text(
             'Built with by MasterFabric',
-            textStyle: TextStyle(
-              fontSize: 14,
+            textStyle: OsmeaTextStyle.bodyMedium(context).copyWith(
               fontWeight: FontWeight.w500,
               color: OsmeaColors.black,
             ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:osmea_components/osmea_components.dart';
 import 'package:go_router/go_router.dart';
+import '../utils/asset_paths.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -114,11 +115,11 @@ class _SplashScreenState extends State<SplashScreen>
               scale: _logoScale,
               child: FadeTransition(
                 opacity: _logoOpacity,
-                child: Container(
+                child: OsmeaComponents.container(
                   width: 120,
                   height: 120,
                   child: Image.asset(
-                    'assets/images/osmea_logo_black.png',
+                    AssetPaths.osmeaLogo,
                     fit: BoxFit.contain,
                   ),
                 ),
