@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:osmea_components/osmea_components.dart';
 import '../routes/app_routes.dart';
 
