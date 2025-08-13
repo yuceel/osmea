@@ -82,7 +82,7 @@ class _OsmeaComponentsAppBarState extends State<OsmeaComponentsAppBar> {
         icon: const Icon(Icons.arrow_back_ios_new, size: 20),
         iconPosition: IconPosition.only,
         onPressed: () {
-          // GoRouter ile components sayfasına geri dön
+          // Go back to components page with GoRouter
           if (context.canPop()) {
             context.pop();
           } else {

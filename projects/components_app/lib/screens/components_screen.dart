@@ -1,6 +1,6 @@
 import 'package:components_app/constants/components_list.dart';
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
-import 'package:osmea_components/osmea_components.dart';
 
 class ModernComponentsScreen extends StatefulWidget {
   const ModernComponentsScreen({super.key});

@@ -90,7 +90,7 @@ class _SplashScreenState extends State<SplashScreen>
     // Navigate to intro screen after animations complete
     await Future.delayed(const Duration(milliseconds: 2000));
     if (mounted) {
-      context.go('/intro'); // Go Router ile navigation
+      context.go('/intro'); // Navigation with Go Router
     }
   }
 

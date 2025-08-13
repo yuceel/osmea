@@ -90,7 +90,7 @@ class _IntroScreenState extends State<IntroScreen>
   }
 
   void _goToLogin() {
-    context.go('/'); // Ana sayfaya git (ShellRoute ile)
+    context.go('/'); // Go to main page (with ShellRoute)
   }
 
   @override

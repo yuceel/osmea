@@ -59,17 +59,17 @@ import '../components/toast_example.dart';
 import '../components/wrap_example.dart';
 
 class AppRoutes {
-  // Route paths - Splash ve Intro
+  // Route paths - Splash and Intro
   static const String splash = '/splash';
   static const String intro = '/intro';
 
-  // Route paths - Ana sayfalar
+  // Route paths - Main pages
   static const String home = '/';
   static const String login = '/login';
   static const String components = '/components';
   static const String info = '/info';
 
-  // Route paths - Component sayfaları (Test için sadece birkaç tane)
+  // Route paths - Component pages (Only a few for testing)
   static const String align = '/component/align';
   static const String button = '/component/button';
   static const String card = '/component/card';
@@ -133,7 +133,7 @@ class AppRoutes {
     },
 
     routes: [
-      // Splash ve Intro screen'ler - ShellRoute dışında
+      // Splash and Intro screens - Outside ShellRoute
       GoRoute(
         path: splash,
         name: 'splash',
