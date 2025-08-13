@@ -15,17 +15,17 @@ class ShopGraphQLHandler implements ApiRequestHandler {
     final shopService = GetIt.instance<ShopGraphQLService>();
 
     switch (method) {
-      case 'GET':
-        return await _handleGetShop(shopService, params);
+      case 'QUERY':
+        return await _handleQueryShop(shopService, params);
       default:
         return {
-          "error": "Method $method not supported for Shop GraphQL API",
+          "error": "Operation $method not supported for Shop GraphQL API",
           "supportedMethods": supportedMethods,
         };
     }
   }
 
-  Future<Map<String, dynamic>> _handleGetShop(
+  Future<Map<String, dynamic>> _handleQueryShop(
       ShopGraphQLService service, Map<String, String> params) async {
     try {
       final result = await service.getShop();
@@ -56,7 +56,7 @@ class ShopGraphQLHandler implements ApiRequestHandler {
   }
 
   @override
-  List<String> get supportedMethods => ['GET'];
+  List<String> get supportedMethods => ['QUERY'];
 
   @override
   Map<String, List<ApiField>> get requiredFields => {

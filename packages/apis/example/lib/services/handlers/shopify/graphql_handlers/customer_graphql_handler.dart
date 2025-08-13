@@ -15,21 +15,19 @@ class CustomerGraphQLHandler implements ApiRequestHandler {
     final customerService = GetIt.instance<CustomerGraphQLService>();
 
     switch (method) {
-      case 'GET':
-        return await _handleGetCustomers(customerService, params);
-      case 'POST':
-        return await _handleCreateCustomer(customerService, params);
-      case 'PUT':
-        return await _handleUpdateCustomer(customerService, params);
+      case 'QUERY':
+        return await _handleQueryCustomers(customerService, params);
+      case 'MUTATION':
+        return await _handleMutateCustomer(customerService, params);
       default:
         return {
-          "error": "Method $method not supported for Customer GraphQL API",
+          "error": "Operation $method not supported for Customer GraphQL API",
           "supportedMethods": supportedMethods,
         };
     }
   }
 
-  Future<Map<String, dynamic>> _handleGetCustomers(
+  Future<Map<String, dynamic>> _handleQueryCustomers(
       CustomerGraphQLService service, Map<String, String> params) async {
     try {
       final id = params['id'] ?? params['customer_id'];
@@ -130,6 +128,23 @@ class CustomerGraphQLHandler implements ApiRequestHandler {
         "message": "Exception occurred while fetching customers: $e",
         "timestamp": DateTime.now().toIso8601String(),
       };
+    }
+  }
+
+  Future<Map<String, dynamic>> _handleMutateCustomer(
+      CustomerGraphQLService service, Map<String, String> params) async {
+    final operation = params['operation'] ?? 'create';
+
+    switch (operation.toLowerCase()) {
+      case 'create':
+        return await _handleCreateCustomer(service, params);
+      case 'update':
+        return await _handleUpdateCustomer(service, params);
+      default:
+        return {
+          "error": "Mutation operation '$operation' not supported",
+          "supportedOperations": ["create", "update"],
+        };
     }
   }
 
@@ -273,7 +288,7 @@ class CustomerGraphQLHandler implements ApiRequestHandler {
   }
 
   @override
-  List<String> get supportedMethods => ['GET', 'POST', 'PUT'];
+  List<String> get supportedMethods => ['QUERY', 'MUTATION'];
 
   @override
   Map<String, List<ApiField>> get requiredFields => {

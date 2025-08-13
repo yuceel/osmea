@@ -15,19 +15,34 @@ class OrderGraphQLHandler implements ApiRequestHandler {
     final orderService = GetIt.instance<OrderGraphQLService>();
 
     switch (method) {
-      case 'GET':
-        return await _handleGetOrders(orderService, params);
-      case 'PUT':
-        return await _handleUpdateOrder(orderService, params);
+      case 'QUERY':
+        return await _handleQueryOrders(orderService, params);
+      case 'MUTATION':
+        return await _handleMutateOrder(orderService, params);
       default:
         return {
-          "error": "Method $method not supported for Order GraphQL API",
+          "error": "Operation $method not supported for Order GraphQL API",
           "supportedMethods": supportedMethods,
         };
     }
   }
 
-  Future<Map<String, dynamic>> _handleGetOrders(
+  Future<Map<String, dynamic>> _handleMutateOrder(
+      OrderGraphQLService service, Map<String, String> params) async {
+    final operation = params['operation'] ?? 'update';
+
+    switch (operation.toLowerCase()) {
+      case 'update':
+        return await _handleUpdateOrder(service, params);
+      default:
+        return {
+          "error": "Mutation operation '$operation' not supported",
+          "supportedOperations": ["update"],
+        };
+    }
+  }
+
+  Future<Map<String, dynamic>> _handleQueryOrders(
       OrderGraphQLService service, Map<String, String> params) async {
     try {
       final id = params['id'] ?? params['order_id'];
@@ -193,7 +208,7 @@ class OrderGraphQLHandler implements ApiRequestHandler {
   }
 
   @override
-  List<String> get supportedMethods => ['GET', 'PUT'];
+  List<String> get supportedMethods => ['QUERY', 'MUTATION'];
 
   @override
   Map<String, List<ApiField>> get requiredFields => {
