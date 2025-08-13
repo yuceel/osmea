@@ -123,7 +123,7 @@ class AppRoutes {
 
   // Go Router configuration
   static final GoRouter router = GoRouter(
-    initialLocation: splash, // Splash screen ile başla
+    initialLocation: splash, // Start with splash screen 
     debugLogDiagnostics: true,
 
     // Global redirect logic
@@ -187,7 +187,7 @@ class AppRoutes {
     errorBuilder: (context, state) => ErrorScreen(error: state.error),
   );
 
-  // Route helper methods - Kolay navigation için
+  // Route helper methods - For easy navigation 
   static void goToHome(BuildContext context) {
     context.go(home);
   }
@@ -207,7 +207,7 @@ class AppRoutes {
     }
   }
 
-  // Component name'den route path bulma
+  // Find route path from component name  
   static String? _getComponentRoute(String componentName) {
     final routes = {
       'Align': 'align',
@@ -264,7 +264,7 @@ class AppRoutes {
     return routes[componentName];
   }
 
-  // Component name'den widget döndürme
+  // Return widget from component name  
   static Widget _getComponentWidget(String componentName) {
     final routes = {
       'align': const AlignExample(),
