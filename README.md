@@ -429,7 +429,7 @@ Check out our [Issues](https://github.com/masterfabric-mobile/osmea/issues) for:
 
 <div align="center">
 
-### 🚀 **[Try Live Demo →](https://osmea-app.web.app)**
+### 🚀 **[Try Live Demo →](https://components.masterfabric.co)**
 
 Experience all components in action with our interactive demo application.
 

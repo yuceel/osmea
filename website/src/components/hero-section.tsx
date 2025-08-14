@@ -101,7 +101,7 @@ export default function HeroSection({ data }: HeroSectionProps) {
 
               <Button variant="outline" size="lg" asChild className="border-blue-600 text-blue-600 hover:bg-blue-50">
                 <Link
-                  href="https://osmea-app.web.app/"
+                  href="https://components.masterfabric.co/"
                   target="_blank"
                   className="flex items-center gap-2"
                 >

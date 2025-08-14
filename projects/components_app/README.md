@@ -4,12 +4,12 @@
 
 [![Flutter](https://img.shields.io/badge/Flutter-3.19.0+-blue?logo=flutter)](https://flutter.dev)
 [![Dart](https://img.shields.io/badge/Dart-2.17.0+-blue?logo=dart)](https://dart.dev)
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-osmea--app.web.app-brightgreen?logo=google-chrome)](https://osmea-app.web.app)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-osmea--app.web.app-brightgreen?logo=google-chrome)](https://components.masterfabric.co)
 [![License](https://img.shields.io/badge/License-GNU%20AGPL%20v3.0-green.svg)](../LICENSE)
 
 **A comprehensive Flutter app demonstrating the power and flexibility of the OSMEA Components UI library**
 
-[🚀 Live Demo](https://osmea-app.web.app) • [📚 Documentation](https://github.com/masterfabric-mobile/osmea/tree/dev/packages/components) • [🐛 Report Issues](https://github.com/masterfabric-mobile/osmea/issues)
+[🚀 Live Demo](https://components.masterfabric.co) • [📚 Documentation](https://github.com/masterfabric-mobile/osmea/tree/dev/packages/components) • [🐛 Report Issues](https://github.com/masterfabric-mobile/osmea/issues)
 
 </div>
 
@@ -35,7 +35,7 @@ The **OSMEA Components App** is a production-ready Flutter application that serv
 <div align="center">
 
 > **Experience OSMEA Components in Action**  
-> 🌐 **[osmea-app.web.app](https://osmea-app.web.app)**
+> 🌐 **[osmea-app.web.app](https://components.masterfabric.co)**
 
 *Interactive playground showcasing all OSMEA components with real-time examples*
 
