@@ -1,7 +1,7 @@
 name: apis
-description: "This package serves as the API network layer for the Storefront and Storefront Admin applications. It is responsible for handling all RESTful API requests and responses, providing a centralized and reusable solution for network communication."
+description: "This package serves as the API network layer for e-commerce applications. It provides RESTful API handling for Shopify and WooCommerce, with a modern wizard-based configuration system and cross-platform storage (SQLite3 for mobile, SharedPreferences for web)."
 
-version: 0.0.1
+version: 0.2.0
 # homepage:
 
 # Environment configuration
@@ -29,13 +29,16 @@ dependencies:
   # File management
   path_provider: 2.1.5
 
+  # Database and Storage
+  sqflite: ^2.4.2
+  path: ^1.9.0
+  shared_preferences: ^2.5.3
+
   # Logging
   logger: 1.4.0
 
-  # JSON serialization and code generation
-  json_annotation: 4.9.0
+  # Code generation and annotations
   freezed_annotation: 2.4.4
-  json_serializable: 6.9.0
   freezed: 2.5.7
   
   # GraphQL dependencies

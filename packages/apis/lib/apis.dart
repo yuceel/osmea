@@ -1,5 +1,9 @@
 library apis;
 
+// 🧙‍♂️ Wizard Exports
+export 'services/wizard_helper.dart';
+export 'services/cross_platform_storage.dart';
+
 // 🌐 GraphQL Exports
 export 'dio_config/shopify_graphql_client.dart';
 export 'network/remote/shopify/graphql/services/product_graphql_service.dart';
@@ -10,10 +14,10 @@ export 'network/remote/shopify/graphql/helpers/graphql_helper.dart';
 
 // 🌐 Dependency Injection & Utilities
 import 'package:apis/di/config/config_di.dart';
+import 'package:apis/services/wizard_helper.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
-import 'package:apis/helpers/json_config_helper.dart';
 
 // For WooCommerce: Basic Auth and configuration
 import 'dart:convert';
@@ -79,22 +83,42 @@ class ApiNetwork {
   ///
   /// Example usage:
   ///   await ApiNetwork.initFromConfig(GetIt.instance);
+  ///
+  /// Note: This method is deprecated. Use the wizard-based configuration system instead.
   static Future<GetIt> initFromConfig(GetIt getIt) async {
-    final configHelper = await JsonConfigHelper.load('assets/config.json');
-    final storeName = configHelper.get('root.shopify.storeName');
-    final shopifyAccessToken =
-        configHelper.get('root.shopify.shopifyAccessToken');
-    final apiVersion = configHelper.get('root.shopify.apiVersion');
-    if (storeName.isEmpty || shopifyAccessToken.isEmpty || apiVersion.isEmpty) {
-      // Developer warning
-      print('[ApiNetwork] Shopify config eksik veya hatalı!');
+    // This method is deprecated. Use the new wizard-based configuration system.
+    print(
+        '[ApiNetwork] initFromConfig is deprecated. Use the wizard-based configuration system instead.');
+    throw UnimplementedError(
+        'Use the wizard-based configuration system instead of config.json files.');
+  }
+
+  /// 🚀 Initialize from wizard configuration
+  ///
+  /// Example usage:
+  ///   await ApiNetwork.initFromWizard(GetIt.instance);
+  static Future<GetIt> initFromWizard(GetIt getIt) async {
+    try {
+      // Initialize wizard helper
+      await WizardHelper.init();
+
+      // Load configuration from wizard
+      final config = await WizardHelper.loadConfiguration();
+      if (config != null && config.platform == 'shopify' && config.isComplete) {
+        return init(
+          getIt,
+          storeName: config.storeName!,
+          shopifyAccessToken: config.shopifyAccessToken!,
+          apiVersion: config.apiVersion!,
+        );
+      } else {
+        throw Exception(
+            'Shopify configuration not found or incomplete. Please complete the setup wizard first.');
+      }
+    } catch (e) {
+      print('[ApiNetwork] Error initializing from wizard: $e');
+      rethrow;
     }
-    return init(
-      getIt,
-      storeName: storeName,
-      shopifyAccessToken: shopifyAccessToken,
-      apiVersion: apiVersion,
-    );
   }
 
   /// 🌍 Computed Shopify Admin API base URL.
@@ -140,6 +164,21 @@ class ApiNetwork {
   }) {
     ApiNetwork.onRequestInterceptor = onRequestInInterceptor;
   }
+
+  /// 🚀 Initialize wizard helper and storage
+  static Future<void> initWizard() async {
+    await WizardHelper.init();
+  }
+
+  /// 🚀 Get wizard configuration status
+  static Future<String> getWizardStatus() async {
+    return await WizardHelper.getConfigurationStatus();
+  }
+
+  /// 🚀 Get storage information
+  static Future<Map<String, dynamic>> getStorageInfo() async {
+    return await WizardHelper.getStorageInfo();
+  }
 }
 
 class WooNetwork {
@@ -173,42 +212,45 @@ class WooNetwork {
   /// Example usage:
   ///   await WooNetwork.initFromConfig(GetIt.instance);
   /// Initializes WooCommerce from config.json
+  ///
+  /// Note: This method is deprecated. Use the wizard-based configuration system instead.
   static Future<GetIt> initFromConfig(GetIt getIt) async {
-    final configHelper = await JsonConfigHelper.load('assets/config.json');
-    final storeUrl = configHelper.get('root.woocommerce.storeUrl');
-    final username = configHelper.get('root.woocommerce.username');
-    final password = configHelper.get('root.woocommerce.password');
-    final apiVersion = configHelper.get('root.woocommerce.apiVersion');
-
-    print('[WooNetwork DEBUG] storeUrl: "$storeUrl"');
-    print('[WooNetwork DEBUG] username: "$username"');
+    // This method is deprecated. Use the new wizard-based configuration system.
     print(
-        '[WooNetwork DEBUG] password: "${password.isNotEmpty ? "***" : "EMPTY"}"');
-    print('[WooNetwork DEBUG] apiVersion: "$apiVersion"');
+        '[WooNetwork] initFromConfig is deprecated. Use the wizard-based configuration system instead.');
+    throw UnimplementedError(
+        'Use the wizard-based configuration system instead of config.json files.');
+  }
 
-    if (storeUrl.isEmpty ||
-        username.isEmpty ||
-        password.isEmpty ||
-        apiVersion.isEmpty) {
-      // Developer warning
-      print('[WooNetwork] WooCommerce configuration is missing or invalid!');
-      print('[WooNetwork] storeUrl.isEmpty: ${storeUrl.isEmpty}');
-      print('[WooNetwork] username.isEmpty: ${username.isEmpty}');
-      print('[WooNetwork] password.isEmpty: ${password.isEmpty}');
-      print('[WooNetwork] apiVersion.isEmpty: ${apiVersion.isEmpty}');
+  /// 🚀 Initialize from wizard configuration
+  ///
+  /// Example usage:
+  ///   await WooNetwork.initFromWizard(GetIt.instance);
+  static Future<GetIt> initFromWizard(GetIt getIt) async {
+    try {
+      // Initialize wizard helper
+      await WizardHelper.init();
+
+      // Load configuration from wizard
+      final config = await WizardHelper.loadConfiguration();
+      if (config != null &&
+          config.platform == 'woocommerce' &&
+          config.isComplete) {
+        return init(
+          getIt,
+          storeUrl: config.storeUrl!,
+          username: config.username!,
+          password: config.password!,
+          apiVersion: config.apiVersion!,
+        );
+      } else {
+        throw Exception(
+            'WooCommerce configuration not found or incomplete. Please complete the setup wizard first.');
+      }
+    } catch (e) {
+      print('[WooNetwork] Error initializing from wizard: $e');
+      rethrow;
     }
-
-    final result = init(
-      getIt,
-      storeUrl: storeUrl,
-      username: username,
-      password: password,
-      apiVersion: apiVersion,
-    );
-
-    print(
-        '[WooNetwork] Initialization completed. storeUrl: "${WooNetwork.storeUrl}"');
-    return result;
   }
 
   static String get baseUrl {
@@ -240,6 +282,21 @@ class WooNetwork {
     String encoded = base64Encode(utf8.encode(credentials));
     return 'Basic $encoded';
   }
+
+  /// 🚀 Initialize wizard helper and storage
+  static Future<void> initWizard() async {
+    await WizardHelper.init();
+  }
+
+  /// 🚀 Get wizard configuration status
+  static Future<String> getWizardStatus() async {
+    return await WizardHelper.getConfigurationStatus();
+  }
+
+  /// 🚀 Get storage information
+  static Future<Map<String, dynamic>> getStorageInfo() async {
+    return await WizardHelper.getStorageInfo();
+  }
 }
 
 /// Central initializer: If config.json contains shopify, woocommerce, or both, initializes the relevant networks.
@@ -247,36 +304,64 @@ class WooNetwork {
 /// Example usage:
 ///   await initNetworksFromConfig(GetIt.instance);
 /// Central initializer: If config.json contains shopify, woocommerce, or both, initializes the relevant networks.
+///
+/// Note: This method is deprecated. Use the wizard-based configuration system instead.
 Future<void> initNetworksFromConfig(GetIt getIt) async {
-  final configHelper = await JsonConfigHelper.load('assets/config.json');
-  // Debug: Check config values
-  final shopifyStoreName = configHelper.get('root.shopify.storeName');
-  final wooStoreUrl = configHelper.get('root.woocommerce.storeUrl');
-  final wooUsername = configHelper.get('root.woocommerce.username');
-  final wooPassword = configHelper.get('root.woocommerce.password');
-
-  print('[DEBUG] Shopify storeName: "$shopifyStoreName"');
-  print('[DEBUG] WooCommerce storeUrl: "$wooStoreUrl"');
-  print('[DEBUG] WooCommerce username: "$wooUsername"');
+  // This method is deprecated. Use the new wizard-based configuration system.
   print(
-      '[DEBUG] WooCommerce password: "${wooPassword.isNotEmpty ? "***" : "EMPTY"}"');
+      '[initNetworksFromConfig] This method is deprecated. Use the wizard-based configuration system instead.');
+  throw UnimplementedError(
+      'Use the wizard-based configuration system instead of config.json files.');
+}
 
-  final hasShopify = shopifyStoreName.isNotEmpty;
-  final hasWoo = wooStoreUrl.isNotEmpty;
+/// 🚀 Central initializer using wizard configuration
+///
+/// Example usage:
+///   await initNetworksFromWizard(GetIt.instance);
+/// Initializes networks based on wizard configuration
+Future<void> initNetworksFromWizard(GetIt getIt) async {
+  try {
+    // Initialize wizard helper
+    await WizardHelper.init();
 
-  print('[DEBUG] hasShopify: $hasShopify, hasWoo: $hasWoo');
+    // Load configuration
+    final config = await WizardHelper.loadConfiguration();
+    if (config == null || !config.isComplete) {
+      throw Exception(
+          'No complete configuration found. Please complete the setup wizard first.');
+    }
 
-  if (hasShopify) {
-    await ApiNetwork.initFromConfig(getIt);
-    print('[initNetworksFromConfig] Shopify initialized successfully.');
-  }
-  if (hasWoo) {
-    await WooNetwork.initFromConfig(getIt);
-    print('[initNetworksFromConfig] WooCommerce initialized successfully.');
-  }
-  if (!hasShopify && !hasWoo) {
+    // Reset GetIt registrations to avoid conflicts
+    try {
+      getIt.resetLazySingleton();
+    } catch (e) {
+      print('[initNetworksFromWizard] Warning: Could not reset GetIt: $e');
+    }
+
+    // Initialize based on platform
+    if (config.platform == 'shopify') {
+      try {
+        await ApiNetwork.initFromWizard(getIt);
+        print(
+            '[initNetworksFromWizard] Shopify initialized successfully from wizard.');
+      } catch (e) {
+        print('[initNetworksFromWizard] Shopify initialization failed: $e');
+        rethrow;
+      }
+    } else if (config.platform == 'woocommerce') {
+      try {
+        await WooNetwork.initFromWizard(getIt);
+        print(
+            '[initNetworksFromWizard] WooCommerce initialized successfully from wizard.');
+      } catch (e) {
+        print('[initNetworksFromWizard] WooCommerce initialization failed: $e');
+        rethrow;
+      }
+    }
+  } catch (e) {
     print(
-        '[initNetworksFromConfig] Warning: shopify or woocommerce field not found in config.json!');
+        '[initNetworksFromWizard] Error initializing networks from wizard: $e');
+    rethrow;
   }
 }
 
@@ -285,7 +370,38 @@ bool isShopifyEnabled = false;
 bool isWooEnabled = false;
 
 Future<void> detectEnabledPlatforms() async {
-  final configHelper = await JsonConfigHelper.load('assets/config.json');
-  isShopifyEnabled = configHelper.get('root.shopify.storeName').isNotEmpty;
-  isWooEnabled = configHelper.get('root.woocommerce.storeUrl').isNotEmpty;
+  // This method is deprecated. Use the wizard-based configuration system instead.
+  print(
+      '[detectEnabledPlatforms] This method is deprecated. Use the wizard-based configuration system instead.');
+  throw UnimplementedError(
+      'Use the wizard-based configuration system instead of config.json files.');
+}
+
+/// 🚀 Detect enabled platforms from wizard configuration
+Future<void> detectEnabledPlatformsFromWizard() async {
+  try {
+    await WizardHelper.init();
+
+    final config = await WizardHelper.loadConfiguration();
+
+    if (config != null && config.isComplete) {
+      if (config.platform == 'shopify') {
+        isShopifyEnabled = true;
+        isWooEnabled = false;
+      } else if (config.platform == 'woocommerce') {
+        isShopifyEnabled = false;
+        isWooEnabled = true;
+      }
+    } else {
+      isShopifyEnabled = false;
+      isWooEnabled = false;
+    }
+
+    print(
+        '[detectEnabledPlatformsFromWizard] Shopify enabled: $isShopifyEnabled, WooCommerce enabled: $isWooEnabled');
+  } catch (e) {
+    print('[detectEnabledPlatformsFromWizard] Error detecting platforms: $e');
+    isShopifyEnabled = false;
+    isWooEnabled = false;
+  }
 }

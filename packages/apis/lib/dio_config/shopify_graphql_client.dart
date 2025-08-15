@@ -8,10 +8,10 @@ import 'package:injectable/injectable.dart';
 /// Uses the same authentication and configuration as REST API.
 @singleton
 class ShopifyGraphQLClient {
-  late GraphQLClient _client;
+  GraphQLClient? _client;
 
   ShopifyGraphQLClient() {
-    _initializeClient();
+    // Don't initialize immediately - wait for configuration
   }
 
   /// Initialize GraphQL client with Shopify configuration
@@ -48,7 +48,22 @@ class ShopifyGraphQLClient {
   }
 
   /// Get the GraphQL client instance
-  GraphQLClient get client => _client;
+  GraphQLClient get client {
+    if (_client == null) {
+      throw Exception('GraphQL client not initialized. Please complete the setup wizard first.');
+    }
+    return _client!;
+  }
+
+  /// Check if client is initialized
+  bool get isInitialized => _client != null;
+
+  /// Initialize client when configuration is available
+  void initialize() {
+    if (_client == null) {
+      _initializeClient();
+    }
+  }
 
   /// Reinitialize client when configuration changes
   void reinitialize() {
@@ -57,12 +72,17 @@ class ShopifyGraphQLClient {
 
   /// Execute a GraphQL query
   Future<QueryResult> query(QueryOptions options) async {
+    if (_client == null) {
+      throw Exception(
+          'GraphQL client not initialized. Please complete the setup wizard first.');
+    }
+
     try {
       print('DEBUG - GraphQL Query URL: ${_buildGraphQLUrl()}');
       print('DEBUG - GraphQL Query Variables: ${options.variables}');
       print('DEBUG - GraphQL Query Document: ${options.document}');
 
-      final result = await _client.query(options);
+      final result = await _client!.query(options);
 
       print('DEBUG - GraphQL Response hasException: ${result.hasException}');
       print('DEBUG - GraphQL Response data: ${result.data}');
@@ -77,11 +97,16 @@ class ShopifyGraphQLClient {
 
   /// Execute a GraphQL mutation
   Future<QueryResult> mutate(MutationOptions options) async {
+    if (_client == null) {
+      throw Exception(
+          'GraphQL client not initialized. Please complete the setup wizard first.');
+    }
+
     try {
       print('DEBUG - GraphQL Mutation URL: ${_buildGraphQLUrl()}');
       print('DEBUG - GraphQL Mutation Variables: ${options.variables}');
 
-      final result = await _client.mutate(options);
+      final result = await _client!.mutate(options);
 
       print(
           'DEBUG - GraphQL Mutation Response hasException: ${result.hasException}');
@@ -97,6 +122,10 @@ class ShopifyGraphQLClient {
 
   /// Subscribe to GraphQL subscription
   Stream<QueryResult> subscribe(SubscriptionOptions options) {
-    return _client.subscribe(options);
+    if (_client == null) {
+      throw Exception(
+          'GraphQL client not initialized. Please complete the setup wizard first.');
+    }
+    return _client!.subscribe(options);
   }
 }
