@@ -122,21 +122,6 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
     }
   }
 
-  // Debug function to test config loading
-  Future<void> _testConfigLoading() async {
-    try {
-      final currentStore = await WizardHelper.getCurrentStore();
-      if (currentStore != null) {
-        _showSnackBar('Store Test: ${currentStore.displayName} is active',
-            isError: false);
-      } else {
-        _showSnackBar('Store Test: No store found', isError: true);
-      }
-    } catch (e) {
-      _showSnackBar('Store Test Error: $e', isError: true);
-    }
-  }
-
   @override
   void dispose() {
     _sidebarAnimationController.dispose();
@@ -396,36 +381,21 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
     _showStoreManagementDialog(context);
   }
 
-  void _refreshStoreProfile() {
-    _loadCurrentStore();
-  }
-
-  void _onStoreChanged(StoreConfiguration store) {
-    setState(() {
-      _selectedStore = store;
-    });
-    _updateApiUrlFromStore(store);
-  }
-
   void _updateApiUrlFromStore(StoreConfiguration store) {
-    if (store != null) {
-      String baseUrl = store.baseUrl;
-      String apiVersion = store.apiVersion;
+    String baseUrl = store.baseUrl;
+    String apiVersion = store.apiVersion;
 
-      setState(() {
-        _currentApiUrl = '$baseUrl/api/$apiVersion/';
-      });
+    setState(() {
+      _currentApiUrl = '$baseUrl/api/$apiVersion/';
+    });
 
-      debugPrint('🔗 API URL updated automatically: $_currentApiUrl');
+    debugPrint('🔗 API URL updated automatically: $_currentApiUrl');
 
-      // Also update the network configuration
-      _updateNetworkConfiguration(store);
+    // Also update the network configuration
+    _updateNetworkConfiguration(store);
 
-      // Automatically populate with default API service if none selected
-      if (_selectedService == null) {
-        _populateDefaultApiService(store);
-      }
-    }
+    // Don't automatically select a service - let users choose from the welcome screen
+    // This ensures the welcome screen is shown after completing the wizard setup
   }
 
   void _updateNetworkConfiguration(StoreConfiguration store) {
@@ -453,34 +423,6 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
       debugPrint('✅ Network configuration updated for ${store.platform}');
     } catch (e) {
       debugPrint('❌ Error updating network configuration: $e');
-    }
-  }
-
-  void _populateDefaultApiService(StoreConfiguration store) {
-    // Get available services for the platform
-    final services = ApiServiceRegistry.all;
-    final platformServices = services.where((service) {
-      if (store.platform == 'shopify') {
-        return !service.category.toString().contains('woocommerce');
-      } else if (store.platform == 'woocommerce') {
-        return service.category.toString().contains('woocommerce');
-      }
-      return false;
-    }).toList();
-
-    if (platformServices.isNotEmpty) {
-      // Select the first available service
-      final defaultService = platformServices.first;
-      setState(() {
-        _selectedService = defaultService;
-        _selectedMethod = defaultService.supportedMethods.first;
-      });
-
-      // Update the API URL with the selected service
-      _updateApiUrl(defaultService, _selectedMethod, {});
-
-      debugPrint(
-          '🔧 Auto-selected default API service: ${defaultService.name}');
     }
   }
 
@@ -597,7 +539,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
             _selectedStore = store;
           });
           _updateApiUrlFromStore(store);
-          
+
           // Show success message with store information
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -625,7 +567,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
               behavior: SnackBarBehavior.floating,
             ),
           );
-          
+
           // Refresh the UI to show the new store information
           setState(() {});
         },
