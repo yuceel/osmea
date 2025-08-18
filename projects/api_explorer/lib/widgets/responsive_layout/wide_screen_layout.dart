@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:core/core.dart';
 import 'package:api_explorer/services/api_service_registry.dart';
 import 'package:api_explorer/widgets/api_explorer_view/empty_api_guidance.dart';
 import 'package:api_explorer/widgets/home/ide_response_panel.dart';
@@ -36,7 +37,7 @@ class WideScreenLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return OsmeaComponents.row(
       children: [
         // API Configuration Panel
         Expanded(

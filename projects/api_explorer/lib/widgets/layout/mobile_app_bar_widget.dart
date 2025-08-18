@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:osmea_components/osmea_components.dart';
 
 class MobileAppBarWidget extends StatelessWidget {
   final bool isNarrow;
@@ -18,7 +19,7 @@ class MobileAppBarWidget extends StatelessWidget {
     final primaryColor = theme.colorScheme.primary;
     final onPrimaryColor = theme.colorScheme.onPrimary;
 
-    return Container(
+    return OsmeaComponents.container(
       height: isNarrow ? 56 : 64,
       padding: EdgeInsets.symmetric(
         horizontal: isNarrow ? 12 : 16,
@@ -32,43 +33,38 @@ class MobileAppBarWidget extends StatelessWidget {
         ),
       ),
       child: SafeArea(
-        child: Row(
+        child: OsmeaComponents.row(
           children: [
-            IconButton(
-              onPressed: () => Scaffold.of(context).openDrawer(),
+            OsmeaComponents.iconButton(
               icon: Icon(
                 Icons.menu_rounded,
                 color: onPrimaryColor,
                 size: isNarrow ? 20 : 24,
               ),
-              constraints: BoxConstraints(
-                minWidth: isNarrow ? 36 : 44,
-                minHeight: isNarrow ? 36 : 44,
-              ),
+              onPressed: () => Scaffold.of(context).openDrawer(),
+              variant: ButtonVariant.ghost,
+              size: ButtonSize.medium,
             ),
-            SizedBox(width: isNarrow ? 8 : 12),
-            Expanded(
-              child: Text(
+            OsmeaComponents.sizedBox(width: isNarrow ? 8 : 12),
+            OsmeaComponents.expanded(
+              child: OsmeaComponents.text(
                 isNarrow ? 'OSMEA' : 'OSMEA API Explorer',
-                style: theme.textTheme.titleLarge?.copyWith(
-                  color: onPrimaryColor,
-                  fontSize: isNarrow ? 16 : 20,
-                  fontWeight: FontWeight.w600,
-                ),
+                variant: OsmeaTextVariant.titleLarge,
+                fontSize: isNarrow ? 16 : 20,
+                fontWeight: FontWeight.w600,
+                color: onPrimaryColor,
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-            IconButton(
-              onPressed: toggleTheme,
+            OsmeaComponents.iconButton(
               icon: Icon(
                 isDarkMode ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
                 color: onPrimaryColor,
                 size: isNarrow ? 20 : 24,
               ),
-              constraints: BoxConstraints(
-                minWidth: isNarrow ? 36 : 44,
-                minHeight: isNarrow ? 36 : 44,
-              ),
+              onPressed: toggleTheme,
+              variant: ButtonVariant.ghost,
+              size: ButtonSize.medium,
             ),
           ],
         ),

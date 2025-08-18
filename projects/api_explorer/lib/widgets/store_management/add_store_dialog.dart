@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:apis/apis.dart';
+import 'package:core/core.dart';
 
 class AddStoreDialog extends StatefulWidget {
   const AddStoreDialog({super.key});
@@ -125,8 +126,11 @@ class _AddStoreDialogState extends State<AddStoreDialog>
   void _showErrorMessage(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(message),
-        backgroundColor: Colors.red,
+        content: OsmeaComponents.text(
+          message,
+          textStyle: OsmeaTextStyle.bodyMedium(context),
+        ),
+        backgroundColor: OsmeaColors.slate,
       ),
     );
   }
@@ -184,22 +188,24 @@ class _AddStoreDialogState extends State<AddStoreDialog>
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Column(
+              content: OsmeaComponents.column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  OsmeaComponents.text(
                     '✅ Store added successfully!',
-                    style: TextStyle(fontWeight: FontWeight.w600),
+                    textStyle: OsmeaTextStyle.bodyMedium(context).copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                  const SizedBox(height: 4),
-                  Text(
+                  OsmeaComponents.sizedBox(height: 4),
+                  OsmeaComponents.text(
                     '${config.platform.toUpperCase()}: ${config.displayName}',
-                    style: const TextStyle(fontSize: 12),
+                    textStyle: OsmeaTextStyle.captionMedium(context),
                   ),
                 ],
               ),
-              backgroundColor: Colors.green,
+              backgroundColor: OsmeaColors.forestHeart,
               duration: const Duration(seconds: 3),
               behavior: SnackBarBehavior.floating,
             ),
@@ -241,68 +247,67 @@ class _AddStoreDialogState extends State<AddStoreDialog>
             child: ScaleTransition(
               scale: _scaleAnimation,
               child: Dialog(
-                backgroundColor: Colors.transparent,
-                child: Container(
+                backgroundColor: OsmeaColors.transparent,
+                child: OsmeaComponents.container(
                   width: 600,
                   constraints: const BoxConstraints(maxHeight: 650),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: OsmeaColors.white,
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.2),
+                        color: OsmeaColors.black.withValues(alpha: 0.2),
                         blurRadius: 20,
                         offset: const Offset(0, 10),
                       ),
                     ],
                   ),
-                  child: Column(
+                  child: OsmeaComponents.column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       // Header
-                      Container(
+                      OsmeaComponents.container(
                         width: double.infinity,
                         padding: const EdgeInsets.all(24),
-                        decoration: const BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [Color(0xFF1B80BF), Color(0xFF1F3B73)],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                           ),
-                          borderRadius: BorderRadius.only(
+                          borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(20),
                             topRight: Radius.circular(20),
                           ),
                         ),
-                        child: Row(
+                        child: OsmeaComponents.row(
                           children: [
-                            Container(
+                            OsmeaComponents.container(
                               padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
-                                color: Colors.white.withValues(alpha: 0.2),
+                                color: OsmeaColors.white.withValues(alpha: 0.2),
                                 borderRadius: BorderRadius.circular(12),
                               ),
-                              child: const Icon(
+                              child: Icon(
                                 Icons.add_business,
-                                color: Colors.white,
+                                color: OsmeaColors.white,
                                 size: 24,
                               ),
                             ),
-                            const SizedBox(width: 16),
-                            const Text(
+                            OsmeaComponents.sizedBox(width: 16),
+                            OsmeaComponents.text(
                               'Add New Store',
-                              style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                              textStyle: OsmeaTextStyle.displayMedium(context)
+                                  .copyWith(
+                                color: OsmeaColors.white,
                               ),
                             ),
                             const Spacer(),
                             IconButton(
                               onPressed: () => Navigator.of(context).pop(),
-                              icon: const Icon(
+                              icon: Icon(
                                 Icons.close,
-                                color: Colors.white,
+                                color: OsmeaColors.white,
                               ),
                             ),
                           ],
@@ -310,21 +315,21 @@ class _AddStoreDialogState extends State<AddStoreDialog>
                       ),
 
                       // Step indicator
-                      Container(
+                      OsmeaComponents.container(
                         padding: const EdgeInsets.all(24),
                         child: _buildStepIndicator(),
                       ),
 
                       // Content
                       Flexible(
-                        child: Padding(
+                        child: OsmeaComponents.padding(
                           padding: const EdgeInsets.symmetric(horizontal: 24),
                           child: _buildStepContent(),
                         ),
                       ),
 
                       // Bottom navigation
-                      Container(
+                      OsmeaComponents.container(
                         padding: const EdgeInsets.all(24),
                         child: _buildNavigationButtons(),
                       ),
@@ -340,18 +345,18 @@ class _AddStoreDialogState extends State<AddStoreDialog>
   }
 
   Widget _buildStepIndicator() {
-    return Row(
+    return OsmeaComponents.row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(3, (index) {
-        return Container(
+        return OsmeaComponents.container(
           margin: const EdgeInsets.symmetric(horizontal: 4),
           width: 12,
           height: 12,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: index <= _currentStep
-                ? const Color(0xFF667EEA)
-                : Colors.grey.shade300,
+                ? OsmeaColors.nordicBlue
+                : OsmeaColors.silver,
           ),
         );
       }),
@@ -367,30 +372,29 @@ class _AddStoreDialogState extends State<AddStoreDialog>
       case 2:
         return _buildCredentialsStep();
       default:
-        return Container();
+        return OsmeaComponents.container();
     }
   }
 
   Widget _buildPlatformSelectionStep() {
-    return Column(
+    return OsmeaComponents.column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        OsmeaComponents.text(
           'Choose Your E-commerce Platform',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
+          textStyle: OsmeaTextStyle.displaySmall(context),
+        ),
+        OsmeaComponents.sizedBox(height: 8),
+        OsmeaComponents.text(
+          'Select the platform you want to integrate with:',
+          textStyle: OsmeaTextStyle.bodyMedium(context).copyWith(
+            color: OsmeaColors.steel,
           ),
         ),
-        const SizedBox(height: 8),
-        const Text(
-          'Select the platform you want to integrate with:',
-          style: TextStyle(color: Colors.grey),
-        ),
-        const SizedBox(height: 32),
+        OsmeaComponents.sizedBox(height: 32),
 
         // Shopify Option
-        Container(
+        OsmeaComponents.container(
           margin: const EdgeInsets.only(bottom: 16),
           child: InkWell(
             onTap: () {
@@ -399,66 +403,68 @@ class _AddStoreDialogState extends State<AddStoreDialog>
               });
             },
             borderRadius: BorderRadius.circular(12),
-            child: Container(
+            child: OsmeaComponents.container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 border: Border.all(
                   color: _selectedPlatform == 'shopify'
-                      ? const Color(0xFF667EEA)
-                      : Colors.grey.shade300,
+                      ? OsmeaColors.nordicBlue
+                      : OsmeaColors.silver,
                   width: 2,
                 ),
                 borderRadius: BorderRadius.circular(12),
                 color: _selectedPlatform == 'shopify'
-                    ? const Color(0xFF667EEA).withValues(alpha: 0.1)
-                    : Colors.transparent,
+                    ? OsmeaColors.nordicBlue.withValues(alpha: 0.1)
+                    : OsmeaColors.transparent,
               ),
-              child: Row(
+              child: OsmeaComponents.row(
                 children: [
-                  Container(
+                  OsmeaComponents.container(
                     width: 48,
                     height: 48,
                     decoration: BoxDecoration(
-                      color: Colors.green,
+                      color: OsmeaColors.forestHeart,
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: const Icon(
+                    child: Icon(
                       Icons.shopping_bag,
-                      color: Colors.white,
+                      color: OsmeaColors.white,
                       size: 24,
                     ),
                   ),
-                  const SizedBox(width: 16),
+                  OsmeaComponents.sizedBox(width: 16),
                   Expanded(
-                    child: Column(
+                    child: OsmeaComponents.column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        OsmeaComponents.text(
                           'Shopify',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
+                          textStyle: OsmeaTextStyle.bodyLarge(context).copyWith(
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
-                        const SizedBox(height: 4),
-                        const Text(
+                        OsmeaComponents.sizedBox(height: 4),
+                        OsmeaComponents.text(
                           'Integrate with your Shopify store',
-                          style: TextStyle(color: Colors.grey),
+                          textStyle:
+                              OsmeaTextStyle.bodyMedium(context).copyWith(
+                            color: OsmeaColors.steel,
+                          ),
                         ),
                       ],
                     ),
                   ),
                   if (_selectedPlatform == 'shopify')
-                    Container(
+                    OsmeaComponents.container(
                       width: 24,
                       height: 24,
-                      decoration: const BoxDecoration(
-                        color: Color(0xFF667EEA),
+                      decoration: BoxDecoration(
+                        color: OsmeaColors.nordicBlue,
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(
+                      child: Icon(
                         Icons.check,
-                        color: Colors.white,
+                        color: OsmeaColors.white,
                         size: 16,
                       ),
                     ),
@@ -476,66 +482,67 @@ class _AddStoreDialogState extends State<AddStoreDialog>
             });
           },
           borderRadius: BorderRadius.circular(12),
-          child: Container(
+          child: OsmeaComponents.container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               border: Border.all(
                 color: _selectedPlatform == 'woocommerce'
-                    ? const Color(0xFF667EEA)
-                    : Colors.grey.shade300,
+                    ? OsmeaColors.nordicBlue
+                    : OsmeaColors.silver,
                 width: 2,
               ),
               borderRadius: BorderRadius.circular(12),
               color: _selectedPlatform == 'woocommerce'
-                  ? const Color(0xFF667EEA).withValues(alpha: 0.1)
-                  : Colors.transparent,
+                  ? OsmeaColors.nordicBlue.withValues(alpha: 0.1)
+                  : OsmeaColors.transparent,
             ),
-            child: Row(
+            child: OsmeaComponents.row(
               children: [
-                Container(
+                OsmeaComponents.container(
                   width: 48,
                   height: 48,
                   decoration: BoxDecoration(
-                    color: Colors.blue,
+                    color: OsmeaColors.nordicBlue,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.wordpress,
-                    color: Colors.white,
+                    color: OsmeaColors.white,
                     size: 24,
                   ),
                 ),
-                const SizedBox(width: 16),
+                OsmeaComponents.sizedBox(width: 16),
                 Expanded(
-                  child: Column(
+                  child: OsmeaComponents.column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                      OsmeaComponents.text(
                         'WooCommerce',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                        textStyle: OsmeaTextStyle.bodyLarge(context).copyWith(
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
-                      const SizedBox(height: 4),
-                      const Text(
+                      OsmeaComponents.sizedBox(height: 4),
+                      OsmeaComponents.text(
                         'Integrate with your WordPress/WooCommerce store',
-                        style: TextStyle(color: Colors.grey),
+                        textStyle: OsmeaTextStyle.bodyMedium(context).copyWith(
+                          color: OsmeaColors.steel,
+                        ),
                       ),
                     ],
                   ),
                 ),
                 if (_selectedPlatform == 'woocommerce')
-                  Container(
+                  OsmeaComponents.container(
                     width: 24,
                     height: 24,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFF667EEA),
+                    decoration: BoxDecoration(
+                      color: OsmeaColors.nordicBlue,
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(
+                    child: Icon(
                       Icons.check,
-                      color: Colors.white,
+                      color: OsmeaColors.white,
                       size: 16,
                     ),
                   ),
@@ -548,62 +555,43 @@ class _AddStoreDialogState extends State<AddStoreDialog>
   }
 
   Widget _buildStoreDetailsStep() {
-    return Column(
+    return OsmeaComponents.column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        OsmeaComponents.text(
           'Store Details',
-          style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
+          textStyle: OsmeaTextStyle.displaySmall(context),
+        ),
+        OsmeaComponents.sizedBox(height: 8),
+        OsmeaComponents.text(
+          'Enter your store information:',
+          textStyle: OsmeaTextStyle.bodyMedium(context).copyWith(
+            color: OsmeaColors.steel,
           ),
         ),
-        const SizedBox(height: 8),
-        const Text(
-          'Enter your store information:',
-          style: TextStyle(color: Colors.grey),
-        ),
-        const SizedBox(height: 32),
+        OsmeaComponents.sizedBox(height: 32),
         Form(
           key: _formKey,
-          child: Column(
+          child: OsmeaComponents.column(
             children: [
-              TextFormField(
+              OsmeaComponents.textField(
                 controller: _storeNameController,
-                decoration: InputDecoration(
-                  labelText: 'Store Name',
-                  hintText: _selectedPlatform == 'shopify'
-                      ? 'mystore (for mystore.myshopify.com)'
-                      : 'MyStore',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  prefixIcon: const Icon(Icons.store),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter store name';
-                  }
-                  return null;
-                },
+                label: 'Store Name',
+                hint: _selectedPlatform == 'shopify'
+                    ? 'mystore (for mystore.myshopify.com)'
+                    : 'MyStore',
+                prefixIcon: const Icon(Icons.store),
+                variant: TextFieldVariant.outlined,
+                type: TextFieldType.text,
               ),
-              const SizedBox(height: 20),
-              TextFormField(
+              OsmeaComponents.sizedBox(height: 20),
+              OsmeaComponents.textField(
                 controller: _apiVersionController,
-                decoration: InputDecoration(
-                  labelText: 'API Version',
-                  hintText: '2024-07',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  prefixIcon: const Icon(Icons.api),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter API version';
-                  }
-                  return null;
-                },
+                label: 'API Version',
+                hint: '2024-07',
+                prefixIcon: const Icon(Icons.api),
+                variant: TextFieldVariant.outlined,
+                type: TextFieldType.text,
               ),
             ],
           ),
@@ -613,106 +601,64 @@ class _AddStoreDialogState extends State<AddStoreDialog>
   }
 
   Widget _buildCredentialsStep() {
-    return Column(
+    return OsmeaComponents.column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        OsmeaComponents.text(
           '${_selectedPlatform == 'shopify' ? 'Shopify' : 'WooCommerce'} Credentials',
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
+          textStyle: OsmeaTextStyle.displaySmall(context),
+        ),
+        OsmeaComponents.sizedBox(height: 8),
+        OsmeaComponents.text(
+          'Enter your ${_selectedPlatform == 'shopify' ? 'Shopify access token' : 'WooCommerce login credentials'}:',
+          textStyle: OsmeaTextStyle.bodyMedium(context).copyWith(
+            color: OsmeaColors.steel,
           ),
         ),
-        const SizedBox(height: 8),
-        Text(
-          'Enter your ${_selectedPlatform == 'shopify' ? 'Shopify access token' : 'WooCommerce login credentials'}:',
-          style: const TextStyle(color: Colors.grey),
-        ),
-        const SizedBox(height: 32),
+        OsmeaComponents.sizedBox(height: 32),
         if (_selectedPlatform == 'shopify') ...[
-          TextFormField(
+          OsmeaComponents.textField(
             controller: _accessTokenController,
-            decoration: InputDecoration(
-              labelText: 'Access Token',
-              hintText: 'shpat_xxxxxxxxxxxxxxxxxxxxx',
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              prefixIcon: const Icon(Icons.key),
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter access token';
-              }
-              return null;
-            },
+            label: 'Access Token',
+            hint: 'shpat_xxxxxxxxxxxxxxxxxxxxx',
+            prefixIcon: const Icon(Icons.key),
+            variant: TextFieldVariant.outlined,
+            type: TextFieldType.text,
           ),
         ] else if (_selectedPlatform == 'woocommerce') ...[
-          TextFormField(
+          OsmeaComponents.textField(
             controller: _storeUrlController,
-            decoration: InputDecoration(
-              labelText: 'Store URL',
-              hintText: 'https://mysite.com',
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              prefixIcon: const Icon(Icons.link),
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter store URL';
-              }
-              return null;
-            },
+            label: 'Store URL',
+            hint: 'https://mysite.com',
+            prefixIcon: const Icon(Icons.link),
+            variant: TextFieldVariant.outlined,
+            type: TextFieldType.text,
           ),
-          const SizedBox(height: 20),
-          TextFormField(
+          OsmeaComponents.sizedBox(height: 20),
+          OsmeaComponents.textField(
             controller: _usernameController,
-            decoration: InputDecoration(
-              labelText: _selectedPlatform == 'woocommerce'
-                  ? 'Username'
-                  : 'Consumer Key',
-              hintText: _selectedPlatform == 'woocommerce'
-                  ? 'your_username'
-                  : 'ck_xxxxxxxxxxxxxxxxxxxxx',
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              prefixIcon: const Icon(Icons.person),
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return _selectedPlatform == 'woocommerce'
-                    ? 'Please enter username'
-                    : 'Please enter consumer key';
-              }
-              return null;
-            },
+            label: _selectedPlatform == 'woocommerce'
+                ? 'Username'
+                : 'Consumer Key',
+            hint: _selectedPlatform == 'woocommerce'
+                ? 'your_username'
+                : 'ck_xxxxxxxxxxxxxxxxxxxxx',
+            prefixIcon: const Icon(Icons.person),
+            variant: TextFieldVariant.outlined,
+            type: TextFieldType.text,
           ),
-          const SizedBox(height: 20),
-          TextFormField(
+          OsmeaComponents.sizedBox(height: 20),
+          OsmeaComponents.textField(
             controller: _passwordController,
-            decoration: InputDecoration(
-              labelText: _selectedPlatform == 'woocommerce'
-                  ? 'Password'
-                  : 'Consumer Secret',
-              hintText: _selectedPlatform == 'woocommerce'
-                  ? 'your_password'
-                  : 'cs_xxxxxxxxxxxxxxxxxxxxx',
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              prefixIcon: const Icon(Icons.lock),
-            ),
-            obscureText: true,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return _selectedPlatform == 'woocommerce'
-                    ? 'Please enter password'
-                    : 'Please enter consumer secret';
-              }
-              return null;
-            },
+            label: _selectedPlatform == 'woocommerce'
+                ? 'Password'
+                : 'Consumer Secret',
+            hint: _selectedPlatform == 'woocommerce'
+                ? 'your_password'
+                : 'cs_xxxxxxxxxxxxxxxxxxxxx',
+            prefixIcon: const Icon(Icons.lock),
+            variant: TextFieldVariant.outlined,
+            type: TextFieldType.password,
           ),
         ],
       ],
@@ -720,45 +666,27 @@ class _AddStoreDialogState extends State<AddStoreDialog>
   }
 
   Widget _buildNavigationButtons() {
-    return Row(
+    return OsmeaComponents.row(
       children: [
         if (_currentStep > 0)
           Expanded(
-            child: OutlinedButton(
+            child: OsmeaComponents.button(
+              text: 'Previous',
+              variant: ButtonVariant.outlined,
+              size: ButtonSize.large,
               onPressed: _previousStep,
-              style: OutlinedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              child: const Text('Previous'),
             ),
           ),
-        if (_currentStep > 0) const SizedBox(width: 16),
+        if (_currentStep > 0) OsmeaComponents.sizedBox(width: 16),
         Expanded(
-          child: ElevatedButton(
+          child: OsmeaComponents.button(
+            text: _currentStep == 2 ? 'Add Store' : 'Next',
+            variant: ButtonVariant.primary,
+            size: ButtonSize.large,
             onPressed: _isLoading
                 ? null
                 : (_currentStep == 2 ? _completeSetup : _nextStep),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFF667EEA),
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-            child: _isLoading
-                ? const SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(
-                      color: Colors.white,
-                      strokeWidth: 2,
-                    ),
-                  )
-                : Text(_currentStep == 2 ? 'Add Store' : 'Next'),
+            state: _isLoading ? ButtonState.loading : ButtonState.enabled,
           ),
         ),
       ],

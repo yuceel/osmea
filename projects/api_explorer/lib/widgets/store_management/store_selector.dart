@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:apis/apis.dart';
-import 'package:api_explorer/widgets/store_management/add_store_dialog.dart';
 import 'package:api_explorer/widgets/store_management/store_management_dialog.dart';
+import 'package:core/core.dart';
 
 class StoreSelector extends StatefulWidget {
   final Function(StoreConfiguration) onStoreChanged;
@@ -42,22 +42,22 @@ class _StoreSelectorState extends State<StoreSelector> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return OsmeaComponents.row(
       children: [
         // Store Selector Button
         Expanded(
-          child: Column(
+          child: OsmeaComponents.column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               PopupMenuButton<StoreConfiguration>(
-                child: Container(
+                child: OsmeaComponents.container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   decoration: BoxDecoration(
-                    color: Colors.grey[200],
+                    color: OsmeaColors.ash,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Row(
+                  child: OsmeaComponents.row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(
@@ -65,10 +65,12 @@ class _StoreSelectorState extends State<StoreSelector> {
                         size: 20,
                         color: _getPlatformColor(_selectedStore?.platform),
                       ),
-                      const SizedBox(width: 8),
-                      Text(
+                      OsmeaComponents.sizedBox(width: 8),
+                      OsmeaComponents.text(
                         _selectedStore?.displayName ?? 'Select Store',
-                        style: const TextStyle(fontWeight: FontWeight.w500),
+                        textStyle: OsmeaTextStyle.bodyMedium(context).copyWith(
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                       const Icon(Icons.arrow_drop_down),
                     ],
@@ -77,140 +79,121 @@ class _StoreSelectorState extends State<StoreSelector> {
                 itemBuilder: (context) => [
                   ...(_storeService.allStores).map((store) => PopupMenuItem(
                         value: store,
-                        child: Row(
+                        child: OsmeaComponents.row(
                           children: [
                             Icon(
                               _getPlatformIcon(store.platform),
                               size: 16,
                               color: _getPlatformColor(store.platform),
                             ),
-                            const SizedBox(width: 8),
+                            OsmeaComponents.sizedBox(width: 8),
                             Expanded(
-                              child: Column(
+                              child: OsmeaComponents.column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Text(
+                                  OsmeaComponents.text(
                                     store.displayName,
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.w500),
+                                    textStyle:
+                                        OsmeaTextStyle.bodyMedium(context)
+                                            .copyWith(
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
-                                  Text(
+                                  OsmeaComponents.text(
                                     store.platform.toUpperCase(),
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: Colors.grey[600],
+                                    textStyle:
+                                        OsmeaTextStyle.captionSmall(context)
+                                            .copyWith(
+                                      color: OsmeaColors.steel,
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-                            if (store.isActive)
-                              const Icon(Icons.check_circle,
-                                  color: Colors.green, size: 16),
+                            if (store.isDefault)
+                              OsmeaComponents.container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 6,
+                                  vertical: 2,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: OsmeaColors.nordicBlue,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: OsmeaComponents.text(
+                                  'DEFAULT',
+                                  textStyle:
+                                      OsmeaTextStyle.captionSmall(context)
+                                          .copyWith(
+                                    color: OsmeaColors.white,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
                           ],
                         ),
                       )),
                   const PopupMenuDivider(),
                   PopupMenuItem(
                     value: null,
-                    child: Row(
+                    child: OsmeaComponents.row(
                       children: [
-                        const Icon(Icons.add, color: Colors.blue),
-                        const SizedBox(width: 8),
-                        const Text('Add New Store'),
+                        Icon(Icons.add,
+                            size: 16, color: OsmeaColors.nordicBlue),
+                        OsmeaComponents.sizedBox(width: 8),
+                        OsmeaComponents.text(
+                          'Add New Store',
+                          textStyle:
+                              OsmeaTextStyle.bodyMedium(context).copyWith(
+                            color: OsmeaColors.nordicBlue,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  PopupMenuItem(
+                    value: null,
+                    child: OsmeaComponents.row(
+                      children: [
+                        Icon(Icons.settings,
+                            size: 16, color: OsmeaColors.steel),
+                        OsmeaComponents.sizedBox(width: 8),
+                        OsmeaComponents.text(
+                          'Manage Stores',
+                          textStyle:
+                              OsmeaTextStyle.bodyMedium(context).copyWith(
+                            color: OsmeaColors.steel,
+                          ),
+                        ),
                       ],
                     ),
                   ),
                 ],
-                onSelected: (store) {
+                onSelected: (store) async {
+                  // Switch to selected store
+                  await _storeService.switchToStore(store.id!);
                   setState(() {
                     _selectedStore = store;
                   });
                   widget.onStoreChanged(store);
                 },
               ),
-              // Current Store Info
-              if (_selectedStore != null) ...[
-                const SizedBox(height: 4),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: _getPlatformColor(_selectedStore!.platform),
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        _getPlatformIcon(_selectedStore!.platform),
-                        size: 12,
-                        color: _getPlatformColor(_selectedStore!.platform),
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        _selectedStore!.platform.toUpperCase(),
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: _getPlatformColor(_selectedStore!.platform),
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
             ],
           ),
         ),
-        const SizedBox(width: 8),
-        // Add Store Button
-        IconButton(
-          onPressed: () => _showAddStoreDialog(context),
-          icon: const Icon(Icons.add_circle_outline, color: Colors.blue),
-          tooltip: 'Add New Store',
-        ),
+
         // Store Management Button
-        IconButton(
+        OsmeaComponents.sizedBox(width: 12),
+        OsmeaComponents.button(
+          text: 'Manage',
+          variant: ButtonVariant.outlined,
+          size: ButtonSize.small,
+          icon: const Icon(Icons.settings, size: 16),
           onPressed: () => _showStoreManagementDialog(context),
-          icon: const Icon(Icons.settings, color: Colors.grey),
-          tooltip: 'Manage Stores',
         ),
       ],
     );
-  }
-
-  IconData _getPlatformIcon(String? platform) {
-    switch (platform) {
-      case 'shopify':
-        return Icons.shopping_bag;
-      case 'woocommerce':
-        return Icons.shopping_cart;
-      default:
-        return Icons.store;
-    }
-  }
-
-  Color _getPlatformColor(String? platform) {
-    switch (platform) {
-      case 'shopify':
-        return const Color(0xFF95BF47);
-      case 'woocommerce':
-        return const Color(0xFF7F54B3);
-      default:
-        return Colors.grey;
-    }
-  }
-
-  void _showAddStoreDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => const AddStoreDialog(),
-    ).then((_) {
-      // Store eklendikten sonra listeyi yenile
-      _loadCurrentStore();
-    });
   }
 
   void _showStoreManagementDialog(BuildContext context) {
@@ -226,5 +209,27 @@ class _StoreSelectorState extends State<StoreSelector> {
         },
       ),
     );
+  }
+
+  IconData _getPlatformIcon(String? platform) {
+    switch (platform) {
+      case 'shopify':
+        return Icons.shopping_bag;
+      case 'woocommerce':
+        return Icons.wordpress;
+      default:
+        return Icons.store;
+    }
+  }
+
+  Color _getPlatformColor(String? platform) {
+    switch (platform) {
+      case 'shopify':
+        return OsmeaColors.forestHeart;
+      case 'woocommerce':
+        return OsmeaColors.nordicBlue;
+      default:
+        return OsmeaColors.steel;
+    }
   }
 }

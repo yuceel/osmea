@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:api_explorer/widgets/store_management/add_store_dialog.dart';
 import 'package:apis/apis.dart';
+import 'package:core/core.dart';
 
 class StoreManagementDialog extends StatefulWidget {
   final StoreManagementService storeService;
@@ -44,8 +45,90 @@ class _StoreManagementDialogState extends State<StoreManagementDialog> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Error loading stores: $e'),
-            backgroundColor: Colors.red,
+            content: OsmeaComponents.text('Error loading stores: $e'),
+            backgroundColor: OsmeaColors.slate,
+          ),
+        );
+      }
+    }
+  }
+
+  void _showAddStoreDialog(BuildContext context) async {
+    final result = await showDialog<StoreConfiguration>(
+      context: context,
+      builder: (context) => const AddStoreDialog(),
+    );
+
+    if (result != null) {
+      await _loadStores();
+      widget.onStoreChanged(result);
+    }
+  }
+
+  void _deleteStore(StoreConfiguration store) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: OsmeaComponents.text('Confirm Delete'),
+        content: OsmeaComponents.text(
+          'Are you sure you want to delete "${store.displayName}"? This action cannot be undone.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: OsmeaComponents.text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            style: TextButton.styleFrom(foregroundColor: OsmeaColors.slate),
+            child: OsmeaComponents.text('Delete'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed == true) {
+      try {
+        await widget.storeService.deleteStore(store.id!);
+        await _loadStores();
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: OsmeaComponents.text('Store deleted successfully'),
+              backgroundColor: OsmeaColors.forestHeart,
+            ),
+          );
+        }
+      } catch (e) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: OsmeaComponents.text('Error deleting store: $e'),
+              backgroundColor: OsmeaColors.slate,
+            ),
+          );
+        }
+      }
+    }
+  }
+
+  void _setDefaultStore(StoreConfiguration store) async {
+    try {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: OsmeaComponents.text(
+                'Set as default functionality coming soon'),
+            backgroundColor: OsmeaColors.forestHeart,
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: OsmeaComponents.text('Error updating default store: $e'),
+            backgroundColor: OsmeaColors.slate,
           ),
         );
       }
@@ -55,365 +138,252 @@ class _StoreManagementDialogState extends State<StoreManagementDialog> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      child: Container(
+      child: OsmeaComponents.container(
         width: 600,
         height: 500,
         padding: const EdgeInsets.all(24),
-        child: Column(
+        child: OsmeaComponents.column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Header
-            Row(
+            OsmeaComponents.row(
               children: [
-                const Icon(Icons.store, size: 28, color: Colors.blue),
-                const SizedBox(width: 12),
-                const Text(
+                Icon(Icons.store, size: 28, color: OsmeaColors.nordicBlue),
+                OsmeaComponents.sizedBox(width: 12),
+                OsmeaComponents.text(
                   'Store Management',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  textStyle: OsmeaTextStyle.displaySmall(context),
                 ),
                 const Spacer(),
                 IconButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  icon: const Icon(Icons.close),
+                  icon: Icon(Icons.close, color: OsmeaColors.steel),
                 ),
               ],
             ),
-            const SizedBox(height: 24),
+            OsmeaComponents.sizedBox(height: 24),
 
             // Add Store Button
-            Row(
+            OsmeaComponents.row(
               children: [
-                ElevatedButton.icon(
-                  onPressed: () => _showAddStoreDialog(context),
+                OsmeaComponents.button(
+                  text: 'Add New Store',
+                  variant: ButtonVariant.primary,
+                  size: ButtonSize.medium,
                   icon: const Icon(Icons.add),
-                  label: const Text('Add New Store'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    foregroundColor: Colors.white,
-                  ),
+                  onPressed: () => _showAddStoreDialog(context),
                 ),
                 const Spacer(),
-                Text(
+                OsmeaComponents.text(
                   '${_stores.length} stores',
-                  style: TextStyle(
-                    color: Colors.grey[600],
-                    fontSize: 14,
+                  textStyle: OsmeaTextStyle.bodyMedium(context).copyWith(
+                    color: OsmeaColors.steel,
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 20),
+            OsmeaComponents.sizedBox(height: 24),
 
-            // Stores List
+            // Store List
             Expanded(
               child: _isLoading
                   ? const Center(child: CircularProgressIndicator())
                   : _stores.isEmpty
-                      ? _buildEmptyState()
-                      : _buildStoresList(),
+                      ? Center(
+                          child: OsmeaComponents.column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.store_outlined,
+                                size: 64,
+                                color: OsmeaColors.steel,
+                              ),
+                              OsmeaComponents.sizedBox(height: 16),
+                              OsmeaComponents.text(
+                                'No stores configured',
+                                textStyle:
+                                    OsmeaTextStyle.bodyLarge(context).copyWith(
+                                  color: OsmeaColors.steel,
+                                ),
+                              ),
+                              OsmeaComponents.sizedBox(height: 8),
+                              OsmeaComponents.text(
+                                'Add your first store to get started',
+                                textStyle:
+                                    OsmeaTextStyle.bodyMedium(context).copyWith(
+                                  color: OsmeaColors.steel,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : ListView.builder(
+                          itemCount: _stores.length,
+                          itemBuilder: (context, index) {
+                            final store = _stores[index];
+                            return OsmeaComponents.container(
+                              margin: const EdgeInsets.only(bottom: 12),
+                              padding: const EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                color: OsmeaColors.white,
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  color: store.isDefault
+                                      ? OsmeaColors.nordicBlue
+                                      : OsmeaColors.silver,
+                                  width: store.isDefault ? 2 : 1,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: OsmeaColors.shadowLight,
+                                    blurRadius: 4,
+                                    offset: const Offset(0, 2),
+                                  ),
+                                ],
+                              ),
+                              child: OsmeaComponents.row(
+                                children: [
+                                  // Platform Icon
+                                  OsmeaComponents.container(
+                                    width: 40,
+                                    height: 40,
+                                    decoration: BoxDecoration(
+                                      color: store.platform == 'shopify'
+                                          ? OsmeaColors.forestHeart
+                                          : OsmeaColors.nordicBlue,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Icon(
+                                      store.platform == 'shopify'
+                                          ? Icons.shopping_bag
+                                          : Icons.wordpress,
+                                      color: OsmeaColors.white,
+                                      size: 20,
+                                    ),
+                                  ),
+                                  OsmeaComponents.sizedBox(width: 16),
+
+                                  // Store Info
+                                  Expanded(
+                                    child: OsmeaComponents.column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        OsmeaComponents.row(
+                                          children: [
+                                            OsmeaComponents.text(
+                                              store.displayName,
+                                              textStyle:
+                                                  OsmeaTextStyle.bodyLarge(
+                                                          context)
+                                                      .copyWith(
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                            if (store.isDefault) ...[
+                                              OsmeaComponents.sizedBox(
+                                                  width: 8),
+                                              OsmeaComponents.container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                  horizontal: 8,
+                                                  vertical: 2,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  color: OsmeaColors.nordicBlue,
+                                                  borderRadius:
+                                                      BorderRadius.circular(12),
+                                                ),
+                                                child: OsmeaComponents.text(
+                                                  'DEFAULT',
+                                                  textStyle: OsmeaTextStyle
+                                                          .captionSmall(context)
+                                                      .copyWith(
+                                                    color: OsmeaColors.white,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ],
+                                        ),
+                                        OsmeaComponents.sizedBox(height: 4),
+                                        OsmeaComponents.text(
+                                          '${store.platform.toUpperCase()} • API ${store.apiVersion}',
+                                          textStyle:
+                                              OsmeaTextStyle.bodySmall(context)
+                                                  .copyWith(
+                                            color: OsmeaColors.steel,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+
+                                  // Actions
+                                  PopupMenuButton<String>(
+                                    onSelected: (value) {
+                                      switch (value) {
+                                        case 'default':
+                                          if (!store.isDefault) {
+                                            _setDefaultStore(store);
+                                          }
+                                          break;
+                                        case 'delete':
+                                          _deleteStore(store);
+                                          break;
+                                      }
+                                    },
+                                    itemBuilder: (context) => [
+                                      if (!store.isDefault)
+                                        PopupMenuItem(
+                                          value: 'default',
+                                          child: OsmeaComponents.row(
+                                            children: [
+                                              Icon(Icons.star_outline,
+                                                  size: 18),
+                                              OsmeaComponents.sizedBox(
+                                                  width: 8),
+                                              OsmeaComponents.text(
+                                                  'Set as Default'),
+                                            ],
+                                          ),
+                                        ),
+                                      PopupMenuItem(
+                                        value: 'delete',
+                                        child: OsmeaComponents.row(
+                                          children: [
+                                            Icon(Icons.delete_outline,
+                                                size: 18,
+                                                color: OsmeaColors.slate),
+                                            OsmeaComponents.sizedBox(width: 8),
+                                            OsmeaComponents.text(
+                                              'Delete',
+                                              textStyle:
+                                                  OsmeaTextStyle.bodyMedium(
+                                                          context)
+                                                      .copyWith(
+                                                color: OsmeaColors.slate,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                    child: Icon(
+                                      Icons.more_vert,
+                                      color: OsmeaColors.steel,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
             ),
           ],
         ),
       ),
     );
-  }
-
-  Widget _buildEmptyState() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.store_outlined,
-            size: 64,
-            color: Colors.grey[400],
-          ),
-          const SizedBox(height: 16),
-          Text(
-            'No stores found',
-            style: TextStyle(
-              fontSize: 18,
-              color: Colors.grey[600],
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Add your first store to get started',
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.grey[500],
-            ),
-          ),
-          const SizedBox(height: 20),
-          ElevatedButton.icon(
-            onPressed: () => _showAddStoreDialog(context),
-            icon: const Icon(Icons.add),
-            label: const Text('Add Store'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildStoresList() {
-    return ListView.builder(
-      itemCount: _stores.length,
-      itemBuilder: (context, index) {
-        final store = _stores[index];
-        return _buildStoreCard(store);
-      },
-    );
-  }
-
-  Widget _buildStoreCard(StoreConfiguration store) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 12),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Row(
-          children: [
-            // Platform Icon
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                color: _getPlatformColor(store.platform).withOpacity(0.1),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Icon(
-                _getPlatformIcon(store.platform),
-                color: _getPlatformColor(store.platform),
-                size: 24,
-              ),
-            ),
-            const SizedBox(width: 16),
-
-            // Store Info
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        store.displayName,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      if (store.isActive)
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 2,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.green,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: const Text(
-                            'ACTIVE',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      if (store.isDefault)
-                        Container(
-                          margin: const EdgeInsets.only(left: 8),
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 2,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.blue,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: const Text(
-                            'DEFAULT',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 10,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                    ],
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    store.platform.toUpperCase(),
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey[600],
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    store.baseUrl,
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey[500],
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
-            ),
-
-            // Actions
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // Switch to Store Button
-                if (!store.isActive)
-                  TextButton.icon(
-                    onPressed: () => _switchToStore(store),
-                    icon: const Icon(Icons.swap_horiz, size: 18),
-                    label: const Text('Switch'),
-                    style: TextButton.styleFrom(
-                      foregroundColor: Colors.blue,
-                    ),
-                  ),
-
-                // Edit Button
-                IconButton(
-                  onPressed: () => _editStore(store),
-                  icon: const Icon(Icons.edit, size: 18),
-                  tooltip: 'Edit Store',
-                  color: Colors.orange,
-                ),
-
-                // Delete Button
-                IconButton(
-                  onPressed: () => _deleteStore(store),
-                  icon: const Icon(Icons.delete, size: 18),
-                  tooltip: 'Delete Store',
-                  color: Colors.red,
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  IconData _getPlatformIcon(String platform) {
-    switch (platform) {
-      case 'shopify':
-        return Icons.shopping_bag;
-      case 'woocommerce':
-        return Icons.shopping_cart;
-      default:
-        return Icons.store;
-    }
-  }
-
-  Color _getPlatformColor(String platform) {
-    switch (platform) {
-      case 'shopify':
-        return const Color(0xFF95BF47);
-      case 'woocommerce':
-        return const Color(0xFF7F54B3);
-      default:
-        return Colors.grey;
-    }
-  }
-
-  Future<void> _switchToStore(StoreConfiguration store) async {
-    try {
-      final success = await widget.storeService.switchToStore(store.id!);
-      if (success) {
-        widget.onStoreChanged(store);
-        Navigator.of(context).pop();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Switched to ${store.displayName}'),
-            backgroundColor: Colors.green,
-          ),
-        );
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Error switching store: $e'),
-          backgroundColor: Colors.red,
-        ),
-      );
-    }
-  }
-
-  void _editStore(StoreConfiguration store) {
-    // TODO: Implement edit store functionality
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Edit store functionality coming soon!'),
-        backgroundColor: Colors.orange,
-      ),
-    );
-  }
-
-  Future<void> _deleteStore(StoreConfiguration store) async {
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Delete Store'),
-        content: Text(
-          'Are you sure you want to delete "${store.displayName}"? This action cannot be undone.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            style: TextButton.styleFrom(foregroundColor: Colors.red),
-            child: const Text('Delete'),
-          ),
-        ],
-      ),
-    );
-
-    if (confirmed == true) {
-      try {
-        final success = await widget.storeService.deleteStore(store.id!);
-        if (success) {
-          await _loadStores();
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('${store.displayName} deleted successfully'),
-              backgroundColor: Colors.green,
-            ),
-          );
-        }
-      } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Error deleting store: $e'),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
-    }
-  }
-
-  void _showAddStoreDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => const AddStoreDialog(),
-    ).then((_) {
-      // Refresh stores list after adding
-      _loadStores();
-    });
   }
 }

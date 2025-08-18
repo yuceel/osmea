@@ -1,5 +1,6 @@
 import 'package:api_explorer/widgets/layout/bottom_nav_item_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:osmea_components/osmea_components.dart';
 
 class MobileBottomNavWidget extends StatelessWidget {
   final bool isNarrow;
@@ -17,7 +18,7 @@ class MobileBottomNavWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Container(
+    return OsmeaComponents.container(
       height: isNarrow ? 56 : 64,
       decoration: BoxDecoration(
         color: theme.cardColor,
@@ -36,9 +37,9 @@ class MobileBottomNavWidget extends StatelessWidget {
         ],
       ),
       child: SafeArea(
-        child: Row(
+        child: OsmeaComponents.row(
           children: [
-            Expanded(
+            OsmeaComponents.expanded(
               child: BottomNavItemWidget(
                 icon: Icons.settings_rounded,
                 label: isNarrow ? 'Config' : 'Configure',
@@ -47,7 +48,7 @@ class MobileBottomNavWidget extends StatelessWidget {
                 isNarrow: isNarrow,
               ),
             ),
-            Expanded(
+            OsmeaComponents.expanded(
               child: BottomNavItemWidget(
                 icon: Icons.code_rounded,
                 label: 'Response',

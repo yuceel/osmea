@@ -1,6 +1,7 @@
 import 'package:apis/services/store_change_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:apis/apis.dart';
+import 'package:core/core.dart';
 import 'dart:async';
 
 /// Widget that displays current store profile information
@@ -85,7 +86,7 @@ class _StoreProfileWidgetState extends State<StoreProfileWidget> {
     final colorScheme = theme.colorScheme;
 
     if (_isLoading) {
-      return Container(
+      return OsmeaComponents.container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
           color: colorScheme.surfaceContainerHighest,
@@ -95,7 +96,7 @@ class _StoreProfileWidgetState extends State<StoreProfileWidget> {
             width: 1,
           ),
         ),
-        child: Row(
+        child: OsmeaComponents.row(
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(
@@ -103,15 +104,15 @@ class _StoreProfileWidgetState extends State<StoreProfileWidget> {
               height: 16,
               child: CircularProgressIndicator(
                 strokeWidth: 2,
-                valueColor: AlwaysStoppedAnimation<Color>(colorScheme.primary),
+                valueColor:
+                    AlwaysStoppedAnimation<Color>(OsmeaColors.nordicBlue),
               ),
             ),
-            const SizedBox(width: 8),
-            Text(
-              'Loading...',
-              style: TextStyle(
-                fontSize: 12,
-                color: colorScheme.onSurface.withValues(alpha: 0.7),
+            OsmeaComponents.sizedBox(width: 8),
+            OsmeaComponents.text(
+              'Loading profile...',
+              textStyle: OsmeaTextStyle.bodySmall(context).copyWith(
+                color: OsmeaColors.steel,
               ),
             ),
           ],
@@ -120,203 +121,226 @@ class _StoreProfileWidgetState extends State<StoreProfileWidget> {
     }
 
     if (_storeProfile == null) {
-      return Container(
+      return OsmeaComponents.container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
-          color: colorScheme.surfaceContainerHighest,
+          color: OsmeaColors.ash,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: colorScheme.outline.withValues(alpha: 0.3),
+            color: OsmeaColors.silver,
             width: 1,
           ),
         ),
-        child: Row(
+        child: OsmeaComponents.row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
               Icons.store_outlined,
               size: 16,
-              color: colorScheme.outline,
+              color: OsmeaColors.steel,
             ),
-            const SizedBox(width: 6),
-            Text(
-              'No Store',
-              style: TextStyle(
-                fontSize: 12,
-                color: colorScheme.outline,
-                fontWeight: FontWeight.w500,
+            OsmeaComponents.sizedBox(width: 8),
+            OsmeaComponents.text(
+              'No store selected',
+              textStyle: OsmeaTextStyle.bodySmall(context).copyWith(
+                color: OsmeaColors.steel,
               ),
-            ),
-            const SizedBox(width: 4),
-            IconButton(
-              onPressed: _refreshProfile,
-              icon: Icon(
-                Icons.refresh,
-                size: 14,
-                color: colorScheme.outline,
-              ),
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(
-                minWidth: 20,
-                minHeight: 20,
-              ),
-              tooltip: 'Refresh store info',
             ),
           ],
         ),
       );
     }
 
-    final profile = _storeProfile!;
-    final platformColor =
-        Color(int.parse(profile['color'].replaceAll('#', '0xFF')));
+    final storeName = _storeProfile!['name'] ?? 'Unknown Store';
+    final storeDomain = _storeProfile!['domain'] ?? 'Unknown Domain';
+    final storeEmail = _storeProfile!['email'] ?? 'No email';
+    final storePlan = _storeProfile!['plan_name'] ?? 'Unknown Plan';
+    final storeCurrency = _storeProfile!['currency'] ?? 'USD';
+    final storeCountry = _storeProfile!['country_name'] ?? 'Unknown Country';
+    final storeTimezone = _storeProfile!['iana_timezone'] ?? 'Unknown Timezone';
 
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+    return OsmeaComponents.container(
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: colorScheme.surfaceContainerHighest,
+        color: OsmeaColors.white,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: platformColor.withValues(alpha: 0.3),
+          color: OsmeaColors.silver,
           width: 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: platformColor.withValues(alpha: 0.1),
+            color: OsmeaColors.shadowLight,
+            blurRadius: 4,
             offset: const Offset(0, 2),
-            blurRadius: 8,
           ),
         ],
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
+      child: OsmeaComponents.column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Platform Icon
-          Container(
-            padding: const EdgeInsets.all(6),
-            decoration: BoxDecoration(
-              color: platformColor.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Text(
-              profile['icon'],
-              style: const TextStyle(fontSize: 14),
-            ),
-          ),
-          const SizedBox(width: 10),
-
-          // Store Info
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
+          // Header
+          OsmeaComponents.row(
             children: [
-              Text(
-                profile['name'] ?? 'Unknown Store',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: colorScheme.onSurface,
+              OsmeaComponents.container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: OsmeaColors.nordicBlue,
+                  borderRadius: BorderRadius.circular(8),
                 ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+                child: Icon(
+                  Icons.store,
+                  color: OsmeaColors.white,
+                  size: 20,
+                ),
               ),
-              Text(
-                profile['platformDisplayName'] ?? 'Unknown',
-                style: TextStyle(
-                  fontSize: 11,
-                  color: colorScheme.onSurface.withValues(alpha: 0.7),
-                  fontWeight: FontWeight.w500,
+              OsmeaComponents.sizedBox(width: 12),
+              Expanded(
+                child: OsmeaComponents.column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    OsmeaComponents.text(
+                      storeName,
+                      textStyle: OsmeaTextStyle.bodyLarge(context).copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    OsmeaComponents.text(
+                      storeDomain,
+                      textStyle: OsmeaTextStyle.bodySmall(context).copyWith(
+                        color: OsmeaColors.steel,
+                      ),
+                    ),
+                  ],
                 ),
+              ),
+              IconButton(
+                onPressed: _refreshProfile,
+                icon: Icon(
+                  Icons.refresh,
+                  size: 20,
+                  color: OsmeaColors.steel,
+                ),
+                tooltip: 'Refresh Profile',
               ),
             ],
           ),
 
-          const SizedBox(width: 10),
+          OsmeaComponents.sizedBox(height: 16),
 
-          // Status Indicator
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-            decoration: BoxDecoration(
-              color: (profile['status'] ?? 'Unknown') == 'Active'
-                  ? Colors.green.withValues(alpha: 0.15)
-                  : Colors.orange.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(6),
-              border: Border.all(
-                color: (profile['status'] ?? 'Unknown') == 'Active'
-                    ? Colors.green.withValues(alpha: 0.3)
-                    : Colors.orange.withValues(alpha: 0.3),
-                width: 1,
+          // Store Details Grid
+          Wrap(
+            spacing: 16,
+            runSpacing: 12,
+            children: [
+              _buildDetailItem(
+                icon: Icons.email_outlined,
+                label: 'Email',
+                value: storeEmail,
               ),
-            ),
-            child: Text(
-              profile['status'] ?? 'Unknown',
-              style: TextStyle(
-                fontSize: 10,
-                color: (profile['status'] ?? 'Unknown') == 'Active'
-                    ? Colors.green
-                    : Colors.orange,
-                fontWeight: FontWeight.w600,
+              _buildDetailItem(
+                icon: Icons.credit_card_outlined,
+                label: 'Plan',
+                value: storePlan,
               ),
-            ),
+              _buildDetailItem(
+                icon: Icons.attach_money,
+                label: 'Currency',
+                value: storeCurrency,
+              ),
+              _buildDetailItem(
+                icon: Icons.public,
+                label: 'Country',
+                value: storeCountry,
+              ),
+              _buildDetailItem(
+                icon: Icons.access_time,
+                label: 'Timezone',
+                value: storeTimezone,
+              ),
+            ],
           ),
 
-          const SizedBox(width: 8),
+          OsmeaComponents.sizedBox(height: 16),
 
           // Actions
-          PopupMenuButton<String>(
-            icon: Icon(
-              Icons.more_vert,
-              size: 18,
-              color: colorScheme.onSurface.withValues(alpha: 0.7),
-            ),
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(
-              minWidth: 24,
-              minHeight: 24,
-            ),
-            tooltip: 'Store actions',
-            onSelected: (value) {
-              switch (value) {
-                case 'refresh':
-                  _refreshProfile();
-                  break;
-                case 'change':
-                  widget.onStoreChange?.call();
-                  break;
-                case 'profile':
-                  widget.onProfileTap?.call();
-                  break;
-              }
-            },
-            itemBuilder: (context) => [
-              PopupMenuItem(
-                value: 'refresh',
-                child: Row(
-                  children: [
-                    Icon(Icons.refresh, size: 16),
-                    const SizedBox(width: 8),
-                    const Text('Refresh'),
-                  ],
+          OsmeaComponents.row(
+            children: [
+              Expanded(
+                child: OsmeaComponents.button(
+                  text: 'View Store',
+                  variant: ButtonVariant.outlined,
+                  size: ButtonSize.small,
+                  icon: const Icon(Icons.open_in_new, size: 16),
+                  onPressed: () {
+                    // TODO: Implement view store functionality
+                    if (widget.onProfileTap != null) {
+                      widget.onProfileTap!();
+                    }
+                  },
                 ),
               ),
-              PopupMenuItem(
-                value: 'change',
-                child: Row(
-                  children: [
-                    Icon(Icons.swap_horiz, size: 16),
-                    const SizedBox(width: 8),
-                    const Text('Change Store'),
-                  ],
+              OsmeaComponents.sizedBox(width: 12),
+              Expanded(
+                child: OsmeaComponents.button(
+                  text: 'Change Store',
+                  variant: ButtonVariant.primary,
+                  size: ButtonSize.small,
+                  icon: const Icon(Icons.swap_horiz, size: 16),
+                  onPressed: () {
+                    if (widget.onStoreChange != null) {
+                      widget.onStoreChange!();
+                    }
+                  },
                 ),
               ),
-              PopupMenuItem(
-                value: 'profile',
-                child: Row(
-                  children: [
-                    Icon(Icons.person, size: 16),
-                    const SizedBox(width: 8),
-                    const Text('Store Profile'),
-                  ],
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDetailItem({
+    required IconData icon,
+    required String label,
+    required String value,
+  }) {
+    return OsmeaComponents.container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: OsmeaColors.ash,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(
+          color: OsmeaColors.silver,
+          width: 1,
+        ),
+      ),
+      child: OsmeaComponents.row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon,
+            size: 16,
+            color: OsmeaColors.steel,
+          ),
+          OsmeaComponents.sizedBox(width: 8),
+          OsmeaComponents.column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              OsmeaComponents.text(
+                label,
+                textStyle: OsmeaTextStyle.captionSmall(context).copyWith(
+                  color: OsmeaColors.steel,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              OsmeaComponents.text(
+                value,
+                textStyle: OsmeaTextStyle.bodySmall(context).copyWith(
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ],

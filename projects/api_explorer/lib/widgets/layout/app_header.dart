@@ -3,7 +3,6 @@ import 'package:api_explorer/widgets/store_management/store_profile_widget.dart'
 import 'package:api_explorer/styles/app_theme.dart';
 import 'package:flutter/services.dart';
 import 'package:core/core.dart';
-import 'package:osmea_components/osmea_components.dart';
 
 /// Modern IDE-style application header using Osmea components
 class AppHeader extends StatelessWidget implements PreferredSizeWidget {
@@ -220,45 +219,42 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
 
   /// Build the store profile dropdown content
   Widget _buildStoreProfileDropdownContent(BuildContext context) {
-    return Container(
-      constraints: const BoxConstraints(
+    return OsmeaComponents.container(
+      constraints: BoxConstraints(
         minWidth: 350,
         maxWidth: 400,
         maxHeight: 500,
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
+      child: OsmeaComponents.column(
+        mainAxisSize: min,
         children: [
           // Header
-          Container(
-            padding: const EdgeInsets.all(16),
+          OsmeaComponents.container(
+            padding: context.paddingNormal,
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.surfaceContainerHighest,
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(12),
-                topRight: Radius.circular(12),
-              ),
+              borderRadius: context.borderRadiusMinStandard,
             ),
-            child: Row(
+            child: OsmeaComponents.row(
               children: [
                 Icon(
                   Icons.store,
                   color: Theme.of(context).colorScheme.primary,
-                  size: 20,
+                  size: context.iconSizeMedium,
                 ),
-                const SizedBox(width: 12),
-                Text(
+                OsmeaComponents.sizedBox(width: context.spacing12),
+                OsmeaComponents.text(
                   'Store Profile',
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
+                  textStyle: OsmeaTextStyle.titleMedium(context).copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
-                const Spacer(),
+                OsmeaComponents.spacer(),
                 IconButton(
-                  icon: const Icon(Icons.close, size: 18),
+                  icon: Icon(Icons.close, size: context.iconSizeMedium),
                   onPressed: () => Navigator.of(context).pop(),
                   tooltip: 'Close',
-                  padding: EdgeInsets.zero,
+                  padding: context.paddingZero,
                   constraints: const BoxConstraints(
                     minWidth: 24,
                     minHeight: 24,
@@ -269,7 +265,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
           ),
 
           // Store Profile Widget
-          Flexible(
+          OsmeaComponents.flexible(
             child: StoreProfileWidget(
               onProfileTap: () {
                 Navigator.of(context).pop();

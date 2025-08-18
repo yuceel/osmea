@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:osmea_components/osmea_components.dart';
 
 class BottomNavItemWidget extends StatelessWidget {
   final IconData icon;
@@ -20,13 +21,14 @@ class BottomNavItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final primaryColor = theme.colorScheme.primary;
-    final inactiveColor = theme.textTheme.bodyMedium?.color?.withValues(alpha:.6);
+    final inactiveColor =
+        theme.textTheme.bodyMedium?.color?.withValues(alpha: .6);
 
-    return InkWell(
+    return GestureDetector(
       onTap: onTap,
-      child: Container(
+      child: OsmeaComponents.container(
         padding: EdgeInsets.symmetric(vertical: isNarrow ? 8 : 12),
-        child: Column(
+        child: OsmeaComponents.column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
@@ -34,14 +36,13 @@ class BottomNavItemWidget extends StatelessWidget {
               color: isActive ? primaryColor : inactiveColor,
               size: isNarrow ? 20 : 24,
             ),
-            SizedBox(height: isNarrow ? 2 : 4),
-            Text(
+            OsmeaComponents.sizedBox(height: isNarrow ? 2 : 4),
+            OsmeaComponents.text(
               label,
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: isActive ? primaryColor : inactiveColor,
-                fontSize: isNarrow ? 10 : 12,
-                fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
-              ),
+              variant: OsmeaTextVariant.bodySmall,
+              fontSize: isNarrow ? 10 : 12,
+              fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
+              color: isActive ? primaryColor : inactiveColor,
             ),
           ],
         ),

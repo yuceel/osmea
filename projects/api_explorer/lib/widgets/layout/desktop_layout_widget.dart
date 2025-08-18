@@ -3,6 +3,7 @@ import 'package:api_explorer/widgets/home/modern_api_panel.dart';
 import 'package:api_explorer/widgets/home/modern_sidebar.dart';
 import 'package:flutter/material.dart';
 import 'package:api_explorer/services/api_service_registry.dart';
+import 'package:osmea_components/osmea_components.dart';
 
 class DesktopLayoutWidget extends StatelessWidget {
   final BoxConstraints constraints;
@@ -44,13 +45,13 @@ class DesktopLayoutWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return OsmeaComponents.row(
       children: [
         AnimatedBuilder(
           animation: sidebarAnimation,
           builder: (context, child) {
             final sidebarWidth = isTablet ? 280.0 : 320.0;
-            return SizedBox(
+            return OsmeaComponents.sizedBox(
               width: sidebarExpanded
                   ? sidebarWidth * sidebarAnimation.value
                   : 60.0,
@@ -63,10 +64,10 @@ class DesktopLayoutWidget extends StatelessWidget {
             );
           },
         ),
-        Expanded(
-          child: Row(
+        OsmeaComponents.expanded(
+          child: OsmeaComponents.row(
             children: [
-              Expanded(
+              OsmeaComponents.expanded(
                 flex: isTablet ? 1 : 2,
                 child: ModernApiPanel(
                   selectedService: selectedService,
@@ -81,7 +82,7 @@ class DesktopLayoutWidget extends StatelessWidget {
                   onSendRequest: sendRequest,
                 ),
               ),
-              Expanded(
+              OsmeaComponents.expanded(
                 flex: isTablet ? 1 : 2,
                 child: IdeResponsePanel(
                   responseData: responseData,

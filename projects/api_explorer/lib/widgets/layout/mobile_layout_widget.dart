@@ -4,6 +4,7 @@ import 'package:api_explorer/widgets/home/ide_response_panel.dart';
 import 'package:api_explorer/widgets/home/modern_api_panel.dart';
 import 'package:api_explorer/widgets/layout/mobile_app_bar_widget.dart';
 import 'package:api_explorer/widgets/layout/mobile_bottom_nav_widget.dart';
+import 'package:osmea_components/osmea_components.dart';
 
 class MobileLayoutWidget extends StatelessWidget {
   final BoxConstraints constraints;
@@ -51,14 +52,14 @@ class MobileLayoutWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return OsmeaComponents.column(
       children: [
         MobileAppBarWidget(
           isNarrow: isNarrow,
           toggleTheme: toggleTheme,
           isDarkMode: isDarkMode,
         ),
-        Expanded(
+        OsmeaComponents.expanded(
           child: PageView(
             controller: mobilePageController,
             onPageChanged: changeMobilePage,
