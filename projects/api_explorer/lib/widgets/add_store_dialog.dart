@@ -625,7 +625,7 @@ class _AddStoreDialogState extends State<AddStoreDialog>
         ),
         const SizedBox(height: 8),
         Text(
-          'Enter your ${_selectedPlatform == 'shopify' ? 'Shopify access token' : 'WooCommerce API credentials'}:',
+          'Enter your ${_selectedPlatform == 'shopify' ? 'Shopify access token' : 'WooCommerce login credentials'}:',
           style: const TextStyle(color: Colors.grey),
         ),
         const SizedBox(height: 32),
@@ -669,8 +669,12 @@ class _AddStoreDialogState extends State<AddStoreDialog>
           TextFormField(
             controller: _usernameController,
             decoration: InputDecoration(
-              labelText: 'Consumer Key',
-              hintText: 'ck_xxxxxxxxxxxxxxxxxxxxx',
+              labelText: _selectedPlatform == 'woocommerce'
+                  ? 'Username'
+                  : 'Consumer Key',
+              hintText: _selectedPlatform == 'woocommerce'
+                  ? 'your_username'
+                  : 'ck_xxxxxxxxxxxxxxxxxxxxx',
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -678,7 +682,9 @@ class _AddStoreDialogState extends State<AddStoreDialog>
             ),
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Please enter consumer key';
+                return _selectedPlatform == 'woocommerce'
+                    ? 'Please enter username'
+                    : 'Please enter consumer key';
               }
               return null;
             },
@@ -687,8 +693,12 @@ class _AddStoreDialogState extends State<AddStoreDialog>
           TextFormField(
             controller: _passwordController,
             decoration: InputDecoration(
-              labelText: 'Consumer Secret',
-              hintText: 'cs_xxxxxxxxxxxxxxxxxxxxx',
+              labelText: _selectedPlatform == 'woocommerce'
+                  ? 'Password'
+                  : 'Consumer Secret',
+              hintText: _selectedPlatform == 'woocommerce'
+                  ? 'your_password'
+                  : 'cs_xxxxxxxxxxxxxxxxxxxxx',
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -697,7 +707,9 @@ class _AddStoreDialogState extends State<AddStoreDialog>
             obscureText: true,
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Please enter consumer secret';
+                return _selectedPlatform == 'woocommerce'
+                    ? 'Please enter password'
+                    : 'Please enter consumer secret';
               }
               return null;
             },
