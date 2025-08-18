@@ -21,23 +21,138 @@ class IdeResponsePanel extends StatefulWidget {
 
 class _IdeResponsePanelState extends State<IdeResponsePanel>
     with TickerProviderStateMixin {
-  int _selectedTab = 0;
-  int _selectedFormat = 0; // 0: JSON, 1: XML, 2: YAML, 3: Raw
   late AnimationController _blinkController;
   late Animation<double> _blinkAnimation;
-  late ScrollController _contentScrollController;
+  late ScrollController _codeScrollController;
   late ScrollController _lineNumberScrollController;
 
-  // Content cache for instant display (no typewriter effect)
-  Map<int, String> _cachedContent = {};
-  Map<int, List<String>> _cachedLines = {};
+  // Tab management
+  int _selectedTab = 0;
 
-  final List<String> _formats = ['JSON', 'XML', 'YAML', 'Raw'];
+  // Code content
+  final String _accessScopeCode =
+      '''class AccessScopeHandler implements ApiRequestHandler {
+  @override
+  Future<Map<String, dynamic>> handleRequest(
+      String method, Map<String, String> params) async {
+    // 🔍 Validate method
+    if (method == 'GET') {
+      try {
+        // 🚀 Make API call to get access scopes
+        final response = await GetIt.I.get<AccessScopeService>().accessScope();
+
+        // 📊 Group scopes by subcategory
+        final Map<String, List<Map<String, String>>> categorizedScopes = {};
+
+        for (final scope in response.accessScopes) {
+          // 🔍 Extract subcategory from handle (e.g., "read_products" -> "products")
+          final handle = scope.handle;
+          String subcategory = "other"; // Default category
+
+          // 🧩 Try to extract category from handle
+          if (handle.contains('_')) {
+            final parts = handle.split('_');
+            if (parts.length > 1) {
+              // 📑 Use the second part as the subcategory (after "read_", "write_", etc.)
+              subcategory = parts[1];
+            }
+          }
+
+          // 🔤 Ensure subcategory name is capitalized
+          subcategory = subcategory[0].toUpperCase() + subcategory.substring(1);
+
+          // ➕ Add scope to appropriate subcategory
+          if (!categorizedScopes.containsKey(subcategory)) {
+            categorizedScopes[subcategory] = [];
+          }
+
+          categorizedScopes[subcategory]!.add({
+            "handle": handle,
+            "scope": scope.toString(),
+            "permission": handle.split('_').first,
+          });
+        }
+
+        // 🔄 Convert map to list format for the response
+        final List<Map<String, dynamic>> categories =
+            categorizedScopes.entries.map((entry) {
+          return {
+            "category": entry.key,
+            "scopes": entry.value,
+          };
+        }).toList();
+
+        // ✅ Return successful response with categorized data
+        return {
+          "status": "success",
+          "categories": categories,
+          "totalScopes": response.accessScopes.length,
+          "responseData": response.toJson(),
+          "timestamp": DateTime.now().toIso8601String(),
+        };
+      } catch (e) {
+        // 🚨 Error handling
+        String errorMessage = e.toString();
+        int statusCode = 500;
+
+        // Extract status code if available
+        if (errorMessage.contains("status code of")) {
+          final regex = RegExp(r"status code of (\\d+)");
+          final match = regex.firstMatch(errorMessage);
+          if (match != null) {
+            statusCode = int.tryParse(match.group(1) ?? "500") ?? 500;
+          }
+        }
+
+        // Provide troubleshooting info based on status code
+        String troubleshootingTip = "";
+        if (statusCode == 403) {
+          troubleshootingTip = "This may be due to insufficient permissions. "
+              "Ensure your Shopify API credentials have proper access.";
+        } else if (statusCode == 401) {
+          troubleshootingTip =
+              "Authentication failed. Check your API credentials and make sure they're valid.";
+        }
+
+        // Return error response
+        return {
+          "status": "error",
+          "message": "Failed to fetch access scopes: \$errorMessage",
+          "statusCode": statusCode,
+          "troubleshooting": troubleshootingTip,
+          "requestDetails": {
+            "method": "GET",
+            "apiVersion": ApiNetwork.apiVersion,
+          },
+          "timestamp": DateTime.now().toIso8601String(),
+        };
+      }
+    }
+
+    // ⚠️ Return error for unsupported methods
+    return {
+      "status": "error",
+      "message":
+          "Method \$method not supported for Access Scope API. Use GET instead.",
+      "timestamp": DateTime.now().toIso8601String(),
+    };
+  }
+
+  @override
+  // Support only GET method
+  List<String> get supportedMethods => ['GET'];
+
+  @override
+  // No required fields for this endpoint
+  Map<String, List<ApiField>> get requiredFields => {};
+}''';
+
+  final List<String> _codeLines = [];
 
   @override
   void initState() {
     super.initState();
-    _contentScrollController = ScrollController();
+    _codeScrollController = ScrollController();
     _lineNumberScrollController = ScrollController();
 
     _blinkController = AnimationController(
@@ -49,119 +164,17 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
       CurvedAnimation(parent: _blinkController, curve: Curves.easeInOut),
     );
 
-    _initializeContent();
+    // Split code into lines
+    _codeLines.addAll(_accessScopeCode.split('\n'));
   }
 
   @override
   void dispose() {
-    _contentScrollController.dispose();
+    _codeScrollController.dispose();
     _lineNumberScrollController.dispose();
     _blinkController.dispose();
     super.dispose();
   }
-
-  @override
-  void didUpdateWidget(IdeResponsePanel oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    // Update content when responseData changes
-    if (widget.responseData != oldWidget.responseData) {
-      _initializeContent();
-    }
-  }
-
-  void _initializeContent() {
-    if (widget.responseData != null) {
-      // Ensure we honour the currently selected response format
-      _cachedContent = {
-        0: _formatContent(_selectedFormat),
-        1: _generateHeadersContent(),
-        2: _generateStatusContent(),
-      };
-
-      // Split content into lines for instant display
-      _cachedLines = {};
-      _cachedContent.forEach((key, content) {
-        _cachedLines[key] = content.split('\n');
-      });
-    }
-  }
-
-  String _formatContent(int formatIndex) {
-    if (widget.responseData == null) return '';
-
-    switch (formatIndex) {
-      case 0: // JSON
-        return const JsonEncoder.withIndent('  ').convert(widget.responseData);
-      case 1: // XML
-        return _convertToXml(widget.responseData!);
-      case 2: // YAML
-        return _convertToYaml(widget.responseData!);
-      case 3: // Raw
-        return widget.responseData.toString();
-      default:
-        return const JsonEncoder.withIndent('  ').convert(widget.responseData);
-    }
-  }
-
-  String _convertToXml(Map<String, dynamic> data) {
-    StringBuffer buffer = StringBuffer();
-    buffer.writeln('<?xml version="1.0" encoding="UTF-8"?>');
-    buffer.writeln('<response>');
-    _writeXmlNode(buffer, data, '  ');
-    buffer.writeln('</response>');
-    return buffer.toString();
-  }
-
-  void _writeXmlNode(StringBuffer buffer, dynamic value, String indent) {
-    if (value is Map<String, dynamic>) {
-      value.forEach((key, val) {
-        buffer.writeln('$indent<$key>');
-        _writeXmlNode(buffer, val, '$indent  ');
-        buffer.writeln('$indent</$key>');
-      });
-    } else if (value is List) {
-      for (int i = 0; i < value.length; i++) {
-        buffer.writeln('$indent<item index="$i">');
-        _writeXmlNode(buffer, value[i], '$indent  ');
-        buffer.writeln('$indent</item>');
-      }
-    } else {
-      buffer.writeln('$indent${value?.toString() ?? 'null'}');
-    }
-  }
-
-  String _convertToYaml(Map<String, dynamic> data) {
-    StringBuffer buffer = StringBuffer();
-    _writeYamlNode(buffer, data, 0);
-    return buffer.toString();
-  }
-
-  void _writeYamlNode(StringBuffer buffer, dynamic value, int level) {
-    String indent = '  ' * level;
-
-    if (value is Map<String, dynamic>) {
-      value.forEach((key, val) {
-        if (val is Map || val is List) {
-          buffer.writeln('$indent$key:');
-          _writeYamlNode(buffer, val, level + 1);
-        } else {
-          buffer.writeln('$indent$key: ${val?.toString() ?? 'null'}');
-        }
-      });
-    } else if (value is List) {
-      for (var item in value) {
-        buffer.write('$indent- ');
-        if (item is Map || item is List) {
-          buffer.writeln('');
-          _writeYamlNode(buffer, item, level + 1);
-        } else {
-          buffer.writeln(item?.toString() ?? 'null');
-        }
-      }
-    }
-  }
-
-  // Removed typewriter effect - content now displays instantly
 
   bool get _ideTheme {
     return Theme.of(context).brightness == Brightness.dark;
@@ -226,9 +239,7 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
               ? 36
               : 40,
       decoration: BoxDecoration(
-        color: _ideTheme
-            ? AppTheme.darkSurface
-            : AppTheme.lightSurface, // Use AppTheme colors
+        color: _ideTheme ? AppTheme.darkSurface : AppTheme.lightSurface,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(isNarrow ? 8 : 12),
           topRight: Radius.circular(isNarrow ? 8 : 12),
@@ -238,31 +249,28 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
         children: [
           // IDE Traffic lights
           const SizedBox(width: 12),
-          _buildTrafficLight(
-              AppTheme.errorColor, isNarrow), // Use AppTheme colors
+          _buildTrafficLight(AppTheme.errorColor, isNarrow),
           const SizedBox(width: 6),
-          _buildTrafficLight(
-              AppTheme.warningColor, isNarrow), // Use AppTheme colors
+          _buildTrafficLight(AppTheme.warningColor, isNarrow),
           const SizedBox(width: 6),
-          _buildTrafficLight(
-              AppTheme.successColor, isNarrow), // Use AppTheme colors
+          _buildTrafficLight(AppTheme.successColor, isNarrow),
           const SizedBox(width: 16),
 
           // IDE Title with file icon
           Icon(
-            Icons.data_object_rounded,
-            color: _ideTheme
-                ? AppTheme.primaryColor
-                : AppTheme.primaryColor, // Use AppTheme colors
+            widget.responseData == null && !widget.loading
+                ? Icons.code
+                : Icons.data_object_rounded,
+            color: _ideTheme ? AppTheme.primaryColor : AppTheme.primaryColor,
             size: isNarrow ? 14 : 16,
           ),
           const SizedBox(width: 6),
           Text(
-            'response.${_formats[_selectedFormat].toLowerCase()}',
+            widget.responseData == null && !widget.loading
+                ? 'sample_code.dart'
+                : 'response.json',
             style: TextStyle(
-              color: _ideTheme
-                  ? AppTheme.primaryColor
-                  : AppTheme.primaryColor, // Use AppTheme colors
+              color: _ideTheme ? AppTheme.primaryColor : AppTheme.primaryColor,
               fontSize: isNarrow ? 11 : 12,
               fontWeight: FontWeight.w500,
               fontFamily: 'monospace',
@@ -273,10 +281,15 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
 
           // IDE Controls
           if (!isNarrow) ...[
-            _buildIdeButton(
-                Icons.content_copy, 'Copy', _copyResponse, isNarrow),
-            _buildIdeButton(
-                Icons.auto_fix_high, 'Format', _formatJson, isNarrow),
+            if (widget.responseData == null && !widget.loading) ...[
+              _buildIdeButton(
+                  Icons.content_copy, 'Copy Code', _copyCode, isNarrow),
+              _buildIdeButton(Icons.zoom_in, 'Zoom In', _zoomIn, isNarrow),
+              _buildIdeButton(Icons.zoom_out, 'Zoom Out', _zoomOut, isNarrow),
+            ] else ...[
+              _buildIdeButton(
+                  Icons.content_copy, 'Copy', _copyResponse, isNarrow),
+            ],
           ],
           const SizedBox(width: 8),
         ],
@@ -323,9 +336,8 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
           child: Icon(
             icon,
             size: isNarrow ? 12 : 14,
-            color: _ideTheme
-                ? const Color(0xFF8B5CF6)
-                : const Color(0xFF6B46C1), // Purple theme
+            color:
+                _ideTheme ? const Color(0xFF8B5CF6) : const Color(0xFF6B46C1),
           ),
         ),
       ),
@@ -333,6 +345,11 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
   }
 
   Widget _buildResponsiveTabBar(bool isTablet, bool isMobile, bool isNarrow) {
+    // Only show tabs for welcome page
+    if (widget.responseData != null || widget.loading) {
+      return const SizedBox.shrink();
+    }
+
     return Container(
       height: isNarrow ? 28 : 32,
       decoration: BoxDecoration(
@@ -346,74 +363,13 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
       ),
       child: Row(
         children: [
-          // Main tabs - horizontal layout
-          _buildTab(
-              'response', 0, Icons.data_object_rounded, _ideTheme, isNarrow),
+          // Main tabs
+          _buildTab('Code', 0, Icons.code, _ideTheme, isNarrow),
           if (!isNarrow) ...[
-            _buildTab('headers', 1, Icons.http_rounded, _ideTheme, isNarrow),
-            _buildTab('status', 2, Icons.timeline_rounded, _ideTheme, isNarrow),
+            _buildTab(
+                'Documentation', 1, Icons.description, _ideTheme, isNarrow),
+            _buildTab('Examples', 2, Icons.lightbulb, _ideTheme, isNarrow),
           ],
-
-          // Format selector for response tab - horizontal layout
-          if (_selectedTab == 0) ...[
-            const SizedBox(width: 16),
-            Container(
-              height: 20,
-              decoration: BoxDecoration(
-                color: _ideTheme
-                    ? const Color(0xFF3E3E42)
-                    : const Color(0xFFD1D5DB),
-                borderRadius: BorderRadius.circular(4),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: _formats.asMap().entries.map((entry) {
-                  final index = entry.key;
-                  final format = entry.value;
-                  final isSelected = _selectedFormat == index;
-
-                  return GestureDetector(
-                    onTap: () => setState(() {
-                      _selectedFormat = index;
-                      // Recalculate content with the new format
-                      if (widget.responseData != null) {
-                        _cachedContent[0] = _formatContent(index);
-                        _cachedLines[0] = _cachedContent[0]?.split('\n') ?? [];
-                        // Content displays instantly - no animation needed
-                      }
-                    }),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: isSelected
-                            ? const Color(0xFF8B5CF6)
-                            : Colors.transparent,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: Text(
-                        format,
-                        style: TextStyle(
-                          color: isSelected
-                              ? Colors.white
-                              : (_ideTheme
-                                  ? const Color(0xFFCCCCCC)
-                                  : const Color(0xFF666666)),
-                          fontSize: 9,
-                          fontFamily: 'monospace',
-                          fontWeight: FontWeight.w500,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  );
-                }).toList(),
-              ),
-            ),
-          ],
-
-          const Spacer(),
-          _buildStatusIndicator(isNarrow),
         ],
       ),
     );
@@ -423,51 +379,44 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
       String title, int index, IconData icon, bool isDark, bool isNarrow) {
     final isSelected = _selectedTab == index;
     return GestureDetector(
-      onTap: () => setState(() => _selectedTab = index),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
+      onTap: () {
+        setState(() {
+          _selectedTab = index;
+        });
+      },
+      child: Container(
         padding: EdgeInsets.symmetric(
           horizontal: isNarrow ? 8 : 12,
           vertical: isNarrow ? 4 : 6,
         ),
         decoration: BoxDecoration(
-          color: isSelected
-              ? (isDark ? const Color(0xFF1E1E1E) : Colors.white)
-              : Colors.transparent,
-          border: Border(
-            bottom: BorderSide(
-              color: isSelected
-                  ? const Color(0xFF8B5CF6)
-                  : Colors.transparent, // Purple theme
-              width: 2,
-            ),
-          ),
+          color: isSelected ? const Color(0xFF8B5CF6) : Colors.transparent,
+          borderRadius: BorderRadius.circular(4),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
               icon,
-              size: isNarrow ? 10 : 12,
+              size: isNarrow ? 12 : 14,
               color: isSelected
-                  ? const Color(0xFF8B5CF6) // Purple theme
+                  ? Colors.white
                   : (isDark
-                      ? const Color(0xFF999999)
-                      : const Color(0xFF666666)),
+                      ? const Color(0xFFCCCCCC)
+                      : const Color(0xFF6B7280)),
             ),
             if (!isNarrow) ...[
-              const SizedBox(width: 4),
+              const SizedBox(width: 6),
               Text(
                 title,
                 style: TextStyle(
                   color: isSelected
-                      ? const Color(0xFF8B5CF6) // Purple theme
+                      ? Colors.white
                       : (isDark
-                          ? const Color(0xFF999999)
-                          : const Color(0xFF666666)),
-                  fontSize: 10,
-                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-                  fontFamily: 'monospace',
+                          ? const Color(0xFFCCCCCC)
+                          : const Color(0xFF6B7280)),
+                  fontSize: isNarrow ? 10 : 11,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ],
@@ -477,54 +426,361 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
     );
   }
 
-  Widget _buildStatusIndicator(bool isNarrow) {
-    return AnimatedBuilder(
-      animation: _blinkAnimation,
-      builder: (context, child) {
-        return Container(
-          margin: EdgeInsets.only(right: isNarrow ? 8 : 12),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: isNarrow ? 6 : 8,
-                height: isNarrow ? 6 : 8,
-                decoration: BoxDecoration(
-                  color: widget.loading
-                      ? Colors.orange.withValues(alpha: _blinkAnimation.value)
-                      : widget.responseData != null
-                          ? const Color(0xFF28CA42)
-                          : _ideTheme
-                              ? const Color(0xFF666666)
-                              : const Color(0xFF999999),
-                  shape: BoxShape.circle,
+  Widget _buildResponsiveContent(bool isTablet, bool isMobile, bool isNarrow) {
+    // Check if this is welcome page (no response data and not loading)
+    if (widget.responseData == null && !widget.loading) {
+      // Welcome page - show code editor
+      if (_selectedTab == 0) {
+        return _buildResponsiveCodeEditor(isTablet, isMobile, isNarrow);
+      } else if (_selectedTab == 1) {
+        return _buildDocumentationTabContent(isTablet, isMobile, isNarrow);
+      } else {
+        return _buildExamplesTabContent(isTablet, isMobile, isNarrow);
+      }
+    } else {
+      // Response page - show normal response content
+      return _buildResponseContent(isTablet, isMobile, isNarrow);
+    }
+  }
+
+  Widget _buildResponsiveCodeEditor(
+      bool isTablet, bool isMobile, bool isNarrow) {
+    return Container(
+      color: _ideTheme ? const Color(0xFF1E1E1E) : const Color(0xFFF8F9FA),
+      child: Row(
+        children: [
+          // Line numbers
+          Container(
+            width: isNarrow ? 40 : 50,
+            decoration: BoxDecoration(
+              color:
+                  _ideTheme ? const Color(0xFF252526) : const Color(0xFFE8E9EA),
+              border: Border(
+                right: BorderSide(
+                  color: _ideTheme
+                      ? const Color(0xFF3E3E42)
+                      : const Color(0xFFD1D5DB),
                 ),
               ),
-              if (!isNarrow) ...[
-                const SizedBox(width: 4),
-                Text(
-                  widget.loading
-                      ? 'Loading...'
-                      : widget.responseData != null
-                          ? 'Ready'
-                          : 'Idle',
-                  style: TextStyle(
-                    color: _ideTheme
-                        ? const Color(0xFFCCCCCC)
-                        : const Color(0xFF666666),
-                    fontSize: 9,
-                    fontFamily: 'monospace',
+            ),
+            child: ListView.builder(
+              controller: _lineNumberScrollController,
+              itemCount: _codeLines.length,
+              itemBuilder: (context, index) {
+                return Container(
+                  height: 20,
+                  padding: EdgeInsets.only(right: isNarrow ? 4 : 8),
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    '${index + 1}',
+                    style: TextStyle(
+                      color: _ideTheme
+                          ? const Color(0xFF858585)
+                          : const Color(0xFF6B7280),
+                      fontSize: isNarrow ? 10 : 11,
+                      fontFamily: 'monospace',
+                    ),
                   ),
-                ),
-              ],
-            ],
+                );
+              },
+            ),
           ),
-        );
-      },
+
+          // Code content
+          Expanded(
+            child: ListView.builder(
+              controller: _codeScrollController,
+              itemCount: _codeLines.length,
+              itemBuilder: (context, index) {
+                final line = _codeLines[index];
+                return Container(
+                  height: 20,
+                  padding: EdgeInsets.only(left: isNarrow ? 8 : 16),
+                  alignment: Alignment.centerLeft,
+                  child: SelectableText(
+                    line,
+                    style: TextStyle(
+                      color: _ideTheme
+                          ? const Color(0xFFD4D4D4)
+                          : const Color(0xFF2D2D2D),
+                      fontSize: isNarrow ? 11 : 12,
+                      fontFamily: 'monospace',
+                      height: 1.2,
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 
-  Widget _buildResponsiveContent(bool isTablet, bool isMobile, bool isNarrow) {
+  Widget _buildDocumentationTabContent(
+      bool isTablet, bool isMobile, bool isNarrow) {
+    return Container(
+      padding: EdgeInsets.all(isNarrow ? 16 : 24),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Repository Header
+            Container(
+              padding: EdgeInsets.all(isNarrow ? 12 : 16),
+              decoration: BoxDecoration(
+                color: _ideTheme
+                    ? const Color(0xFF2D2D30)
+                    : const Color(0xFFE8E9EA),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: _ideTheme
+                      ? const Color(0xFF3E3E42)
+                      : const Color(0xFFD1D5DB),
+                ),
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.link,
+                    color: _ideTheme
+                        ? AppTheme.primaryColor
+                        : AppTheme.primaryColor,
+                    size: isNarrow ? 20 : 24,
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'OSMEA Repository',
+                          style: TextStyle(
+                            fontSize: isNarrow ? 16 : 18,
+                            fontWeight: FontWeight.w700,
+                            color: _ideTheme ? Colors.white : Colors.black87,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          'https://github.com/masterfabric-mobile/osmea',
+                          style: TextStyle(
+                            fontSize: isNarrow ? 12 : 14,
+                            color: _ideTheme
+                                ? const Color(0xFF8B5CF6)
+                                : const Color(0xFF6B46C1),
+                            fontFamily: 'monospace',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            SizedBox(height: isNarrow ? 16 : 24),
+
+            // Project Description
+            Container(
+              padding: EdgeInsets.all(isNarrow ? 12 : 16),
+              decoration: BoxDecoration(
+                color: _ideTheme
+                    ? const Color(0xFF1E1E1E)
+                    : const Color(0xFFF8F9FA),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: _ideTheme
+                      ? const Color(0xFF3E3E42)
+                      : const Color(0xFFD1D5DB),
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'About OSMEA',
+                    style: TextStyle(
+                      fontSize: isNarrow ? 14 : 16,
+                      fontWeight: FontWeight.w600,
+                      color: _ideTheme ? Colors.white : Colors.black87,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'OSMEA is an enterprise-level Flutter framework for building scalable, customizable, and cross-platform e-commerce applications. It provides a robust, modular codebase for rapid development with integration support for Shopify, WooCommerce, and custom APIs.',
+                    style: TextStyle(
+                      fontSize: isNarrow ? 12 : 14,
+                      color: _ideTheme
+                          ? const Color(0xFFCCCCCC)
+                          : const Color(0xFF4B5563),
+                      height: 1.5,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            SizedBox(height: isNarrow ? 16 : 24),
+
+            // Key Features
+            Container(
+              padding: EdgeInsets.all(isNarrow ? 12 : 16),
+              decoration: BoxDecoration(
+                color: _ideTheme
+                    ? const Color(0xFF1E1E1E)
+                    : const Color(0xFFF8F9FA),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: _ideTheme
+                      ? const Color(0xFF3E3E42)
+                      : const Color(0xFFD1D5DB),
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Key Features',
+                    style: TextStyle(
+                      fontSize: isNarrow ? 14 : 16,
+                      fontWeight: FontWeight.w600,
+                      color: _ideTheme ? Colors.white : Colors.black87,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  _buildFeatureItem('🔌 Multi-Platform Support',
+                      'Shopify, WooCommerce, BigCommerce', isNarrow),
+                  _buildFeatureItem('📱 Cross-Platform',
+                      'iOS & Android from single codebase', isNarrow),
+                  _buildFeatureItem(
+                      '🎨 Material Design 3', 'Modern UI components', isNarrow),
+                  _buildFeatureItem('🛍️ BigCommerce (Upcoming)',
+                      'Product catalog, cart, checkout', isNarrow),
+                  _buildFeatureItem('🧰 Developer Tools',
+                      'Testing suite, documentation', isNarrow),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFeatureItem(String title, String description, bool isNarrow) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: isNarrow ? 8 : 12),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: isNarrow ? 16 : 20,
+            height: isNarrow ? 16 : 20,
+            decoration: BoxDecoration(
+              color:
+                  _ideTheme ? const Color(0xFF8B5CF6) : const Color(0xFF6B46C1),
+              borderRadius: BorderRadius.circular(4),
+            ),
+            child: const Icon(
+              Icons.check,
+              color: Colors.white,
+              size: 12,
+            ),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: isNarrow ? 12 : 14,
+                    fontWeight: FontWeight.w500,
+                    color: _ideTheme ? Colors.white : Colors.black87,
+                  ),
+                ),
+                Text(
+                  description,
+                  style: TextStyle(
+                    fontSize: isNarrow ? 11 : 12,
+                    color: _ideTheme
+                        ? const Color(0xFF999999)
+                        : const Color(0xFF6B7280),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildExamplesTabContent(bool isTablet, bool isMobile, bool isNarrow) {
+    return Container(
+      padding: EdgeInsets.all(isNarrow ? 16 : 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding: EdgeInsets.all(isNarrow ? 12 : 16),
+            decoration: BoxDecoration(
+              color:
+                  _ideTheme ? const Color(0xFF2D2D30) : const Color(0xFFE8E9EA),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: _ideTheme
+                    ? const Color(0xFF3E3E42)
+                    : const Color(0xFFD1D5DB),
+              ),
+            ),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.lightbulb,
+                  color:
+                      _ideTheme ? AppTheme.primaryColor : AppTheme.primaryColor,
+                  size: isNarrow ? 20 : 24,
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  'Examples Coming Soon',
+                  style: TextStyle(
+                    fontSize: isNarrow ? 16 : 18,
+                    fontWeight: FontWeight.w600,
+                    color: _ideTheme ? Colors.white : Colors.black87,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'Examples for Access Scope Handler and other API handlers will be displayed here.',
+            style: TextStyle(
+              fontSize: isNarrow ? 12 : 14,
+              color:
+                  _ideTheme ? const Color(0xFFCCCCCC) : const Color(0xFF4B5563),
+              height: 1.5,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildResponseContent(bool isTablet, bool isMobile, bool isNarrow) {
+    if (widget.loading) {
+      return _buildLoadingState(isTablet, isMobile, isNarrow);
+    }
+
+    if (widget.responseData == null) {
+      return _buildEmptyState(isTablet, isMobile, isNarrow);
+    }
+
+    // Show response data in JSON format
     return Container(
       color: _ideTheme ? const Color(0xFF1E1E1E) : const Color(0xFFFAFBFC),
       child: LayoutBuilder(
@@ -532,15 +788,14 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
           final showLineNumbers = constraints.maxWidth > 300;
 
           return Row(
-            crossAxisAlignment: CrossAxisAlignment.start, // Align to top
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Line numbers
-              if (showLineNumbers) _buildLineNumbers(_ideTheme, isNarrow),
+              if (showLineNumbers) _buildResponseLineNumbers(isNarrow),
 
-              // Content area - scrollable from top to bottom
+              // Response content
               Expanded(
-                child:
-                    _buildTabContent(_ideTheme, isTablet, isMobile, isNarrow),
+                child: _buildResponseData(isNarrow),
               ),
             ],
           );
@@ -549,408 +804,77 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
     );
   }
 
-  Widget _buildLineNumbers(bool isDark, bool isNarrow) {
-    if (widget.responseData == null && !widget.loading) {
-      return const SizedBox();
-    }
-
-    final lines = _cachedLines[_selectedTab] ?? [];
-    final visibleLines = lines.length; // Show all lines instantly
+  Widget _buildResponseLineNumbers(bool isNarrow) {
+    final responseText = _formatResponseData();
+    final lines = responseText.split('\n');
 
     return Container(
       width: isNarrow ? 35 : 45,
-      color: isDark ? const Color(0xFF252526) : const Color(0xFFF0F1F2),
-      child: SingleChildScrollView(
-        controller: _lineNumberScrollController,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: List.generate(visibleLines, (index) {
-            return Container(
-              height: 18,
-              padding: EdgeInsets.symmetric(horizontal: isNarrow ? 4 : 6),
-              alignment: Alignment.centerRight,
-              child: Text(
-                '${index + 1}',
-                style: TextStyle(
-                  color: isDark
-                      ? const Color(0xFF858585)
-                      : const Color(0xFF999999),
-                  fontSize: isNarrow ? 9 : 10,
-                  fontFamily: 'monospace',
-                  height: 1.4,
-                ),
+      color: _ideTheme ? const Color(0xFF252526) : const Color(0xFFF0F1F2),
+      child: ListView.builder(
+        itemCount: lines.length,
+        itemBuilder: (context, index) {
+          return Container(
+            height: 18,
+            padding: EdgeInsets.symmetric(horizontal: isNarrow ? 4 : 6),
+            alignment: Alignment.centerRight,
+            child: Text(
+              '${index + 1}',
+              style: TextStyle(
+                color: _ideTheme
+                    ? const Color(0xFF858585)
+                    : const Color(0xFF999999),
+                fontSize: isNarrow ? 9 : 10,
+                fontFamily: 'monospace',
+                height: 1.4,
               ),
-            );
-          }),
-        ),
+            ),
+          );
+        },
       ),
     );
   }
 
-  Widget _buildTabContent(
-      bool isDark, bool isTablet, bool isMobile, bool isNarrow) {
-    if (widget.loading) {
-      return _buildLoadingState(isDark, isTablet, isMobile, isNarrow);
-    }
-
-    if (widget.responseData == null) {
-      return _buildEmptyState(isDark, isTablet, isMobile, isNarrow);
-    }
-
-    // Show all content instantly - no typewriter effect
-    final lines = _cachedLines[_selectedTab] ?? [];
-    if (lines.isEmpty) return const SizedBox();
+  Widget _buildResponseData(bool isNarrow) {
+    final responseText = _formatResponseData();
+    final lines = responseText.split('\n');
 
     return Container(
       alignment: Alignment.topLeft,
-      child: SingleChildScrollView(
-        controller: _contentScrollController,
-        physics: const AlwaysScrollableScrollPhysics(),
-        child: Container(
-          width: double.infinity,
-          padding: EdgeInsets.all(isNarrow ? 8 : 12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ...lines.map((line) {
-                return Container(
-                  width: double.infinity,
-                  height: 18,
-                  alignment: Alignment.centerLeft,
-                  child: _buildSyntaxHighlightedLine(line, isDark, isNarrow),
-                );
-              }),
-
-              // Add some bottom padding for better scrolling
-              const SizedBox(height: 100),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSyntaxHighlightedLine(String line, bool isDark, bool isNarrow) {
-    if (_selectedTab != 0) {
-      // For non-response tabs, use simple styling
-      return Text(
-        line,
-        style: TextStyle(
-          fontFamily: 'monospace',
-          fontSize: isNarrow ? 9 : 11,
-          height: 1.4,
-          color: _getTextColor(isDark),
-        ),
-      );
-    }
-
-    // Syntax highlighting based on selected format
-    return RichText(
-      text: _buildFormatTextSpans(line, isDark, isNarrow),
-    );
-  }
-
-  TextSpan _buildFormatTextSpans(String line, bool isDark, bool isNarrow) {
-    switch (_selectedFormat) {
-      case 0: // JSON
-        return _buildJsonLineSpans(line, isDark, isNarrow);
-      case 1: // XML
-        return _buildXmlLineSpans(line, isDark, isNarrow);
-      case 2: // YAML
-        return _buildYamlLineSpans(line, isDark, isNarrow);
-      default: // Raw
-        return TextSpan(
-          text: line,
-          style: TextStyle(
-            color: isDark ? const Color(0xFFD4D4D4) : const Color(0xFF333333),
-            fontFamily: 'monospace',
-            fontSize: isNarrow ? 9 : 11,
-            height: 1.4,
-          ),
-        );
-    }
-  }
-
-  TextSpan _buildJsonLineSpans(String line, bool isDark, bool isNarrow) {
-    // Enhanced JSON syntax highlighting
-    final RegExp regex = RegExp(
-      r'("(?:[^"\\]|\\.)*")|(\d+\.?\d*)|(\btrue\b|\bfalse\b|\bnull\b)|([{}[\],:])|(\s+)',
-    );
-
-    final List<TextSpan> spans = [];
-    int lastIndex = 0;
-
-    for (final match in regex.allMatches(line)) {
-      if (match.start > lastIndex) {
-        spans.add(TextSpan(
-          text: line.substring(lastIndex, match.start),
-          style: TextStyle(
-            color: isDark ? const Color(0xFFD4D4D4) : const Color(0xFF333333),
-            fontFamily: 'monospace',
-            fontSize: isNarrow ? 9 : 11,
-            height: 1.4,
-          ),
-        ));
-      }
-
-      final matchText = match.group(0)!;
-      Color color;
-
-      if (match.group(1) != null) {
-        // String
-        final isKey = line.substring(match.end).trimLeft().startsWith(':');
-        color = isKey
-            ? (isDark ? const Color(0xFF8B5CF6) : const Color(0xFF6B46C1))
-            : (isDark ? const Color(0xFFD1C4E9) : const Color(0xFF4A5568));
-      } else if (match.group(2) != null) {
-        // Number
-        color = isDark ? const Color(0xFFC084FC) : const Color(0xFF7C3AED);
-      } else if (match.group(3) != null) {
-        // Boolean/null
-        color = isDark ? const Color(0xFFA855F7) : const Color(0xFF8B5CF6);
-      } else {
-        // Punctuation and whitespace
-        color = isDark ? const Color(0xFFD4D4D4) : const Color(0xFF333333);
-      }
-
-      spans.add(TextSpan(
-        text: matchText,
-        style: TextStyle(
-          color: color,
-          fontFamily: 'monospace',
-          fontSize: isNarrow ? 9 : 11,
-          height: 1.4,
-        ),
-      ));
-
-      lastIndex = match.end;
-    }
-
-    if (lastIndex < line.length) {
-      spans.add(TextSpan(
-        text: line.substring(lastIndex),
-        style: TextStyle(
-          color: isDark ? const Color(0xFFD4D4D4) : const Color(0xFF333333),
-          fontFamily: 'monospace',
-          fontSize: isNarrow ? 9 : 11,
-          height: 1.4,
-        ),
-      ));
-    }
-
-    return TextSpan(children: spans);
-  }
-
-  TextSpan _buildXmlLineSpans(String line, bool isDark, bool isNarrow) {
-    final RegExp regex = RegExp(r'(<[^>]*>)|([^<]+)');
-    final List<TextSpan> spans = [];
-
-    for (final match in regex.allMatches(line)) {
-      final matchText = match.group(0)!;
-      Color color;
-
-      if (match.group(1) != null) {
-        // XML tags
-        color = isDark ? const Color(0xFF8B5CF6) : const Color(0xFF6B46C1);
-      } else {
-        // Content
-        color = isDark ? const Color(0xFFD4D4D4) : const Color(0xFF333333);
-      }
-
-      spans.add(TextSpan(
-        text: matchText,
-        style: TextStyle(
-          color: color,
-          fontFamily: 'monospace',
-          fontSize: isNarrow ? 9 : 11,
-          height: 1.4,
-        ),
-      ));
-    }
-
-    return TextSpan(children: spans);
-  }
-
-  TextSpan _buildYamlLineSpans(String line, bool isDark, bool isNarrow) {
-    final RegExp regex = RegExp(r'(^[\s]*[^:\s]+:)|(\s*-\s)|([^:\-\s][^:]*$)');
-    final List<TextSpan> spans = [];
-    int lastIndex = 0;
-
-    for (final match in regex.allMatches(line)) {
-      if (match.start > lastIndex) {
-        spans.add(TextSpan(
-          text: line.substring(lastIndex, match.start),
-          style: TextStyle(
-            color: isDark ? const Color(0xFFD4D4D4) : const Color(0xFF333333),
-            fontFamily: 'monospace',
-            fontSize: isNarrow ? 9 : 11,
-            height: 1.4,
-          ),
-        ));
-      }
-
-      final matchText = match.group(0)!;
-      Color color;
-
-      if (match.group(1) != null) {
-        // YAML keys
-        color = isDark ? const Color(0xFF8B5CF6) : const Color(0xFF6B46C1);
-      } else if (match.group(2) != null) {
-        // List indicators
-        color = isDark ? const Color(0xFFA855F7) : const Color(0xFF8B5CF6);
-      } else {
-        // Values
-        color = isDark ? const Color(0xFFD1C4E9) : const Color(0xFF4A5568);
-      }
-
-      spans.add(TextSpan(
-        text: matchText,
-        style: TextStyle(
-          color: color,
-          fontFamily: 'monospace',
-          fontSize: isNarrow ? 9 : 11,
-          height: 1.4,
-        ),
-      ));
-
-      lastIndex = match.end;
-    }
-
-    if (lastIndex < line.length) {
-      spans.add(TextSpan(
-        text: line.substring(lastIndex),
-        style: TextStyle(
-          color: isDark ? const Color(0xFFD4D4D4) : const Color(0xFF333333),
-          fontFamily: 'monospace',
-          fontSize: isNarrow ? 9 : 11,
-          height: 1.4,
-        ),
-      ));
-    }
-
-    return TextSpan(children: spans);
-  }
-
-  String _generateHeadersContent() {
-    return 'Content-Type: application/json\n'
-        'Cache-Control: no-cache\n'
-        'Connection: keep-alive\n'
-        'Date: ${DateTime.now()}\n'
-        'X-API-Version: 2024.01\n'
-        'Server: OSMEA/1.0';
-  }
-
-  String _generateStatusContent() {
-    final isError = widget.responseData!.containsKey('error') ||
-        (widget.responseData!.containsKey('status') &&
-            widget.responseData!['status'] == 'error');
-
-    return 'Status: ${isError ? "Error" : "200 OK"}\n'
-        'Time: ${DateTime.now().millisecondsSinceEpoch % 1000}ms\n'
-        'Size: ${widget.responseData.toString().length} bytes\n'
-        'Request ID: ${DateTime.now().millisecondsSinceEpoch}\n'
-        'Timestamp: ${DateTime.now().toIso8601String()}';
-  }
-
-  Widget _buildResponsiveStatusBar(
-      bool isTablet, bool isMobile, bool isNarrow) {
-    return Container(
-      height: 24,
-      decoration: BoxDecoration(
-        color: _ideTheme ? const Color(0xFF8B5CF6) : const Color(0xFF7C3AED),
-        borderRadius: const BorderRadius.only(
-          bottomLeft: Radius.circular(12),
-          bottomRight: Radius.circular(12),
-        ),
-      ),
-      child: Row(
-        children: [
-          const SizedBox(width: 12),
-          const Icon(Icons.api_rounded, size: 12, color: Colors.white),
-          const SizedBox(width: 6),
-          const Text(
-            'OSMEA API Explorer',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 10,
-              fontWeight: FontWeight.w500,
+      child: ListView.builder(
+        itemCount: lines.length,
+        itemBuilder: (context, index) {
+          final line = lines[index];
+          return Container(
+            width: double.infinity,
+            height: 18,
+            alignment: Alignment.centerLeft,
+            child: SelectableText(
+              line,
+              style: TextStyle(
+                color: _ideTheme
+                    ? const Color(0xFFD4D4D4)
+                    : const Color(0xFF333333),
+                fontFamily: 'monospace',
+                fontSize: isNarrow ? 9 : 11,
+                height: 1.4,
+              ),
             ),
-          ),
-          const Spacer(),
-          AnimatedBuilder(
-            animation: _blinkAnimation,
-            builder: (context, child) {
-              return Text(
-                widget.responseData != null
-                    ? 'Response loaded'
-                    : widget.loading
-                        ? 'Loading...'
-                        : 'Ready',
-                style: TextStyle(
-                  color: Colors.white
-                      .withValues(alpha: 0.8 + (_blinkAnimation.value * 0.2)),
-                  fontSize: 10,
-                ),
-              );
-            },
-          ),
-          const SizedBox(width: 12),
-        ],
+          );
+        },
       ),
     );
   }
 
-  void _copyResponse() {
-    if (_selectedTab == 0 && widget.responseData != null) {
-      // Copy based on selected response format
-      final contentToCopy = _formatContent(_selectedFormat);
-      Clipboard.setData(ClipboardData(text: contentToCopy));
+  String _formatResponseData() {
+    if (widget.responseData == null) return '';
 
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-                '${_formats[_selectedFormat]} response copied to clipboard'),
-            backgroundColor: const Color(0xFF8B5CF6),
-          ),
-        );
-      }
-    } else if (_selectedTab != 0) {
-      final content = _cachedContent[_selectedTab] ?? '';
-      Clipboard.setData(ClipboardData(text: content));
-
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-                '${_selectedTab == 1 ? 'Headers' : 'Status'} copied to clipboard'),
-            backgroundColor: const Color(0xFF8B5CF6),
-          ),
-        );
-      }
-    }
+    // Format as JSON with proper indentation
+    final encoder = JsonEncoder.withIndent('  ');
+    return encoder.convert(widget.responseData);
   }
 
-  void _formatJson() {
-    if (_selectedTab != 0 || widget.responseData == null) return;
-
-    // Re-format current response based on selected format and refresh the cached content
-    final formatted = _formatContent(_selectedFormat);
-    setState(() {
-      _cachedContent[0] = formatted;
-      _cachedLines[0] = formatted.split('\n');
-    });
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('${_formats[_selectedFormat]} formatted'),
-        backgroundColor: const Color(0xFF8B5CF6),
-      ),
-    );
-  }
-
-  Widget _buildLoadingState(
-      bool isDark, bool isTablet, bool isMobile, bool isNarrow) {
+  Widget _buildLoadingState(bool isTablet, bool isMobile, bool isNarrow) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -959,9 +883,8 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
             width: 40,
             height: 40,
             child: CircularProgressIndicator(
-              color: _ideTheme
-                  ? AppTheme.primaryColor
-                  : AppTheme.secondaryColor, // Use AppTheme colors
+              color:
+                  _ideTheme ? AppTheme.primaryColor : AppTheme.secondaryColor,
               strokeWidth: 3,
             ),
           ),
@@ -971,7 +894,7 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
             style: TextStyle(
               color: _ideTheme
                   ? AppTheme.onSurfaceVariant
-                  : AppTheme.surfaceVariant, // Use AppTheme colors
+                  : AppTheme.surfaceVariant,
               fontSize: isNarrow ? 12 : 14,
             ),
           ),
@@ -980,21 +903,23 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
     );
   }
 
-  Widget _buildEmptyState(
-      bool isDark, bool isTablet, bool isMobile, bool isNarrow) {
+  Widget _buildEmptyState(bool isTablet, bool isMobile, bool isNarrow) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.api_rounded,
-              size: isNarrow ? 48 : 64, color: AppTheme.primaryColor),
+          Icon(
+            Icons.api_rounded,
+            size: isNarrow ? 48 : 64,
+            color: AppTheme.primaryColor,
+          ),
           const SizedBox(height: 16),
           Text(
             'No response data available',
             style: TextStyle(
               color: _ideTheme
                   ? AppTheme.onSurfaceVariant
-                  : AppTheme.surfaceVariant, // Use AppTheme colors
+                  : AppTheme.surfaceVariant,
               fontSize: isNarrow ? 14 : 16,
               fontWeight: FontWeight.w500,
             ),
@@ -1005,7 +930,7 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
             style: TextStyle(
               color: _ideTheme
                   ? AppTheme.surfaceVariant
-                  : AppTheme.onSurfaceVariant, // Use AppTheme colors
+                  : AppTheme.onSurfaceVariant,
               fontSize: isNarrow ? 12 : 14,
             ),
           ),
@@ -1014,7 +939,97 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
     );
   }
 
-  Color _getTextColor(bool isDark) {
-    return isDark ? const Color(0xFFD4D4D4) : const Color(0xFF333333);
+  Widget _buildResponsiveStatusBar(
+      bool isTablet, bool isMobile, bool isNarrow) {
+    return Container(
+      height: isNarrow ? 20 : 24,
+      decoration: BoxDecoration(
+        color: _ideTheme ? const Color(0xFF007ACC) : const Color(0xFFE8E9EA),
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(isNarrow ? 8 : 12),
+          bottomRight: Radius.circular(isNarrow ? 8 : 12),
+        ),
+      ),
+      child: Row(
+        children: [
+          const SizedBox(width: 12),
+          Icon(
+            Icons.info_outline,
+            color: Colors.white,
+            size: isNarrow ? 12 : 14,
+          ),
+          const SizedBox(width: 6),
+          Text(
+            widget.responseData == null && !widget.loading
+                ? (_selectedTab == 0
+                    ? 'Sample Code - ${_codeLines.length} lines'
+                    : _selectedTab == 1
+                        ? 'Documentation - OSMEA Repository'
+                        : 'Examples - Coming Soon')
+                : 'Response Data - ${_formatResponseData().split('\n').length} lines',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: isNarrow ? 10 : 11,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          const Spacer(),
+          if (!isNarrow) ...[
+            Text(
+              widget.responseData == null && !widget.loading ? 'Dart' : 'JSON',
+              style: TextStyle(
+                color: Colors.white.withValues(alpha: 0.8),
+                fontSize: isNarrow ? 10 : 11,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const SizedBox(width: 12),
+          ],
+        ],
+      ),
+    );
+  }
+
+  void _copyCode() {
+    Clipboard.setData(ClipboardData(text: _accessScopeCode));
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Code copied to clipboard!'),
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
+
+  void _copyResponse() {
+    if (widget.responseData != null) {
+      final responseText = _formatResponseData();
+      Clipboard.setData(ClipboardData(text: responseText));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Response copied to clipboard!'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+
+  void _zoomIn() {
+    // Implement zoom in functionality
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Zoom in functionality coming soon!'),
+        duration: Duration(seconds: 1),
+      ),
+    );
+  }
+
+  void _zoomOut() {
+    // Implement zoom out functionality
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Zoom out functionality coming soon!'),
+        duration: Duration(seconds: 1),
+      ),
+    );
   }
 }
