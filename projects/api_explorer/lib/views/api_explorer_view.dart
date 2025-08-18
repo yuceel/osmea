@@ -2,6 +2,8 @@ import 'package:api_explorer/services/api_service_registry.dart';
 import 'package:api_explorer/widgets/layout/desktop_layout_widget.dart';
 import 'package:api_explorer/widgets/layout/mobile_drawer_widget.dart';
 import 'package:api_explorer/widgets/layout/mobile_layout_widget.dart';
+
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 
 class ApiExplorerView extends StatefulWidget {
@@ -64,9 +66,8 @@ class _ApiExplorerViewState extends State<ApiExplorerView>
         // Force mobile layout for narrow screens
         final shouldUseMobileLayout = isMobile || constraints.maxWidth < 900;
 
-        return Scaffold(
-          backgroundColor:
-              _isDarkMode ? const Color(0xFF121212) : const Color(0xFFFAFAFA),
+        return OsmeaComponents.scaffold(
+          backgroundColor: _isDarkMode ? OsmeaColors.eclipse : OsmeaColors.snow,
           body: shouldUseMobileLayout
               ? MobileLayoutWidget(
                   constraints: constraints,

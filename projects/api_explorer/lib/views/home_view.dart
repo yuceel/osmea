@@ -1,13 +1,15 @@
+import 'package:api_explorer/widgets/home/modern_sidebar.dart';
+import 'package:api_explorer/widgets/layout/app_header.dart';
+import 'package:api_explorer/widgets/responsive_layout/responsive_content.dart';
+import 'package:api_explorer/widgets/store_management/store_management_dialog.dart';
+import 'package:api_explorer/widgets/store_management/store_setup_wizard.dart';
 import 'package:flutter/material.dart';
 import 'package:apis/apis.dart';
 import 'package:apis/services/store_change_notifier.dart';
 import 'package:api_explorer/services/api_service_registry.dart';
 import 'package:api_explorer/services/app_state_persistence.dart';
-import 'package:api_explorer/widgets/layout/app_header.dart';
-import 'package:api_explorer/widgets/store_management/store_setup_wizard.dart';
-import 'package:api_explorer/widgets/store_management/store_management_dialog.dart';
-import 'package:api_explorer/widgets/responsive_layout/responsive_content.dart';
-import 'package:api_explorer/widgets/home/modern_sidebar.dart';
+
+import 'package:core/core.dart';
 import 'dart:async';
 
 class HomeView extends StatefulWidget {
@@ -398,7 +400,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Row(
+            content: OsmeaComponents.row(
               children: [
                 Icon(
                   isError ? Icons.error_outline : Icons.check_circle_outline,
@@ -407,14 +409,16 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                       .onPrimary, // Use dynamic onPrimary color
                   size: 20,
                 ),
-                const SizedBox(width: 8),
-                Expanded(child: Text(message)),
+                OsmeaComponents.sizedBox(width: context.spacing8),
+                OsmeaComponents.expanded(
+                  child: OsmeaComponents.text(message),
+                ),
               ],
             ),
-            backgroundColor: const Color(0xFF8B5CF6),
+            backgroundColor: OsmeaColors.nordicBlue,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: context.borderRadiusNormal,
             ),
           ),
         );
@@ -514,31 +518,33 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Row(
+        title: OsmeaComponents.row(
           children: [
             Icon(Icons.store, color: Theme.of(context).colorScheme.primary),
-            const SizedBox(width: 8),
-            const Text('Store Profile'),
+            OsmeaComponents.sizedBox(width: context.spacing8),
+            OsmeaComponents.text('Store Profile'),
           ],
         ),
-        content: Column(
+        content: OsmeaComponents.column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Store: ${_selectedStore?.displayName ?? "Unknown"}'),
-            Text(
+            OsmeaComponents.text(
+                'Store: ${_selectedStore?.displayName ?? "Unknown"}'),
+            OsmeaComponents.text(
                 'Platform: ${_selectedStore?.platform.toUpperCase() ?? "Unknown"}'),
-            Text(
+            OsmeaComponents.text(
                 'Status: ${_selectedStore?.isComplete == true ? "Active" : "Incomplete"}'),
             if (_selectedStore?.createdAt != null)
-              Text(
+              OsmeaComponents.text(
                   'Created: ${_selectedStore!.createdAt.toString().split('.')[0]}'),
           ],
         ),
         actions: [
-          TextButton(
+          OsmeaComponents.button(
+            text: 'Close',
             onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Close'),
+            variant: ButtonVariant.secondary,
           ),
         ],
       ),
@@ -598,26 +604,26 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
           // Show success message with store information
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Column(
+              content: OsmeaComponents.column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  OsmeaComponents.text(
                     '🎉 Store setup completed successfully!',
-                    style: TextStyle(fontWeight: FontWeight.w600),
+                    fontWeight: FontWeight.w600,
                   ),
-                  const SizedBox(height: 4),
-                  Text(
+                  OsmeaComponents.sizedBox(height: context.spacing4),
+                  OsmeaComponents.text(
                     '${store.platform.toUpperCase()}: ${store.displayName}',
-                    style: const TextStyle(fontSize: 12),
+                    fontSize: 12,
                   ),
-                  const Text(
+                  OsmeaComponents.text(
                     'You can now explore APIs for this platform',
-                    style: TextStyle(fontSize: 12),
+                    fontSize: 12,
                   ),
                 ],
               ),
-              backgroundColor: Colors.green,
+              backgroundColor: OsmeaColors.forestHeart,
               duration: const Duration(seconds: 4),
               behavior: SnackBarBehavior.floating,
             ),
@@ -641,9 +647,8 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
           data: _isDarkMode ? ThemeData.dark() : ThemeData.light(),
           child: Scaffold(
             key: _scaffoldKey,
-            backgroundColor: _isDarkMode
-                ? const Color.fromARGB(255, 18, 18, 18)
-                : const Color(0xFFFAFAFA),
+            backgroundColor:
+                _isDarkMode ? OsmeaColors.eclipse : OsmeaColors.snow,
             appBar: AppHeader(
               title: 'OSMEA APIs',
               apiUrl: _currentApiUrl,

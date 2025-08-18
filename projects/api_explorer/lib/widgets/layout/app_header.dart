@@ -65,7 +65,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
                 onPressed: onDrawerToggle,
                 tooltip: 'Open menu',
               )
-            : const SizedBox.shrink(),
+            : null,
         title: Row(
           children: [
             // Logo and Title
