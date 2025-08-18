@@ -196,7 +196,7 @@ class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                OsmeaColors.nordicBlue,
+                OsmeaColors.sunsetGlow,
                 OsmeaColors.deepSea,
                 OsmeaColors.atlantic,
               ],
@@ -232,7 +232,7 @@ class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                OsmeaColors.nordicBlue,
+                OsmeaColors.sunsetGlow,
                 OsmeaColors.deepSea,
                 OsmeaColors.atlantic,
               ],
@@ -266,7 +266,7 @@ class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              OsmeaColors.nordicBlue,
+              OsmeaColors.sunsetGlow,
               OsmeaColors.deepSea,
               OsmeaColors.atlantic,
             ],

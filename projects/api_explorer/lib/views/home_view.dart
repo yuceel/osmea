@@ -623,7 +623,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                   ),
                 ],
               ),
-              backgroundColor: OsmeaColors.forestHeart,
+              backgroundColor: OsmeaColors.nordicBlue,
               duration: const Duration(seconds: 4),
               behavior: SnackBarBehavior.floating,
             ),
@@ -648,7 +648,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
           child: Scaffold(
             key: _scaffoldKey,
             backgroundColor:
-                _isDarkMode ? OsmeaColors.eclipse : OsmeaColors.snow,
+                _isDarkMode ? OsmeaColors.eclipse : OsmeaColors.white,
             appBar: AppHeader(
               title: 'OSMEA APIs',
               apiUrl: _currentApiUrl,

@@ -1,4 +1,5 @@
 import 'package:api_explorer/styles/app_theme.dart';
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 
 class EmptyApiGuidance extends StatefulWidget {
@@ -80,24 +81,34 @@ class _EmptyApiGuidanceState extends State<EmptyApiGuidance>
     final screenWidth = MediaQuery.of(context).size.width;
     final isNarrow = screenWidth < 600;
 
-    return SingleChildScrollView(
-      child: Container(
-        margin: EdgeInsets.all(isNarrow ? 8 : 16),
+    // Use theme color scheme for proper dark/light adherence
+    final colorScheme = theme.colorScheme;
+    final primaryColor = colorScheme.primary;
+    final secondaryColor = colorScheme.secondary;
+    final surfaceColor = colorScheme.surface;
+    final onSurfaceColor = colorScheme.onSurface;
+    final onPrimaryColor = colorScheme.onPrimary;
+    final onSurfaceVariantColor = colorScheme.onSurface.withValues(alpha: 0.7);
+
+    return OsmeaComponents.singleChildScrollView(
+      child: OsmeaComponents.container(
+        margin: EdgeInsets.all(isNarrow ? context.spacing8 : context.spacing16),
         decoration: BoxDecoration(
           gradient: OsmeaAppTheme.createGradient(
-            theme.colorScheme.primary.withValues(alpha: isDark ? 0.1 : 0.05),
-            theme.colorScheme.secondary.withValues(alpha: isDark ? 0.05 : 0.02),
+            primaryColor.withValues(alpha: isDark ? 0.1 : 0.05),
+            secondaryColor.withValues(alpha: isDark ? 0.05 : 0.02),
           ),
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: context.borderRadiusMedium,
           border: Border.all(
-            color: theme.colorScheme.primary.withValues(alpha: 0.2),
+            color: primaryColor.withValues(alpha: 0.2),
           ),
         ),
         child: SlideTransition(
           position: _slideAnimation,
-          child: Padding(
-            padding: EdgeInsets.all(isNarrow ? 24 : 48),
-            child: Column(
+          child: OsmeaComponents.padding(
+            padding: EdgeInsets.all(
+                isNarrow ? context.spacing24 : context.spacing48),
+            child: OsmeaComponents.column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 // Animated icon
@@ -106,73 +117,70 @@ class _EmptyApiGuidanceState extends State<EmptyApiGuidance>
                   builder: (context, child) {
                     return Transform.scale(
                       scale: _pulseAnimation.value,
-                      child: Container(
-                        width: isNarrow ? 60 : 80,
-                        height: isNarrow ? 60 : 80,
+                      child: OsmeaComponents.container(
+                        width: isNarrow ? context.spacing56 : context.spacing64,
+                        height:
+                            isNarrow ? context.spacing56 : context.spacing64,
                         decoration: BoxDecoration(
                           gradient: OsmeaAppTheme.createGradient(
-                            OsmeaAppTheme.primaryColor,
-                            OsmeaAppTheme.primaryVariant,
+                            primaryColor,
+                            secondaryColor,
                           ),
                           shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
-                              color: theme.colorScheme.primary
-                                  .withValues(alpha: 0.2),
-                              blurRadius: 20,
-                              spreadRadius: 2,
+                              color: primaryColor.withValues(alpha: 0.2),
+                              blurRadius: context.spacing20,
+                              spreadRadius: context.spacing2,
                             ),
                           ],
                         ),
                         child: Icon(
                           Icons.explore_rounded,
-                          color: theme.colorScheme.onPrimary,
-                          size: isNarrow ? 30 : 40,
+                          color: onPrimaryColor,
+                          size:
+                              isNarrow ? context.spacing32 : context.spacing40,
                         ),
                       ),
                     );
                   },
                 ),
 
-                SizedBox(height: isNarrow ? 24 : 32),
+                OsmeaComponents.sizedBox(
+                    height: isNarrow ? context.spacing12 : context.spacing16),
 
                 // Title
-                Text(
+                OsmeaComponents.text(
                   'Welcome to OSMEA API Explorer',
-                  style: TextStyle(
-                    fontSize: isNarrow ? 20 : 24,
-                    fontWeight: FontWeight.w700,
-                    color: theme.colorScheme.onSurface,
-                    letterSpacing: -0.5,
-                  ),
+                  fontSize: isNarrow ? context.spacing20 : context.spacing24,
+                  fontWeight: FontWeight.w700,
+                  color: onSurfaceColor,
+                  letterSpacing: -0.5,
                   textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
                 ),
 
-                SizedBox(height: isNarrow ? 12 : 16),
+                OsmeaComponents.sizedBox(
+                    height: isNarrow ? context.spacing12 : context.spacing16),
 
                 // Subtitle
-                Text(
+                OsmeaComponents.text(
                   'Select an API from the sidebar to start exploring and testing endpoints',
-                  style: TextStyle(
-                    fontSize: isNarrow ? 14 : 16,
-                    color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
-                    height: 1.5,
-                  ),
+                  fontSize: isNarrow ? context.spacing16 : context.spacing16,
+                  color: onSurfaceVariantColor,
                   textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 3,
                 ),
 
-                SizedBox(height: isNarrow ? 24 : 32),
+                OsmeaComponents.sizedBox(
+                    height: isNarrow ? context.spacing24 : context.spacing32),
 
                 // Steps - staggered animation
                 for (int i = 0; i < 3; i++)
                   SlideTransition(
                     position: _stepAnimations[i],
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: isNarrow ? 12 : 16),
+                    child: OsmeaComponents.padding(
+                      padding: EdgeInsets.only(
+                          bottom:
+                              isNarrow ? context.spacing12 : context.spacing16),
                       child: _buildStepItem(
                         icon: i == 0
                             ? Icons.list_rounded
@@ -190,7 +198,9 @@ class _EmptyApiGuidanceState extends State<EmptyApiGuidance>
                                 ? 'Set parameters and method'
                                 : 'Send requests and view responses',
                         step: '${i + 1}',
-                        theme: theme,
+                        primaryColor: primaryColor,
+                        onSurfaceColor: onSurfaceColor,
+                        onSurfaceVariantColor: onSurfaceVariantColor,
                       ),
                     ),
                   ),
@@ -207,57 +217,51 @@ class _EmptyApiGuidanceState extends State<EmptyApiGuidance>
     required String title,
     required String subtitle,
     required String step,
-    required ThemeData theme,
+    required Color primaryColor,
+    required Color onSurfaceColor,
+    required Color onSurfaceVariantColor,
   }) {
-    return Row(
+    return OsmeaComponents.row(
       children: [
-        Container(
-          width: 40,
-          height: 40,
+        OsmeaComponents.container(
+          width: context.spacing40,
+          height: context.spacing40,
           decoration: BoxDecoration(
-            color: theme.colorScheme.primary.withValues(alpha: 0.1),
-            borderRadius: BorderRadius.circular(12),
+            color: primaryColor.withValues(alpha: 0.1),
+            borderRadius: context.borderRadiusNormal,
             border: Border.all(
-              color: theme.colorScheme.primary.withValues(alpha: 0.2),
+              color: primaryColor.withValues(alpha: 0.2),
             ),
           ),
-          child: Center(
-            child: Text(
+          child: OsmeaComponents.center(
+            child: OsmeaComponents.text(
               step,
-              style: TextStyle(
-                fontWeight: FontWeight.w700,
-                color: theme.colorScheme.primary,
-              ),
+              fontWeight: FontWeight.w700,
+              color: primaryColor,
             ),
           ),
         ),
-        const SizedBox(width: 16),
+        OsmeaComponents.sizedBox(width: context.spacing16),
         Icon(
           icon,
-          color: theme.colorScheme.primary,
-          size: 24,
+          color: primaryColor,
+          size: context.spacing24,
         ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Column(
+        OsmeaComponents.sizedBox(width: context.spacing12),
+        OsmeaComponents.expanded(
+          child: OsmeaComponents.column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              OsmeaComponents.text(
                 title,
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 14,
-                  color: theme.colorScheme.onSurface,
-                ),
-                overflow: TextOverflow.ellipsis,
+                fontWeight: FontWeight.w600,
+                fontSize: context.spacing16,
+                color: onSurfaceColor,
               ),
-              Text(
+              OsmeaComponents.text(
                 subtitle,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
-                ),
-                overflow: TextOverflow.ellipsis,
+                fontSize: context.spacing12,
+                color: onSurfaceVariantColor,
                 maxLines: 2,
               ),
             ],
