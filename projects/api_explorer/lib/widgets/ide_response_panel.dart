@@ -655,106 +655,13 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
                       'iOS & Android from single codebase', isNarrow),
                   _buildFeatureItem(
                       '🎨 Material Design 3', 'Modern UI components', isNarrow),
-                  _buildFeatureItem('🛍️ E-commerce Ready',
+                  _buildFeatureItem('🛍️ BigCommerce (Upcoming)',
                       'Product catalog, cart, checkout', isNarrow),
                   _buildFeatureItem('🧰 Developer Tools',
                       'Testing suite, documentation', isNarrow),
                 ],
               ),
             ),
-
-            SizedBox(height: isNarrow ? 16 : 24),
-
-            // Repository Stats
-            Container(
-              padding: EdgeInsets.all(isNarrow ? 12 : 16),
-              decoration: BoxDecoration(
-                color: _ideTheme
-                    ? const Color(0xFF1E1E1E)
-                    : const Color(0xFFF8F9FA),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: _ideTheme
-                      ? const Color(0xFF3E3E42)
-                      : const Color(0xFFD1D5DB),
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Repository Statistics',
-                    style: TextStyle(
-                      fontSize: isNarrow ? 14 : 16,
-                      fontWeight: FontWeight.w600,
-                      color: _ideTheme ? Colors.white : Colors.black87,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: _buildStatItem('⭐ Stars', '18', isNarrow),
-                      ),
-                      Expanded(
-                        child: _buildStatItem('🔄 Forks', '3', isNarrow),
-                      ),
-                      Expanded(
-                        child:
-                            _buildStatItem('👥 Contributors', '10', isNarrow),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-
-            SizedBox(height: isNarrow ? 16 : 24),
-
-            // Quick Actions
-            Container(
-              padding: EdgeInsets.all(isNarrow ? 12 : 16),
-              decoration: BoxDecoration(
-                color: _ideTheme
-                    ? const Color(0xFF1E1E1E)
-                    : const Color(0xFFF8F9FA),
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(
-                  color: _ideTheme
-                      ? const Color(0xFF3E3E42)
-                      : const Color(0xFFD1D5DB),
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Quick Actions',
-                    style: TextStyle(
-                      fontSize: isNarrow ? 14 : 16,
-                      fontWeight: FontWeight.w600,
-                      color: _ideTheme ? Colors.white : Colors.black87,
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  _buildActionButton(
-                    '🌐 Visit Repository',
-                    Icons.open_in_new,
-                    () => _openRepository(),
-                    isNarrow,
-                  ),
-                  const SizedBox(height: 8),
-                  _buildActionButton(
-                    '📚 View Documentation',
-                    Icons.description,
-                    () => _openDocumentation(),
-                    isNarrow,
-                  ),
-                ],
-              ),
-            ),
-
-            SizedBox(height: isNarrow ? 16 : 24),
           ],
         ),
       ),
@@ -807,77 +714,6 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildStatItem(String label, String value, bool isNarrow) {
-    return Container(
-      padding: EdgeInsets.all(isNarrow ? 8 : 12),
-      decoration: BoxDecoration(
-        color: _ideTheme ? const Color(0xFF2D2D30) : const Color(0xFFE8E9EA),
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Column(
-        children: [
-          Text(
-            value,
-            style: TextStyle(
-              fontSize: isNarrow ? 16 : 20,
-              fontWeight: FontWeight.w700,
-              color:
-                  _ideTheme ? const Color(0xFF8B5CF6) : const Color(0xFF6B46C1),
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: isNarrow ? 10 : 12,
-              color:
-                  _ideTheme ? const Color(0xFF999999) : const Color(0xFF6B7280),
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildActionButton(
-      String label, IconData icon, VoidCallback onPressed, bool isNarrow) {
-    return InkWell(
-      onTap: onPressed,
-      borderRadius: BorderRadius.circular(8),
-      child: Container(
-        padding: EdgeInsets.all(isNarrow ? 12 : 16),
-        decoration: BoxDecoration(
-          color: _ideTheme ? const Color(0xFF2D2D30) : const Color(0xFFE8E9EA),
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(
-            color:
-                _ideTheme ? const Color(0xFF3E3E42) : const Color(0xFFD1D5DB),
-          ),
-        ),
-        child: Row(
-          children: [
-            Icon(
-              icon,
-              color:
-                  _ideTheme ? const Color(0xFF8B5CF6) : const Color(0xFF6B46C1),
-              size: isNarrow ? 18 : 20,
-            ),
-            const SizedBox(width: 12),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: isNarrow ? 12 : 14,
-                fontWeight: FontWeight.w500,
-                color: _ideTheme ? Colors.white : Colors.black87,
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }
@@ -1193,26 +1029,6 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
       const SnackBar(
         content: Text('Zoom out functionality coming soon!'),
         duration: Duration(seconds: 1),
-      ),
-    );
-  }
-
-  void _openRepository() {
-    // In a real app, this would open the URL
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Opening: https://github.com/masterfabric-mobile/osmea'),
-        duration: Duration(seconds: 2),
-      ),
-    );
-  }
-
-  void _openDocumentation() {
-    // In a real app, this would open the documentation
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Opening OSMEA documentation...'),
-        duration: Duration(seconds: 2),
       ),
     );
   }
