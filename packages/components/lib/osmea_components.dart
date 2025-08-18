@@ -81,6 +81,8 @@ export 'src/utils/container_extensions.dart';
 
 // 🔢 Enums
 export 'src/enums/enums.dart';
+export 'src/enums/divider_enums.dart';
+export 'src/enums/ticket_enums.dart';
 
 // 🔄 Cubit & State
 export 'src/components/login_button/cubit/login_button_cubit.dart';
@@ -101,3 +103,7 @@ export 'src/components/rich_text/text_span.dart';
 export 'src/utils/image_extensions.dart';
 
 export 'src/components/stepper/stepper.dart';
+export 'src/components/ticket_widget/models/ticket_models.dart';
+
+// 📏 Divider
+export 'src/components/divider/divider.dart';

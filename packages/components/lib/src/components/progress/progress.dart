@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:osmea_components/src/components/text/text.dart';
-import 'package:osmea_components/src/utils/sizer_extensions.dart';
 import '../../enums/progress_enums.dart';
 import '../../core/container_widget.dart';
 import 'cubit/progress_cubit.dart';
@@ -938,8 +937,6 @@ class DotCircleBarProgress extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final double sizePx = size.indicatorSize;
-    final int dots = size.dotCount;
-    final int filled = (dots * value).ceil();
     return SizedBox(
       width: sizePx,
       height: sizePx,
@@ -1067,7 +1064,7 @@ class LinearProgressModern extends StatelessWidget {
                 ),
               ],
             ),
-            if (showPercentage) SizedBox(height: 8),
+            if (showPercentage) const SizedBox(height: 8),
             if (showPercentage)
               Text(
                 '${(clampedValue * 100).toInt()}%',
@@ -1131,7 +1128,7 @@ class LinearStripedProgress extends StatelessWidget {
                 ),
               ],
             ),
-            if (showPercentage) SizedBox(height: 8),
+            if (showPercentage) const SizedBox(height: 8),
             if (showPercentage)
               Text(
                 '${(clampedValue * 100).toInt()}%',
@@ -1215,7 +1212,7 @@ class LinearGradientProgress extends StatelessWidget {
                 ),
               ],
             ),
-            if (showPercentage) SizedBox(height: 8),
+            if (showPercentage) const SizedBox(height: 8),
             if (showPercentage)
               Text(
                 '${(clampedValue * 100).toInt()}%',
@@ -1282,7 +1279,7 @@ class LinearSegmentedProgress extends StatelessWidget {
                   ),
                 ),
               ),
-              if (showPercentage) SizedBox(height: 12),
+              if (showPercentage) const SizedBox(height: 12),
               if (showPercentage)
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0, right: 8.0),
@@ -1351,7 +1348,7 @@ class LinearRoundedProgress extends StatelessWidget {
                 ),
               ],
             ),
-            if (showPercentage) SizedBox(height: 8),
+            if (showPercentage) const SizedBox(height: 8),
             if (showPercentage)
               Text(
                 '${(clampedValue * 100).toInt()}%',
@@ -1427,7 +1424,7 @@ class LinearBufferProgress extends StatelessWidget {
                 ),
               ],
             ),
-            if (showPercentage) SizedBox(height: 8),
+            if (showPercentage) const SizedBox(height: 8),
             if (showPercentage)
               Text(
                 '${(clampedValue * 100).toInt()}%',

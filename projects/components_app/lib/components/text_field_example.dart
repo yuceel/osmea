@@ -311,9 +311,9 @@ class _TextFieldExampleState extends State<TextFieldExample> {
           size: TextFieldSize.large,
           variant: TextFieldVariant.outlined,
           spacing: 12.0,
-          onChanged: (otp) => print('4-digit OTP changed: $otp'),
+          onChanged: (otp) => debugPrint('4-digit OTP changed: $otp'),
           onCompleted: (otp) {
-            print('4-digit OTP completed: $otp');
+            debugPrint('4-digit OTP completed: $otp');
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                   content: OsmeaComponents.text('4-digit OTP completed: $otp')),
@@ -336,10 +336,10 @@ class _TextFieldExampleState extends State<TextFieldExample> {
           variant: TextFieldVariant.filled,
           spacing: 8.0,
           onChanged: (otp) {
-            print('6-digit OTP changed: $otp');
+            debugPrint('6-digit OTP changed: $otp');
           },
           onCompleted: (otp) {
-            print('6-digit OTP completed: $otp');
+            debugPrint('6-digit OTP completed: $otp');
             setState(() => _validationMessage = 'OTP Completed: $otp');
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -396,9 +396,9 @@ class _TextFieldExampleState extends State<TextFieldExample> {
           focusColor: OsmeaColors.nordicBlue,
           borderColor: OsmeaColors.silver,
           onChanged: (otp) =>
-              print('5-digit secure OTP changed: ${'*' * otp.length}'),
+              debugPrint('5-digit secure OTP changed: ${'*' * otp.length}'),
           onCompleted: (otp) {
-            print('5-digit secure OTP completed');
+            debugPrint('5-digit secure OTP completed');
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: OsmeaComponents.text('Secure OTP completed!'),

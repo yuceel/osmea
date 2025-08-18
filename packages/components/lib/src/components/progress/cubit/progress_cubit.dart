@@ -101,7 +101,7 @@ class ProgressCubit extends Cubit<ProgressState> {
       const int timerInterval = 50; // 50ms for smoother animation
 
       _autoProgressTimer =
-          Timer.periodic(Duration(milliseconds: timerInterval), (timer) {
+          Timer.periodic(const Duration(milliseconds: timerInterval), (timer) {
         if (state.isAutoProgressEnabled) {
           // Calculate step size based on speed and timer interval
           // Speed represents progress per second, so divide by 20 for 50ms interval

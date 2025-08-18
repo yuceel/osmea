@@ -115,9 +115,7 @@ class SnackbarCubit extends Cubit<List<SnackbarState>> {
     Future.delayed(const Duration(milliseconds: 300), () {
       if (!isClosed) {
         final snackbarIndex = state.indexWhere((t) => t.id == id);
-        SnackbarPosition? position;
         if (snackbarIndex >= 0) {
-          position = state[snackbarIndex].position;
         }
         final newState = state.where((t) => t.id != id).toList();
         _timers[id]?.cancel();

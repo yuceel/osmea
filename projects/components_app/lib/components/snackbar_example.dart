@@ -29,7 +29,7 @@ class SnackbarExample extends StatelessWidget {
                 actionLabelColor: OsmeaColors.white,
                 onAction: () {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Undo pressed!')),
+                    const SnackBar(content: Text('Undo pressed!')),
                   );
                 },
               ),
@@ -44,7 +44,7 @@ class SnackbarExample extends StatelessWidget {
                 actionLabel: 'Retry',
                 onAction: () {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Retry pressed!')),
+                    const SnackBar(content: Text('Retry pressed!')),
                   );
                 },
               ),
@@ -59,7 +59,7 @@ class SnackbarExample extends StatelessWidget {
                 actionLabel: 'Dismiss',
                 onAction: () {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Dismiss pressed!')),
+                    const SnackBar(content: Text('Dismiss pressed!')),
                   );
                 },
               ),
@@ -103,25 +103,22 @@ class SnackbarExample extends StatelessWidget {
             OsmeaComponents.button(
               text: 'Show Multiple Snackbars',
               onPressed: () {
-                _showSnackbarWithProgress(
-                  context,
+                // Tek seferde birden fazla snackbar ekleyin
+                // Sistem onları otomatik olarak sıraya koyacaktır
+                context.showSnackbar(
                   message: 'First snackbar',
                   type: SnackbarType.success,
                 );
-                Future.delayed(const Duration(milliseconds: 500), () {
-                  _showSnackbarWithProgress(
-                    context,
-                    message: 'Second snackbar',
-                    type: SnackbarType.info,
-                  );
-                });
-                Future.delayed(const Duration(milliseconds: 1000), () {
-                  _showSnackbarWithProgress(
-                    context,
-                    message: 'Third snackbar',
-                    type: SnackbarType.warning,
-                  );
-                });
+
+                context.showSnackbar(
+                  message: 'Second snackbar',
+                  type: SnackbarType.info,
+                );
+
+                context.showSnackbar(
+                  message: 'Third snackbar',
+                  type: SnackbarType.warning,
+                );
               },
             ),
             const SizedBox(height: 12),
@@ -129,14 +126,12 @@ class SnackbarExample extends StatelessWidget {
               text: 'Quick Stack Example (5 snackbars)',
               onPressed: () {
                 for (int i = 1; i <= 5; i++) {
-                  Future.delayed(Duration(milliseconds: i * 200), () {
-                    _showSnackbarWithProgress(
-                      context,
-                      message: 'Snackbar $i',
-                      type: SnackbarType.values[i % SnackbarType.values.length],
-                      duration: const Duration(seconds: 3),
-                    );
-                  });
+                  _showSnackbarWithProgress(
+                    context,
+                    message: 'Snackbar $i',
+                    type: SnackbarType.values[i % SnackbarType.values.length],
+                    duration: const Duration(seconds: 3),
+                  );
                 }
               },
             ),
@@ -145,15 +140,13 @@ class SnackbarExample extends StatelessWidget {
               text: 'Top Position Stack Example',
               onPressed: () {
                 for (int i = 1; i <= 3; i++) {
-                  Future.delayed(Duration(milliseconds: i * 300), () {
-                    _showSnackbarWithProgress(
-                      context,
-                      message: 'Top Snackbar $i',
-                      type: SnackbarType.values[i % SnackbarType.values.length],
-                      position: SnackbarPosition.top,
-                      duration: const Duration(seconds: 4),
-                    );
-                  });
+                  _showSnackbarWithProgress(
+                    context,
+                    message: 'Top Snackbar $i',
+                    type: SnackbarType.values[i % SnackbarType.values.length],
+                    position: SnackbarPosition.top,
+                    duration: const Duration(seconds: 4),
+                  );
                 }
               },
             ),

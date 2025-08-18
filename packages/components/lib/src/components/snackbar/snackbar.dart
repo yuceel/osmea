@@ -238,7 +238,7 @@ class OsmeaSnackbar extends StatelessWidget {
               borderRadius: BorderRadius.circular(6),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
+                  color: Colors.black.withValues(alpha: 0.1),
                   blurRadius: 8,
                   offset: const Offset(0, 2),
                 ),
@@ -282,7 +282,7 @@ class OsmeaSnackbar extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: _typeColor().withOpacity(0.25),
+              color: _typeColor().withValues(alpha: 0.25),
               blurRadius: 24,
               offset: const Offset(0, 8),
             ),
@@ -311,7 +311,7 @@ class OsmeaSnackbar extends StatelessWidget {
                   width: 1.5),
               boxShadow: [
                 BoxShadow(
-                  color: _typeColor().withOpacity(0.18),
+                  color: _typeColor().withValues(alpha: 0.18),
                   blurRadius: 32,
                   offset: const Offset(0, 12),
                 ),
@@ -335,7 +335,7 @@ class OsmeaSnackbar extends StatelessWidget {
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
-              color: _typeColor().withOpacity(0.25),
+              color: _typeColor().withValues(alpha: 0.25),
               blurRadius: 24,
               offset: const Offset(0, 8),
             ),
@@ -388,7 +388,7 @@ class OsmeaSnackbar extends StatelessWidget {
           borderRadius: BorderRadius.circular(14),
           boxShadow: [
             BoxShadow(
-              color: _typeColor().withOpacity(0.18),
+              color: _typeColor().withValues(alpha: 0.18),
               blurRadius: 32,
               offset: const Offset(0, 12),
             ),
@@ -465,7 +465,7 @@ class OsmeaSnackbar extends StatelessWidget {
                   state.message,
                   style: TextStyle(
                     color: useGlass
-                        ? Colors.white.withOpacity(0.95)
+                        ? Colors.white.withValues(alpha: 0.95)
                         : Colors.white,
                     fontSize: modern ? 13 : 12,
                     fontWeight: FontWeight.w500,

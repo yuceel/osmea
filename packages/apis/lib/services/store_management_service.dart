@@ -125,8 +125,7 @@ class StoreManagementService {
     try {
       final success = await _storage.deleteStoreConfiguration(storeId);
       if (success) {
-        final deletedStore =
-            _allStores.firstWhere((store) => store.id == storeId);
+        _allStores.firstWhere((store) => store.id == storeId);
         _allStores.removeWhere((store) => store.id == storeId);
 
         // If deleted store was current, switch to another active store
