@@ -1,3 +1,5 @@
+// ignore_for_file: overridden_fields
+
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:osmea_components/osmea_components.dart';
@@ -106,6 +108,7 @@ class OsmeaPopup extends CoreContainer {
   });
 
   /// 👶 The main content widget displayed in the popup
+  @override
   final Widget child;
 
   /// 📏 The size of the popup
@@ -163,6 +166,7 @@ class OsmeaPopup extends CoreContainer {
   final Duration? animationDuration;
 
   /// 📐 Additional constraints for the popup
+  @override
   final BoxConstraints? constraints;
 
   /// 🔲 Custom shape for the popup
@@ -178,9 +182,11 @@ class OsmeaPopup extends CoreContainer {
   final Duration? autoDismiss;
 
   /// 📏 Custom width (overrides size-based width)
+  @override
   final double? width;
 
   /// 📏 Custom height (overrides content-based height)
+  @override
   final double? height;
 
   // Computed properties based on state

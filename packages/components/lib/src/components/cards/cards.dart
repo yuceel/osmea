@@ -1,3 +1,5 @@
+// ignore_for_file: overridden_fields
+
 import 'package:flutter/material.dart';
 import 'package:osmea_components/src/components/buttons/button.dart';
 import 'package:osmea_components/src/components/text/text.dart';
@@ -106,6 +108,7 @@ class _OsmeaBaseCard extends CoreContainer {
   final bool isClickable;
 
   /// 📏 Custom height of the card
+  @override
   final double? height;
 
   /// Get effective padding based on card size
@@ -543,6 +546,7 @@ class OsmeaImageCard extends _OsmeaBaseCard {
   final BorderRadius? imageBorderRadius;
 
   /// 🎨 Custom child widget to display alongside content
+  @override
   final Widget? child;
 
   @override
