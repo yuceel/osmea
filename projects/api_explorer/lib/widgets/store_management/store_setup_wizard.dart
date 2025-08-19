@@ -46,6 +46,27 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
   int _currentStep = 0;
   String? _selectedPlatform;
 
+  // Regex patterns for validation
+  static final RegExp _storeNameRegex = RegExp(r'^[a-zA-Z0-9\s\-_]{2,50}$');
+  static final RegExp _shopifyTokenRegex = RegExp(
+      r'^shpat_[a-fA-F0-9]{32}$|^shpca_[a-fA-F0-9]{32}$|^[a-fA-F0-9]{32}$');
+  static final RegExp _apiVersionRegex = RegExp(r'^\d{4}-\d{2}$');
+  static final RegExp _shopifyUrlRegex = RegExp(
+      r'^[a-zA-Z0-9\-]+\.myshopify\.com$|^https?://[a-zA-Z0-9\-]+\.myshopify\.com/?$');
+  static final RegExp _wooCommerceUrlRegex =
+      RegExp(r'^https?://[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,}/?$');
+  static final RegExp _usernameRegex = RegExp(r'^[a-zA-Z0-9_\-\.@]{3,50}$');
+  static final RegExp _passwordRegex =
+      RegExp(r'^.{8,}$'); // Minimum 8 characters
+
+  // Validation error messages
+  String? _storeNameError;
+  String? _accessTokenError;
+  String? _apiVersionError;
+  String? _storeUrlError;
+  String? _usernameError;
+  String? _passwordError;
+
   // Controllers for form fields
   final _storeNameController = TextEditingController();
   final _accessTokenController = TextEditingController();
@@ -61,6 +82,34 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
     _initializeAnimations();
     _loadExistingConfiguration();
     _restoreWizardStep(); // Restore previous step
+    _setupAutoFillListeners();
+  }
+
+  void _setupAutoFillListeners() {
+    // Auto-fill store URL for Shopify when store name changes
+    _storeNameController.addListener(() {
+      if (_selectedPlatform == 'shopify') {
+        final storeName = _storeNameController.text.trim();
+        if (storeName.isNotEmpty) {
+          // Remove any existing .myshopify.com and create clean URL
+          final cleanStoreName = storeName
+              .toLowerCase()
+              .replaceAll(
+                  RegExp(r'[^a-z0-9\-]'), '') // Remove invalid characters
+              .replaceAll(
+                  RegExp(r'-+'), '-') // Replace multiple dashes with single
+              .replaceAll(
+                  RegExp(r'^-|-$'), ''); // Remove leading/trailing dashes
+
+          if (cleanStoreName.isNotEmpty &&
+              !cleanStoreName.endsWith('.myshopify.com')) {
+            _storeUrlController.text = '$cleanStoreName.myshopify.com';
+            debugPrint(
+                '🔧 Auto-generated Store URL: ${_storeUrlController.text}');
+          }
+        }
+      }
+    });
   }
 
   // Step persistence methods
@@ -98,7 +147,7 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
 
   void _initializeAnimations() {
     _animationController = AnimationController(
-      duration: const Duration(milliseconds: 500),
+      duration: context.durationMedium,
       vsync: this,
     );
 
@@ -132,6 +181,8 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
   @override
   void dispose() {
     _animationController.dispose();
+    // Remove listeners before disposing controllers
+    _storeNameController.removeListener(() {});
     _storeNameController.dispose();
     _accessTokenController.dispose();
     _apiVersionController.dispose();
@@ -142,52 +193,92 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
   }
 
   bool _validateForm() {
-    if (_selectedPlatform == null) {
-      debugPrint('❌ Platform not selected');
-      _showErrorMessage('Please select a platform first');
-      return false;
-    }
+    setState(() {
+      _storeNameError = null;
+      _accessTokenError = null;
+      _apiVersionError = null;
+      _storeUrlError = null;
+      _usernameError = null;
+      _passwordError = null;
+    });
 
-    if (_storeNameController.text.trim().isEmpty) {
-      debugPrint('❌ Store name is empty');
-      _showErrorMessage('Store name is required');
-      return false;
+    bool isValid = true;
+
+    // Store name validation
+    if (_storeNameController.text.isEmpty) {
+      _storeNameError = 'Store name is required';
+      isValid = false;
+    } else if (!_storeNameRegex.hasMatch(_storeNameController.text)) {
+      _storeNameError =
+          'Store name must be 2-50 characters, alphanumeric with spaces, hyphens, underscores';
+      isValid = false;
     }
 
     if (_selectedPlatform == 'shopify') {
-      if (_accessTokenController.text.trim().isEmpty) {
-        debugPrint('❌ Shopify access token is empty');
-        _showErrorMessage('Access token is required for Shopify');
-        return false;
+      // Shopify access token validation
+      if (_accessTokenController.text.isEmpty) {
+        _accessTokenError = 'Access token is required';
+        isValid = false;
+      } else if (!_shopifyTokenRegex.hasMatch(_accessTokenController.text)) {
+        _accessTokenError =
+            'Invalid Shopify token format (should start with shpat_ or shpca_)';
+        isValid = false;
       }
-      debugPrint('✅ Shopify validation passed');
+
+      // API version validation
+      if (_apiVersionController.text.isEmpty) {
+        _apiVersionError = 'API version is required';
+        isValid = false;
+      } else if (!_apiVersionRegex.hasMatch(_apiVersionController.text)) {
+        _apiVersionError =
+            'API version must be in YYYY-MM format (e.g., 2025-01)';
+        isValid = false;
+      }
+
+      // Store URL validation
+      if (_storeUrlController.text.isEmpty) {
+        _storeUrlError = 'Store URL is required';
+        isValid = false;
+      } else if (!_shopifyUrlRegex.hasMatch(_storeUrlController.text)) {
+        _storeUrlError = 'Invalid Shopify URL (e.g., mystore.myshopify.com)';
+        isValid = false;
+      }
     } else if (_selectedPlatform == 'woocommerce') {
-      if (_storeUrlController.text.trim().isEmpty) {
-        debugPrint('❌ WooCommerce store URL is empty');
-        _showErrorMessage('Store URL is required for WooCommerce');
-        return false;
+      // WooCommerce store URL validation
+      if (_storeUrlController.text.isEmpty) {
+        _storeUrlError = 'Store URL is required';
+        isValid = false;
+      } else if (!_wooCommerceUrlRegex.hasMatch(_storeUrlController.text)) {
+        _storeUrlError =
+            'Invalid URL format (must include http:// or https://)';
+        isValid = false;
       }
-      if (_usernameController.text.trim().isEmpty) {
-        debugPrint('❌ WooCommerce username is empty');
-        _showErrorMessage('Username is required for WooCommerce');
-        return false;
+
+      // Username validation
+      if (_usernameController.text.isEmpty) {
+        _usernameError = 'Username is required';
+        isValid = false;
+      } else if (!_usernameRegex.hasMatch(_usernameController.text)) {
+        _usernameError =
+            'Username must be 3-50 characters, alphanumeric with special chars';
+        isValid = false;
       }
-      if (_passwordController.text.trim().isEmpty) {
-        debugPrint('❌ WooCommerce password is empty');
-        _showErrorMessage('Password is required for WooCommerce');
-        return false;
+
+      // Password validation
+      if (_passwordController.text.isEmpty) {
+        _passwordError = 'Password is required';
+        isValid = false;
+      } else if (!_passwordRegex.hasMatch(_passwordController.text)) {
+        _passwordError = 'Password must be at least 8 characters';
+        isValid = false;
       }
-      debugPrint('✅ WooCommerce validation passed');
     }
 
-    if (_apiVersionController.text.trim().isEmpty) {
-      debugPrint('❌ API version is empty');
-      _showErrorMessage('API version is required');
-      return false;
+    if (!isValid) {
+      setState(() {});
     }
 
-    debugPrint('✅ Form validation passed');
-    return true;
+    return isValid;
   }
 
   void _showErrorMessage(String message) {
@@ -262,6 +353,18 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
   void _nextStep() {
     debugPrint('🔧 _nextStep called. Current step: $_currentStep');
 
+    // Validate platform selection on first step
+    if (_currentStep == 0 && _selectedPlatform == null) {
+      _showErrorMessage('Please select a platform first');
+      return;
+    }
+
+    // Validate form on configuration step
+    if (_currentStep == 1 && !_validateForm()) {
+      _showErrorMessage('Please complete all required fields');
+      return;
+    }
+
     if (_currentStep < 2) {
       debugPrint('✅ Moving to next step: ${_currentStep + 1}');
       setState(() {
@@ -290,10 +393,19 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
   }
 
   Future<void> _completeSetup() async {
-    if (!_validateForm()) return;
+    debugPrint('🔧 _completeSetup called - START');
+
+    if (!_validateForm()) {
+      debugPrint('❌ Form validation failed');
+      _showErrorMessage('Please complete all required fields correctly');
+      return;
+    }
+
+    debugPrint('✅ Form validation passed');
 
     try {
       // begin setup
+      debugPrint('🔧 Creating StoreConfiguration...');
 
       final config = StoreConfiguration(
         id: null,
@@ -304,9 +416,11 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
             ? _accessTokenController.text.trim()
             : null,
         apiVersion: _apiVersionController.text.trim(),
-        storeUrl: _selectedPlatform == 'woocommerce'
+        storeUrl: _selectedPlatform == 'shopify'
             ? _storeUrlController.text.trim()
-            : null,
+            : _selectedPlatform == 'woocommerce'
+                ? _storeUrlController.text.trim()
+                : null,
         username: _selectedPlatform == 'woocommerce'
             ? _usernameController.text.trim()
             : null,
@@ -323,7 +437,10 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
       debugPrint('🔧 _selectedPlatform: $_selectedPlatform');
       debugPrint('🔧 Config created: ${config.toJson()}');
 
+      debugPrint('🔧 Calling WizardHelper.addStore...');
       final success = await WizardHelper.addStore(config);
+      debugPrint('🔧 WizardHelper.addStore result: $success');
+
       if (success) {
         debugPrint('🔧 Configuration saved successfully');
 
@@ -332,7 +449,9 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
 
         // Reinitialize networks after configuration
         try {
+          debugPrint('🔧 Reinitializing networks...');
           await _reinitializeNetworks(config);
+          debugPrint('✅ Networks reinitialized successfully');
         } catch (e) {
           debugPrint('🔧 Failed to reinitialize networks: $e');
           debugPrint('🔧 Network reinitialization warning: $e');
@@ -472,135 +591,209 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
   }) {
     final isSelected = _selectedPlatform == platform;
 
-    return OsmeaComponents.container(
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: isSelected ? color : OsmeaColors.silver,
-          width: 2,
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _selectedPlatform = platform;
+        });
+        debugPrint('🔧 Platform selected: $platform');
+
+        // Auto-generate store URL if Shopify is selected and store name exists
+        if (platform == 'shopify' &&
+            _storeNameController.text.trim().isNotEmpty) {
+          final storeName = _storeNameController.text.trim();
+          final cleanStoreName = storeName
+              .toLowerCase()
+              .replaceAll(RegExp(r'[^a-z0-9\-]'), '')
+              .replaceAll(RegExp(r'-+'), '-')
+              .replaceAll(RegExp(r'^-|-$'), '');
+
+          if (cleanStoreName.isNotEmpty &&
+              !cleanStoreName.endsWith('.myshopify.com')) {
+            _storeUrlController.text = '$cleanStoreName.myshopify.com';
+            debugPrint(
+                '🔧 Auto-generated Store URL on platform change: ${_storeUrlController.text}');
+          }
+        }
+      },
+      child: OsmeaComponents.container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: isSelected ? color : OsmeaColors.silver,
+            width: 2,
+          ),
+          borderRadius: BorderRadius.circular(12),
+          color: isSelected ? color.withValues(alpha: 0.1) : OsmeaColors.white,
         ),
-        borderRadius: BorderRadius.circular(12),
-        color: isSelected ? color.withValues(alpha: 0.1) : OsmeaColors.white,
-      ),
-      child: OsmeaComponents.row(
-        children: [
-          OsmeaComponents.container(
-            width: 48,
-            height: 48,
-            decoration: BoxDecoration(
-              color: color,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Icon(
-              icon,
-              color: OsmeaColors.white,
-              size: 24,
-            ),
-          ),
-          OsmeaComponents.sizedBox(width: 16),
-          Expanded(
-            child: OsmeaComponents.column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                OsmeaComponents.text(
-                  title,
-                  textStyle: OsmeaTextStyle.bodyLarge(context).copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                OsmeaComponents.sizedBox(height: 4),
-                OsmeaComponents.text(
-                  description,
-                  textStyle: OsmeaTextStyle.bodyMedium(context).copyWith(
-                    color: OsmeaColors.steel,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          if (isSelected)
+        child: OsmeaComponents.row(
+          children: [
             OsmeaComponents.container(
-              width: 24,
-              height: 24,
+              width: context.width48,
+              height: context.height48,
               decoration: BoxDecoration(
                 color: color,
-                shape: BoxShape.circle,
+                borderRadius: context.borderRadiusLow,
               ),
               child: Icon(
-                Icons.check,
+                icon,
                 color: OsmeaColors.white,
-                size: 16,
+                size: context.iconSizeNormal,
               ),
             ),
-        ],
+            OsmeaComponents.sizedBox(width: 16),
+            Expanded(
+              child: OsmeaComponents.column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  OsmeaComponents.text(
+                    title,
+                    textStyle: OsmeaTextStyle.bodyLarge(context).copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  OsmeaComponents.sizedBox(height: 4),
+                  OsmeaComponents.text(
+                    description,
+                    textStyle: OsmeaTextStyle.bodyMedium(context).copyWith(
+                      color: OsmeaColors.steel,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            if (isSelected)
+              OsmeaComponents.container(
+                width: 24,
+                height: 24,
+                decoration: BoxDecoration(
+                  color: color,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.check,
+                  color: OsmeaColors.white,
+                  size: 16,
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildConfigurationStep() {
-    return OsmeaComponents.column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        OsmeaComponents.text(
-          'Store Configuration',
-          textStyle: OsmeaTextStyle.displaySmall(context),
-        ),
-        OsmeaComponents.sizedBox(height: 20),
-        OsmeaComponents.text(
-          'Enter your store configuration details:',
-          textStyle: OsmeaTextStyle.bodyMedium(context).copyWith(
-            color: OsmeaColors.steel,
+    return OsmeaComponents.singleChildScrollView(
+      padding: context.paddingNormal,
+      child: OsmeaComponents.column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          OsmeaComponents.text(
+            'Store Configuration',
+            textStyle: OsmeaTextStyle.displaySmall(context),
           ),
-        ),
-        OsmeaComponents.sizedBox(height: 24),
+          OsmeaComponents.sizedBox(height: context.spacing20),
+          OsmeaComponents.text(
+            'Enter your store configuration details:',
+            textStyle: OsmeaTextStyle.bodyMedium(context).copyWith(
+              color: OsmeaColors.steel,
+            ),
+          ),
+          OsmeaComponents.sizedBox(height: context.spacing24),
 
-        // Store Name Field
-        _buildTextField(
-          controller: _storeNameController,
-          label: 'Store Name',
-          hint: _selectedPlatform == 'shopify'
-              ? 'mystore (for mystore.myshopify.com)'
-              : 'MyStore',
-        ),
-        OsmeaComponents.sizedBox(height: 16),
+          // Store Name Field
+          _buildTextField(
+            controller: _storeNameController,
+            label: 'Store Name',
+            hint: _selectedPlatform == 'shopify'
+                ? 'mystore (URL will be auto-generated)'
+                : 'MyStore',
+            icon: Icons.store,
+            errorText: _storeNameError,
+            helperText: _selectedPlatform == 'shopify'
+                ? 'Store name (URL will be auto-generated as mystore.myshopify.com)'
+                : 'Display name for your store (2-50 characters)',
+            keyboardType: TextInputType.text,
+            autoFillHints: [AutofillHints.organizationName],
+          ),
+          OsmeaComponents.sizedBox(height: context.spacing16),
 
-        // Platform-specific fields
-        if (_selectedPlatform == 'shopify') ...[
+          // Platform-specific fields
+          if (_selectedPlatform == 'shopify') ...[
+            _buildTextField(
+              controller: _accessTokenController,
+              label: 'Access Token',
+              hint: 'shpat_xxxxxxxxxxxxxxxxxxxxx',
+              icon: Icons.key,
+              errorText: _accessTokenError,
+              helperText: 'Private app access token from Shopify Admin',
+              keyboardType: TextInputType.text,
+              autoFillHints: [AutofillHints.password],
+            ),
+            OsmeaComponents.sizedBox(height: context.spacing16),
+            _buildTextField(
+              controller: _storeUrlController,
+              label: 'Store URL',
+              hint: 'Auto-generated from store name',
+              icon: Icons.link,
+              errorText: _storeUrlError,
+              helperText: 'Your Shopify store domain (auto-filled)',
+              keyboardType: TextInputType.url,
+              autoFillHints: [AutofillHints.url],
+            ),
+          ] else if (_selectedPlatform == 'woocommerce') ...[
+            _buildTextField(
+              controller: _storeUrlController,
+              label: 'Store URL',
+              hint: 'https://mysite.com',
+              icon: Icons.link,
+              errorText: _storeUrlError,
+              helperText: 'Your WooCommerce store URL',
+              keyboardType: TextInputType.url,
+              autoFillHints: [AutofillHints.url],
+            ),
+            OsmeaComponents.sizedBox(height: context.spacing16),
+            _buildTextField(
+              controller: _usernameController,
+              label: 'Username',
+              hint: 'your_username',
+              icon: Icons.person,
+              errorText: _usernameError,
+              helperText: 'WooCommerce API username',
+              keyboardType: TextInputType.text,
+              autoFillHints: [AutofillHints.username],
+            ),
+            OsmeaComponents.sizedBox(height: context.spacing16),
+            _buildTextField(
+              controller: _passwordController,
+              label: 'Password',
+              hint: 'your_password',
+              icon: Icons.lock,
+              obscureText: true,
+              errorText: _passwordError,
+              helperText: 'WooCommerce API password (min 8 characters)',
+              keyboardType: TextInputType.visiblePassword,
+              autoFillHints: [AutofillHints.password],
+            ),
+          ],
+
+          OsmeaComponents.sizedBox(height: context.spacing16),
+
+          // API Version Field
           _buildTextField(
-            controller: _accessTokenController,
-            label: 'Access Token',
-            hint: 'shpat_xxxxxxxxxxxxxxxxxxxxx',
+            controller: _apiVersionController,
+            label: 'API Version',
+            hint: '2024-07',
+            icon: Icons.api,
+            errorText: _apiVersionError,
+            helperText: 'API version in YYYY-MM format',
+            keyboardType: TextInputType.datetime,
           ),
-        ] else if (_selectedPlatform == 'woocommerce') ...[
-          _buildTextField(
-            controller: _storeUrlController,
-            label: 'Store URL',
-            hint: 'https://mysite.com',
-          ),
-          OsmeaComponents.sizedBox(height: 16),
-          _buildTextField(
-            controller: _usernameController,
-            label: 'Username',
-            hint: 'your_username',
-          ),
-          OsmeaComponents.sizedBox(height: 16),
-          _buildTextField(
-            controller: _passwordController,
-            label: 'Password',
-            hint: 'your_password',
-            obscureText: true,
-          ),
+
+          // Add some bottom padding to prevent overflow
+          OsmeaComponents.sizedBox(height: context.spacing32),
         ],
-
-        OsmeaComponents.sizedBox(height: 16),
-
-        // API Version Field
-        _buildTextField(
-          controller: _apiVersionController,
-          label: 'API Version',
-          hint: '2024-07',
-        ),
-      ],
+      ),
     );
   }
 
@@ -608,26 +801,69 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
     required TextEditingController controller,
     required String label,
     required String hint,
+    required IconData icon,
     bool obscureText = false,
+    String? errorText,
+    String? helperText,
+    TextInputType? keyboardType,
+    List<String>? autoFillHints,
   }) {
     return OsmeaComponents.column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        OsmeaComponents.text(
-          label,
-          textStyle: OsmeaTextStyle.bodyMedium(context).copyWith(
-            fontWeight: FontWeight.w600,
+        TextFormField(
+          controller: controller,
+          obscureText: obscureText,
+          keyboardType: keyboardType,
+          autofillHints: autoFillHints,
+          onChanged: (value) {
+            // Real-time validation
+            if (errorText != null) {
+              setState(() {
+                _validateForm();
+              });
+            }
+          },
+          decoration: InputDecoration(
+            labelText: label,
+            hintText: hint,
+            helperText: helperText,
+            errorText: errorText,
+            prefixIcon: Icon(icon),
+            border: OutlineInputBorder(
+              borderRadius: context.borderRadiusNormal,
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: context.borderRadiusNormal,
+              borderSide: BorderSide(
+                color: Colors.grey.shade300,
+                width: context.borderWidth,
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: context.borderRadiusNormal,
+              borderSide: BorderSide(
+                color: Theme.of(context).primaryColor,
+                width: context.borderWidth * 2,
+              ),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderRadius: context.borderRadiusNormal,
+              borderSide: BorderSide(
+                color: Colors.red.shade400,
+                width: context.borderWidth,
+              ),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: context.borderRadiusNormal,
+              borderSide: BorderSide(
+                color: Colors.red.shade400,
+                width: context.borderWidth * 2,
+              ),
+            ),
           ),
         ),
-        OsmeaComponents.sizedBox(height: 8),
-        OsmeaComponents.textField(
-          controller: controller,
-          label: label,
-          hint: hint,
-          obscureText: obscureText,
-          variant: TextFieldVariant.outlined,
-          type: obscureText ? TextFieldType.password : TextFieldType.text,
-        ),
+        OsmeaComponents.sizedBox(height: context.spacing16),
       ],
     );
   }
@@ -796,16 +1032,22 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
               child: Dialog(
                 backgroundColor: OsmeaColors.transparent,
                 child: OsmeaComponents.container(
-                  width: 600,
-                  constraints: const BoxConstraints(maxHeight: 700),
+                  width: context.dynamicWidth(0.7), // 70% of screen width
+                  constraints: BoxConstraints(
+                    maxHeight:
+                        context.dynamicHeight(0.7), // 70% of screen height
+                    maxWidth: context.width384, // Maximum 384px width
+                    minWidth: context.width320, // Minimum 320px width
+                  ),
                   decoration: BoxDecoration(
                     color: OsmeaColors.white,
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: context.borderRadiusNormal,
                     boxShadow: [
                       BoxShadow(
-                        color: OsmeaColors.black.withValues(alpha: 0.2),
-                        blurRadius: 20,
-                        offset: const Offset(0, 10),
+                        color: OsmeaColors.black
+                            .withValues(alpha: context.alpha20),
+                        blurRadius: context.blurRadius20,
+                        offset: context.offsetCustom(0, context.spacing10),
                       ),
                     ],
                   ),
@@ -815,7 +1057,7 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
                       // Header
                       OsmeaComponents.container(
                         width: double.infinity,
-                        padding: const EdgeInsets.all(24),
+                        padding: context.paddingNormal,
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             colors: [
@@ -825,26 +1067,27 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
                           ),
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            topRight: Radius.circular(20),
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(context.radiusNormal),
+                            topRight: Radius.circular(context.radiusNormal),
                           ),
                         ),
                         child: OsmeaComponents.row(
                           children: [
                             OsmeaComponents.container(
-                              padding: const EdgeInsets.all(12),
+                              padding: context.paddingLow,
                               decoration: BoxDecoration(
-                                color: OsmeaColors.white.withValues(alpha: 0.2),
-                                borderRadius: BorderRadius.circular(12),
+                                color: OsmeaColors.white
+                                    .withValues(alpha: context.alpha20),
+                                borderRadius: context.borderRadiusNormal,
                               ),
                               child: Icon(
                                 Icons.store,
                                 color: OsmeaColors.white,
-                                size: 24,
+                                size: context.iconSizeNormal,
                               ),
                             ),
-                            OsmeaComponents.sizedBox(width: 16),
+                            OsmeaComponents.sizedBox(width: context.spacing16),
                             OsmeaComponents.text(
                               'Store Setup Wizard',
                               textStyle: OsmeaTextStyle.displayMedium(context)
@@ -866,21 +1109,21 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
 
                       // Step indicator
                       OsmeaComponents.container(
-                        padding: const EdgeInsets.all(24),
+                        padding: context.paddingNormal,
                         child: _buildStepIndicator(),
                       ),
 
                       // Content
-                      Flexible(
-                        child: OsmeaComponents.padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 24),
+                      Expanded(
+                        child: OsmeaComponents.singleChildScrollView(
+                          padding: context.horizontalPaddingNormal,
                           child: _buildStepContent(),
                         ),
                       ),
 
                       // Bottom navigation
                       OsmeaComponents.container(
-                        padding: const EdgeInsets.all(24),
+                        padding: context.paddingNormal,
                         child: _buildNavigationButtons(),
                       ),
                     ],
@@ -906,7 +1149,8 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
               onPressed: _previousStep,
             ),
           ),
-        if (_currentStep > 0) OsmeaComponents.sizedBox(width: 16),
+        if (_currentStep > 0)
+          OsmeaComponents.sizedBox(width: context.spacing16),
         Expanded(
           child: OsmeaComponents.button(
             text: _currentStep == 2 ? 'Complete Setup' : 'Next',
