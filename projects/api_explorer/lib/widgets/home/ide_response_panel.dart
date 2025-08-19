@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:osmea_components/osmea_components.dart';
 import 'dart:convert';
 import 'package:core/core.dart';
 

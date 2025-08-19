@@ -3,7 +3,7 @@ import 'package:api_explorer/widgets/home/modern_api_panel.dart';
 import 'package:api_explorer/widgets/home/modern_sidebar.dart';
 import 'package:flutter/material.dart';
 import 'package:api_explorer/services/api_service_registry.dart';
-import 'package:osmea_components/osmea_components.dart';
+import 'package:core/core.dart';
 
 class DesktopLayoutWidget extends StatelessWidget {
   final BoxConstraints constraints;

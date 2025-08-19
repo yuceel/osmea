@@ -4,7 +4,7 @@ import 'package:api_explorer/widgets/home/ide_response_panel.dart';
 import 'package:api_explorer/widgets/home/modern_api_panel.dart';
 import 'package:api_explorer/widgets/layout/mobile_app_bar_widget.dart';
 import 'package:api_explorer/widgets/layout/mobile_bottom_nav_widget.dart';
-import 'package:osmea_components/osmea_components.dart';
+import 'package:core/core.dart';
 
 class MobileLayoutWidget extends StatelessWidget {
   final BoxConstraints constraints;

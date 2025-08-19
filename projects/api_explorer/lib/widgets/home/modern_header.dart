@@ -2,7 +2,6 @@ import 'package:api_explorer/styles/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:core/core.dart';
-import 'package:osmea_components/osmea_components.dart';
 
 /// Modern Header using Osmea components
 class ModernHeader extends StatelessWidget {

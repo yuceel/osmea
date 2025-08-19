@@ -4,7 +4,6 @@ import 'package:api_explorer/widgets/home/panel_header.dart';
 import 'package:api_explorer/widgets/home/service_info.dart';
 import 'package:api_explorer/services/api_service_registry.dart';
 import 'package:core/core.dart';
-import 'package:osmea_components/osmea_components.dart';
 
 /// Modern API Panel using Osmea components
 class ModernApiPanel extends StatefulWidget {

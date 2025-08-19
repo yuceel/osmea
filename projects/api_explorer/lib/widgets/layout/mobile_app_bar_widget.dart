@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:osmea_components/osmea_components.dart';
+import 'package:core/core.dart';
 
 class MobileAppBarWidget extends StatelessWidget {
   final bool isNarrow;

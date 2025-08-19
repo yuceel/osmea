@@ -1,6 +1,6 @@
 import 'package:api_explorer/widgets/layout/bottom_nav_item_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:osmea_components/osmea_components.dart';
+import 'package:core/core.dart';
 
 class MobileBottomNavWidget extends StatelessWidget {
   final bool isNarrow;

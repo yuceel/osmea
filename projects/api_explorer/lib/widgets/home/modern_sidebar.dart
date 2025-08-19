@@ -4,7 +4,6 @@ import 'package:apis/services/store_change_notifier.dart';
 import 'package:api_explorer/services/api_service_registry.dart';
 import 'package:api_explorer/styles/app_theme.dart';
 import 'package:core/core.dart';
-import 'package:osmea_components/osmea_components.dart';
 import 'dart:async';
 
 /// Modern Sidebar using Osmea components

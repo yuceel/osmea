@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:api_explorer/services/api_service_registry.dart';
 import 'package:api_explorer/styles/app_theme.dart';
 import 'package:core/core.dart';
-import 'package:osmea_components/osmea_components.dart';
 
 class ControlPanel extends StatefulWidget {
   final ApiCategory? selectedCategory;
