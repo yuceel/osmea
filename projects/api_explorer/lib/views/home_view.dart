@@ -8,6 +8,7 @@ import 'package:apis/apis.dart';
 import 'package:apis/services/store_change_notifier.dart';
 import 'package:api_explorer/services/api_service_registry.dart';
 import 'package:api_explorer/services/app_state_persistence.dart';
+import 'package:osmea_components/osmea_components.dart';
 
 import 'package:core/core.dart';
 import 'dart:async';
@@ -515,39 +516,192 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
   }
 
   void _showStoreProfileDialog() {
-    showDialog(
+    OsmeaComponents.showPopup(
       context: context,
-      builder: (context) => AlertDialog(
-        title: OsmeaComponents.row(
-          children: [
-            Icon(Icons.store, color: Theme.of(context).colorScheme.primary),
-            OsmeaComponents.sizedBox(width: context.spacing8),
-            OsmeaComponents.text('Store Profile'),
-          ],
-        ),
-        content: OsmeaComponents.column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            OsmeaComponents.text(
-                'Store: ${_selectedStore?.displayName ?? "Unknown"}'),
-            OsmeaComponents.text(
-                'Platform: ${_selectedStore?.platform.toUpperCase() ?? "Unknown"}'),
-            OsmeaComponents.text(
-                'Status: ${_selectedStore?.isComplete == true ? "Active" : "Incomplete"}'),
-            if (_selectedStore?.createdAt != null)
-              OsmeaComponents.text(
-                  'Created: ${_selectedStore!.createdAt.toString().split('.')[0]}'),
-          ],
-        ),
-        actions: [
-          OsmeaComponents.button(
-            text: 'Close',
-            onPressed: () => Navigator.of(context).pop(),
-            variant: ButtonVariant.secondary,
+      size: PopupSize.medium,
+      variant: PopupVariant.modal,
+      title: 'Store Profile',
+      subtitle: 'Store configuration details',
+      backgroundColor: OsmeaColors.white,
+      child: OsmeaComponents.column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Store Icon and Name Section
+          OsmeaComponents.container(
+            padding: EdgeInsets.all(context.spacing16),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  OsmeaColors.nordicBlue.withValues(alpha: 0.1),
+                  OsmeaColors.eclipse.withValues(alpha: 0.05),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: context.borderRadiusNormal,
+              border: Border.all(
+                color: OsmeaColors.nordicBlue.withValues(alpha: 0.2),
+                width: 1,
+              ),
+            ),
+            child: OsmeaComponents.row(
+              children: [
+                OsmeaComponents.container(
+                  padding: EdgeInsets.all(context.spacing12),
+                  decoration: BoxDecoration(
+                    color: OsmeaColors.nordicBlue.withValues(alpha: 0.15),
+                    borderRadius: context.borderRadiusMinStandard,
+                  ),
+                  child: Icon(
+                    Icons.store_rounded,
+                    color: OsmeaColors.nordicBlue,
+                    size: 24,
+                  ),
+                ),
+                OsmeaComponents.sizedBox(width: context.spacing16),
+                OsmeaComponents.expanded(
+                  child: OsmeaComponents.column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      OsmeaComponents.text(
+                        _selectedStore?.displayName ?? "Unknown Store",
+                        variant: OsmeaTextVariant.titleMedium,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color: OsmeaColors.eclipse,
+                      ),
+                      OsmeaComponents.text(
+                        _selectedStore?.platform.toUpperCase() ??
+                            "Unknown Platform",
+                        variant: OsmeaTextVariant.bodySmall,
+                        fontSize: 12,
+                        color: OsmeaColors.nordicBlue,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          OsmeaComponents.sizedBox(height: context.spacing20),
+
+          // Store Details Section
+          OsmeaComponents.container(
+            padding: EdgeInsets.all(context.spacing16),
+            decoration: BoxDecoration(
+              color: OsmeaColors.snow,
+              borderRadius: context.borderRadiusNormal,
+              border: Border.all(
+                color: OsmeaColors.silver.withValues(alpha: 0.3),
+                width: 1,
+              ),
+            ),
+            child: OsmeaComponents.column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                OsmeaComponents.text(
+                  'Store Information',
+                  variant: OsmeaTextVariant.titleSmall,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: OsmeaColors.eclipse,
+                ),
+                OsmeaComponents.sizedBox(height: context.spacing12),
+
+                // Status Row
+                _buildInfoRow(
+                  'Status',
+                  _selectedStore?.isComplete == true ? "Active" : "Incomplete",
+                  _selectedStore?.isComplete == true
+                      ? OsmeaColors.forestHeart
+                      : OsmeaColors.amberFlame,
+                  Icons.circle,
+                ),
+
+                OsmeaComponents.sizedBox(height: context.spacing8),
+
+                // Created Date Row
+                if (_selectedStore?.createdAt != null)
+                  _buildInfoRow(
+                    'Created',
+                    _selectedStore!.createdAt.toString().split('.')[0],
+                    OsmeaColors.slate,
+                    Icons.schedule,
+                  ),
+
+                OsmeaComponents.sizedBox(height: context.spacing8),
+
+                // Store URL Row
+                if (_selectedStore?.storeUrl != null)
+                  _buildInfoRow(
+                    'Store URL',
+                    _selectedStore!.storeUrl!,
+                    OsmeaColors.nordicBlue,
+                    Icons.link,
+                  ),
+
+                // API Version Row
+                _buildInfoRow(
+                  'API Version',
+                  _selectedStore?.apiVersion ?? "Unknown",
+                  OsmeaColors.deepSea,
+                  Icons.api,
+                ),
+              ],
+            ),
+          ),
+
+          OsmeaComponents.sizedBox(height: context.spacing20),
+
+          // Action Buttons
+          OsmeaComponents.row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              OsmeaComponents.button(
+                text: 'Close',
+                onPressed: () => Navigator.of(context).pop(),
+                variant: ButtonVariant.secondary,
+                size: ButtonSize.medium,
+              ),
+            ],
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildInfoRow(
+      String label, String value, Color valueColor, IconData icon) {
+    return OsmeaComponents.row(
+      children: [
+        Icon(
+          icon,
+          size: 16,
+          color: OsmeaColors.slate,
+        ),
+        OsmeaComponents.sizedBox(width: context.spacing8),
+        OsmeaComponents.text(
+          '$label:',
+          variant: OsmeaTextVariant.bodySmall,
+          fontSize: 12,
+          color: OsmeaColors.slate,
+          fontWeight: FontWeight.w500,
+        ),
+        OsmeaComponents.sizedBox(width: context.spacing8),
+        OsmeaComponents.expanded(
+          child: OsmeaComponents.text(
+            value,
+            variant: OsmeaTextVariant.bodySmall,
+            fontSize: 12,
+            color: valueColor,
+            fontWeight: FontWeight.w600,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ],
     );
   }
 
