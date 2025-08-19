@@ -1,5 +1,5 @@
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
-import 'package:osmea_components/osmea_components.dart';
 import '../services/production_auth_service.dart';
 
 class LoginFormWidget extends StatefulWidget {
@@ -78,7 +78,7 @@ class _LoginFormWidgetState extends State<LoginFormWidget> {
               _usernameController.text,
               _passwordController.text,
             );
-
+            
             if (result.success) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(

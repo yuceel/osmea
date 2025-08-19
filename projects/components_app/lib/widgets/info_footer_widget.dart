@@ -1,5 +1,5 @@
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
-import 'package:osmea_components/osmea_components.dart';
 import '../utils/asset_paths.dart';
 
 class InfoFooterWidget extends StatelessWidget {

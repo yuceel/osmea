@@ -1,5 +1,5 @@
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
-import 'package:osmea_components/osmea_components.dart';
 import 'package:go_router/go_router.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
@@ -47,19 +47,19 @@ class _OsmeaComponentsAppBarState extends State<OsmeaComponentsAppBar> {
         setState(() {
           _title = screenData['title'];
         });
-        print(
+        debugPrint(
             '✅ AppBar Title loaded: $_title for screenKey: ${widget.screenKey}');
       } else {
-        print('⚠️ Title not found for screenKey: ${widget.screenKey}');
+        debugPrint('⚠️ Title not found for screenKey: ${widget.screenKey}');
         setState(() {
           _title = _formatScreenKey(widget.screenKey);
         });
       }
     } catch (e) {
-      print('❌ Error loading title for ${widget.screenKey}: $e');
-              setState(() {
-          _title = _formatScreenKey(widget.screenKey);
-        });
+      debugPrint('❌ Error loading title for ${widget.screenKey}: $e');
+      setState(() {
+        _title = _formatScreenKey(widget.screenKey);
+      });
     }
   }
 

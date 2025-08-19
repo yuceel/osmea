@@ -1,5 +1,5 @@
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
-import 'package:osmea_components/osmea_components.dart';
 import '../widgets/common_appbar.dart';
 
 class SnackbarExample extends StatelessWidget {
@@ -29,7 +29,7 @@ class SnackbarExample extends StatelessWidget {
                 actionLabelColor: OsmeaColors.white,
                 onAction: () {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Undo pressed!')),
+                    const SnackBar(content: Text('Undo pressed!')),
                   );
                 },
               ),
@@ -44,7 +44,7 @@ class SnackbarExample extends StatelessWidget {
                 actionLabel: 'Retry',
                 onAction: () {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Retry pressed!')),
+                    const SnackBar(content: Text('Retry pressed!')),
                   );
                 },
               ),
@@ -59,7 +59,7 @@ class SnackbarExample extends StatelessWidget {
                 actionLabel: 'Dismiss',
                 onAction: () {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Dismiss pressed!')),
+                    const SnackBar(content: Text('Dismiss pressed!')),
                   );
                 },
               ),
