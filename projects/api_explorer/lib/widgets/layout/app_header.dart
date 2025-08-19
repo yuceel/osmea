@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:api_explorer/styles/app_theme.dart';
 import 'package:flutter/services.dart';
 import 'package:core/core.dart';
 import 'package:apis/apis.dart';
@@ -32,15 +31,23 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: OsmeaColors.white,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       elevation: 0,
+      scrolledUnderElevation: 2,
+      shadowColor: Theme.of(context).colorScheme.shadow.withOpacity(0.05),
       leading: onDrawerToggle != null
-          ? OsmeaComponents.iconButton(
-              icon: Icon(Icons.menu),
-              onPressed: onDrawerToggle,
-              variant: ButtonVariant.ghost,
-              size: ButtonSize.medium,
-              tooltip: 'Open menu',
+          ? OsmeaComponents.container(
+              margin: EdgeInsets.only(left: context.spacing12),
+              child: OsmeaComponents.iconButton(
+                icon: Icon(
+                  Icons.menu_rounded,
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+                onPressed: onDrawerToggle,
+                variant: ButtonVariant.ghost,
+                size: ButtonSize.medium,
+                tooltip: 'Open menu',
+              ),
             )
           : null,
       title: _buildTitle(context),
@@ -50,7 +57,13 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
         child: Container(
           height: 1,
           decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
+            gradient: LinearGradient(
+              colors: [
+                Theme.of(context).colorScheme.outline.withOpacity(0),
+                Theme.of(context).colorScheme.outline.withOpacity(0.1),
+                Theme.of(context).colorScheme.outline.withOpacity(0),
+              ],
+            ),
           ),
         ),
       ),
@@ -61,21 +74,14 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
   Widget _buildTitle(BuildContext context) {
     return OsmeaComponents.row(
       children: [
-        // Logo Container
-        OsmeaComponents.container(
-          padding: EdgeInsets.all(context.spacing8),
-          decoration: BoxDecoration(
-            gradient: OsmeaAppTheme.createMethodGradient(
-              'PATCH',
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: context.borderRadiusMinStandard,
-          ),
-          child: Icon(
-            Icons.api_rounded,
-            color: Colors.white,
-            size: 20,
+        // Logo
+        SizedBox(
+          height: 32,
+          child: Image.asset(
+            isDarkMode
+                ? 'assets/images/osmea_logo_white.png'
+                : 'assets/images/osmea_logo_black.png',
+            fit: BoxFit.contain,
           ),
         ),
 
@@ -87,13 +93,14 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             OsmeaComponents.text(
-              title,
+              "Api Explorer",
               variant: OsmeaTextVariant.titleLarge,
               fontSize: 18,
               fontWeight: FontWeight.w600,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
             OsmeaComponents.text(
-              "API Testing Platform",
+              "Modern API Testing Platform",
               variant: OsmeaTextVariant.bodySmall,
               fontSize: 11,
               color: Theme.of(context)
@@ -121,32 +128,45 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
   Widget _buildApiUrlDisplay(BuildContext context) {
     return OsmeaComponents.container(
       padding: EdgeInsets.symmetric(
-        horizontal: context.spacing12,
-        vertical: context.spacing6,
+        horizontal: context.spacing8,
+        vertical: context.spacing4,
       ),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceContainerHighest,
+        color: Theme.of(context).colorScheme.surfaceContainerLowest,
         borderRadius: context.borderRadiusMinStandard,
         border: Border.all(
-          color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
+          color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.1),
           width: 1,
         ),
       ),
       child: OsmeaComponents.row(
         children: [
-          Icon(
-            Icons.link_rounded,
-            size: 14,
-            color:
-                Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
+          // Method Badge
+          OsmeaComponents.container(
+            padding: EdgeInsets.symmetric(
+              horizontal: context.spacing6,
+              vertical: context.spacing2,
+            ),
+            decoration: BoxDecoration(
+              color: OsmeaColors.nordicBlue.withOpacity(0.1),
+              borderRadius: context.borderRadiusMinStandard,
+            ),
+            child: OsmeaComponents.text(
+              'GET',
+              variant: OsmeaTextVariant.labelSmall,
+              fontSize: 10,
+              fontWeight: FontWeight.w600,
+              color: OsmeaColors.nordicBlue,
+            ),
           ),
-          OsmeaComponents.sizedBox(width: context.spacing6),
+          OsmeaComponents.sizedBox(width: context.spacing8),
+          // URL Display
           OsmeaComponents.expanded(
             child: OsmeaComponents.text(
               apiUrl,
               variant: OsmeaTextVariant.bodySmall,
-              fontSize: 12,
-              fontFamily: 'monospace',
+              fontSize: 11,
+              fontFamily: 'JetBrainsMono',
               color: Theme.of(context)
                   .colorScheme
                   .onSurface
@@ -154,9 +174,17 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          OsmeaComponents.sizedBox(width: context.spacing6),
+          OsmeaComponents.sizedBox(width: context.spacing4),
+          // Copy Button
           OsmeaComponents.iconButton(
-            icon: Icon(Icons.copy_rounded, size: 14),
+            icon: Icon(
+              Icons.content_copy_rounded,
+              size: 14,
+              color: Theme.of(context)
+                  .colorScheme
+                  .onSurface
+                  .withValues(alpha: 0.6),
+            ),
             onPressed: () => _copyUrlToClipboard(context),
             variant: ButtonVariant.ghost,
             size: ButtonSize.small,
@@ -195,15 +223,18 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return OsmeaComponents.container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            padding: EdgeInsets.symmetric(
+              horizontal: context.spacing12,
+              vertical: context.spacing8,
+            ),
             decoration: BoxDecoration(
-              color: OsmeaColors.white,
-              borderRadius: BorderRadius.circular(12),
+              color: Theme.of(context).colorScheme.surfaceContainerLowest,
+              borderRadius: context.borderRadiusMinStandard,
               border: Border.all(
                 color: Theme.of(context)
                     .colorScheme
                     .outline
-                    .withValues(alpha: 0.2),
+                    .withValues(alpha: 0.1),
                 width: 1,
               ),
             ),
@@ -211,23 +242,22 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 SizedBox(
-                  width: 16,
-                  height: 16,
+                  width: 14,
+                  height: 14,
                   child: CircularProgressIndicator(
                     strokeWidth: 2,
                     valueColor:
                         AlwaysStoppedAnimation<Color>(OsmeaColors.nordicBlue),
                   ),
                 ),
-                OsmeaComponents.sizedBox(width: 8),
+                OsmeaComponents.sizedBox(width: context.spacing8),
                 OsmeaComponents.text(
-                  'Loading...',
-                  textStyle: OsmeaTextStyle.bodySmall(context).copyWith(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurface
-                        .withValues(alpha: 0.7),
-                  ),
+                  'Loading Store Profile...',
+                  variant: OsmeaTextVariant.labelSmall,
+                  color: Theme.of(context)
+                      .colorScheme
+                      .onSurface
+                      .withValues(alpha: 0.7),
                 ),
               ],
             ),
@@ -236,15 +266,18 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
 
         if (snapshot.hasError || !snapshot.hasData) {
           return OsmeaComponents.container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            padding: EdgeInsets.symmetric(
+              horizontal: context.spacing12,
+              vertical: context.spacing8,
+            ),
             decoration: BoxDecoration(
-              color: OsmeaColors.white,
-              borderRadius: BorderRadius.circular(12),
+              color: Theme.of(context).colorScheme.surfaceContainerLowest,
+              borderRadius: context.borderRadiusMinStandard,
               border: Border.all(
                 color: Theme.of(context)
                     .colorScheme
                     .outline
-                    .withValues(alpha: 0.3),
+                    .withValues(alpha: 0.1),
                 width: 1,
               ),
             ),
@@ -252,26 +285,35 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(
-                  Icons.store_outlined,
+                  Icons.storefront_outlined,
                   size: 16,
-                  color: Theme.of(context).colorScheme.outline,
+                  color: Theme.of(context)
+                      .colorScheme
+                      .onSurface
+                      .withValues(alpha: 0.7),
                 ),
-                OsmeaComponents.sizedBox(width: 6),
+                OsmeaComponents.sizedBox(width: context.spacing8),
                 OsmeaComponents.text(
-                  'No Store',
-                  textStyle: OsmeaTextStyle.bodySmall(context).copyWith(
-                    color: Theme.of(context).colorScheme.outline,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  'No Store Connected',
+                  variant: OsmeaTextVariant.labelMedium,
+                  color: Theme.of(context)
+                      .colorScheme
+                      .onSurface
+                      .withValues(alpha: 0.8),
                 ),
-                OsmeaComponents.sizedBox(width: 4),
+                OsmeaComponents.sizedBox(width: context.spacing12),
                 OsmeaComponents.button(
-                  text: 'Add Store',
+                  text: 'Connect Store',
                   variant: ButtonVariant.outlined,
                   size: ButtonSize.small,
                   onPressed: () {
                     onStoreChange?.call();
                   },
+                  icon: Icon(
+                    Icons.add_rounded,
+                    size: 16,
+                    color: Theme.of(context).colorScheme.onSecondaryContainer,
+                  ),
                 ),
               ],
             ),
@@ -283,102 +325,132 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
             Color(int.parse(profile['color'].replaceAll('#', '0xFF')));
 
         return OsmeaComponents.container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          padding: EdgeInsets.symmetric(
+            horizontal: context.spacing12,
+            vertical: context.spacing8,
+          ),
           decoration: BoxDecoration(
-            color: OsmeaColors.white,
-            borderRadius: BorderRadius.circular(12),
+            color: Theme.of(context).colorScheme.surfaceContainerLowest,
+            borderRadius: context.borderRadiusMinStandard,
             border: Border.all(
-              color: platformColor.withValues(alpha: 0.3),
+              color: platformColor.withValues(alpha: 0.2),
               width: 1,
             ),
             boxShadow: [
               BoxShadow(
-                color: platformColor.withValues(alpha: 0.1),
+                color: platformColor.withValues(alpha: 0.05),
                 offset: const Offset(0, 2),
-                blurRadius: 8,
+                blurRadius: 6,
+                spreadRadius: 0,
               ),
             ],
           ),
           child: OsmeaComponents.row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Platform Icon
+              // Platform Icon with Gradient Background
               OsmeaComponents.container(
-                padding: const EdgeInsets.all(6),
+                padding: EdgeInsets.all(context.spacing6),
                 decoration: BoxDecoration(
-                  color: platformColor.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(8),
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      platformColor.withValues(alpha: 0.15),
+                      platformColor.withValues(alpha: 0.05),
+                    ],
+                  ),
+                  borderRadius: context.borderRadiusMinStandard,
+                  border: Border.all(
+                    color: platformColor.withValues(alpha: 0.1),
+                    width: 1,
+                  ),
                 ),
                 child: OsmeaComponents.text(
                   profile['icon'],
-                  textStyle: OsmeaTextStyle.bodySmall(context).copyWith(
-                    fontSize: 14,
-                  ),
+                  variant: OsmeaTextVariant.labelLarge,
+                  fontSize: 14,
+                  color: platformColor,
                 ),
               ),
-              OsmeaComponents.sizedBox(width: 10),
+              OsmeaComponents.sizedBox(width: context.spacing12),
 
-              // Store Info
+              // Store Info with Enhanced Typography
               OsmeaComponents.column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   OsmeaComponents.text(
                     profile['name'] ?? 'Unknown Store',
-                    textStyle: OsmeaTextStyle.bodyMedium(context).copyWith(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      color: Theme.of(context).colorScheme.onSurface,
-                    ),
+                    variant: OsmeaTextVariant.titleSmall,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context).colorScheme.onSurface,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
                   OsmeaComponents.text(
                     profile['platformDisplayName'] ?? 'Unknown',
-                    textStyle: OsmeaTextStyle.bodySmall(context).copyWith(
-                      fontSize: 11,
-                      color: Theme.of(context)
-                          .colorScheme
-                          .onSurface
-                          .withValues(alpha: 0.7),
-                      fontWeight: FontWeight.w500,
-                    ),
+                    variant: OsmeaTextVariant.labelSmall,
+                    fontSize: 11,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onSurface
+                        .withValues(alpha: 0.6),
                   ),
                 ],
               ),
 
-              OsmeaComponents.sizedBox(width: 10),
+              OsmeaComponents.sizedBox(width: context.spacing12),
 
-              // Status Indicator
+              // Modern Status Badge
               OsmeaComponents.container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                padding: EdgeInsets.symmetric(
+                  horizontal: context.spacing8,
+                  vertical: context.spacing2,
+                ),
                 decoration: BoxDecoration(
                   color: (profile['status'] ?? 'Unknown') == 'Active'
-                      ? OsmeaColors.forestHeart.withValues(alpha: 0.15)
-                      : OsmeaColors.amberFlame.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(6),
+                      ? OsmeaColors.forestHeart.withValues(alpha: 0.1)
+                      : OsmeaColors.amberFlame.withValues(alpha: 0.1),
+                  borderRadius: context.borderRadiusMinStandard,
                   border: Border.all(
                     color: (profile['status'] ?? 'Unknown') == 'Active'
-                        ? OsmeaColors.forestHeart.withValues(alpha: 0.3)
-                        : OsmeaColors.amberFlame.withValues(alpha: 0.3),
+                        ? OsmeaColors.forestHeart.withValues(alpha: 0.2)
+                        : OsmeaColors.amberFlame.withValues(alpha: 0.2),
                     width: 1,
                   ),
                 ),
-                child: OsmeaComponents.text(
-                  profile['status'] ?? 'Unknown',
-                  textStyle: OsmeaTextStyle.captionSmall(context).copyWith(
-                    fontSize: 10,
-                    color: (profile['status'] ?? 'Unknown') == 'Active'
-                        ? OsmeaColors.forestHeart
-                        : OsmeaColors.amberFlame,
-                    fontWeight: FontWeight.w600,
-                  ),
+                child: OsmeaComponents.row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      width: 6,
+                      height: 6,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: (profile['status'] ?? 'Unknown') == 'Active'
+                            ? OsmeaColors.forestHeart
+                            : OsmeaColors.amberFlame,
+                      ),
+                    ),
+                    OsmeaComponents.sizedBox(width: context.spacing4),
+                    OsmeaComponents.text(
+                      profile['status'] ?? 'Unknown',
+                      variant: OsmeaTextVariant.labelSmall,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w600,
+                      color: (profile['status'] ?? 'Unknown') == 'Active'
+                          ? OsmeaColors.forestHeart
+                          : OsmeaColors.amberFlame,
+                    ),
+                  ],
                 ),
               ),
 
-              OsmeaComponents.sizedBox(width: 8),
+              OsmeaComponents.sizedBox(width: context.spacing8),
 
-              // Actions
+              // Actions Menu
               _buildActionMenu(context),
             ],
           ),
@@ -467,31 +539,43 @@ class _ActionMenuWidgetState extends State<_ActionMenuWidget> {
     showMenu<String>(
       context: context,
       position: RelativeRect.fromLTRB(
-        offset.dx + size.width - 200, // Align to right
+        offset.dx + size.width - 220, // Align to right with more width
         offset.dy + size.height + 8, // Below the button
         offset.dx + size.width,
         offset.dy + size.height + 8,
       ),
+      shape: RoundedRectangleBorder(
+        borderRadius: context.borderRadiusMinStandard,
+        side: BorderSide(
+          color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.1),
+          width: 1,
+        ),
+      ),
+      elevation: 3,
+      color: Theme.of(context).colorScheme.surface,
       items: [
         _buildMenuItem(
           context,
           'refresh',
-          Icons.refresh,
-          'Refresh',
+          Icons.refresh_rounded,
+          'Refresh Store',
+          'Update store information',
           widget.onRefresh,
         ),
         _buildMenuItem(
           context,
           'change',
-          Icons.swap_horiz,
+          Icons.swap_horiz_rounded,
           'Change Store',
+          'Switch to another store',
           widget.onChangeStore,
         ),
         _buildMenuItem(
           context,
           'profile',
-          Icons.person,
+          Icons.account_circle_rounded,
           'Store Profile',
+          'View store details and settings',
           widget.onProfileTap,
         ),
       ],
@@ -507,24 +591,62 @@ class _ActionMenuWidgetState extends State<_ActionMenuWidget> {
     String value,
     IconData icon,
     String label,
+    String description,
     VoidCallback? onTap,
   ) {
     return PopupMenuItem<String>(
       value: value,
       onTap: onTap,
-      child: OsmeaComponents.listItem(
-        title: OsmeaComponents.text(
-          label,
-          textStyle: OsmeaTextStyle.bodyMedium(context),
-        ),
-        leading: Icon(
-          icon,
-          size: 16,
-          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.8),
-        ),
-        variant: ListItemVariant.standard,
-        size: ListItemSize.small,
-        onTap: onTap,
+      height: 72,
+      padding: EdgeInsets.symmetric(
+        horizontal: context.spacing12,
+        vertical: context.spacing8,
+      ),
+      child: OsmeaComponents.row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Icon with Container
+          OsmeaComponents.container(
+            padding: EdgeInsets.all(context.spacing8),
+            decoration: BoxDecoration(
+              color: Theme.of(context)
+                  .colorScheme
+                  .secondaryContainer
+                  .withOpacity(0.5),
+              borderRadius: context.borderRadiusMinStandard,
+            ),
+            child: Icon(
+              icon,
+              size: 20,
+              color: Theme.of(context).colorScheme.onSecondaryContainer,
+            ),
+          ),
+          OsmeaComponents.sizedBox(width: context.spacing12),
+          // Text Content
+          OsmeaComponents.expanded(
+            child: OsmeaComponents.column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                OsmeaComponents.text(
+                  label,
+                  variant: OsmeaTextVariant.titleSmall,
+                  fontSize: 14,
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+                OsmeaComponents.sizedBox(height: context.spacing4),
+                OsmeaComponents.text(
+                  description,
+                  variant: OsmeaTextVariant.bodySmall,
+                  fontSize: 12,
+                  color: Theme.of(context)
+                      .colorScheme
+                      .onSurface
+                      .withValues(alpha: 0.7),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -367,7 +367,7 @@ class OsmeaAppTheme {
   static Color get getColor => OsmeaColors.nordicBlue;
   static Color get postColor => OsmeaColors.sunsetGlow;
   static Color get putColor => OsmeaColors.sunsetGlow;
-  static Color get patchColor => OsmeaColors.nordicBlue;
+  static Color get patchColor => OsmeaColors.deepSea;
   static Color get deleteColor => OsmeaColors.orange;
   static Color get defaultColor => OsmeaColors.silver;
   static Color getMethodColor(String method) {
@@ -379,7 +379,7 @@ class OsmeaAppTheme {
       case 'PUT':
         return OsmeaAppTheme.putColor; // Soft amber
       case 'PATCH':
-        return OsmeaAppTheme.patchColor; // Soft purple
+        return OsmeaAppTheme.patchColor; // Deep sea blue
       case 'DELETE':
         return OsmeaAppTheme.deleteColor; // Soft red
       default:
@@ -396,7 +396,6 @@ class OsmeaAppTheme {
   // ================== COMMON COLORS ==================
   static Color get black54 => OsmeaColors.black54;
   static Color get blue => OsmeaColors.blue;
-  static Color get purple => OsmeaColors.purple;
 }
 
 class MethodStyle {
