@@ -1,22 +1,15 @@
-// 🏠📱 Import for the splash view widget
-// 🌐🔧 Import for API client configuration
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:core/core.dart';
 import 'package:api_explorer/services/api_service_registry.dart';
-import 'package:api_explorer/views/splash_view.dart';
 import 'package:apis/apis.dart';
 import 'package:apis/services/wizard_helper.dart';
 import 'package:apis/dio_config/api_dio_client.dart';
-
-// 🧩🖼️ Import for Flutter material design widgets
-import 'package:flutter/material.dart';
-// 💻🌍 Import for checking if the platform is web
-import 'package:flutter/foundation.dart' show kIsWeb;
-// 📝📚 Import for API service registry
-// 🌐🔄 Import for network initialization
-
-// 🛠️🧪 Import for dependency injection configuration
+import 'package:api_explorer/routes/app_router.dart';
 import 'di/config/config_di.dart';
 
-// 🚀🎯 Main entry point of the application
+/// 🚀 Main entry point of the API Explorer application
 Future<void> main() async {
   // 🪄🧵 Ensures Flutter bindings are initialized
   WidgetsFlutterBinding.ensureInitialized();
@@ -67,49 +60,22 @@ Future<void> main() async {
     }
   }
 
-  // 🏁📲 Start the app
-  runApp(const MyApp());
-}
+  // 🚀 Initialize MasterApp components
+  await MasterApp.runBefore(allowCollectDataTelemetry: true);
 
-// 🏗️🧱 Root widget of the application
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      // 🏷️📛 App title
-      title: 'OSMEA APIs Explorer',
-      // 🚫👁️ Hide debug banner
-      debugShowCheckedModeBanner: false,
-      // 🌐 Web için routing konfigürasyonu
-      initialRoute: '/',
-      onGenerateRoute: (settings) {
-        debugPrint('🔧 Route requested: ${settings.name}');
-
-        // Web refresh için route handling
-        if (settings.name == '/') {
-          return MaterialPageRoute(
-            builder: (context) => const SplashView(),
-            settings: settings,
-          );
-        }
-
-        // Bilinmeyen route'lar için splash'e yönlendir
-        return MaterialPageRoute(
-          builder: (context) => const SplashView(),
-          settings: const RouteSettings(name: '/'),
-        );
-      },
-      // 🎬🖥️ Set the splash view as home
-      home: const SplashView(),
-      // 🌐 Web için error handling
-      builder: (context, child) {
-        return MediaQuery(
-          data: MediaQuery.of(context).copyWith(textScaler: TextScaler.linear(1.0)),
-          child: child!,
-        );
-      },
-    );
-  }
+  // 🏁 Start the app with MasterApp using centralized router
+  runApp(MasterApp(
+    router: AppRouter.router,
+    shouldSetOrientation: true,
+    preferredOrientations: [
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ],
+    showPerformanceOverlay: false,
+    textDirection: TextDirection.ltr,
+    fontScale: 1.0,
+    themeMode: ThemeMode.light,
+    devModeGrid: false,
+    devModeSpacer: false,
+  ));
 }

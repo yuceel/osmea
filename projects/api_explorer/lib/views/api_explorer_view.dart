@@ -1,7 +1,9 @@
 import 'package:api_explorer/services/api_service_registry.dart';
-import 'package:api_explorer/widgets/api_explorer/desktop_layout_widget.dart';
-import 'package:api_explorer/widgets/api_explorer/mobile_drawer_widget.dart';
-import 'package:api_explorer/widgets/api_explorer/mobile_layout_widget.dart';
+import 'package:api_explorer/widgets/layout/desktop_layout_widget.dart';
+import 'package:api_explorer/widgets/layout/mobile_drawer_widget.dart';
+import 'package:api_explorer/widgets/layout/mobile_layout_widget.dart';
+
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 
 class ApiExplorerView extends StatefulWidget {
@@ -32,7 +34,7 @@ class _ApiExplorerViewState extends State<ApiExplorerView>
   void initState() {
     super.initState();
     _sidebarController = AnimationController(
-      duration: const Duration(milliseconds: 300),
+      duration: context.durationMedium,
       vsync: this,
     );
     _sidebarAnimation = CurvedAnimation(
@@ -64,9 +66,8 @@ class _ApiExplorerViewState extends State<ApiExplorerView>
         // Force mobile layout for narrow screens
         final shouldUseMobileLayout = isMobile || constraints.maxWidth < 900;
 
-        return Scaffold(
-          backgroundColor:
-              _isDarkMode ? const Color(0xFF121212) : const Color(0xFFFAFAFA),
+        return OsmeaComponents.scaffold(
+          backgroundColor: _isDarkMode ? OsmeaColors.eclipse : OsmeaColors.snow,
           body: shouldUseMobileLayout
               ? MobileLayoutWidget(
                   constraints: constraints,
@@ -127,8 +128,8 @@ class _ApiExplorerViewState extends State<ApiExplorerView>
     });
     _mobilePageController.animateToPage(
       page,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeInOut,
+      duration: context.animationMedium,
+      curve: easeInOut,
     );
   }
 
