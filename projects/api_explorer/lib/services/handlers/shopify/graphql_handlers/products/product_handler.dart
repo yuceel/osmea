@@ -15,10 +15,11 @@ class ProductGraphQLHandler implements ApiRequestHandler {
   Map<String, List<ApiField>> get requiredFields => {
         'POST': [
           const ApiField(
-            name: 'productId',
+            name: 'id',
             label: 'Product ID',
-            hint: 'ID of the product to retrieve (e.g., gid://shopify/Product/123)',
-            isRequired: true,
+            hint:
+                'ID of the product to retrieve (e.g., gid://shopify/Product/123)',
+            isRequired: false,
             type: ApiFieldType.text,
           ),
         ],
@@ -39,14 +40,38 @@ class ProductGraphQLHandler implements ApiRequestHandler {
     }
 
     try {
-      // Extract required product ID parameter
-      final productId = params['productId'];
+      // Debug: Log what we received
+      print('🔍 ProductGraphQLHandler - DEBUG INFO:');
+      print('   Method: $method');
+      print('   All params: $params');
+      print('   Params keys: ${params.keys.toList()}');
+      print('   Params values: ${params.values.toList()}');
+
+      // Extract product ID parameter (check both 'id' and 'first' for flexibility)
+      final productId = params['id'] ?? params['first'];
+      print('   Extracted productId: "$productId"');
+      print('   ProductId type: ${productId.runtimeType}');
+      print('   From id param: ${params['id']}');
+      print('   From first param: ${params['first']}');
+
+      // Validate product ID
       if (productId == null || productId.isEmpty) {
         return {
           "status": "error",
-          "statusCode": 400,
-          "message": "Bad Request",
-          "details": "Product ID is required to retrieve a single product.",
+          "message": "Product ID is required",
+          "details":
+              "Please provide a valid product ID (e.g., gid://shopify/Product/123456789)",
+          "timestamp": DateTime.now().toIso8601String(),
+        };
+      }
+
+      // Validate Shopify GraphQL ID format
+      if (!productId.startsWith('gid://shopify/Product/')) {
+        return {
+          "status": "error",
+          "message": "Invalid Product ID format",
+          "details":
+              "Product ID must be in Shopify GraphQL format: gid://shopify/Product/[ID]",
           "timestamp": DateTime.now().toIso8601String(),
         };
       }
@@ -69,42 +94,27 @@ class ProductGraphQLHandler implements ApiRequestHandler {
     } catch (e) {
       // Enhanced error handling
       String errorMessage = e.toString();
-      int statusCode = 500;
 
       if (errorMessage.contains('Store name is not set')) {
-        statusCode = 400;
         return {
           "status": "error",
-          "statusCode": 400,
           "message": "Configuration Error",
-          "details": "Store configuration is missing. Please complete the setup wizard first.",
+          "details":
+              "Store configuration is missing. Please complete the setup wizard first.",
           "timestamp": DateTime.now().toIso8601String(),
         };
       } else if (errorMessage.contains('Unauthorized')) {
-        statusCode = 401;
         return {
           "status": "error",
-          "statusCode": 401,
           "message": "Unauthorized access",
           "details": "Invalid or missing Shopify access token.",
           "timestamp": DateTime.now().toIso8601String(),
         };
       } else if (errorMessage.contains('GraphQL Error')) {
-        statusCode = 400;
         return {
           "status": "error",
-          "statusCode": 400,
           "message": "GraphQL Error",
           "details": errorMessage,
-          "timestamp": DateTime.now().toIso8601String(),
-        };
-      } else if (errorMessage.contains('Not Found')) {
-        statusCode = 404;
-        return {
-          "status": "error",
-          "statusCode": 404,
-          "message": "Product not found",
-          "details": "The requested product could not be found. Please check the product ID and try again.",
           "timestamp": DateTime.now().toIso8601String(),
         };
       }
@@ -112,7 +122,6 @@ class ProductGraphQLHandler implements ApiRequestHandler {
       // Generic error handling
       return {
         "status": "error",
-        "statusCode": statusCode,
         "message": "Failed to retrieve product via GraphQL",
         "details": errorMessage,
         "timestamp": DateTime.now().toIso8601String(),
@@ -126,13 +135,13 @@ class ProductGraphQLHandler implements ApiRequestHandler {
       "handler_name": "ProductGraphQLHandler",
       "description": "Handles GraphQL single product retrieval operations",
       "supported_methods": ["POST"],
-      "required_parameters": ["productId"],
+      "required_parameters": ["id"],
       "optional_parameters": [],
       "graphql_operation": "product",
       "examples": {
         "basic_request": {
           "method": "POST",
-          "parameters": {"productId": "gid://shopify/Product/123456789"}
+          "parameters": {"id": "gid://shopify/Product/123456789"}
         }
       }
     };
