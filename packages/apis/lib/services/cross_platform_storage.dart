@@ -601,11 +601,31 @@ class CrossPlatformStorage {
       debugPrint('  - Key: $key');
       debugPrint('  - Data keys: ${data.keys.toList()}');
 
+      // Ensure all required fields are present
+      if (data['store_name'] == null || data['platform'] == null) {
+        throw Exception('Required fields missing in store data');
+      }
+
+      // Add timestamps if not present
+      if (data['created_at'] == null) {
+        data['created_at'] = DateTime.now().toIso8601String();
+      }
+      data['updated_at'] = DateTime.now().toIso8601String();
+
       // Convert map to JSON string for storage
       final jsonString = jsonEncode(data);
       debugPrint('  - JSON string length: ${jsonString.length}');
 
-      await _sharedPreferences!.setString(key, jsonString);
+      // Save to SharedPreferences
+      final success = await _sharedPreferences!.setString(key, jsonString);
+
+      if (!success) {
+        throw Exception('Failed to save data to SharedPreferences');
+      }
+
+      // Force SharedPreferences to persist changes
+      await _sharedPreferences!.commit();
+
       debugPrint('✅ Data saved to SharedPreferences successfully');
     } catch (e) {
       debugPrint('❌ Error saving to SharedPreferences: $e');

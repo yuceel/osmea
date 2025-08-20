@@ -1,7 +1,9 @@
-import 'package:api_explorer/views/home_view.dart';
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:apis/apis.dart';
+import 'package:go_router/go_router.dart';
+import 'package:api_explorer/routes/app_router.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -172,29 +174,7 @@ class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
 
   void _navigateToHome() {
     if (!mounted) return;
-
-    Navigator.of(context).pushReplacement(
-      PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            const HomeView(),
-        transitionDuration: const Duration(milliseconds: 800),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          return FadeTransition(
-            opacity: animation,
-            child: SlideTransition(
-              position: Tween<Offset>(
-                begin: const Offset(0.0, 0.1),
-                end: Offset.zero,
-              ).animate(CurvedAnimation(
-                parent: animation,
-                curve: Curves.easeOutCubic,
-              )),
-              child: child,
-            ),
-          );
-        },
-      ),
-    );
+    context.go(AppRouter.home);
   }
 
   @override
@@ -209,34 +189,32 @@ class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     // Eğer zaten store varsa, loading göster ve home'a git
     if (_shouldSkipToHome) {
-      return Scaffold(
-        body: Container(
-          decoration: const BoxDecoration(
+      return OsmeaComponents.scaffold(
+        body: OsmeaComponents.container(
+          decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                Color(0xFF667EEA),
-                Color(0xFF764BA2),
-                Color(0xFF6366F1),
+                OsmeaColors.sunsetGlow,
+                OsmeaColors.deepSea,
+                OsmeaColors.atlantic,
               ],
             ),
           ),
-          child: const Center(
-            child: Column(
+          child: OsmeaComponents.center(
+            child: OsmeaComponents.column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                const CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(OsmeaColors.white),
                 ),
-                SizedBox(height: 20),
-                Text(
+                OsmeaComponents.sizedBox(height: context.spacing20),
+                OsmeaComponents.text(
                   'Loading your store...',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  color: OsmeaColors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
                 ),
               ],
             ),
@@ -247,34 +225,32 @@ class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
 
     // Hata durumunda basit loading göster
     if (_hasError) {
-      return Scaffold(
-        body: Container(
-          decoration: const BoxDecoration(
+      return OsmeaComponents.scaffold(
+        body: OsmeaComponents.container(
+          decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
-                Color(0xFF667EEA),
-                Color(0xFF764BA2),
-                Color(0xFF6366F1),
+                OsmeaColors.sunsetGlow,
+                OsmeaColors.deepSea,
+                OsmeaColors.atlantic,
               ],
             ),
           ),
-          child: const Center(
-            child: Column(
+          child: OsmeaComponents.center(
+            child: OsmeaComponents.column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                const CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(OsmeaColors.white),
                 ),
-                SizedBox(height: 20),
-                Text(
+                OsmeaComponents.sizedBox(height: context.spacing20),
+                OsmeaComponents.text(
                   'Loading...',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  color: OsmeaColors.white,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
                 ),
               ],
             ),
@@ -283,21 +259,21 @@ class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
       );
     }
 
-    return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
+    return OsmeaComponents.scaffold(
+      body: OsmeaComponents.container(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Color(0xFF667EEA),
-              Color(0xFF764BA2),
-              Color(0xFF6366F1),
+              OsmeaColors.sunsetGlow,
+              OsmeaColors.deepSea,
+              OsmeaColors.atlantic,
             ],
           ),
         ),
-        child: Center(
-          child: Column(
+        child: OsmeaComponents.center(
+          child: OsmeaComponents.column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               // Animated Logo
@@ -308,19 +284,19 @@ class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
                     scale: _logoScale.value,
                     child: Transform.rotate(
                       angle: _logoRotation.value * 0.5,
-                      child: Container(
+                      child: OsmeaComponents.container(
                         width: 120,
                         height: 120,
                         decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.2),
-                          borderRadius: BorderRadius.circular(24),
+                          color: OsmeaColors.white.withValues(alpha: 0.2),
+                          borderRadius: context.borderRadiusMedium,
                           border: Border.all(
-                            color: Colors.white.withValues(alpha: 0.3),
+                            color: OsmeaColors.white.withValues(alpha: 0.3),
                             width: 2,
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.2),
+                              color: OsmeaColors.black.withValues(alpha: 0.2),
                               blurRadius: 20,
                               offset: const Offset(0, 10),
                             ),
@@ -337,7 +313,7 @@ class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
                 },
               ),
 
-              const SizedBox(height: 40),
+              OsmeaComponents.sizedBox(height: context.spacing40),
 
               // Animated Text
               AnimatedBuilder(
@@ -347,33 +323,29 @@ class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
                     position: _textSlide,
                     child: FadeTransition(
                       opacity: _textOpacity,
-                      child: Column(
+                      child: OsmeaComponents.column(
                         children: [
-                          Text(
+                          OsmeaComponents.text(
                             'OSMEA APIs',
-                            style: TextStyle(
-                              fontSize: 32,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white,
-                              letterSpacing: 2,
-                              shadows: [
-                                Shadow(
-                                  color: Colors.black.withValues(alpha: 0.3),
-                                  offset: const Offset(0, 2),
-                                  blurRadius: 4,
-                                ),
-                              ],
-                            ),
+                            fontSize: 32,
+                            fontWeight: FontWeight.w700,
+                            color: OsmeaColors.white,
+                            letterSpacing: 2,
+                            shadows: [
+                              Shadow(
+                                color: OsmeaColors.black.withValues(alpha: 0.3),
+                                offset: const Offset(0, 2),
+                                blurRadius: 4,
+                              ),
+                            ],
                           ),
-                          const SizedBox(height: 8),
-                          Text(
+                          OsmeaComponents.sizedBox(height: context.spacing8),
+                          OsmeaComponents.text(
                             'Modern API Testing Platform',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.white.withValues(alpha: 0.9),
-                              letterSpacing: 1,
-                            ),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: OsmeaColors.white.withValues(alpha: 0.9),
+                            letterSpacing: 1,
                           ),
                         ],
                       ),
@@ -382,29 +354,29 @@ class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
                 },
               ),
 
-              const SizedBox(height: 60),
+              OsmeaComponents.sizedBox(height: context.spacing64),
 
               // Animated Progress Bar
               AnimatedBuilder(
                 animation: _progressController,
                 builder: (context, child) {
-                  return Container(
+                  return OsmeaComponents.container(
                     width: 200,
                     height: 4,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(2),
-                      color: Colors.white.withValues(alpha: 0.3),
+                      borderRadius: context.borderRadiusLow,
+                      color: OsmeaColors.white.withValues(alpha: 0.3),
                     ),
                     child: FractionallySizedBox(
                       alignment: Alignment.centerLeft,
                       widthFactor: _progressValue.value,
-                      child: Container(
+                      child: OsmeaComponents.container(
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(2),
-                          color: Colors.white,
+                          borderRadius: context.borderRadiusLow,
+                          color: OsmeaColors.white,
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.white.withValues(alpha: 0.5),
+                              color: OsmeaColors.white.withValues(alpha: 0.5),
                               blurRadius: 8,
                               spreadRadius: 1,
                             ),
@@ -416,7 +388,7 @@ class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
                 },
               ),
 
-              const SizedBox(height: 20),
+              OsmeaComponents.sizedBox(height: context.spacing20),
 
               // Loading text
               AnimatedBuilder(
@@ -424,13 +396,11 @@ class _SplashViewState extends State<SplashView> with TickerProviderStateMixin {
                 builder: (context, child) {
                   return FadeTransition(
                     opacity: _progressController,
-                    child: Text(
+                    child: OsmeaComponents.text(
                       'Loading API Explorer...',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.white.withValues(alpha: 0.8),
-                        fontWeight: FontWeight.w500,
-                      ),
+                      fontSize: 14,
+                      color: OsmeaColors.white.withValues(alpha: 0.8),
+                      fontWeight: FontWeight.w500,
                     ),
                   );
                 },

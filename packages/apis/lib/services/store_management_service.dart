@@ -125,8 +125,6 @@ class StoreManagementService {
     try {
       final success = await _storage.deleteStoreConfiguration(storeId);
       if (success) {
-        final deletedStore =
-            _allStores.firstWhere((store) => store.id == storeId);
         _allStores.removeWhere((store) => store.id == storeId);
 
         // If deleted store was current, switch to another active store
@@ -149,34 +147,88 @@ class StoreManagementService {
   /// Switch to specific store
   Future<bool> switchToStore(int storeId) async {
     try {
-      final store = _allStores.firstWhere((s) => s.id == storeId);
-      if (!store.isActive) {
-        throw Exception('Store is not active');
-      }
+      debugPrint('🔄 Switching to store: $storeId');
 
-      // Deactivate all stores
-      for (var s in _allStores) {
-        if (s.isActive) {
-          await _storage.updateStoreConfiguration(s.copyWith(isActive: false));
-        }
-      }
+      // Validate store exists
+      final store = _allStores.firstWhere(
+        (s) => s.id == storeId,
+        orElse: () => throw Exception('Store not found: $storeId'),
+      );
 
-      // Activate selected store
-      final updatedStore = await _storage
-          .updateStoreConfiguration(store.copyWith(isActive: true));
-
-      if (updatedStore != null) {
-        _currentStore = updatedStore;
-        await _storage.saveCurrentStoreId(storeId);
-
-        // Notify listeners about store switching
-        _notifier.notifyStoreSwitched(updatedStore);
-
+      // Don't switch if already on this store
+      if (_currentStore?.id == storeId) {
+        debugPrint('ℹ️ Already on store: $storeId');
         return true;
       }
-      return false;
+
+      // Save current store state for rollback
+      final previousStore = _currentStore;
+      final previousStores = List<StoreConfiguration>.from(_allStores);
+
+      try {
+        // Deactivate all stores first
+        for (var s in _allStores) {
+          if (s.isActive && s.id != storeId) {
+            debugPrint('  - Deactivating store: ${s.id}');
+            final deactivatedStore = s.copyWith(isActive: false);
+            final updatedStore =
+                await _storage.updateStoreConfiguration(deactivatedStore);
+
+            if (updatedStore == null) {
+              throw Exception('Failed to deactivate store: ${s.id}');
+            }
+
+            // Update local list
+            final index = _allStores.indexWhere((store) => store.id == s.id);
+            if (index != -1) {
+              _allStores[index] = updatedStore;
+            }
+          }
+        }
+
+        // Activate selected store
+        debugPrint('  - Activating store: $storeId');
+        final updatedStore = store.copyWith(isActive: true);
+        final savedStore =
+            await _storage.updateStoreConfiguration(updatedStore);
+
+        if (savedStore != null) {
+          // Update local list
+          final index = _allStores.indexWhere((s) => s.id == storeId);
+          if (index != -1) {
+            _allStores[index] = savedStore;
+          }
+
+          // Update current store
+          _currentStore = savedStore;
+          await _storage.saveCurrentStoreId(storeId);
+
+          // Notify listeners about store switching
+          _notifier.notifyStoreSwitched(savedStore);
+          debugPrint('✅ Successfully switched to store: $storeId');
+
+          return true;
+        }
+        throw Exception('Failed to save updated store configuration');
+      } catch (e) {
+        // Rollback on error
+        debugPrint('❌ Error during store switch, rolling back: $e');
+        _currentStore = previousStore;
+        _allStores = previousStores;
+
+        // Try to restore previous state in storage
+        if (previousStore != null) {
+          await _storage.saveCurrentStoreId(previousStore.id!);
+          for (var store in previousStores) {
+            await _storage.updateStoreConfiguration(store);
+          }
+        }
+
+        rethrow;
+      }
     } catch (e) {
-      debugPrint('Error switching to store: $e');
+      debugPrint('❌ Error switching to store: $e');
+      _notifier.notifyError('Failed to switch store: $e');
       return false;
     }
   }
@@ -281,6 +333,80 @@ class StoreManagementService {
     } catch (e) {
       debugPrint('❌ Error getting active stores: $e');
       return [];
+    }
+  }
+
+  /// Set default store
+  Future<bool> setDefaultStore(int storeId) async {
+    try {
+      debugPrint('🔧 Setting default store: $storeId');
+
+      // Validate store exists
+      final store = _allStores.firstWhere(
+        (s) => s.id == storeId,
+        orElse: () => throw Exception('Store not found: $storeId'),
+      );
+
+      // Save current state for rollback
+      final previousStores = List<StoreConfiguration>.from(_allStores);
+
+      try {
+        // Remove default flag from all stores
+        for (var s in _allStores) {
+          if (s.isDefault && s.id != storeId) {
+            debugPrint('  - Removing default flag from store: ${s.id}');
+            final updatedStore = s.copyWith(isDefault: false);
+            final savedStore =
+                await _storage.updateStoreConfiguration(updatedStore);
+
+            if (savedStore == null) {
+              throw Exception('Failed to update store: ${s.id}');
+            }
+
+            // Update local list
+            final index = _allStores.indexWhere((store) => store.id == s.id);
+            if (index != -1) {
+              _allStores[index] = savedStore;
+            }
+          }
+        }
+
+        // Set new default store
+        debugPrint('  - Setting store as default: $storeId');
+        final updatedStore = store.copyWith(isDefault: true);
+        final savedStore =
+            await _storage.updateStoreConfiguration(updatedStore);
+
+        if (savedStore != null) {
+          // Update local list
+          final index = _allStores.indexWhere((s) => s.id == storeId);
+          if (index != -1) {
+            _allStores[index] = savedStore;
+          }
+
+          // Notify listeners about store update
+          _notifier.notifyStoreUpdated(savedStore);
+          debugPrint('✅ Successfully set default store: $storeId');
+
+          return true;
+        }
+        throw Exception('Failed to save updated store configuration');
+      } catch (e) {
+        // Rollback on error
+        debugPrint('❌ Error setting default store, rolling back: $e');
+        _allStores = previousStores;
+
+        // Try to restore previous state in storage
+        for (var store in previousStores) {
+          await _storage.updateStoreConfiguration(store);
+        }
+
+        rethrow;
+      }
+    } catch (e) {
+      debugPrint('❌ Error setting default store: $e');
+      _notifier.notifyError('Failed to set default store: $e');
+      return false;
     }
   }
 }

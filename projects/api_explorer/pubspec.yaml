@@ -5,13 +5,17 @@ publish_to: 'none'
 version: 1.1.0+1
 
 environment:
-  sdk: ">=3.6.0 <4.0.0"
+  sdk: ">=3.6.1 <4.0.0"
 
 dependencies:
   # Flutter SDK
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.8
+  
+  # Core Package
+  core:
+    path: ../../packages/core
   
   # API Package
   apis:
@@ -20,6 +24,9 @@ dependencies:
   # Dependency Injection
   injectable: 2.5.0
   get_it: 7.7.0
+
+  # Routing
+  go_router: ^15.1.1
 
   # JSON Formatting
   flutter_highlight: ^0.7.0
@@ -44,6 +51,8 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/images/
 
 
 

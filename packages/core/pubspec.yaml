@@ -21,7 +21,7 @@ dependencies:
   slang: ^4.7.1
   flutter_localizations: # add this
     sdk: flutter
-  intl: any # add this
+  intl: ^0.20.0
   slang_flutter: ^4.7.0 # Localization
   sqflite: ^2.4.2 # Database
   shared_preferences: ^2.5.3 # Shared preferences

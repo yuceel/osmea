@@ -35,7 +35,7 @@ dependencies:
   shared_preferences: ^2.5.3
 
   # Logging
-  logger: 1.4.0
+  logger: ^2.5.0
 
   # Code generation and annotations
   json_annotation: ^4.8.1

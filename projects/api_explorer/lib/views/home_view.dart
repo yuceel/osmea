@@ -1,13 +1,16 @@
+import 'package:api_explorer/widgets/home/modern_sidebar.dart';
+import 'package:api_explorer/widgets/layout/app_header.dart';
+import 'package:api_explorer/widgets/responsive_layout/responsive_content.dart';
+import 'package:api_explorer/widgets/store_management/store_management_dialog.dart';
+import 'package:api_explorer/widgets/store_management/store_setup_wizard.dart';
 import 'package:flutter/material.dart';
 import 'package:apis/apis.dart';
 import 'package:apis/services/store_change_notifier.dart';
 import 'package:api_explorer/services/api_service_registry.dart';
 import 'package:api_explorer/services/app_state_persistence.dart';
-import 'package:api_explorer/widgets/app_header.dart';
-import 'package:api_explorer/widgets/store_setup_wizard.dart';
-import 'package:api_explorer/widgets/store_management_dialog.dart';
-import 'package:api_explorer/widgets/home/responsive_content.dart';
-import 'package:api_explorer/widgets/modern_sidebar.dart';
+import 'package:osmea_components/osmea_components.dart';
+
+import 'package:core/core.dart';
 import 'dart:async';
 
 class HomeView extends StatefulWidget {
@@ -88,12 +91,10 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
             (s) => s.name == serviceName,
             orElse: () => services.first,
           );
-          if (service != null) {
-            setState(() {
-              _selectedService = service;
-            });
-            debugPrint('✅ Restored service: ${service.name}');
-          }
+          setState(() {
+            _selectedService = service;
+          });
+          debugPrint('✅ Restored service: ${service.name}');
         }
 
         debugPrint('✅ App state restored successfully');
@@ -400,7 +401,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Row(
+            content: OsmeaComponents.row(
               children: [
                 Icon(
                   isError ? Icons.error_outline : Icons.check_circle_outline,
@@ -409,14 +410,16 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                       .onPrimary, // Use dynamic onPrimary color
                   size: 20,
                 ),
-                const SizedBox(width: 8),
-                Expanded(child: Text(message)),
+                OsmeaComponents.sizedBox(width: context.spacing8),
+                OsmeaComponents.expanded(
+                  child: OsmeaComponents.text(message),
+                ),
               ],
             ),
-            backgroundColor: const Color(0xFF8B5CF6),
+            backgroundColor: OsmeaColors.nordicBlue,
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: context.borderRadiusNormal,
             ),
           ),
         );
@@ -439,11 +442,14 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
   }
 
   void _updateApiUrlFromStore(StoreConfiguration store) {
+    if (!mounted) return;
+
     String baseUrl = store.baseUrl;
     String apiVersion = store.apiVersion;
 
     setState(() {
       _currentApiUrl = '$baseUrl/api/$apiVersion/';
+      _selectedStore = store; // Ensure selected store is updated
     });
 
     debugPrint('🔗 API URL updated automatically: $_currentApiUrl');
@@ -451,8 +457,16 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
     // Also update the network configuration
     _updateNetworkConfiguration(store);
 
-    // Don't automatically select a service - let users choose from the welcome screen
-    // This ensures the welcome screen is shown after completing the wizard setup
+    // Reset selected service when switching stores
+    setState(() {
+      _selectedService = null;
+    });
+
+    // Show a success message
+    context.toastSuccess(
+      'Successfully switched to ${store.displayName}',
+      position: ToastPosition.bottom,
+    );
   }
 
   void _updateNetworkConfiguration(StoreConfiguration store) {
@@ -498,52 +512,242 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
   }
 
   void _showStoreManagementDialog(BuildContext context) {
+    // Store the context before async operations
+    final dialogContext = context;
+
     showDialog(
-      context: context,
-      builder: (context) => StoreManagementDialog(
+      context: dialogContext,
+      barrierDismissible:
+          false, // Prevent accidental dismissal during store switch
+      builder: (BuildContext context) => StoreManagementDialog(
         storeService: StoreManagementService(),
-        onStoreChanged: (store) {
-          setState(() {
-            _selectedStore = store;
-          });
-          _updateApiUrlFromStore(store);
+        onStoreChanged: (store) async {
+          if (!mounted) return;
+
+          try {
+            // Show loading state
+            setState(() {
+              _selectedStore = null;
+            });
+
+            // Update store and configurations
+            await Future.delayed(
+                const Duration(milliseconds: 100)); // Allow UI to update
+
+            if (!mounted) return;
+            _updateApiUrlFromStore(store);
+
+            // Close the dialog after successful switch
+            if (mounted) {
+              final navContext = context;
+              if (navContext.mounted && Navigator.canPop(navContext)) {
+                Navigator.pop(navContext);
+              }
+            }
+          } catch (e) {
+            debugPrint('❌ Error in store management dialog: $e');
+            if (mounted) {
+              final errorContext = context;
+              if (errorContext.mounted) {
+                errorContext.toastError(
+                  'Failed to switch store. Please try again.',
+                  position: ToastPosition.bottom,
+                );
+              }
+            }
+          }
         },
       ),
     );
   }
 
   void _showStoreProfileDialog() {
-    showDialog(
+    OsmeaComponents.showPopup(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Row(
-          children: [
-            Icon(Icons.store, color: Theme.of(context).colorScheme.primary),
-            const SizedBox(width: 8),
-            const Text('Store Profile'),
-          ],
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Store: ${_selectedStore?.displayName ?? "Unknown"}'),
-            Text(
-                'Platform: ${_selectedStore?.platform.toUpperCase() ?? "Unknown"}'),
-            Text(
-                'Status: ${_selectedStore?.isComplete == true ? "Active" : "Incomplete"}'),
-            if (_selectedStore?.createdAt != null)
-              Text(
-                  'Created: ${_selectedStore!.createdAt.toString().split('.')[0]}'),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Close'),
+      size: PopupSize.medium,
+      variant: PopupVariant.modal,
+      title: 'Store Profile',
+      subtitle: 'Store configuration details',
+      backgroundColor: OsmeaColors.white,
+      child: OsmeaComponents.column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Store Icon and Name Section
+          OsmeaComponents.container(
+            padding: EdgeInsets.all(context.spacing16),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  OsmeaColors.nordicBlue.withValues(alpha: 0.1),
+                  OsmeaColors.eclipse.withValues(alpha: 0.05),
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: context.borderRadiusNormal,
+              border: Border.all(
+                color: OsmeaColors.nordicBlue.withValues(alpha: 0.2),
+                width: 1,
+              ),
+            ),
+            child: OsmeaComponents.row(
+              children: [
+                OsmeaComponents.container(
+                  padding: EdgeInsets.all(context.spacing12),
+                  decoration: BoxDecoration(
+                    color: OsmeaColors.nordicBlue.withValues(alpha: 0.15),
+                    borderRadius: context.borderRadiusMinStandard,
+                  ),
+                  child: Icon(
+                    Icons.store_rounded,
+                    color: OsmeaColors.nordicBlue,
+                    size: 24,
+                  ),
+                ),
+                OsmeaComponents.sizedBox(width: context.spacing16),
+                OsmeaComponents.expanded(
+                  child: OsmeaComponents.column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      OsmeaComponents.text(
+                        _selectedStore?.displayName ?? "Unknown Store",
+                        variant: OsmeaTextVariant.titleMedium,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color: OsmeaColors.eclipse,
+                      ),
+                      OsmeaComponents.text(
+                        _selectedStore?.platform.toUpperCase() ??
+                            "Unknown Platform",
+                        variant: OsmeaTextVariant.bodySmall,
+                        fontSize: 12,
+                        color: OsmeaColors.nordicBlue,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          OsmeaComponents.sizedBox(height: context.spacing20),
+
+          // Store Details Section
+          OsmeaComponents.container(
+            padding: EdgeInsets.all(context.spacing16),
+            decoration: BoxDecoration(
+              color: OsmeaColors.snow,
+              borderRadius: context.borderRadiusNormal,
+              border: Border.all(
+                color: OsmeaColors.silver.withValues(alpha: 0.3),
+                width: 1,
+              ),
+            ),
+            child: OsmeaComponents.column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                OsmeaComponents.text(
+                  'Store Information',
+                  variant: OsmeaTextVariant.titleSmall,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                  color: OsmeaColors.eclipse,
+                ),
+                OsmeaComponents.sizedBox(height: context.spacing12),
+
+                // Status Row
+                _buildInfoRow(
+                  'Status',
+                  _selectedStore?.isComplete == true ? "Active" : "Incomplete",
+                  _selectedStore?.isComplete == true
+                      ? OsmeaColors.forestHeart
+                      : OsmeaColors.amberFlame,
+                  Icons.circle,
+                ),
+
+                OsmeaComponents.sizedBox(height: context.spacing8),
+
+                // Created Date Row
+                if (_selectedStore?.createdAt != null)
+                  _buildInfoRow(
+                    'Created',
+                    _selectedStore!.createdAt.toString().split('.')[0],
+                    OsmeaColors.slate,
+                    Icons.schedule,
+                  ),
+
+                OsmeaComponents.sizedBox(height: context.spacing8),
+
+                // Store URL Row
+                if (_selectedStore?.storeUrl != null)
+                  _buildInfoRow(
+                    'Store URL',
+                    _selectedStore!.storeUrl!,
+                    OsmeaColors.nordicBlue,
+                    Icons.link,
+                  ),
+
+                // API Version Row
+                _buildInfoRow(
+                  'API Version',
+                  _selectedStore?.apiVersion ?? "Unknown",
+                  OsmeaColors.deepSea,
+                  Icons.api,
+                ),
+              ],
+            ),
+          ),
+
+          OsmeaComponents.sizedBox(height: context.spacing20),
+
+          // Action Buttons
+          OsmeaComponents.row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              OsmeaComponents.button(
+                text: 'Close',
+                onPressed: () => Navigator.of(context).pop(),
+                variant: ButtonVariant.secondary,
+                size: ButtonSize.medium,
+              ),
+            ],
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildInfoRow(
+      String label, String value, Color valueColor, IconData icon) {
+    return OsmeaComponents.row(
+      children: [
+        Icon(
+          icon,
+          size: 16,
+          color: OsmeaColors.slate,
+        ),
+        OsmeaComponents.sizedBox(width: context.spacing8),
+        OsmeaComponents.text(
+          '$label:',
+          variant: OsmeaTextVariant.bodySmall,
+          fontSize: 12,
+          color: OsmeaColors.slate,
+          fontWeight: FontWeight.w500,
+        ),
+        OsmeaComponents.sizedBox(width: context.spacing8),
+        OsmeaComponents.expanded(
+          child: OsmeaComponents.text(
+            value,
+            variant: OsmeaTextVariant.bodySmall,
+            fontSize: 12,
+            color: valueColor,
+            fontWeight: FontWeight.w600,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+      ],
     );
   }
 
@@ -600,26 +804,26 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
           // Show success message with store information
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Column(
+              content: OsmeaComponents.column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  OsmeaComponents.text(
                     '🎉 Store setup completed successfully!',
-                    style: TextStyle(fontWeight: FontWeight.w600),
+                    fontWeight: FontWeight.w600,
                   ),
-                  const SizedBox(height: 4),
-                  Text(
+                  OsmeaComponents.sizedBox(height: context.spacing4),
+                  OsmeaComponents.text(
                     '${store.platform.toUpperCase()}: ${store.displayName}',
-                    style: const TextStyle(fontSize: 12),
+                    fontSize: 12,
                   ),
-                  const Text(
+                  OsmeaComponents.text(
                     'You can now explore APIs for this platform',
-                    style: TextStyle(fontSize: 12),
+                    fontSize: 12,
                   ),
                 ],
               ),
-              backgroundColor: Colors.green,
+              backgroundColor: OsmeaColors.nordicBlue,
               duration: const Duration(seconds: 4),
               behavior: SnackBarBehavior.floating,
             ),
@@ -643,9 +847,8 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
           data: _isDarkMode ? ThemeData.dark() : ThemeData.light(),
           child: Scaffold(
             key: _scaffoldKey,
-            backgroundColor: _isDarkMode
-                ? const Color.fromARGB(255, 18, 18, 18)
-                : const Color(0xFFFAFAFA),
+            backgroundColor:
+                _isDarkMode ? OsmeaColors.eclipse : OsmeaColors.white,
             appBar: AppHeader(
               title: 'OSMEA APIs',
               apiUrl: _currentApiUrl,

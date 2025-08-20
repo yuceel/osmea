@@ -12,9 +12,9 @@ import 'package:flutter/foundation.dart'; // For FlutterError
 final Logger logger = Logger();
 
 /// 🚀 Initializes and configures all dependencies for the APIs package.
-/// 
+///
 /// Call this function at app startup to ensure all services are ready to use.
-/// 
+///
 /// Returns the configured [GetIt] instance for service locator.
 @InjectableInit(preferRelativeImports: false)
 GetIt configureDependencies() {
