@@ -150,9 +150,9 @@ class _ModernComponentsScreenState extends State<ModernComponentsScreen>
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: OsmeaComponents.tabBar(
         tabs: [
-          TabItem(text: 'Layout'),
-          TabItem(text: 'Input'),
-          TabItem(text: 'Display'),
+          const TabItem(text: 'Layout'),
+          const TabItem(text: 'Input'),
+          const TabItem(text: 'Display'),
         ],
         variant: TabBarVariant.transparent,
         size: TabBarSize.large,
@@ -255,20 +255,20 @@ class _ModernComponentsScreenState extends State<ModernComponentsScreen>
             Icon(
               Icons.search_off,
               size: 48,
-              color: OsmeaColors.black.withOpacity(0.3),
+              color: OsmeaColors.black.withValues(alpha: .3),
             ),
             OsmeaComponents.sizedBox(height: 16),
             OsmeaComponents.text(
               'No components found',
               variant: OsmeaTextVariant.titleMedium,
-              color: OsmeaColors.black.withOpacity(0.5),
+              color: OsmeaColors.black.withValues(alpha: 0.5),
               fontWeight: FontWeight.w500,
             ),
             OsmeaComponents.sizedBox(height: 8),
             OsmeaComponents.text(
               'Try a different search term',
               variant: OsmeaTextVariant.bodyMedium,
-              color: OsmeaColors.black.withOpacity(0.4),
+              color: OsmeaColors.black.withValues(alpha: 0.4),
               fontWeight: FontWeight.w400,
             ),
           ],
@@ -311,7 +311,7 @@ class _ModernComponentsScreenState extends State<ModernComponentsScreen>
         color: OsmeaColors.white,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
-          color: OsmeaColors.black.withOpacity(0.1),
+          color: OsmeaColors.black.withValues(alpha: 0.1),
           width: 1,
         ),
       ),
@@ -328,7 +328,7 @@ class _ModernComponentsScreenState extends State<ModernComponentsScreen>
               Icon(
                 component['icon'],
                 size: 20,
-                color: OsmeaColors.black.withOpacity(0.7),
+                color: OsmeaColors.black.withValues(alpha: 0.7),
               ),
               OsmeaComponents.sizedBox(width: 16),
               Expanded(
@@ -345,7 +345,7 @@ class _ModernComponentsScreenState extends State<ModernComponentsScreen>
                     OsmeaComponents.text(
                       _getComponentDescription(component['title']),
                       variant: OsmeaTextVariant.bodySmall,
-                      color: OsmeaColors.black.withOpacity(0.6),
+                      color: OsmeaColors.black.withValues(alpha: 0.6),
                       fontWeight: FontWeight.w400,
                     ),
                   ],
@@ -354,7 +354,7 @@ class _ModernComponentsScreenState extends State<ModernComponentsScreen>
               Icon(
                 Icons.arrow_forward_ios,
                 size: 16,
-                color: OsmeaColors.black.withOpacity(0.3),
+                color: OsmeaColors.black.withValues(alpha: 0.3),
               ),
             ],
           ),
@@ -369,7 +369,7 @@ class _ModernComponentsScreenState extends State<ModernComponentsScreen>
         color: OsmeaColors.white,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: OsmeaColors.black.withOpacity(0.1),
+          color: OsmeaColors.black.withValues(alpha: 0.1),
           width: 1,
         ),
       ),
@@ -388,7 +388,7 @@ class _ModernComponentsScreenState extends State<ModernComponentsScreen>
               Icon(
                 component['icon'],
                 size: 24,
-                color: OsmeaColors.black.withOpacity(0.7),
+                color: OsmeaColors.black.withValues(alpha: 0.7),
               ),
 
               OsmeaComponents.sizedBox(height: 12),

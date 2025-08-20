@@ -215,7 +215,7 @@ class _ModernSidebarState extends State<ModernSidebar>
                         OsmeaComponents.container(
                           padding: EdgeInsets.all(isNarrow ? 8 : 12),
                           decoration: BoxDecoration(
-                            color: OsmeaColors.white.withOpacity(0.2),
+                            color: OsmeaColors.white.withValues(alpha: 0.2),
                             borderRadius: context.borderRadiusMinStandard,
                           ),
                           child: Icon(
@@ -256,8 +256,8 @@ class _ModernSidebarState extends State<ModernSidebar>
                       OsmeaComponents.flexible(
                         child: OsmeaComponents.container(
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.1),
-                            borderRadius: context.borderRadiusMinStandard,
+                            color: Colors.white.withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(8),
                           ),
                           padding: EdgeInsets.all(12),
                           child: OsmeaComponents.row(
@@ -1262,6 +1262,6 @@ class _ModernSidebarState extends State<ModernSidebar>
         return 'WooCommerce Refunds';
       case ApiCategory.woocommerceTaxes:
         return 'WooCommerce Taxes';
-    }
+      }
   }
 }

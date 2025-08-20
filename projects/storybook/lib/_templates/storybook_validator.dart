@@ -2,6 +2,8 @@
 
 import 'dart:io';
 
+import 'package:flutter/widgets.dart';
+
 /// 🔍 **OSMEA Storybook Structure Validator**
 /// 
 /// Automatically scans all component folders in storybook_test and validates 
@@ -19,41 +21,41 @@ class StorybookValidator {
 
   /// 🚀 **Main validation entry point**
   static void validateAll() {
-    print('🔍 OSMEA Storybook Structure Validator');
-    print('═' * 50);
+    debugPrint('🔍 OSMEA Storybook Structure Validator');
+    debugPrint('═' * 50);
     
     // Load template structure dynamically
     if (!_loadTemplateStructure()) {
-      print('❌ Could not load template structure from _templates folder');
+      debugPrint('❌ Could not load template structure from _templates folder');
       return;
     }
-    
-    print('📋 Template structure loaded:');
-    print('   📁 Required folders: ${requiredFolders.join(', ')}');
-    print('   📄 Required files: ${requiredFiles.length} files');
-    print('   💡 Recommended files: ${recommendedFiles.values.fold<int>(0, (sum, list) => sum + list.length)} files');
-    print('');
-    
+
+    debugPrint('📋 Template structure loaded:');
+    debugPrint('   📁 Required folders: ${requiredFolders.join(', ')}');
+    debugPrint('   📄 Required files: ${requiredFiles.length} files');
+    debugPrint('   💡 Recommended files: ${recommendedFiles.values.fold<int>(0, (sum, list) => sum + list.length)} files');
+    debugPrint('');
+
     final components = _scanComponentFolders();
     
     if (components.isEmpty) {
-      print('❌ No component folders found in $storybookPath');
+      debugPrint('❌ No component folders found in $storybookPath');
       return;
     }
-    
-    print('📁 Found ${components.length} component folder(s):');
+
+    debugPrint('📁 Found ${components.length} component folder(s):');
     for (final component in components) {
-      print('  • ${component.name} (${component.type})');
+      debugPrint('  • ${component.name} (${component.type})');
     }
-    print('');
-    
+    debugPrint('');
+
     // Validate each component
     final results = <ComponentValidationResult>[];
     for (final component in components) {
       final result = _validateComponent(component);
       results.add(result);
       _printComponentResult(result);
-      print(''); // Spacing between components
+      debugPrint(''); // Spacing between components
     }
     
     // Print overall summary
@@ -185,56 +187,56 @@ class StorybookValidator {
   static void _printComponentResult(ComponentValidationResult result) {
     final component = result.component;
     final icon = _getComplianceIcon(result.compliance);
-    
-    print('$icon ${component.name} (${component.type.name})');
-    print('   Path: ${component.fullPath.split('/').last}');
-    
+
+    debugPrint('$icon ${component.name} (${component.type.name})');
+    debugPrint('   Path: ${component.fullPath.split('/').last}');
+
     if (result.errors.isNotEmpty) {
-      print('   ❌ Errors (${result.errors.length}):');
+      debugPrint('   ❌ Errors (${result.errors.length}):');
       for (final error in result.errors.take(3)) {
-        print('      $error');
+        debugPrint('      $error');
       }
       if (result.errors.length > 3) {
-        print('      ... and ${result.errors.length - 3} more errors');
+        debugPrint('      ... and ${result.errors.length - 3} more errors');
       }
     }
     
     if (result.warnings.isNotEmpty && result.warnings.length <= 5) {
-      print('   ⚠️ Warnings (${result.warnings.length}):');
+      debugPrint('   ⚠️ Warnings (${result.warnings.length}):');
       for (final warning in result.warnings.take(2)) {
-        print('      $warning');
+        debugPrint('      $warning');
       }
       if (result.warnings.length > 2) {
-        print('      ... and ${result.warnings.length - 2} more warnings');
+        debugPrint('      ... and ${result.warnings.length - 2} more warnings');
       }
     }
     
     final successCount = result.successes.length;
     final infoCount = result.infos.length;
     if (successCount > 0 || infoCount > 0) {
-      print('   ✅ Valid items: $successCount   💡 Recommended items: $infoCount');
+      debugPrint('   ✅ Valid items: $successCount   💡 Recommended items: $infoCount');
     }
-    
-    print('   📊 Compliance: ${result.compliance.description}');
+
+    debugPrint('   📊 Compliance: ${result.compliance.description}');
   }
   
   /// 🌍 **Print overall summary**
   static void _printOverallSummary(List<ComponentValidationResult> results) {
-    print('═' * 50);
-    print('🌍 OVERALL VALIDATION SUMMARY');
-    print('═' * 50);
-    
+    debugPrint('═' * 50);
+    debugPrint('🌍 OVERALL VALIDATION SUMMARY');
+    debugPrint('═' * 50);
+
     final byCompliance = <ComplianceLevel, int>{};
     for (final level in ComplianceLevel.values) {
       byCompliance[level] = results.where((r) => r.compliance == level).length;
     }
-    
-    print('📊 Component Status:');
-    print('   🎉 Perfect:    ${byCompliance[ComplianceLevel.perfect]} components');
-    print('   ✅ Good:       ${byCompliance[ComplianceLevel.good]} components');
-    print('   ⚠️ Incomplete: ${byCompliance[ComplianceLevel.incomplete]} components');
-    print('   📄 Legacy:     ${byCompliance[ComplianceLevel.legacy]} components');
-    print('   📁 Total:      ${results.length} components');
+
+    debugPrint('📊 Component Status:');
+    debugPrint('   🎉 Perfect:    ${byCompliance[ComplianceLevel.perfect]} components');
+    debugPrint('   ✅ Good:       ${byCompliance[ComplianceLevel.good]} components');
+    debugPrint('   ⚠️ Incomplete: ${byCompliance[ComplianceLevel.incomplete]} components');
+    debugPrint('   📄 Legacy:     ${byCompliance[ComplianceLevel.legacy]} components');
+    debugPrint('   📁 Total:      ${results.length} components');
     
     final modularComponents = results.where((r) => r.component.type == ComponentType.modular).length;
     final legacyComponents = results.where((r) => r.component.type == ComponentType.singleFile).length;
@@ -244,13 +246,13 @@ class StorybookValidator {
           .where((r) => r.component.type == ComponentType.modular && r.compliance != ComplianceLevel.incomplete)
           .length;
       final complianceRate = (compliantModular / modularComponents * 100).toStringAsFixed(1);
-      print('');
-      print('🎯 Modular Compliance Rate: $complianceRate% ($compliantModular/$modularComponents)');
+      debugPrint('');
+      debugPrint('🎯 Modular Compliance Rate: $complianceRate% ($compliantModular/$modularComponents)');
     }
     
     if (legacyComponents > 0) {
-      print('');
-      print('🔄 Migration Recommendations:');
+      debugPrint('');
+      debugPrint('🔄 Migration Recommendations:');
       final legacyList = results
           .where((r) => r.component.type == ComponentType.singleFile)
           .map((r) => r.component.name)
@@ -258,18 +260,18 @@ class StorybookValidator {
           .toList();
       
       for (final name in legacyList) {
-        print('   • Migrate $name to modular structure');
+        debugPrint('   • Migrate $name to modular structure');
       }
       
       if (legacyComponents > 5) {
-        print('   • ... and ${legacyComponents - 5} more components');
+        debugPrint('   • ... and ${legacyComponents - 5} more components');
       }
     }
     
     // Success message
     if (byCompliance[ComplianceLevel.incomplete] == 0) {
-      print('');
-      print('🎉 All modular components are properly structured!');
+      debugPrint('');
+      debugPrint('🎉 All modular components are properly structured!');
     }
   }
   
@@ -293,7 +295,7 @@ class StorybookValidator {
       final templateDir = Directory(templatePath);
       
       if (!templateDir.existsSync()) {
-        print('❌ Template directory does not exist: $templatePath');
+        debugPrint('❌ Template directory does not exist: $templatePath');
         return false;
       }
       
@@ -306,7 +308,7 @@ class StorybookValidator {
           .toList();
       
       if (folders.isEmpty) {
-        print('❌ No folders found in template directory');
+        debugPrint('❌ No folders found in template directory');
         return false;
       }
       
@@ -340,11 +342,11 @@ class StorybookValidator {
           }
         }
       }
-      
-      print('✅ Template structure loaded successfully');
+
+      debugPrint('✅ Template structure loaded successfully');
       return true;
     } catch (e) {
-      print('❌ Error loading template structure: $e');
+      debugPrint('❌ Error loading template structure: $e');
       return false;
     }
   }

@@ -32,7 +32,7 @@ class TicketBuilder {
 
   /// Create a category field
   static TicketQuestion createCategoryField() {
-    return TicketQuestion(
+    return const TicketQuestion(
       id: 'issue_category',
       label: 'Issue Category',
       hint: 'Select the category that best describes your issue',
@@ -40,31 +40,31 @@ class TicketBuilder {
       validationMode: ValidationMode.required,
       isRequired: true,
       options: [
-        const TicketOption(
+        TicketOption(
           id: 'login_issues',
           label: 'Login Issues',
           value: 'login',
           description: 'Problems with logging in or authentication',
         ),
-        const TicketOption(
+        TicketOption(
           id: 'performance_issues',
           label: 'Performance Issues',
           value: 'performance',
           description: 'Slow loading, crashes, or freezing',
         ),
-        const TicketOption(
+        TicketOption(
           id: 'feature_not_working',
           label: 'Feature Not Working',
           value: 'feature',
           description: 'A specific feature is not functioning as expected',
         ),
-        const TicketOption(
+        TicketOption(
           id: 'data_issues',
           label: 'Data Issues',
           value: 'data',
           description: 'Missing, incorrect, or corrupted data',
         ),
-        const TicketOption(
+        TicketOption(
           id: 'other',
           label: 'Other',
           value: 'other',
@@ -76,7 +76,7 @@ class TicketBuilder {
 
   /// Create a priority field
   static TicketQuestion createPriorityField() {
-    return TicketQuestion(
+    return const TicketQuestion(
       id: 'priority_level',
       label: 'Priority Level',
       hint: 'How urgent is this issue?',
@@ -84,26 +84,26 @@ class TicketBuilder {
       validationMode: ValidationMode.required,
       isRequired: true,
       options: [
-        const TicketOption(
+        TicketOption(
           id: 'critical',
           label: 'Critical',
           value: 'critical',
           description: 'System is down or blocking business operations',
         ),
-        const TicketOption(
+        TicketOption(
           id: 'high',
           label: 'High',
           value: 'high',
           description: 'Major functionality is affected',
         ),
-        const TicketOption(
+        TicketOption(
           id: 'medium',
           label: 'Medium',
           value: 'medium',
           description: 'Minor issues with workarounds available',
           isDefault: true,
         ),
-        const TicketOption(
+        TicketOption(
           id: 'low',
           label: 'Low',
           value: 'low',
@@ -132,7 +132,7 @@ class TicketBuilder {
 
   /// Create a multi-select field
   static TicketQuestion createMultiSelectField() {
-    return TicketQuestion(
+    return const TicketQuestion(
       id: 'affected_features',
       label: 'Affected Features',
       hint: 'Select all features that are affected (optional)',
@@ -140,32 +140,32 @@ class TicketBuilder {
       validationMode: ValidationMode.none,
       isRequired: false,
       options: [
-        const TicketOption(
+        TicketOption(
           id: 'dashboard',
           label: 'Dashboard',
           value: 'dashboard',
         ),
-        const TicketOption(
+        TicketOption(
           id: 'user_management',
           label: 'User Management',
           value: 'user_management',
         ),
-        const TicketOption(
+        TicketOption(
           id: 'reports',
           label: 'Reports',
           value: 'reports',
         ),
-        const TicketOption(
+        TicketOption(
           id: 'api',
           label: 'API Integration',
           value: 'api',
         ),
-        const TicketOption(
+        TicketOption(
           id: 'mobile_app',
           label: 'Mobile App',
           value: 'mobile_app',
         ),
-        const TicketOption(
+        TicketOption(
           id: 'web_interface',
           label: 'Web Interface',
           value: 'web_interface',

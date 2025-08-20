@@ -347,7 +347,7 @@ class _OsmeaCounterState extends State<OsmeaCounter> {
     final iconConfig = widget.iconVariant?.config;
     final showInternalBorders = widget.variant != CounterVariant.filled && widget.variant != CounterVariant.outlined;
 
-    // Icon variant'ından gelen icon'u doğru boyutla oluştur
+    
     Widget effectiveIncrementIcon;
     if (widget.incrementIcon != null) {
       effectiveIncrementIcon = widget.incrementIcon!;
@@ -399,7 +399,6 @@ class _OsmeaCounterState extends State<OsmeaCounter> {
     final iconConfig = widget.iconVariant?.config;
     final showInternalBorders = widget.variant != CounterVariant.filled && widget.variant != CounterVariant.outlined;
 
-    // Icon variant'ından gelen icon'u doğru boyutla oluştur
     Widget effectiveDecrementIcon;
     if (widget.decrementIcon != null) {
       effectiveDecrementIcon = widget.decrementIcon!;

@@ -23,47 +23,47 @@ class FooterBuilder {
     switch (variant) {
       case FooterVariant.defaultFooter:
         return [
-          OsmeaFooterItem(
+          const OsmeaFooterItem(
             label: 'About',
             description: 'Learn more about our company, mission, and values.',
           ),
-          OsmeaFooterItem(
+          const OsmeaFooterItem(
             label: 'Legal',
             description: 'Terms of service, privacy policy, and legal information.',
           ),
-          OsmeaFooterItem(
+          const OsmeaFooterItem(
             label: 'Contact',
             description: 'Get in touch with our support team.',
           ),
         ];
       case FooterVariant.legal:
         return [
-          OsmeaFooterItem(
+          const OsmeaFooterItem(
             label: 'Terms',
             description: 'Terms of service and user agreement.',
           ),
-          OsmeaFooterItem(
+          const OsmeaFooterItem(
             label: 'Privacy',
             description: 'Privacy policy and data handling practices.',
           ),
-          OsmeaFooterItem(
+          const OsmeaFooterItem(
             label: 'Cookies',
             description: 'Cookie policy and preferences.',
           ),
         ];
       case FooterVariant.social:
         return [
-          OsmeaFooterItem(
+          const OsmeaFooterItem(
             label: 'Twitter',
             description: 'Follow us on Twitter for updates.',
             icon: Icons.alternate_email,
           ),
-          OsmeaFooterItem(
+          const OsmeaFooterItem(
             label: 'LinkedIn',
             description: 'Connect with us on LinkedIn.',
             icon: Icons.business,
           ),
-          OsmeaFooterItem(
+          const OsmeaFooterItem(
             label: 'GitHub',
             description: 'View our open source projects.',
             icon: Icons.code,
@@ -71,11 +71,11 @@ class FooterBuilder {
         ];
       case FooterVariant.minimal:
         return [
-          OsmeaFooterItem(
+          const OsmeaFooterItem(
             label: 'Help',
             description: 'Get help and support.',
           ),
-          OsmeaFooterItem(
+          const OsmeaFooterItem(
             label: 'About',
             description: 'About our company.',
           ),
@@ -129,17 +129,17 @@ class FooterBuilder {
   /// Build sample custom items for showcase
   static List<OsmeaFooterItem> buildSampleCustomItems() {
     return [
-      OsmeaFooterItem(
+      const OsmeaFooterItem(
         label: 'API Docs',
         description: 'Comprehensive API documentation and examples.',
         icon: Icons.code,
       ),
-      OsmeaFooterItem(
+      const OsmeaFooterItem(
         label: 'Support',
         description: '24/7 customer support and assistance.',
         icon: Icons.support_agent,
       ),
-      OsmeaFooterItem(
+      const OsmeaFooterItem(
         label: 'Blog',
         description: 'Latest news, updates, and technical articles.',
         icon: Icons.article,

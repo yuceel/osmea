@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:graphql/client.dart';
 import 'package:apis/apis.dart';
 import 'package:injectable/injectable.dart';
@@ -78,19 +79,19 @@ class ShopifyGraphQLClient {
     }
 
     try {
-      print('DEBUG - GraphQL Query URL: ${_buildGraphQLUrl()}');
-      print('DEBUG - GraphQL Query Variables: ${options.variables}');
-      print('DEBUG - GraphQL Query Document: ${options.document}');
+      debugPrint('DEBUG - GraphQL Query URL: ${_buildGraphQLUrl()}');
+      debugPrint('DEBUG - GraphQL Query Variables: ${options.variables}');
+      debugPrint('DEBUG - GraphQL Query Document: ${options.document}');
 
       final result = await _client!.query(options);
 
-      print('DEBUG - GraphQL Response hasException: ${result.hasException}');
-      print('DEBUG - GraphQL Response data: ${result.data}');
-      print('DEBUG - GraphQL Response errors: ${result.exception}');
+      debugPrint('DEBUG - GraphQL Response hasException: ${result.hasException}');
+      debugPrint('DEBUG - GraphQL Response data: ${result.data}');
+      debugPrint('DEBUG - GraphQL Response errors: ${result.exception}');
 
       return result;
     } catch (e) {
-      print('ERROR - GraphQL Query Exception: $e');
+      debugPrint('ERROR - GraphQL Query Exception: $e');
       rethrow;
     }
   }
@@ -103,19 +104,19 @@ class ShopifyGraphQLClient {
     }
 
     try {
-      print('DEBUG - GraphQL Mutation URL: ${_buildGraphQLUrl()}');
-      print('DEBUG - GraphQL Mutation Variables: ${options.variables}');
+      debugPrint('DEBUG - GraphQL Mutation URL: ${_buildGraphQLUrl()}');
+      debugPrint('DEBUG - GraphQL Mutation Variables: ${options.variables}');
 
       final result = await _client!.mutate(options);
 
-      print(
+      debugPrint(
           'DEBUG - GraphQL Mutation Response hasException: ${result.hasException}');
-      print('DEBUG - GraphQL Mutation Response data: ${result.data}');
-      print('DEBUG - GraphQL Mutation Response errors: ${result.exception}');
+      debugPrint('DEBUG - GraphQL Mutation Response data: ${result.data}');
+      debugPrint('DEBUG - GraphQL Mutation Response errors: ${result.exception}');
 
       return result;
     } catch (e) {
-      print('ERROR - GraphQL Mutation Exception: $e');
+      debugPrint('ERROR - GraphQL Mutation Exception: $e');
       rethrow;
     }
   }

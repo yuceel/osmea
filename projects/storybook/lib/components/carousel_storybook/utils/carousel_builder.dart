@@ -17,14 +17,14 @@ class CarouselBuilder {
     int itemCount = 8,
   }) {
     final allItems = [
-      Icon(Icons.code, size: 64, color: OsmeaColors.blue),
-      Icon(Icons.bug_report, size: 64, color: OsmeaColors.red),
-      Icon(Icons.merge_type, size: 64, color: OsmeaColors.green),
-      Icon(Icons.insights, size: 64, color: OsmeaColors.purple),
-      Icon(Icons.star, size: 64, color: Colors.amber),
-      Icon(Icons.security, size: 64, color: Colors.teal),
-      Icon(Icons.people, size: 64, color: OsmeaColors.orange),
-      Icon(Icons.settings, size: 64, color: OsmeaColors.grey),
+      const Icon(Icons.code, size: 64, color: OsmeaColors.blue),
+      const Icon(Icons.bug_report, size: 64, color: OsmeaColors.red),
+      const Icon(Icons.merge_type, size: 64, color: OsmeaColors.green),
+      const Icon(Icons.insights, size: 64, color: OsmeaColors.purple),
+      const Icon(Icons.star, size: 64, color: Colors.amber),
+      const Icon(Icons.security, size: 64, color: Colors.teal),
+      const Icon(Icons.people, size: 64, color: OsmeaColors.orange),
+      const Icon(Icons.settings, size: 64, color: OsmeaColors.grey),
     ];
     
     final items = allItems.take(itemCount).toList();
@@ -120,14 +120,14 @@ class CarouselBuilder {
   /// Generates sample icon items for multi carousel
   static List<Widget> generateSampleIcons() {
     return [
-      Icon(Icons.code, size: 64, color: OsmeaColors.blue),
-      Icon(Icons.bug_report, size: 64, color: OsmeaColors.red),
-      Icon(Icons.merge_type, size: 64, color: OsmeaColors.green),
-      Icon(Icons.insights, size: 64, color: OsmeaColors.purple),
-      Icon(Icons.star, size: 64, color: Colors.amber),
-      Icon(Icons.security, size: 64, color: Colors.teal),
-      Icon(Icons.people, size: 64, color: OsmeaColors.orange),
-      Icon(Icons.settings, size: 64, color: OsmeaColors.grey),
+      const Icon(Icons.code, size: 64, color: OsmeaColors.blue),
+      const Icon(Icons.bug_report, size: 64, color: OsmeaColors.red),
+      const Icon(Icons.merge_type, size: 64, color: OsmeaColors.green),
+      const Icon(Icons.insights, size: 64, color: OsmeaColors.purple),
+      const Icon(Icons.star, size: 64, color: Colors.amber),
+      const Icon(Icons.security, size: 64, color: Colors.teal),
+      const Icon(Icons.people, size: 64, color: OsmeaColors.orange),
+      const Icon(Icons.settings, size: 64, color: OsmeaColors.grey),
     ];
   }
 

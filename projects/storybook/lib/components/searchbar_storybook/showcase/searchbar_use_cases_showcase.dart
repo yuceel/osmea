@@ -27,10 +27,10 @@ class _SearchbarUseCasesShowcaseState extends State<SearchbarUseCasesShowcase> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Header
-            SearchbarHeaderSection(
+            const SearchbarHeaderSection(
               title: '🔍 Searchbar Use Cases',
               subtitle: 'Real-world searchbar implementations',
-              infoChips: const {
+              infoChips: {
                 'Examples': '7',
                 'Variants': 'All',
                 'Interactive': 'Yes',
@@ -49,7 +49,7 @@ class _SearchbarUseCasesShowcaseState extends State<SearchbarUseCasesShowcase> {
                   color: OsmeaColors.nordicBlue,
                   child: Row(
                     children: [
-                      Icon(Icons.menu, color: Colors.white),
+                      const Icon(Icons.menu, color: Colors.white),
                       const SizedBox(width: 16),
                       Expanded(
                         child: OsmeaComponents.searchbar(
@@ -62,7 +62,7 @@ class _SearchbarUseCasesShowcaseState extends State<SearchbarUseCasesShowcase> {
                         ),
                       ),
                       const SizedBox(width: 16),
-                      Icon(Icons.more_vert, color: Colors.white),
+                      const Icon(Icons.more_vert, color: Colors.white),
                     ],
                   ),
                 ),
@@ -124,18 +124,18 @@ class _SearchbarUseCasesShowcaseState extends State<SearchbarUseCasesShowcase> {
                         children: [
                           CircleAvatar(
                             backgroundColor: OsmeaColors.nordicBlue,
-                            child: Icon(Icons.person, color: Colors.white),
+                            child: const Icon(Icons.person, color: Colors.white),
                           ),
                           const SizedBox(width: 12),
-                          Text(
+                          const Text(
                             'Messages',
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Spacer(),
-                          Icon(Icons.more_horiz),
+                          const Spacer(),
+                          const Icon(Icons.more_horiz),
                         ],
                       ),
                       const SizedBox(height: 16),
@@ -185,14 +185,14 @@ class _SearchbarUseCasesShowcaseState extends State<SearchbarUseCasesShowcase> {
                   ),
                   child: Row(
                     children: [
-                      Text(
+                      const Text(
                         'Toolbar',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      Spacer(),
+                      const Spacer(),
                       OsmeaComponents.expandableSearchbar(
                         hint: 'Search...',
                         expandDirection: ExpandDirection.left,
@@ -200,9 +200,9 @@ class _SearchbarUseCasesShowcaseState extends State<SearchbarUseCasesShowcase> {
                         onSearch: _performSearch,
                       ),
                       const SizedBox(width: 8),
-                      Icon(Icons.filter_list),
+                      const Icon(Icons.filter_list),
                       const SizedBox(width: 8),
-                      Icon(Icons.sort),
+                      const Icon(Icons.sort),
                     ],
                   ),
                 ),
@@ -267,7 +267,7 @@ class _SearchbarUseCasesShowcaseState extends State<SearchbarUseCasesShowcase> {
                     itemCount: _searchResults.length,
                     itemBuilder: (context, index) {
                       return ListTile(
-                        leading: Icon(Icons.search_outlined),
+                        leading: const Icon(Icons.search_outlined),
                         title: Text(_searchResults[index]),
                         onTap: () {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -291,6 +291,8 @@ class _SearchbarUseCasesShowcaseState extends State<SearchbarUseCasesShowcase> {
 
   Future<void> _performSearch(String query) async {
     await Future.delayed(const Duration(milliseconds: 300));
+    
+    if (!mounted) return; // <-- Eklendi
     
     setState(() {
       _searchResults.clear();

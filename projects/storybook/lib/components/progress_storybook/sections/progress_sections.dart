@@ -38,9 +38,9 @@ class ProgressSections {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                const Text(
                   'Current Value',
-                  style: const TextStyle(fontWeight: FontWeight.w500),
+                  style: TextStyle(fontWeight: FontWeight.w500),
                 ),
                 Text(
                   ProgressUtils.formatPercentage(selectedValue),

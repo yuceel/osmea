@@ -138,7 +138,7 @@ class _CarouselShowcaseWidgetState extends State<CarouselShowcaseWidget> {
         border: Border.all(color: OsmeaColors.silver, width: 1),
         boxShadow: [
           BoxShadow(
-            color: OsmeaColors.black.withOpacity(0.1),
+            color: OsmeaColors.black.withValues(alpha: 0.1),
             blurRadius: 4,
             offset: const Offset(0, 1),
           ),
@@ -192,6 +192,7 @@ class _CarouselShowcaseWidgetState extends State<CarouselShowcaseWidget> {
     );
   }
 
+  // ignore: unused_element
   String _getVariantDisplayName(CarouselVariant variant) {
     switch (variant) {
       case CarouselVariant.multi:
@@ -211,6 +212,7 @@ class _CarouselShowcaseWidgetState extends State<CarouselShowcaseWidget> {
     }
   }
 
+  // ignore: unused_element
   String _getSizeDisplayName(CarouselSize size) {
     switch (size) {
       case CarouselSize.extraSmall:

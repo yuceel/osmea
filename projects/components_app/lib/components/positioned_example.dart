@@ -1,7 +1,5 @@
-// ignore_for_file: avoid_unnecessary_containers
-
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
-import 'package:osmea_components/osmea_components.dart';
 import '../widgets/common_appbar.dart';
 
 /// 📦 **OSMEA Positioned Examples**

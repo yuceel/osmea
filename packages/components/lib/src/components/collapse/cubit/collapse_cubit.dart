@@ -32,15 +32,12 @@ class CollapseCubit extends Cubit<CollapseState> {
   CollapseCubit({
     required CollapseBehaviorMode mode,
     String? accordionValue,
-    ValueChanged<String?>? onAccordionChanged,
-    ExpansionPanelCallback? expansionCallback,
-    ValueChanged<bool>? onAnimationChanged,
+    this.onAccordionChanged,
+    this.expansionCallback,
+    this.onAnimationChanged,
     Duration animationDuration = const Duration(milliseconds: 300),
     bool isEnabled = true,
-  })  : onAccordionChanged = onAccordionChanged,
-        expansionCallback = expansionCallback,
-        onAnimationChanged = onAnimationChanged,
-        super(CollapseState.initial(
+  }) : super(CollapseState.initial(
           mode: mode,
           accordionValue: accordionValue,
           animationDuration: animationDuration,

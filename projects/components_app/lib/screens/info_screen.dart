@@ -1,5 +1,5 @@
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
-import 'package:osmea_components/osmea_components.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../widgets/info_header_widget.dart';
@@ -99,8 +99,8 @@ class _ModernInfoScreenState extends State<ModernInfoScreen> {
             ),
 
             // Quick Actions
-            SliverToBoxAdapter(
-              child: const QuickActionsWidget(),
+            const SliverToBoxAdapter(
+              child: QuickActionsWidget(),
             ),
 
             // Contributors
@@ -112,8 +112,8 @@ class _ModernInfoScreenState extends State<ModernInfoScreen> {
             ),
 
             // Footer
-            SliverToBoxAdapter(
-              child: const InfoFooterWidget(),
+            const SliverToBoxAdapter(
+              child: InfoFooterWidget(),
             ),
           ],
         ),

@@ -6,7 +6,7 @@ import 'package:osmea_components/src/enums/ticket_enums.dart';
 /// Pre-defined ticket form configurations for demonstration and testing.
 class SampleTicketConfigs {
   /// Basic support ticket configuration
-  static TicketFormConfig get basicSupportTicket => TicketFormConfig(
+  static TicketFormConfig get basicSupportTicket => const TicketFormConfig(
     id: 'basic_support_ticket',
     title: 'Basic Support Request',
     description: 'Submit a basic support request with essential information.',
@@ -14,7 +14,7 @@ class SampleTicketConfigs {
     defaultPriority: TicketPriority.medium,
     size: TicketWidgetSize.medium,
     questions: [
-      const TicketQuestion(
+      TicketQuestion(
         id: 'name',
         label: 'Full Name',
         hint: 'Enter your full name',
@@ -22,7 +22,7 @@ class SampleTicketConfigs {
         validationMode: ValidationMode.required,
         isRequired: true,
       ),
-      const TicketQuestion(
+      TicketQuestion(
         id: 'email',
         label: 'Email Address',
         hint: 'Enter your email address',
@@ -30,7 +30,7 @@ class SampleTicketConfigs {
         validationMode: ValidationMode.email,
         isRequired: true,
       ),
-      const TicketQuestion(
+      TicketQuestion(
         id: 'description',
         label: 'Issue Description',
         hint: 'Describe your issue in detail',
@@ -39,7 +39,7 @@ class SampleTicketConfigs {
         isRequired: true,
       ),
     ],
-    settings: const TicketFormSettings(
+    settings: TicketFormSettings(
       showProgressIndicator: true,
       allowSaveAsDraft: true,
       submitButtonText: 'Submit Request',
@@ -48,7 +48,7 @@ class SampleTicketConfigs {
   );
 
   /// Technical support ticket configuration
-  static TicketFormConfig get technicalSupportTicket => TicketFormConfig(
+  static TicketFormConfig get technicalSupportTicket => const TicketFormConfig(
     id: 'technical_support_ticket',
     title: 'Technical Support Request',
     description: 'Submit a detailed technical support request with comprehensive information.',
@@ -56,7 +56,7 @@ class SampleTicketConfigs {
     defaultPriority: TicketPriority.medium,
     size: TicketWidgetSize.medium,
     questions: [
-      const TicketQuestion(
+      TicketQuestion(
         id: 'user_name',
         label: 'Full Name',
         hint: 'Enter your full name',
@@ -64,7 +64,7 @@ class SampleTicketConfigs {
         validationMode: ValidationMode.required,
         isRequired: true,
       ),
-      const TicketQuestion(
+      TicketQuestion(
         id: 'user_email',
         label: 'Email Address',
         hint: 'Enter your email address',
@@ -81,31 +81,31 @@ class SampleTicketConfigs {
         validationMode: ValidationMode.required,
         isRequired: true,
         options: [
-          const TicketOption(
+          TicketOption(
             id: 'login_issues',
             label: 'Login Issues',
             value: 'login',
             description: 'Problems with logging in or authentication',
           ),
-          const TicketOption(
+          TicketOption(
             id: 'performance_issues',
             label: 'Performance Issues',
             value: 'performance',
             description: 'Slow loading, crashes, or freezing',
           ),
-          const TicketOption(
+          TicketOption(
             id: 'feature_not_working',
             label: 'Feature Not Working',
             value: 'feature',
             description: 'A specific feature is not functioning as expected',
           ),
-          const TicketOption(
+          TicketOption(
             id: 'data_issues',
             label: 'Data Issues',
             value: 'data',
             description: 'Missing, incorrect, or corrupted data',
           ),
-          const TicketOption(
+          TicketOption(
             id: 'other',
             label: 'Other',
             value: 'other',
@@ -121,26 +121,26 @@ class SampleTicketConfigs {
         validationMode: ValidationMode.required,
         isRequired: true,
         options: [
-          const TicketOption(
+          TicketOption(
             id: 'critical',
             label: 'Critical',
             value: 'critical',
             description: 'System is down or blocking business operations',
           ),
-          const TicketOption(
+          TicketOption(
             id: 'high',
             label: 'High',
             value: 'high',
             description: 'Major functionality is affected',
           ),
-          const TicketOption(
+          TicketOption(
             id: 'medium',
             label: 'Medium',
             value: 'medium',
             description: 'Minor issues with workarounds available',
             isDefault: true,
           ),
-          const TicketOption(
+          TicketOption(
             id: 'low',
             label: 'Low',
             value: 'low',
@@ -148,7 +148,7 @@ class SampleTicketConfigs {
           ),
         ],
       ),
-      const TicketQuestion(
+      TicketQuestion(
         id: 'issue_description',
         label: 'Issue Description',
         hint: 'Please describe the issue in detail...',
@@ -169,39 +169,39 @@ class SampleTicketConfigs {
         validationMode: ValidationMode.none,
         isRequired: false,
         options: [
-          const TicketOption(
+          TicketOption(
             id: 'dashboard',
             label: 'Dashboard',
             value: 'dashboard',
           ),
-          const TicketOption(
+          TicketOption(
             id: 'user_management',
             label: 'User Management',
             value: 'user_management',
           ),
-          const TicketOption(
+          TicketOption(
             id: 'reports',
             label: 'Reports',
             value: 'reports',
           ),
-          const TicketOption(
+          TicketOption(
             id: 'api',
             label: 'API Integration',
             value: 'api',
           ),
-          const TicketOption(
+          TicketOption(
             id: 'mobile_app',
             label: 'Mobile App',
             value: 'mobile_app',
           ),
-          const TicketOption(
+          TicketOption(
             id: 'web_interface',
             label: 'Web Interface',
             value: 'web_interface',
           ),
         ],
       ),
-      const TicketQuestion(
+      TicketQuestion(
         id: 'when_occurred',
         label: 'When did this issue first occur?',
         hint: 'Select the date when you first noticed this issue',
@@ -209,7 +209,7 @@ class SampleTicketConfigs {
         validationMode: ValidationMode.date,
         isRequired: false,
       ),
-      const TicketQuestion(
+      TicketQuestion(
         id: 'contact_phone',
         label: 'Phone Number',
         hint: 'Enter your phone number (optional)',
@@ -218,7 +218,7 @@ class SampleTicketConfigs {
         validationMode: ValidationMode.phone,
         isRequired: false,
       ),
-      const TicketQuestion(
+      TicketQuestion(
         id: 'system_info_url',
         label: 'System Information URL',
         hint: 'If you have a URL with system details, paste it here',
@@ -226,7 +226,7 @@ class SampleTicketConfigs {
         validationMode: ValidationMode.url,
         isRequired: false,
       ),
-      const TicketQuestion(
+      TicketQuestion(
         id: 'satisfaction_rating',
         label: 'Rate our previous support',
         hint: 'How would you rate our previous support interactions?',
@@ -235,14 +235,14 @@ class SampleTicketConfigs {
         isRequired: false,
         defaultValue: 0,
       ),
-      const TicketQuestion(
+      TicketQuestion(
         id: 'urgency_confirmation',
         label: 'I confirm this is an urgent issue requiring immediate attention',
         type: QuestionType.checkbox,
         validationMode: ValidationMode.none,
         isRequired: false,
       ),
-      const TicketQuestion(
+      TicketQuestion(
         id: 'attachment_count',
         label: 'Number of attachments',
         hint: 'How many files do you want to attach?',
@@ -255,7 +255,7 @@ class SampleTicketConfigs {
         },
       ),
     ],
-    settings: const TicketFormSettings(
+    settings: TicketFormSettings(
       showProgressIndicator: true,
       allowSaveAsDraft: true,
       submitButtonText: 'Submit Ticket',
@@ -265,7 +265,7 @@ class SampleTicketConfigs {
   );
 
   /// Feature request ticket configuration
-  static TicketFormConfig get featureRequestTicket => TicketFormConfig(
+  static TicketFormConfig get featureRequestTicket => const TicketFormConfig(
     id: 'feature_request_ticket',
     title: 'Feature Request',
     description: 'Suggest new features or improvements for our platform.',
@@ -273,7 +273,7 @@ class SampleTicketConfigs {
     defaultPriority: TicketPriority.low,
     size: TicketWidgetSize.medium,
     questions: [
-      const TicketQuestion(
+      TicketQuestion(
         id: 'requester_name',
         label: 'Your Name',
         hint: 'Enter your full name',
@@ -281,7 +281,7 @@ class SampleTicketConfigs {
         validationMode: ValidationMode.required,
         isRequired: true,
       ),
-      const TicketQuestion(
+      TicketQuestion(
         id: 'requester_email',
         label: 'Email Address',
         hint: 'Enter your email address',
@@ -289,7 +289,7 @@ class SampleTicketConfigs {
         validationMode: ValidationMode.email,
         isRequired: true,
       ),
-      const TicketQuestion(
+      TicketQuestion(
         id: 'feature_title',
         label: 'Feature Title',
         hint: 'Brief title for the feature request',
@@ -297,7 +297,7 @@ class SampleTicketConfigs {
         validationMode: ValidationMode.required,
         isRequired: true,
       ),
-      const TicketQuestion(
+      TicketQuestion(
         id: 'feature_description',
         label: 'Feature Description',
         hint: 'Describe the feature in detail, including use cases and benefits',
@@ -317,31 +317,31 @@ class SampleTicketConfigs {
         validationMode: ValidationMode.required,
         isRequired: true,
         options: [
-          const TicketOption(
+          TicketOption(
             id: 'ui_ux',
             label: 'UI/UX Improvements',
             value: 'ui_ux',
             description: 'User interface and experience enhancements',
           ),
-          const TicketOption(
+          TicketOption(
             id: 'functionality',
             label: 'New Functionality',
             value: 'functionality',
             description: 'New features and capabilities',
           ),
-          const TicketOption(
+          TicketOption(
             id: 'performance',
             label: 'Performance Improvements',
             value: 'performance',
             description: 'Speed and efficiency enhancements',
           ),
-          const TicketOption(
+          TicketOption(
             id: 'integration',
             label: 'Integration Features',
             value: 'integration',
             description: 'Third-party integrations and APIs',
           ),
-          const TicketOption(
+          TicketOption(
             id: 'other',
             label: 'Other',
             value: 'other',
@@ -349,7 +349,7 @@ class SampleTicketConfigs {
           ),
         ],
       ),
-      const TicketQuestion(
+      TicketQuestion(
         id: 'business_impact',
         label: 'Business Impact',
         hint: 'How would this feature benefit your business or workflow?',
@@ -357,7 +357,7 @@ class SampleTicketConfigs {
         validationMode: ValidationMode.none,
         isRequired: false,
       ),
-      const TicketQuestion(
+      TicketQuestion(
         id: 'priority_to_you',
         label: 'Priority to You',
         hint: 'How important is this feature to your work?',
@@ -367,7 +367,7 @@ class SampleTicketConfigs {
         defaultValue: 3,
       ),
     ],
-    settings: const TicketFormSettings(
+    settings: TicketFormSettings(
       showProgressIndicator: true,
       allowSaveAsDraft: true,
       submitButtonText: 'Submit Feature Request',

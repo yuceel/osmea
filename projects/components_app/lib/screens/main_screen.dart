@@ -1,5 +1,5 @@
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
-import 'package:osmea_components/osmea_components.dart';
 import '../routes/app_routes.dart';
 
 class MainScreen extends StatefulWidget {

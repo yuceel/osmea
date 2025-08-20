@@ -6,7 +6,7 @@ import 'package:osmea_components/src/enums/ticket_enums.dart';
 /// A minimal ticket configuration for testing basic functionality.
 class SimpleTestConfig {
   /// Minimal ticket configuration with just a name field
-  static TicketFormConfig get minimalTicket => TicketFormConfig(
+  static TicketFormConfig get minimalTicket => const TicketFormConfig(
     id: 'minimal_test_ticket',
     title: 'Minimal Test Ticket',
     description: 'A simple test configuration with minimal fields.',
@@ -14,7 +14,7 @@ class SimpleTestConfig {
     defaultPriority: TicketPriority.medium,
     size: TicketWidgetSize.medium,
     questions: [
-      const TicketQuestion(
+      TicketQuestion(
         id: 'test_name',
         label: 'Test Name',
         hint: 'Enter a test name',
@@ -23,7 +23,7 @@ class SimpleTestConfig {
         isRequired: true,
       ),
     ],
-    settings: const TicketFormSettings(
+    settings: TicketFormSettings(
       showProgressIndicator: false,
       allowSaveAsDraft: false,
       submitButtonText: 'Test Submit',
@@ -32,7 +32,7 @@ class SimpleTestConfig {
   );
 
   /// Basic ticket configuration with common fields
-  static TicketFormConfig get basicTestTicket => TicketFormConfig(
+  static TicketFormConfig get basicTestTicket => const TicketFormConfig(
     id: 'basic_test_ticket',
     title: 'Basic Test Ticket',
     description: 'A basic test configuration with common field types.',
@@ -40,7 +40,7 @@ class SimpleTestConfig {
     defaultPriority: TicketPriority.medium,
     size: TicketWidgetSize.medium,
     questions: [
-      const TicketQuestion(
+      TicketQuestion(
         id: 'name',
         label: 'Name',
         hint: 'Enter your name',
@@ -48,7 +48,7 @@ class SimpleTestConfig {
         validationMode: ValidationMode.required,
         isRequired: true,
       ),
-      const TicketQuestion(
+      TicketQuestion(
         id: 'email',
         label: 'Email',
         hint: 'Enter your email',
@@ -56,7 +56,7 @@ class SimpleTestConfig {
         validationMode: ValidationMode.email,
         isRequired: true,
       ),
-      const TicketQuestion(
+      TicketQuestion(
         id: 'description',
         label: 'Description',
         hint: 'Enter a description',
@@ -65,7 +65,7 @@ class SimpleTestConfig {
         isRequired: true,
       ),
     ],
-    settings: const TicketFormSettings(
+    settings: TicketFormSettings(
       showProgressIndicator: true,
       allowSaveAsDraft: true,
       submitButtonText: 'Submit Test',

@@ -105,6 +105,8 @@ class OsmeaBottomSheet extends CoreContainer {
   });
 
   /// 👶 The main content widget displayed in the bottom sheet
+  @override
+  // ignore: overridden_fields
   final Widget child;
 
   /// 📏 The size of the bottom sheet
@@ -168,6 +170,8 @@ class OsmeaBottomSheet extends CoreContainer {
   final bool isScrollControlled;
 
   /// 📐 Additional constraints for the sheet
+  @override
+  // ignore: overridden_fields
   final BoxConstraints? constraints;
 
   /// 👁️ Whether to show the drag indicator handle

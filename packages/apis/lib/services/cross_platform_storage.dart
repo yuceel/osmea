@@ -194,7 +194,6 @@ class CrossPlatformStorage {
       try {
         debugPrint('🔧 CrossPlatformStorage.loadAllStoreConfigurations (Web)');
 
-        // Web için SharedPreferences'dan tüm store'ları yükle
         final keys = _sharedPreferences
             ?.getKeys()
             .where((key) => key.startsWith('store_config_'))
@@ -624,6 +623,7 @@ class CrossPlatformStorage {
       }
 
       // Force SharedPreferences to persist changes
+      // ignore: deprecated_member_use
       await _sharedPreferences!.commit();
 
       debugPrint('✅ Data saved to SharedPreferences successfully');

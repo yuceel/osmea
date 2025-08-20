@@ -18,9 +18,9 @@ class ProgressShowcaseDemo extends StatefulWidget {
 
 class _ProgressShowcaseDemoState extends State<ProgressShowcaseDemo> {
   double _currentValue = 0.6;
-  ProgressType _selectedType = ProgressType.wave;
-  ProgressSize _selectedSize = ProgressSize.medium;
-  String _selectedCategory = 'All';
+  final ProgressType _selectedType = ProgressType.wave;
+  final ProgressSize _selectedSize = ProgressSize.medium;
+  final String _selectedCategory = 'All';
 
   @override
   Widget build(BuildContext context) {

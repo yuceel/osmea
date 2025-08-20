@@ -1,4 +1,5 @@
-import 'package:osmea_components/osmea_components.dart';
+
+import 'package:core/core.dart';
 
 class ProductionAuthService implements AuthService {
   @override

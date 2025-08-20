@@ -33,7 +33,7 @@ List<Story> getUnifiedContainerShowcase() {
             Option(label: 'Amber Flame', value: OsmeaColors.amberFlame),
             Option(label: 'Golden Hour', value: OsmeaColors.goldenHour),
             Option(label: 'Spring Leaf', value: OsmeaColors.springLeaf),
-            Option(label: 'White', value: OsmeaColors.white),
+            const Option(label: 'White', value: OsmeaColors.white),
             Option(label: 'Silver', value: OsmeaColors.silver),
           ],
         ),

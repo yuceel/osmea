@@ -45,10 +45,10 @@ class SnackbarState {
   /// Visual design variant for the snackbar (advanced UI)
   final SnackbarVisualStyle visualStyle;
 
-  /// Animasyon durumu (ör. animating, dismissed, completed)
+  
   final SnackbarAnimationStatus animationStatus;
 
-  /// Progress bar değeri (0.0 - 1.0 arası, null ise gösterilmez)
+  
   final double? progress;
 
   /// Creates a new snackbar state
@@ -144,7 +144,6 @@ class SnackbarState {
       animationStatus.hashCode;
 }
 
-/// Snackbar animasyon durumu
 enum SnackbarAnimationStatus {
   animating,
   completed,

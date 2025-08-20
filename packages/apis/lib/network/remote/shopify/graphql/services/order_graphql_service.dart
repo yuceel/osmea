@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:graphql/client.dart';
 import 'package:apis/dio_config/shopify_graphql_client.dart';
 import 'package:apis/network/remote/shopify/graphql/queries/orders/get_orders.graphql.dart';
@@ -38,7 +39,7 @@ class OrderGraphQLServiceImpl implements OrderGraphQLService {
 
       return result;
     } catch (e) {
-      print('GraphQL Error in getOrders: $e');
+      debugPrint('GraphQL Error in getOrders: $e');
       rethrow;
     }
   }

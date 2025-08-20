@@ -146,7 +146,7 @@ class InfoBanner extends StatelessWidget {
         color: backgroundColor,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
-          color: iconColor.withOpacity(0.3),
+          color: iconColor.withValues(alpha: 0.3),
           width: 1,
         ),
       ),

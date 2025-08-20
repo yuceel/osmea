@@ -26,7 +26,7 @@ class InfoChipWidget extends StatelessWidget {
         color: backgroundColor ?? Colors.blue.shade50,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: (color ?? Colors.blue.shade700).withOpacity(0.3),
+          color: (color ?? Colors.blue.shade700).withValues(alpha: 0.3),
         ),
       ),
       child: Row(

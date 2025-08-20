@@ -84,7 +84,7 @@ class FooterKnobsConfig {
       initial: Colors.grey.shade50,
       options: [
         Option(label: 'Light Gray', value: Colors.grey.shade50),
-        Option(label: 'White', value: Colors.white),
+        const Option(label: 'White', value: Colors.white),
         Option(label: 'Blue Gray', value: Colors.blueGrey.shade50),
         Option(label: 'Warm Gray', value: Colors.grey.shade100),
                  Option(label: 'Cool Gray', value: Colors.blueGrey.shade100),

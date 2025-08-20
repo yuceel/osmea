@@ -87,7 +87,7 @@ class ContainerBuilder {
   }) {
     return [
       BoxShadow(
-        color: color.withOpacity(opacity),
+        color: color.withValues(alpha: opacity),
         blurRadius: blurRadius,
         offset: offset,
       ),

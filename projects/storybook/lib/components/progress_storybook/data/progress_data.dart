@@ -39,13 +39,13 @@ final List<ProgressData> circularProgressTypes = [
     color: OsmeaColors.nordicBlue,
     description: 'Traditional radial bar progress',
   ),
-  ProgressData(
+  const ProgressData(
     label: 'Arc',
     type: ProgressType.arc,
     color: OsmeaColors.purple,
     description: 'Arc-shaped progress indicator',
   ),
-  ProgressData(
+  const ProgressData(
     label: 'Percent',
     type: ProgressType.percent,
     color: OsmeaColors.blue,
@@ -85,7 +85,7 @@ final List<ProgressData> linearProgressTypes = [
     color: OsmeaColors.meadow,
     description: 'Segmented linear progress',
   ),
-  ProgressData(
+  const ProgressData(
     label: 'Linear Rounded',
     type: ProgressType.linearRounded,
     color: OsmeaColors.purple,

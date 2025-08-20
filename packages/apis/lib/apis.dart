@@ -17,6 +17,7 @@ export 'network/remote/shopify/graphql/helpers/graphql_helper.dart';
 // 🌐 Dependency Injection & Utilities
 import 'package:apis/di/config/config_di.dart';
 import 'package:apis/services/wizard_helper.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
@@ -89,7 +90,7 @@ class ApiNetwork {
   /// Note: This method is deprecated. Use the wizard-based configuration system instead.
   static Future<GetIt> initFromConfig(GetIt getIt) async {
     // This method is deprecated. Use the new wizard-based configuration system.
-    print(
+    debugPrint(
         '[ApiNetwork] initFromConfig is deprecated. Use the wizard-based configuration system instead.');
     throw UnimplementedError(
         'Use the wizard-based configuration system instead of config.json files.');
@@ -118,7 +119,7 @@ class ApiNetwork {
             'Shopify configuration not found or incomplete. Please complete the setup wizard first.');
       }
     } catch (e) {
-      print('[ApiNetwork] Error initializing from wizard: $e');
+      debugPrint('[ApiNetwork] Error initializing from wizard: $e');
       rethrow;
     }
   }
@@ -208,7 +209,7 @@ class WooNetwork {
   /// Note: This method is deprecated. Use the wizard-based configuration system instead.
   static Future<GetIt> initFromConfig(GetIt getIt) async {
     // This method is deprecated. Use the new wizard-based configuration system.
-    print(
+    debugPrint(
         '[WooNetwork] initFromConfig is deprecated. Use the wizard-based configuration system instead.');
     throw UnimplementedError(
         'Use the wizard-based configuration system instead of config.json files.');
@@ -240,7 +241,7 @@ class WooNetwork {
             'WooCommerce configuration not found or incomplete. Please complete the setup wizard first.');
       }
     } catch (e) {
-      print('[WooNetwork] Error initializing from wizard: $e');
+      debugPrint('[WooNetwork] Error initializing from wizard: $e');
       rethrow;
     }
   }
@@ -300,7 +301,7 @@ class WooNetwork {
 /// Note: This method is deprecated. Use the wizard-based configuration system instead.
 Future<void> initNetworksFromConfig(GetIt getIt) async {
   // This method is deprecated. Use the new wizard-based configuration system.
-  print(
+  debugPrint(
       '[initNetworksFromConfig] This method is deprecated. Use the wizard-based configuration system instead.');
   throw UnimplementedError(
       'Use the wizard-based configuration system instead of config.json files.');
@@ -327,31 +328,31 @@ Future<void> initNetworksFromWizard(GetIt getIt) async {
     try {
       getIt.resetLazySingleton();
     } catch (e) {
-      print('[initNetworksFromWizard] Warning: Could not reset GetIt: $e');
+      debugPrint('[initNetworksFromWizard] Warning: Could not reset GetIt: $e');
     }
 
     // Initialize based on platform
     if (config.platform == 'shopify') {
       try {
         await ApiNetwork.initFromWizard(getIt);
-        print(
+        debugPrint(
             '[initNetworksFromWizard] Shopify initialized successfully from wizard.');
       } catch (e) {
-        print('[initNetworksFromWizard] Shopify initialization failed: $e');
+        debugPrint('[initNetworksFromWizard] Shopify initialization failed: $e');
         rethrow;
       }
     } else if (config.platform == 'woocommerce') {
       try {
         await WooNetwork.initFromWizard(getIt);
-        print(
+        debugPrint(
             '[initNetworksFromWizard] WooCommerce initialized successfully from wizard.');
       } catch (e) {
-        print('[initNetworksFromWizard] WooCommerce initialization failed: $e');
+        debugPrint('[initNetworksFromWizard] WooCommerce initialization failed: $e');
         rethrow;
       }
     }
   } catch (e) {
-    print(
+    debugPrint(
         '[initNetworksFromWizard] Error initializing networks from wizard: $e');
     rethrow;
   }
@@ -363,7 +364,7 @@ bool isWooEnabled = false;
 
 Future<void> detectEnabledPlatforms() async {
   // This method is deprecated. Use the wizard-based configuration system instead.
-  print(
+  debugPrint(
       '[detectEnabledPlatforms] This method is deprecated. Use the wizard-based configuration system instead.');
   throw UnimplementedError(
       'Use the wizard-based configuration system instead of config.json files.');
@@ -389,10 +390,10 @@ Future<void> detectEnabledPlatformsFromWizard() async {
       isWooEnabled = false;
     }
 
-    print(
+    debugPrint(
         '[detectEnabledPlatformsFromWizard] Shopify enabled: $isShopifyEnabled, WooCommerce enabled: $isWooEnabled');
   } catch (e) {
-    print('[detectEnabledPlatformsFromWizard] Error detecting platforms: $e');
+    debugPrint('[detectEnabledPlatformsFromWizard] Error detecting platforms: $e');
     isShopifyEnabled = false;
     isWooEnabled = false;
   }

@@ -28,7 +28,7 @@ class FooterSectionContainerWidget extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.grey.shade200.withOpacity(0.5),
+            color: Colors.grey.shade200.withValues(alpha: 0.5),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),

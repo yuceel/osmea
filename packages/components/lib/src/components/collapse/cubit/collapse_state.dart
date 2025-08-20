@@ -186,8 +186,6 @@ class CollapseState extends Equatable {
     if (mode != CollapseBehaviorMode.accordion) return this;
 
     final newAccordionValue = accordionValue == panelValue ? null : panelValue;
-    print(
-        '🔍 toggleAccordionPanel: current=$accordionValue, new=$newAccordionValue, panelValue=$panelValue');
     return copyWith(accordionValue: newAccordionValue);
   }
 
@@ -202,8 +200,6 @@ class CollapseState extends Equatable {
     } else {
       newExpandedPanels.add(panelIndex);
     }
-    print(
-        '🔍 toggleMultiplePanel: panelIndex=$panelIndex, wasExpanded=$wasExpanded, newExpandedPanels=$newExpandedPanels');
     return copyWith(expandedPanels: newExpandedPanels);
   }
 

@@ -320,15 +320,15 @@ class SampleContentSection extends StatelessWidget {
           const SizedBox(height: 16),
           Row(
             children: [
-              Text('Home'),
+              const Text('Home'),
               const SizedBox(width: 8),
               Container(width: 1, height: 16, color: Colors.grey),
               const SizedBox(width: 8),
-              Text('About'),
+              const Text('About'),
               const SizedBox(width: 8),
               Container(width: 1, height: 16, color: Colors.grey),
               const SizedBox(width: 8),
-              Text('Contact'),
+              const Text('Contact'),
             ],
           ),
         ],
@@ -358,7 +358,7 @@ class SampleContentSection extends StatelessWidget {
           const SizedBox(height: 16),
           Row(
             children: [
-              Column(
+              const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Menu Item 1'),
@@ -369,7 +369,7 @@ class SampleContentSection extends StatelessWidget {
               const SizedBox(width: 8),
               Container(width: 1, height: 60, color: Colors.grey),
               const SizedBox(width: 8),
-              Expanded(
+              const Expanded(
                 child: Text('Main content area...'),
               ),
             ],
