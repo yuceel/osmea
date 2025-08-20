@@ -389,20 +389,6 @@ const documentNodeQueryProduct = DocumentNode(definitions: [
                         selectionSet: null,
                       ),
                       FieldNode(
-                        name: NameNode(value: 'weight'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null,
-                      ),
-                      FieldNode(
-                        name: NameNode(value: 'weightUnit'),
-                        alias: null,
-                        arguments: [],
-                        directives: [],
-                        selectionSet: null,
-                      ),
-                      FieldNode(
                         name: NameNode(value: '__typename'),
                         alias: null,
                         arguments: [],
@@ -1203,8 +1189,6 @@ class Query$Product$product$variants$edges$node {
     required this.price,
     this.sku,
     this.inventoryQuantity,
-    this.weight,
-    required this.weightUnit,
     this.$__typename = 'ProductVariant',
   });
 
@@ -1215,8 +1199,6 @@ class Query$Product$product$variants$edges$node {
     final l$price = json['price'];
     final l$sku = json['sku'];
     final l$inventoryQuantity = json['inventoryQuantity'];
-    final l$weight = json['weight'];
-    final l$weightUnit = json['weightUnit'];
     final l$$__typename = json['__typename'];
     return Query$Product$product$variants$edges$node(
       id: (l$id as String),
@@ -1224,8 +1206,6 @@ class Query$Product$product$variants$edges$node {
       price: (l$price as String),
       sku: (l$sku as String?),
       inventoryQuantity: (l$inventoryQuantity as int?),
-      weight: (l$weight as num?)?.toDouble(),
-      weightUnit: fromJson$Enum$WeightUnit((l$weightUnit as String)),
       $__typename: (l$$__typename as String),
     );
   }
@@ -1239,10 +1219,6 @@ class Query$Product$product$variants$edges$node {
   final String? sku;
 
   final int? inventoryQuantity;
-
-  final double? weight;
-
-  final Enum$WeightUnit weightUnit;
 
   final String $__typename;
 
@@ -1258,10 +1234,6 @@ class Query$Product$product$variants$edges$node {
     _resultData['sku'] = l$sku;
     final l$inventoryQuantity = inventoryQuantity;
     _resultData['inventoryQuantity'] = l$inventoryQuantity;
-    final l$weight = weight;
-    _resultData['weight'] = l$weight;
-    final l$weightUnit = weightUnit;
-    _resultData['weightUnit'] = toJson$Enum$WeightUnit(l$weightUnit);
     final l$$__typename = $__typename;
     _resultData['__typename'] = l$$__typename;
     return _resultData;
@@ -1274,8 +1246,6 @@ class Query$Product$product$variants$edges$node {
     final l$price = price;
     final l$sku = sku;
     final l$inventoryQuantity = inventoryQuantity;
-    final l$weight = weight;
-    final l$weightUnit = weightUnit;
     final l$$__typename = $__typename;
     return Object.hashAll([
       l$id,
@@ -1283,8 +1253,6 @@ class Query$Product$product$variants$edges$node {
       l$price,
       l$sku,
       l$inventoryQuantity,
-      l$weight,
-      l$weightUnit,
       l$$__typename,
     ]);
   }
@@ -1323,16 +1291,6 @@ class Query$Product$product$variants$edges$node {
     if (l$inventoryQuantity != lOther$inventoryQuantity) {
       return false;
     }
-    final l$weight = weight;
-    final lOther$weight = other.weight;
-    if (l$weight != lOther$weight) {
-      return false;
-    }
-    final l$weightUnit = weightUnit;
-    final lOther$weightUnit = other.weightUnit;
-    if (l$weightUnit != lOther$weightUnit) {
-      return false;
-    }
     final l$$__typename = $__typename;
     final lOther$$__typename = other.$__typename;
     if (l$$__typename != lOther$$__typename) {
@@ -1367,8 +1325,6 @@ abstract class CopyWith$Query$Product$product$variants$edges$node<TRes> {
     String? price,
     String? sku,
     int? inventoryQuantity,
-    double? weight,
-    Enum$WeightUnit? weightUnit,
     String? $__typename,
   });
 }
@@ -1392,8 +1348,6 @@ class _CopyWithImpl$Query$Product$product$variants$edges$node<TRes>
     Object? price = _undefined,
     Object? sku = _undefined,
     Object? inventoryQuantity = _undefined,
-    Object? weight = _undefined,
-    Object? weightUnit = _undefined,
     Object? $__typename = _undefined,
   }) =>
       _then(Query$Product$product$variants$edges$node(
@@ -1408,10 +1362,6 @@ class _CopyWithImpl$Query$Product$product$variants$edges$node<TRes>
         inventoryQuantity: inventoryQuantity == _undefined
             ? _instance.inventoryQuantity
             : (inventoryQuantity as int?),
-        weight: weight == _undefined ? _instance.weight : (weight as double?),
-        weightUnit: weightUnit == _undefined || weightUnit == null
-            ? _instance.weightUnit
-            : (weightUnit as Enum$WeightUnit),
         $__typename: $__typename == _undefined || $__typename == null
             ? _instance.$__typename
             : ($__typename as String),
@@ -1430,8 +1380,6 @@ class _CopyWithStubImpl$Query$Product$product$variants$edges$node<TRes>
     String? price,
     String? sku,
     int? inventoryQuantity,
-    double? weight,
-    Enum$WeightUnit? weightUnit,
     String? $__typename,
   }) =>
       _res;
