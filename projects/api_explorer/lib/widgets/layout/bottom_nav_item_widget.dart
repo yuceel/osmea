@@ -1,5 +1,5 @@
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
-import 'package:osmea_components/osmea_components.dart';
 
 class BottomNavItemWidget extends StatelessWidget {
   final IconData icon;

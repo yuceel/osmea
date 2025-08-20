@@ -3,7 +3,6 @@ import 'package:apis/apis.dart';
 import 'package:apis/services/store_change_notifier.dart';
 import 'package:api_explorer/services/api_service_registry.dart';
 import 'package:api_explorer/styles/app_theme.dart';
-import 'package:apis/apis.dart';
 import 'package:core/core.dart';
 import 'dart:async';
 
@@ -216,7 +215,7 @@ class _ModernSidebarState extends State<ModernSidebar>
                         OsmeaComponents.container(
                           padding: EdgeInsets.all(isNarrow ? 8 : 12),
                           decoration: BoxDecoration(
-                            color: OsmeaColors.white.withOpacity(0.2),
+                            color: OsmeaColors.white.withValues(alpha: 0.2),
                             borderRadius: context.borderRadiusMinStandard,
                           ),
                           child: Icon(

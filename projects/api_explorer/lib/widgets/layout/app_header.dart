@@ -38,13 +38,13 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
           isDark ? OsmeaAppTheme.darkSurface : OsmeaAppTheme.lightSurface,
       elevation: 0,
       scrolledUnderElevation: 2,
-      shadowColor: Theme.of(context).colorScheme.shadow.withOpacity(0.05),
+      shadowColor: Theme.of(context).colorScheme.shadow.withValues(alpha: 0.05),
       surfaceTintColor: Colors.transparent,
       shape: Border(
         bottom: BorderSide(
           color: isDark
-              ? OsmeaColors.deepSea.withOpacity(0.2)
-              : OsmeaColors.silver.withOpacity(0.2),
+              ? OsmeaColors.deepSea.withValues(alpha: 0.2)
+              : OsmeaColors.silver.withValues(alpha: 0.2),
           width: 1,
         ),
       ),
@@ -74,9 +74,9 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Theme.of(context).colorScheme.outline.withOpacity(0),
-                Theme.of(context).colorScheme.outline.withOpacity(0.1),
-                Theme.of(context).colorScheme.outline.withOpacity(0),
+                Theme.of(context).colorScheme.outline.withValues(alpha: 0),
+                Theme.of(context).colorScheme.outline.withValues(alpha: 0.1),
+                Theme.of(context).colorScheme.outline.withValues(alpha: 0),
               ],
             ),
           ),
@@ -153,10 +153,10 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
       ),
       decoration: OsmeaAppTheme.glassDecoration(
         backgroundColor:
-            isDark ? OsmeaColors.deepSea.withOpacity(0.1) : OsmeaColors.snow,
+            isDark ? OsmeaColors.deepSea.withValues(alpha: 0.1) : OsmeaColors.snow,
         borderColor: isDark
-            ? OsmeaColors.deepSea.withOpacity(0.2)
-            : OsmeaColors.silver.withOpacity(0.3),
+            ? OsmeaColors.deepSea.withValues(alpha: 0.2)
+            : OsmeaColors.silver.withValues(alpha: 0.3),
         borderRadius: OsmeaAppTheme.radiusMd,
       ),
       child: OsmeaComponents.row(
@@ -168,10 +168,10 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
               vertical: context.spacing4,
             ),
             decoration: BoxDecoration(
-              color: OsmeaColors.forestHeart.withOpacity(isDark ? 0.15 : 0.1),
+              color: OsmeaColors.forestHeart.withValues(alpha: isDark ? 0.15 : 0.1),
               borderRadius: context.borderRadiusMinStandard,
               border: Border.all(
-                color: OsmeaColors.forestHeart.withOpacity(isDark ? 0.25 : 0.2),
+                color: OsmeaColors.forestHeart.withValues(alpha: isDark ? 0.25 : 0.2),
                 width: 1,
               ),
             ),
@@ -201,7 +201,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
               apiUrl,
               variant: OsmeaTextVariant.bodySmall,
               fontSize: 12,
-              color: isDark ? Colors.white.withOpacity(0.9) : OsmeaColors.steel,
+              color: isDark ? Colors.white.withValues(alpha: 0.9) : OsmeaColors.steel,
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -211,8 +211,8 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
             padding: EdgeInsets.all(context.spacing4),
             decoration: BoxDecoration(
               color: isDark
-                  ? Colors.white.withOpacity(0.05)
-                  : OsmeaColors.silver.withOpacity(0.1),
+                  ? Colors.white.withValues(alpha: 0.05)
+                  : OsmeaColors.silver.withValues(alpha: 0.1),
               borderRadius: context.borderRadiusMinStandard,
             ),
             child: OsmeaComponents.iconButton(
@@ -220,7 +220,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
                 Icons.content_copy_rounded,
                 size: 16,
                 color:
-                    isDark ? Colors.white.withOpacity(0.9) : OsmeaColors.steel,
+                    isDark ? Colors.white.withValues(alpha: 0.9) : OsmeaColors.steel,
               ),
               onPressed: () => _copyUrlToClipboard(context),
               variant: ButtonVariant.ghost,
@@ -269,13 +269,13 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
             ),
             decoration: BoxDecoration(
               color: isDark
-                  ? OsmeaColors.deepSea.withOpacity(0.1)
+                  ? OsmeaColors.deepSea.withValues(alpha: 0.1)
                   : OsmeaColors.snow,
               borderRadius: context.borderRadiusMinStandard,
               border: Border.all(
                 color: isDark
-                    ? OsmeaColors.deepSea.withOpacity(0.2)
-                    : OsmeaColors.silver.withOpacity(0.3),
+                    ? OsmeaColors.deepSea.withValues(alpha: 0.2)
+                    : OsmeaColors.silver.withValues(alpha: 0.3),
                 width: 1,
               ),
             ),
@@ -297,7 +297,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
                   'Loading Store Profile...',
                   variant: OsmeaTextVariant.labelSmall,
                   color: isDark
-                      ? Colors.white.withOpacity(0.9)
+                      ? Colors.white.withValues(alpha: 0.9)
                       : OsmeaColors.steel,
                 ),
               ],
@@ -313,13 +313,13 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
             ),
             decoration: BoxDecoration(
               color: isDark
-                  ? OsmeaColors.deepSea.withOpacity(0.1)
+                  ? OsmeaColors.deepSea.withValues(alpha: 0.1)
                   : OsmeaColors.snow,
               borderRadius: context.borderRadiusMinStandard,
               border: Border.all(
                 color: isDark
-                    ? OsmeaColors.deepSea.withOpacity(0.2)
-                    : OsmeaColors.silver.withOpacity(0.3),
+                    ? OsmeaColors.deepSea.withValues(alpha: 0.2)
+                    : OsmeaColors.silver.withValues(alpha: 0.3),
                 width: 1,
               ),
             ),
@@ -330,15 +330,15 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
                   padding: EdgeInsets.all(context.spacing6),
                   decoration: BoxDecoration(
                     color: isDark
-                        ? Colors.white.withOpacity(0.1)
-                        : OsmeaColors.silver.withOpacity(0.1),
+                        ? Colors.white.withValues(alpha: 0.1)
+                        : OsmeaColors.silver.withValues(alpha: 0.1),
                     borderRadius: context.borderRadiusMinStandard,
                   ),
                   child: Icon(
                     Icons.storefront_outlined,
                     size: 16,
                     color: isDark
-                        ? Colors.white.withOpacity(0.9)
+                        ? Colors.white.withValues(alpha: 0.9)
                         : OsmeaColors.steel,
                   ),
                 ),
@@ -347,7 +347,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
                   'No Store Connected',
                   variant: OsmeaTextVariant.labelMedium,
                   color: isDark
-                      ? Colors.white.withOpacity(0.9)
+                      ? Colors.white.withValues(alpha: 0.9)
                       : OsmeaColors.steel,
                 ),
                 OsmeaComponents.sizedBox(width: context.spacing12),
@@ -380,11 +380,11 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
           ),
           decoration: OsmeaAppTheme.glassDecoration(
             backgroundColor: isDark
-                ? OsmeaColors.deepSea.withOpacity(0.1)
+                ? OsmeaColors.deepSea.withValues(alpha: 0.1)
                 : OsmeaColors.snow,
             borderColor: isDark
-                ? OsmeaColors.deepSea.withOpacity(0.2)
-                : OsmeaColors.silver.withOpacity(0.3),
+                ? OsmeaColors.deepSea.withValues(alpha: 0.2)
+                : OsmeaColors.silver.withValues(alpha: 0.3),
             borderRadius: OsmeaAppTheme.radiusMd,
           ),
           child: OsmeaComponents.row(
@@ -395,13 +395,13 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
                 padding: EdgeInsets.all(context.spacing6),
                 decoration: BoxDecoration(
                   color: isDark
-                      ? Colors.white.withOpacity(0.1)
-                      : OsmeaColors.nordicBlue.withOpacity(0.1),
+                      ? Colors.white.withValues(alpha: 0.1)
+                      : OsmeaColors.nordicBlue.withValues(alpha: 0.1),
                   borderRadius: context.borderRadiusMinStandard,
                   border: Border.all(
                     color: isDark
-                        ? Colors.white.withOpacity(0.2)
-                        : OsmeaColors.nordicBlue.withOpacity(0.2),
+                        ? Colors.white.withValues(alpha: 0.2)
+                        : OsmeaColors.nordicBlue.withValues(alpha: 0.2),
                     width: 1,
                   ),
                 ),
@@ -433,8 +433,8 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
                     variant: OsmeaTextVariant.labelSmall,
                     fontSize: 11,
                     color: isDark
-                        ? Colors.white.withOpacity(0.7)
-                        : OsmeaColors.steel.withOpacity(0.7),
+                        ? Colors.white.withValues(alpha: 0.7)
+                        : OsmeaColors.steel.withValues(alpha: 0.7),
                   ),
                 ],
               ),
@@ -449,15 +449,15 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
                 ),
                 decoration: BoxDecoration(
                   color: (profile['status'] ?? 'Unknown') == 'Active'
-                      ? OsmeaColors.forestHeart.withOpacity(isDark ? 0.2 : 0.1)
-                      : OsmeaColors.amberFlame.withOpacity(isDark ? 0.2 : 0.1),
+                      ? OsmeaColors.forestHeart.withValues(alpha: isDark ? 0.2 : 0.1)
+                      : OsmeaColors.amberFlame.withValues(alpha: isDark ? 0.2 : 0.1),
                   borderRadius: context.borderRadiusMinStandard,
                   border: Border.all(
                     color: (profile['status'] ?? 'Unknown') == 'Active'
                         ? OsmeaColors.forestHeart
-                            .withOpacity(isDark ? 0.3 : 0.2)
+                            .withValues(alpha: isDark ? 0.3 : 0.2)
                         : OsmeaColors.amberFlame
-                            .withOpacity(isDark ? 0.3 : 0.2),
+                            .withValues(alpha: isDark ? 0.3 : 0.2),
                     width: 1,
                   ),
                 ),
@@ -650,11 +650,11 @@ class _ActionMenuWidgetState extends State<_ActionMenuWidget> {
             padding: EdgeInsets.all(context.spacing8),
             decoration: OsmeaAppTheme.glassDecoration(
               backgroundColor: Theme.of(context).brightness == Brightness.dark
-                  ? OsmeaColors.deepSea.withOpacity(0.1)
-                  : OsmeaColors.nordicBlue.withOpacity(0.1),
+                  ? OsmeaColors.deepSea.withValues(alpha: 0.1)
+                  : OsmeaColors.nordicBlue.withValues(alpha: 0.1),
               borderColor: Theme.of(context).brightness == Brightness.dark
-                  ? OsmeaColors.deepSea.withOpacity(0.2)
-                  : OsmeaColors.nordicBlue.withOpacity(0.2),
+                  ? OsmeaColors.deepSea.withValues(alpha: 0.2)
+                  : OsmeaColors.nordicBlue.withValues(alpha: 0.2),
               borderRadius: OsmeaAppTheme.radiusSm,
             ),
             child: Icon(
@@ -685,8 +685,8 @@ class _ActionMenuWidgetState extends State<_ActionMenuWidget> {
                   variant: OsmeaTextVariant.bodySmall,
                   fontSize: 12,
                   color: Theme.of(context).brightness == Brightness.dark
-                      ? Colors.white.withOpacity(0.7)
-                      : OsmeaColors.steel.withOpacity(0.7),
+                      ? Colors.white.withValues(alpha: 0.7)
+                      : OsmeaColors.steel.withValues(alpha: 0.7),
                 ),
               ],
             ),
