@@ -5,11 +5,9 @@ export 'api_request_handler.dart';
 // 🚀 GraphQL Handlers - Modular Structure
 
 // Products GraphQL Handlers
-export 'handlers/shopify/graphql_handlers/products/products_handler.dart';
-export 'handlers/shopify/graphql_handlers/products/product_handler.dart';
-export 'handlers/shopify/graphql_handlers/products/product_create_handler.dart';
-export 'handlers/shopify/graphql_handlers/products/product_mutation_handler.dart';
-export 'handlers/shopify/graphql_handlers/products/product_query_handler.dart';
+export 'handlers/shopify/graphql_handlers/products/queries/products_handler.dart';
+export 'handlers/shopify/graphql_handlers/products/queries/product_handler.dart';
+export 'handlers/shopify/graphql_handlers/products/mutations/product_create_handler.dart';
 
 // Customers GraphQL Handlers
 export 'handlers/shopify/graphql_handlers/customers/customers_handler.dart';

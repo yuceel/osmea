@@ -489,13 +489,13 @@ class ApiServiceRegistry {
       subcategory: 'Products',
       handler: CreateProductGraphQLHandler(),
     ),
-    ApiService(
-      name: 'Manage Products - GraphQL Mutation',
-      endpoint: '/admin/api/2024-07/graphql.json',
-      category: ApiCategory.graphqlProductsAndCollectionsMutations,
-      subcategory: 'Products',
-      handler: ProductMutationHandler(),
-    ),
+    // ApiService(
+    //   name: 'Manage Products - GraphQL Mutation',
+    //   endpoint: '/admin/api/2024-07/graphql.json',
+    //   category: ApiCategory.graphqlProductsAndCollectionsMutations,
+    //   subcategory: 'Products',
+    //   handler: ProductMutationHandler(),
+    // ),
 
     // 🚀 GraphQL APIs - Customer Operations
     ApiService(

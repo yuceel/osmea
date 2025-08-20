@@ -18,9 +18,9 @@ class CreateProductGraphQLHandler implements ApiRequestHandler {
         'POST': [
           const ApiField(
             name: 'title',
-            label: 'Title',
+            label: 'Title *',
             hint: 'Product title (required)',
-            isRequired: true,
+            isRequired: false,
             type: ApiFieldType.text,
           ),
           const ApiField(
@@ -70,30 +70,20 @@ class CreateProductGraphQLHandler implements ApiRequestHandler {
     if (method != 'POST') {
       return {
         "status": "error",
-        "message": "Method $method not supported for GraphQL Create Product API",
+        "message":
+            "Method $method not supported for GraphQL Create Product API",
         "timestamp": DateTime.now().toIso8601String(),
       };
     }
 
     try {
-      // Extract required parameters
+      // Extract parameters
       final title = params['title'];
-      if (title == null || title.isEmpty) {
-        return {
-          "status": "error",
-          "statusCode": 400,
-          "message": "Bad Request",
-          "details": "Product title is required to create a product.",
-          "timestamp": DateTime.now().toIso8601String(),
-        };
-      }
 
       // Extract optional parameters
-      final description = params['description'];
       final vendor = params['vendor'];
       final productType = params['productType'];
       final tags = params['tags'];
-      final status = params['status'];
 
       // Parse tags if provided
       List<String>? tagsList;
@@ -107,7 +97,7 @@ class CreateProductGraphQLHandler implements ApiRequestHandler {
       // Create input object
       final input = Variables$Mutation$CreateProduct(
         input: Input$ProductInput(
-          title: title,
+          title: title ?? 'New Product',
           vendor: vendor,
           productType: productType,
           tags: tagsList,
@@ -132,42 +122,27 @@ class CreateProductGraphQLHandler implements ApiRequestHandler {
     } catch (e) {
       // Enhanced error handling
       String errorMessage = e.toString();
-      int statusCode = 500;
 
       if (errorMessage.contains('Store name is not set')) {
-        statusCode = 400;
         return {
           "status": "error",
-          "statusCode": 400,
           "message": "Configuration Error",
-          "details": "Store configuration is missing. Please complete the setup wizard first.",
+          "details":
+              "Store configuration is missing. Please complete the setup wizard first.",
           "timestamp": DateTime.now().toIso8601String(),
         };
       } else if (errorMessage.contains('Unauthorized')) {
-        statusCode = 401;
         return {
           "status": "error",
-          "statusCode": 401,
           "message": "Unauthorized access",
           "details": "Invalid or missing Shopify access token.",
           "timestamp": DateTime.now().toIso8601String(),
         };
       } else if (errorMessage.contains('GraphQL Error')) {
-        statusCode = 400;
         return {
           "status": "error",
-          "statusCode": 400,
           "message": "GraphQL Error",
           "details": errorMessage,
-          "timestamp": DateTime.now().toIso8601String(),
-        };
-      } else if (errorMessage.contains('422')) {
-        statusCode = 422;
-        return {
-          "status": "error",
-          "statusCode": 422,
-          "message": "Unprocessable Entity",
-          "details": "The request contains invalid parameters. Please check your input.",
           "timestamp": DateTime.now().toIso8601String(),
         };
       }
@@ -175,7 +150,6 @@ class CreateProductGraphQLHandler implements ApiRequestHandler {
       // Generic error handling
       return {
         "status": "error",
-        "statusCode": statusCode,
         "message": "Failed to create product via GraphQL",
         "details": errorMessage,
         "timestamp": DateTime.now().toIso8601String(),
@@ -190,7 +164,13 @@ class CreateProductGraphQLHandler implements ApiRequestHandler {
       "description": "Handles GraphQL product creation operations",
       "supported_methods": ["POST"],
       "required_parameters": ["title"],
-      "optional_parameters": ["description", "vendor", "productType", "tags", "status"],
+      "optional_parameters": [
+        "description",
+        "vendor",
+        "productType",
+        "tags",
+        "status"
+      ],
       "graphql_operation": "productCreate",
       "examples": {
         "basic_request": {
