@@ -469,59 +469,55 @@ class ApiServiceRegistry {
 
     // 🚀 GraphQL APIs - Product Operations
     ApiService(
-      name: 'Get Products & Collections - GraphQL Query',
-      endpoint: '/admin/api/2023-10/graphql.json',
+      name: 'Products - GraphQL Query',
+      endpoint: '/admin/api/2024-07/graphql.json',
+      category: ApiCategory.graphqlProductsAndCollectionsQueries,
+      subcategory: 'Products',
+      handler: GetProductsGraphQLHandler(),
+    ),
+    ApiService(
+      name: 'Product - GraphQL Query',
+      endpoint: '/admin/api/2024-07/graphql.json',
       category: ApiCategory.graphqlProductsAndCollectionsQueries,
       subcategory: 'Products',
       handler: ProductGraphQLHandler(),
     ),
     ApiService(
-      name: 'Manage Products & Collections - GraphQL Mutation',
-      endpoint: '/admin/api/2023-10/graphql.json',
+      name: 'Create Product - GraphQL Mutation',
+      endpoint: '/admin/api/2024-07/graphql.json',
       category: ApiCategory.graphqlProductsAndCollectionsMutations,
       subcategory: 'Products',
-      handler: ProductGraphQLHandler(),
+      handler: CreateProductGraphQLHandler(),
+    ),
+    ApiService(
+      name: 'Manage Products - GraphQL Mutation',
+      endpoint: '/admin/api/2024-07/graphql.json',
+      category: ApiCategory.graphqlProductsAndCollectionsMutations,
+      subcategory: 'Products',
+      handler: ProductMutationHandler(),
     ),
 
     // 🚀 GraphQL APIs - Customer Operations
     ApiService(
-      name: 'Get Customers - GraphQL Query',
-      endpoint: '/admin/api/2023-10/graphql.json',
+      name: 'Customers - GraphQL Query',
+      endpoint: '/admin/api/2024-07/graphql.json',
       category: ApiCategory.graphqlCustomersQueries,
       subcategory: 'Customers',
-      handler: CustomerGraphQLHandler(),
+      handler: GetCustomersGraphQLHandler(),
+    ),
+    ApiService(
+      name: 'Customer - GraphQL Query',
+      endpoint: '/admin/api/2024-07/graphql.json',
+      category: ApiCategory.graphqlCustomersQueries,
+      subcategory: 'Customers',
+      handler: CustomerQueryHandler(),
     ),
     ApiService(
       name: 'Manage Customers - GraphQL Mutation',
-      endpoint: '/admin/api/2023-10/graphql.json',
+      endpoint: '/admin/api/2024-07/graphql.json',
       category: ApiCategory.graphqlCustomersMutations,
       subcategory: 'Customers',
-      handler: CustomerGraphQLHandler(),
-    ),
-
-    // 🚀 GraphQL APIs - Order Operations
-    ApiService(
-      name: 'Get Orders - GraphQL Query',
-      endpoint: '/admin/api/2023-10/graphql.json',
-      category: ApiCategory.graphqlOrdersQueries,
-      subcategory: 'Orders',
-      handler: OrderGraphQLHandler(),
-    ),
-    ApiService(
-      name: 'Manage Orders - GraphQL Mutation',
-      endpoint: '/admin/api/2023-10/graphql.json',
-      category: ApiCategory.graphqlOrdersMutations,
-      subcategory: 'Orders',
-      handler: OrderGraphQLHandler(),
-    ),
-
-    // 🚀 GraphQL APIs - Shop Operations
-    ApiService(
-      name: 'Get Shop Information - GraphQL Query',
-      endpoint: '/admin/api/2023-10/graphql.json',
-      category: ApiCategory.graphqlShopQueries,
-      subcategory: 'Shop',
-      handler: ShopGraphQLHandler(),
+      handler: CustomerMutationHandler(),
     ),
 
     ApiService(
