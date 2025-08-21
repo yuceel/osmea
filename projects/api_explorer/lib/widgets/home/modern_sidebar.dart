@@ -1051,22 +1051,22 @@ class _ModernSidebarState extends State<ModernSidebar>
         return Icons.search_rounded;
       case ApiCategory.graphqlProductsAndCollectionsMutations:
         return Icons.edit_rounded;
-      case ApiCategory.graphqlOrders:
-        return Icons.shopping_basket_rounded;
-      case ApiCategory.graphqlOrdersQueries:
-        return Icons.search_rounded;
-      case ApiCategory.graphqlOrdersMutations:
-        return Icons.edit_rounded;
+      //case ApiCategory.graphqlOrders:
+      //return Icons.shopping_basket_rounded;
+      //case ApiCategory.graphqlOrdersQueries:
+      //return Icons.search_rounded;
+      //case ApiCategory.graphqlOrdersMutations:
+      //return Icons.edit_rounded;
       case ApiCategory.graphqlCustomers:
         return Icons.people_alt_rounded;
       case ApiCategory.graphqlCustomersQueries:
         return Icons.search_rounded;
       case ApiCategory.graphqlCustomersMutations:
         return Icons.edit_rounded;
-      case ApiCategory.graphqlShop:
-        return Icons.store_mall_directory_rounded;
-      case ApiCategory.graphqlShopQueries:
-        return Icons.search_rounded;
+      //case ApiCategory.graphqlShop:
+      //return Icons.store_mall_directory_rounded;
+      //case ApiCategory.graphqlShopQueries:
+      //return Icons.search_rounded;
       case ApiCategory.access:
         return Icons.security_rounded;
       case ApiCategory.storefront:
@@ -1145,10 +1145,10 @@ class _ModernSidebarState extends State<ModernSidebar>
   List<String> _getSubCategoriesForGraphQLCategory(ApiCategory category) {
     switch (category) {
       case ApiCategory.graphqlProductsAndCollections:
-      case ApiCategory.graphqlOrders:
+      //case ApiCategory.graphqlOrders:
       case ApiCategory.graphqlCustomers:
-      case ApiCategory.graphqlShop:
-        return ['Queries', 'Mutations'];
+      //case ApiCategory.graphqlShop:
+      //return ['Queries', 'Mutations'];
       default:
         return ApiServiceRegistry.getSubcategoriesByCategory(category);
     }
@@ -1174,22 +1174,22 @@ class _ModernSidebarState extends State<ModernSidebar>
         return 'GraphQL Products & Collections Queries';
       case ApiCategory.graphqlProductsAndCollectionsMutations:
         return 'GraphQL Products & Collections Mutations';
-      case ApiCategory.graphqlOrders:
-        return 'GraphQL Orders';
-      case ApiCategory.graphqlOrdersQueries:
-        return 'GraphQL Orders Queries';
-      case ApiCategory.graphqlOrdersMutations:
-        return 'GraphQL Orders Mutations';
+      // case ApiCategory.graphqlOrders:
+      //   return 'GraphQL Orders';
+      // case ApiCategory.graphqlOrdersQueries:
+      //   return 'GraphQL Orders Queries';
+      // case ApiCategory.graphqlOrdersMutations:
+      //   return 'GraphQL Orders Mutations';
       case ApiCategory.graphqlCustomers:
         return 'GraphQL Customers';
       case ApiCategory.graphqlCustomersQueries:
         return 'GraphQL Customers Queries';
       case ApiCategory.graphqlCustomersMutations:
         return 'GraphQL Customers Mutations';
-      case ApiCategory.graphqlShop:
-        return 'GraphQL Shop';
-      case ApiCategory.graphqlShopQueries:
-        return 'GraphQL Shop Queries';
+      // case ApiCategory.graphqlShop:
+      //   return 'GraphQL Shop';
+      // case ApiCategory.graphqlShopQueries:
+      //   return 'GraphQL Shop Queries';
       case ApiCategory.access:
         return 'Access';
       case ApiCategory.storefront:
