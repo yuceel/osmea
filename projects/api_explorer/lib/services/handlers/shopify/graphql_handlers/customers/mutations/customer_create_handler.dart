@@ -11,11 +11,11 @@ import 'package:get_it/get_it.dart';
 
 class CreateCustomerGraphQLHandler implements ApiRequestHandler {
   @override
-  List<String> get supportedMethods => ['POST'];
+  List<String> get supportedMethods => ['MUTATION'];
 
   @override
   Map<String, List<ApiField>> get requiredFields => {
-        'POST': [
+        'MUTATION': [
           const ApiField(
             name: 'firstName',
             label: 'First Name',
@@ -52,8 +52,8 @@ class CreateCustomerGraphQLHandler implements ApiRequestHandler {
     String method,
     Map<String, String> params,
   ) async {
-    // Only handle POST requests for GraphQL
-    if (method != 'POST') {
+    // Only handle MUTATION requests for GraphQL
+    if (method != 'MUTATION') {
       return {
         "status": "error",
         "message":
@@ -122,7 +122,7 @@ class CreateCustomerGraphQLHandler implements ApiRequestHandler {
       "examples": [
         {
           "description": "Create customer with basic info",
-          "method": "POST",
+          "method": "MUTATION",
           "parameters": {
             "firstName": "John",
             "lastName": "Doe",

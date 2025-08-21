@@ -11,11 +11,11 @@ import 'package:get_it/get_it.dart';
 
 class CreateProductGraphQLHandler implements ApiRequestHandler {
   @override
-  List<String> get supportedMethods => ['POST'];
+  List<String> get supportedMethods => ['MUTATION'];
 
   @override
   Map<String, List<ApiField>> get requiredFields => {
-        'POST': [
+        'MUTATION': [
           const ApiField(
             name: 'title',
             label: 'Title *',
@@ -66,8 +66,8 @@ class CreateProductGraphQLHandler implements ApiRequestHandler {
     String method,
     Map<String, String> params,
   ) async {
-    // Only handle POST requests for GraphQL
-    if (method != 'POST') {
+    // Only handle MUTATION requests for GraphQL
+    if (method != 'MUTATION') {
       return {
         "status": "error",
         "message":
@@ -162,7 +162,7 @@ class CreateProductGraphQLHandler implements ApiRequestHandler {
     return {
       "handler_name": "CreateProductGraphQLHandler",
       "description": "Handles GraphQL product creation operations",
-      "supported_methods": ["POST"],
+      "supported_methods": ["MUTATION"],
       "required_parameters": ["title"],
       "optional_parameters": [
         "description",
@@ -174,7 +174,7 @@ class CreateProductGraphQLHandler implements ApiRequestHandler {
       "graphql_operation": "productCreate",
       "examples": {
         "basic_request": {
-          "method": "POST",
+          "method": "MUTATION",
           "parameters": {
             "title": "New Product",
             "description": "<p>Product description</p>",
@@ -182,7 +182,7 @@ class CreateProductGraphQLHandler implements ApiRequestHandler {
           }
         },
         "with_tags": {
-          "method": "POST",
+          "method": "MUTATION",
           "parameters": {
             "title": "Featured Product",
             "tags": "featured, electronics, new",

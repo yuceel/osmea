@@ -1,6 +1,7 @@
 import 'package:apis/network/remote/shopify/graphql/products/abstract/product_graphql_service.dart';
 import 'package:api_explorer/services/api_request_handler.dart';
 import 'package:api_explorer/services/api_service_registry.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 
 ///*******************************************************************
@@ -9,11 +10,11 @@ import 'package:get_it/get_it.dart';
 
 class GetProductsGraphQLHandler implements ApiRequestHandler {
   @override
-  List<String> get supportedMethods => ['POST'];
+  List<String> get supportedMethods => ['QUERY'];
 
   @override
   Map<String, List<ApiField>> get requiredFields => {
-        'POST': [
+        'QUERY': [
           const ApiField(
             name: 'first',
             label: 'First',
@@ -43,8 +44,8 @@ class GetProductsGraphQLHandler implements ApiRequestHandler {
     String method,
     Map<String, String> params,
   ) async {
-    // Only handle POST requests for GraphQL
-    if (method != 'POST') {
+    // Only handle QUERY requests for GraphQL
+    if (method != 'QUERY') {
       return {
         "status": "error",
         "message": "Method $method not supported for GraphQL Products API",
@@ -57,6 +58,14 @@ class GetProductsGraphQLHandler implements ApiRequestHandler {
       final first = int.tryParse(params['first'] ?? '10') ?? 10;
       final after = params['after'];
       final query = params['query'];
+
+      debugPrint('🛍️ GetProductsGraphQLHandler - DEBUG INFO 🛍️');
+      debugPrint('🛍️ Method: $method');
+      debugPrint('🛍️ All params: $params');
+      debugPrint('🛍️ First: $first');
+      debugPrint('🛍️ After: $after');
+      debugPrint('🛍️ Query: $query');
+      debugPrint('🛍️ END DEBUG INFO 🛍️');
 
       // Call the GraphQL service
       final response = await GetIt.I<ProductGraphQLService>().getProducts(
@@ -79,6 +88,7 @@ class GetProductsGraphQLHandler implements ApiRequestHandler {
         "timestamp": DateTime.now().toIso8601String(),
       };
     } catch (e) {
+      debugPrint('🛍️ GetProductsGraphQLHandler - ERROR: $e');
       // Enhanced error handling
       String errorMessage = e.toString();
 
@@ -121,21 +131,21 @@ class GetProductsGraphQLHandler implements ApiRequestHandler {
     return {
       "handler_name": "GetProductsGraphQLHandler",
       "description": "Handles GraphQL products retrieval operations",
-      "supported_methods": ["POST"],
+      "supported_methods": ["QUERY"],
       "required_parameters": [],
       "optional_parameters": ["first", "after", "query"],
       "graphql_operation": "products",
       "examples": {
         "basic_request": {
-          "method": "POST",
+          "method": "QUERY",
           "parameters": {"first": "10"}
         },
         "with_pagination": {
-          "method": "POST",
+          "method": "QUERY",
           "parameters": {"first": "20", "after": "cursor123"}
         },
         "with_search": {
-          "method": "POST",
+          "method": "QUERY",
           "parameters": {"first": "15", "query": "title:awesome"}
         }
       }

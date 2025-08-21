@@ -3,6 +3,7 @@ import 'package:apis/network/remote/shopify/graphql/customers/graphql_models/mut
 import 'package:api_explorer/services/api_request_handler.dart';
 import 'package:api_explorer/services/api_service_registry.dart';
 import 'package:get_it/get_it.dart';
+import 'package:flutter/foundation.dart';
 
 ///*******************************************************************
 //************ 🚫 DISABLE CUSTOMER GRAPHQL HANDLER 🚫 ************
@@ -10,11 +11,11 @@ import 'package:get_it/get_it.dart';
 
 class DisableCustomerGraphQLHandler implements ApiRequestHandler {
   @override
-  List<String> get supportedMethods => ['POST'];
+  List<String> get supportedMethods => ['MUTATION'];
 
   @override
   Map<String, List<ApiField>> get requiredFields => {
-        'POST': [
+        'MUTATION': [
           const ApiField(
             name: 'customerId',
             label: 'Customer ID *',
@@ -30,8 +31,8 @@ class DisableCustomerGraphQLHandler implements ApiRequestHandler {
     String method,
     Map<String, String> params,
   ) async {
-    // Only handle POST requests for GraphQL
-    if (method != 'POST') {
+    // Only handle MUTATION requests for GraphQL
+    if (method != 'MUTATION') {
       return {
         "status": "error",
         "message":
@@ -45,14 +46,14 @@ class DisableCustomerGraphQLHandler implements ApiRequestHandler {
       final customerId = params['customerId'] ?? params['first'];
 
       // Debug logging - MORE VISIBLE
-      print('🚨🚨🚨 DisableCustomerGraphQLHandler - DEBUG INFO 🚨🚨🚨');
-      print('🚨 Method: $method');
-      print('🚨 All params: $params');
-      print('🚨 Params keys: ${params.keys.toList()}');
-      print('🚨 Params values: ${params.values.toList()}');
-      print('🚨 Extracted customerId: "$customerId"');
-      print('🚨 CustomerId type: ${customerId.runtimeType}');
-      print('🚨🚨🚨 END DEBUG INFO 🚨🚨🚨');
+      debugPrint('🚨🚨🚨 DisableCustomerGraphQLHandler - DEBUG INFO 🚨🚨🚨');
+      debugPrint('🚨 Method: $method');
+      debugPrint('🚨 All params: $params');
+      debugPrint('🚨 Params keys: ${params.keys.toList()}');
+      debugPrint('🚨 Params values: ${params.values.toList()}');
+      debugPrint('🚨 Extracted customerId: "$customerId"');
+      debugPrint('🚨 CustomerId type: ${customerId.runtimeType}');
+      debugPrint('🚨🚨🚨 END DEBUG INFO 🚨🚨🚨');
 
       // Validate customer ID - more flexible validation
       if (customerId == null || customerId.trim().isEmpty) {
@@ -114,7 +115,7 @@ class DisableCustomerGraphQLHandler implements ApiRequestHandler {
       "examples": [
         {
           "description": "Disable customer by ID",
-          "method": "POST",
+          "method": "MUTATION",
           "parameters": {"customerId": "gid://shopify/Customer/123456789"}
         }
       ]

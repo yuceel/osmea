@@ -1,7 +1,7 @@
 import 'package:apis/network/remote/shopify/graphql/customers/abstract/customer_graphql_service.dart';
-import 'package:apis/network/remote/shopify/graphql/customers/graphql_models/queries/customer.graphql.dart';
 import 'package:api_explorer/services/api_request_handler.dart';
 import 'package:api_explorer/services/api_service_registry.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 
 ///*******************************************************************
@@ -14,19 +14,28 @@ class GetCustomerHandler implements ApiRequestHandler {
     String method,
     Map<String, String> params,
   ) async {
+    // Only handle QUERY requests for GraphQL
+    if (method != 'QUERY') {
+      return {
+        "status": "error",
+        "message": "Method $method not supported for GraphQL Get Customer API",
+        "timestamp": DateTime.now().toIso8601String(),
+      };
+    }
+
     try {
       // Extract parameters - flexible to accept both 'customerId' and 'first'
       final customerId = params['customerId'] ?? params['first'];
 
       // Debug logging - MORE VISIBLE
-      print('🚨🚨🚨 GetCustomerHandler - DEBUG INFO 🚨🚨🚨');
-      print('🚨 Method: $method');
-      print('🚨 All params: $params');
-      print('🚨 Params keys: ${params.keys.toList()}');
-      print('🚨 Params values: ${params.values.toList()}');
-      print('🚨 Extracted customerId: "$customerId"');
-      print('🚨 CustomerId type: ${customerId.runtimeType}');
-      print('🚨🚨🚨 END DEBUG INFO 🚨🚨🚨');
+      debugPrint('🚨🚨🚨 GetCustomerHandler - DEBUG INFO 🚨🚨🚨');
+      debugPrint('🚨 Method: $method');
+      debugPrint('🚨 All params: $params');
+      debugPrint('🚨 Params keys: ${params.keys.toList()}');
+      debugPrint('🚨 Params values: ${params.values.toList()}');
+      debugPrint('🚨 Extracted customerId: "$customerId"');
+      debugPrint('🚨 CustomerId type: ${customerId.runtimeType}');
+      debugPrint('🚨🚨🚨 END DEBUG INFO 🚨🚨🚨');
 
       // Validate customer ID - more flexible validation
       if (customerId == null || customerId.trim().isEmpty) {
@@ -61,6 +70,7 @@ class GetCustomerHandler implements ApiRequestHandler {
         "timestamp": DateTime.now().toIso8601String(),
       };
     } catch (e) {
+      debugPrint('🚨 GetCustomerHandler - ERROR: $e');
       return {
         "status": "error",
         "message": "Failed to get customer: ${e.toString()}",
@@ -70,11 +80,11 @@ class GetCustomerHandler implements ApiRequestHandler {
   }
 
   @override
-  List<String> get supportedMethods => ['POST'];
+  List<String> get supportedMethods => ['QUERY'];
 
   @override
   Map<String, List<ApiField>> get requiredFields => {
-        'POST': [
+        'QUERY': [
           const ApiField(
             name: 'customerId',
             label: 'Customer ID *',

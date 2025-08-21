@@ -2,6 +2,7 @@ import 'package:apis/network/remote/shopify/graphql/customers/abstract/customer_
 import 'package:apis/network/remote/shopify/graphql/customers/graphql_models/queries/customers.graphql.dart';
 import 'package:api_explorer/services/api_request_handler.dart';
 import 'package:api_explorer/services/api_service_registry.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 
 ///*******************************************************************
@@ -19,6 +20,14 @@ class GetCustomersHandler implements ApiRequestHandler {
       final after = params['after'];
       final query = params['query'];
 
+      debugPrint('📋 GetCustomersHandler - DEBUG INFO 📋');
+      debugPrint('📋 Method: $method');
+      debugPrint('📋 All params: $params');
+      debugPrint('📋 First: $first');
+      debugPrint('📋 After: $after');
+      debugPrint('📋 Query: $query');
+      debugPrint('📋 END DEBUG INFO 📋');
+
       final response = await GetIt.I<CustomerGraphQLService>().getCustomers(
         first: first,
         after: after,
@@ -33,6 +42,7 @@ class GetCustomersHandler implements ApiRequestHandler {
         "timestamp": DateTime.now().toIso8601String(),
       };
     } catch (e) {
+      debugPrint('📋 GetCustomersHandler - ERROR: $e');
       return {
         "status": "error",
         "message": "Failed to get customers: ${e.toString()}",
@@ -42,11 +52,11 @@ class GetCustomersHandler implements ApiRequestHandler {
   }
 
   @override
-  List<String> get supportedMethods => ['POST'];
+  List<String> get supportedMethods => ['QUERY'];
 
   @override
   Map<String, List<ApiField>> get requiredFields => {
-        'POST': [
+        'QUERY': [
           const ApiField(
             name: 'first',
             label: 'First',

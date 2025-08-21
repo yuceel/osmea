@@ -1,6 +1,7 @@
 import 'package:apis/network/remote/shopify/graphql/products/abstract/product_graphql_service.dart';
 import 'package:api_explorer/services/api_request_handler.dart';
 import 'package:api_explorer/services/api_service_registry.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 
 ///*******************************************************************
@@ -9,11 +10,11 @@ import 'package:get_it/get_it.dart';
 
 class ProductGraphQLHandler implements ApiRequestHandler {
   @override
-  List<String> get supportedMethods => ['POST'];
+  List<String> get supportedMethods => ['QUERY'];
 
   @override
   Map<String, List<ApiField>> get requiredFields => {
-        'POST': [
+        'QUERY': [
           const ApiField(
             name: 'id',
             label: 'Product ID',
@@ -30,8 +31,8 @@ class ProductGraphQLHandler implements ApiRequestHandler {
     String method,
     Map<String, String> params,
   ) async {
-    // Only handle POST requests for GraphQL
-    if (method != 'POST') {
+    // Only handle QUERY requests for GraphQL
+    if (method != 'QUERY') {
       return {
         "status": "error",
         "message": "Method $method not supported for GraphQL Product API",
@@ -41,18 +42,19 @@ class ProductGraphQLHandler implements ApiRequestHandler {
 
     try {
       // Debug: Log what we received
-      print('🔍 ProductGraphQLHandler - DEBUG INFO:');
-      print('   Method: $method');
-      print('   All params: $params');
-      print('   Params keys: ${params.keys.toList()}');
-      print('   Params values: ${params.values.toList()}');
+      debugPrint('🔍 ProductGraphQLHandler - DEBUG INFO 🔍');
+      debugPrint('🔍 Method: $method');
+      debugPrint('🔍 All params: $params');
+      debugPrint('🔍 Params keys: ${params.keys.toList()}');
+      debugPrint('🔍 Params values: ${params.values.toList()}');
 
       // Extract product ID parameter (check both 'id' and 'first' for flexibility)
       final productId = params['id'] ?? params['first'];
-      print('   Extracted productId: "$productId"');
-      print('   ProductId type: ${productId.runtimeType}');
-      print('   From id param: ${params['id']}');
-      print('   From first param: ${params['first']}');
+      debugPrint('🔍 Extracted productId: "$productId"');
+      debugPrint('🔍 ProductId type: ${productId.runtimeType}');
+      debugPrint('🔍 From id param: ${params['id']}');
+      debugPrint('🔍 From first param: ${params['first']}');
+      debugPrint('🔍 END DEBUG INFO 🔍');
 
       // Validate product ID
       if (productId == null || productId.isEmpty) {
@@ -92,6 +94,7 @@ class ProductGraphQLHandler implements ApiRequestHandler {
         "timestamp": DateTime.now().toIso8601String(),
       };
     } catch (e) {
+      debugPrint('🔍 ProductGraphQLHandler - ERROR: $e');
       // Enhanced error handling
       String errorMessage = e.toString();
 
@@ -134,13 +137,13 @@ class ProductGraphQLHandler implements ApiRequestHandler {
     return {
       "handler_name": "ProductGraphQLHandler",
       "description": "Handles GraphQL single product retrieval operations",
-      "supported_methods": ["POST"],
+      "supported_methods": ["QUERY"],
       "required_parameters": ["id"],
       "optional_parameters": [],
       "graphql_operation": "product",
       "examples": {
         "basic_request": {
-          "method": "POST",
+          "method": "QUERY",
           "parameters": {"id": "gid://shopify/Product/123456789"}
         }
       }

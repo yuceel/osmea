@@ -9,11 +9,11 @@ import 'package:get_it/get_it.dart';
 
 class CustomersHandler implements ApiRequestHandler {
   @override
-  List<String> get supportedMethods => ['POST'];
+  List<String> get supportedMethods => ['MUTATION'];
 
   @override
   Map<String, List<ApiField>> get requiredFields => {
-        'POST': [
+        'MUTATION': [
           const ApiField(
             name: 'first',
             label: 'First',
@@ -43,8 +43,8 @@ class CustomersHandler implements ApiRequestHandler {
     String method,
     Map<String, String> params,
   ) async {
-    // Only handle POST requests for GraphQL
-    if (method != 'POST') {
+    // Only handle MUTATION requests for GraphQL
+    if (method != 'MUTATION') {
       return {
         "status": "error",
         "message": "Method $method not supported for GraphQL Customers API",
@@ -121,21 +121,21 @@ class CustomersHandler implements ApiRequestHandler {
     return {
       "handler_name": "GetCustomersGraphQLHandler",
       "description": "Handles GraphQL customers retrieval operations",
-      "supported_methods": ["POST"],
+      "supported_methods": ["MUTATION"],
       "required_parameters": [],
       "optional_parameters": ["first", "after", "query"],
       "graphql_operation": "customers",
       "examples": {
         "basic_request": {
-          "method": "POST",
+          "method": "MUTATION",
           "parameters": {"first": "10"}
         },
         "with_pagination": {
-          "method": "POST",
+          "method": "MUTATION",
           "parameters": {"first": "20", "after": "cursor123"}
         },
         "with_search": {
-          "method": "POST",
+          "method": "MUTATION",
           "parameters": {"first": "15", "query": "email:customer@example.com"}
         }
       }
