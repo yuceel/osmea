@@ -1,11 +1,19 @@
-import '../../../schema.graphql.dart';
 import 'package:gql/ast.dart';
 
 class Variables$Mutation$UpdateCustomer {
-  factory Variables$Mutation$UpdateCustomer(
-          {required Input$CustomerUpdateInput input}) =>
+  factory Variables$Mutation$UpdateCustomer({
+    required String id,
+    String? firstName,
+    String? lastName,
+    String? email,
+    String? phone,
+  }) =>
       Variables$Mutation$UpdateCustomer._({
-        r'input': input,
+        r'id': id,
+        if (firstName != null) r'firstName': firstName,
+        if (lastName != null) r'lastName': lastName,
+        if (email != null) r'email': email,
+        if (phone != null) r'phone': phone,
       });
 
   Variables$Mutation$UpdateCustomer._(this._$data);
@@ -13,21 +21,59 @@ class Variables$Mutation$UpdateCustomer {
   factory Variables$Mutation$UpdateCustomer.fromJson(
       Map<String, dynamic> data) {
     final result$data = <String, dynamic>{};
-    final l$input = data['input'];
-    result$data['input'] =
-        Input$CustomerUpdateInput.fromJson((l$input as Map<String, dynamic>));
+    final l$id = data['id'];
+    result$data['id'] = (l$id as String);
+    if (data.containsKey('firstName')) {
+      final l$firstName = data['firstName'];
+      result$data['firstName'] = (l$firstName as String?);
+    }
+    if (data.containsKey('lastName')) {
+      final l$lastName = data['lastName'];
+      result$data['lastName'] = (l$lastName as String?);
+    }
+    if (data.containsKey('email')) {
+      final l$email = data['email'];
+      result$data['email'] = (l$email as String?);
+    }
+    if (data.containsKey('phone')) {
+      final l$phone = data['phone'];
+      result$data['phone'] = (l$phone as String?);
+    }
     return Variables$Mutation$UpdateCustomer._(result$data);
   }
 
   Map<String, dynamic> _$data;
 
-  Input$CustomerUpdateInput get input =>
-      (_$data['input'] as Input$CustomerUpdateInput);
+  String get id => (_$data['id'] as String);
+
+  String? get firstName => (_$data['firstName'] as String?);
+
+  String? get lastName => (_$data['lastName'] as String?);
+
+  String? get email => (_$data['email'] as String?);
+
+  String? get phone => (_$data['phone'] as String?);
 
   Map<String, dynamic> toJson() {
     final result$data = <String, dynamic>{};
-    final l$input = input;
-    result$data['input'] = l$input.toJson();
+    final l$id = id;
+    result$data['id'] = l$id;
+    if (_$data.containsKey('firstName')) {
+      final l$firstName = firstName;
+      result$data['firstName'] = l$firstName;
+    }
+    if (_$data.containsKey('lastName')) {
+      final l$lastName = lastName;
+      result$data['lastName'] = l$lastName;
+    }
+    if (_$data.containsKey('email')) {
+      final l$email = email;
+      result$data['email'] = l$email;
+    }
+    if (_$data.containsKey('phone')) {
+      final l$phone = phone;
+      result$data['phone'] = l$phone;
+    }
     return result$data;
   }
 
@@ -46,9 +92,43 @@ class Variables$Mutation$UpdateCustomer {
         runtimeType != other.runtimeType) {
       return false;
     }
-    final l$input = input;
-    final lOther$input = other.input;
-    if (l$input != lOther$input) {
+    final l$id = id;
+    final lOther$id = other.id;
+    if (l$id != lOther$id) {
+      return false;
+    }
+    final l$firstName = firstName;
+    final lOther$firstName = other.firstName;
+    if (_$data.containsKey('firstName') !=
+        other._$data.containsKey('firstName')) {
+      return false;
+    }
+    if (l$firstName != lOther$firstName) {
+      return false;
+    }
+    final l$lastName = lastName;
+    final lOther$lastName = other.lastName;
+    if (_$data.containsKey('lastName') !=
+        other._$data.containsKey('lastName')) {
+      return false;
+    }
+    if (l$lastName != lOther$lastName) {
+      return false;
+    }
+    final l$email = email;
+    final lOther$email = other.email;
+    if (_$data.containsKey('email') != other._$data.containsKey('email')) {
+      return false;
+    }
+    if (l$email != lOther$email) {
+      return false;
+    }
+    final l$phone = phone;
+    final lOther$phone = other.phone;
+    if (_$data.containsKey('phone') != other._$data.containsKey('phone')) {
+      return false;
+    }
+    if (l$phone != lOther$phone) {
       return false;
     }
     return true;
@@ -56,8 +136,18 @@ class Variables$Mutation$UpdateCustomer {
 
   @override
   int get hashCode {
-    final l$input = input;
-    return Object.hashAll([l$input]);
+    final l$id = id;
+    final l$firstName = firstName;
+    final l$lastName = lastName;
+    final l$email = email;
+    final l$phone = phone;
+    return Object.hashAll([
+      l$id,
+      _$data.containsKey('firstName') ? l$firstName : const {},
+      _$data.containsKey('lastName') ? l$lastName : const {},
+      _$data.containsKey('email') ? l$email : const {},
+      _$data.containsKey('phone') ? l$phone : const {},
+    ]);
   }
 }
 
@@ -70,7 +160,13 @@ abstract class CopyWith$Variables$Mutation$UpdateCustomer<TRes> {
   factory CopyWith$Variables$Mutation$UpdateCustomer.stub(TRes res) =
       _CopyWithStubImpl$Variables$Mutation$UpdateCustomer;
 
-  TRes call({Input$CustomerUpdateInput? input});
+  TRes call({
+    String? id,
+    String? firstName,
+    String? lastName,
+    String? email,
+    String? phone,
+  });
 }
 
 class _CopyWithImpl$Variables$Mutation$UpdateCustomer<TRes>
@@ -86,11 +182,20 @@ class _CopyWithImpl$Variables$Mutation$UpdateCustomer<TRes>
 
   static const _undefined = <dynamic, dynamic>{};
 
-  TRes call({Object? input = _undefined}) =>
+  TRes call({
+    Object? id = _undefined,
+    Object? firstName = _undefined,
+    Object? lastName = _undefined,
+    Object? email = _undefined,
+    Object? phone = _undefined,
+  }) =>
       _then(Variables$Mutation$UpdateCustomer._({
         ..._instance._$data,
-        if (input != _undefined && input != null)
-          'input': (input as Input$CustomerUpdateInput),
+        if (id != _undefined && id != null) 'id': (id as String),
+        if (firstName != _undefined) 'firstName': (firstName as String?),
+        if (lastName != _undefined) 'lastName': (lastName as String?),
+        if (email != _undefined) 'email': (email as String?),
+        if (phone != _undefined) 'phone': (phone as String?),
       }));
 }
 
@@ -100,7 +205,14 @@ class _CopyWithStubImpl$Variables$Mutation$UpdateCustomer<TRes>
 
   TRes _res;
 
-  call({Input$CustomerUpdateInput? input}) => _res;
+  call({
+    String? id,
+    String? firstName,
+    String? lastName,
+    String? email,
+    String? phone,
+  }) =>
+      _res;
 }
 
 class Mutation$UpdateCustomer {
@@ -247,14 +359,50 @@ const documentNodeMutationUpdateCustomer = DocumentNode(definitions: [
     name: NameNode(value: 'UpdateCustomer'),
     variableDefinitions: [
       VariableDefinitionNode(
-        variable: VariableNode(name: NameNode(value: 'input')),
+        variable: VariableNode(name: NameNode(value: 'id')),
         type: NamedTypeNode(
-          name: NameNode(value: 'CustomerUpdateInput'),
+          name: NameNode(value: 'ID'),
           isNonNull: true,
         ),
         defaultValue: DefaultValueNode(value: null),
         directives: [],
-      )
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'firstName')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'lastName')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'email')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
+      VariableDefinitionNode(
+        variable: VariableNode(name: NameNode(value: 'phone')),
+        type: NamedTypeNode(
+          name: NameNode(value: 'String'),
+          isNonNull: false,
+        ),
+        defaultValue: DefaultValueNode(value: null),
+        directives: [],
+      ),
     ],
     directives: [],
     selectionSet: SelectionSetNode(selections: [
@@ -264,7 +412,28 @@ const documentNodeMutationUpdateCustomer = DocumentNode(definitions: [
         arguments: [
           ArgumentNode(
             name: NameNode(value: 'input'),
-            value: VariableNode(name: NameNode(value: 'input')),
+            value: ObjectValueNode(fields: [
+              ObjectFieldNode(
+                name: NameNode(value: 'id'),
+                value: VariableNode(name: NameNode(value: 'id')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'firstName'),
+                value: VariableNode(name: NameNode(value: 'firstName')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'lastName'),
+                value: VariableNode(name: NameNode(value: 'lastName')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'email'),
+                value: VariableNode(name: NameNode(value: 'email')),
+              ),
+              ObjectFieldNode(
+                name: NameNode(value: 'phone'),
+                value: VariableNode(name: NameNode(value: 'phone')),
+              ),
+            ]),
           )
         ],
         directives: [],
@@ -312,13 +481,6 @@ const documentNodeMutationUpdateCustomer = DocumentNode(definitions: [
               ),
               FieldNode(
                 name: NameNode(value: 'updatedAt'),
-                alias: null,
-                arguments: [],
-                directives: [],
-                selectionSet: null,
-              ),
-              FieldNode(
-                name: NameNode(value: 'acceptsMarketing'),
                 alias: null,
                 arguments: [],
                 directives: [],
@@ -586,7 +748,6 @@ class Mutation$UpdateCustomer$customerUpdate$customer {
     this.email,
     this.phone,
     required this.updatedAt,
-    this.acceptsMarketing,
     this.$__typename = 'Customer',
   });
 
@@ -598,7 +759,6 @@ class Mutation$UpdateCustomer$customerUpdate$customer {
     final l$email = json['email'];
     final l$phone = json['phone'];
     final l$updatedAt = json['updatedAt'];
-    final l$acceptsMarketing = json['acceptsMarketing'];
     final l$$__typename = json['__typename'];
     return Mutation$UpdateCustomer$customerUpdate$customer(
       id: (l$id as String),
@@ -607,7 +767,6 @@ class Mutation$UpdateCustomer$customerUpdate$customer {
       email: (l$email as String?),
       phone: (l$phone as String?),
       updatedAt: (l$updatedAt as String),
-      acceptsMarketing: (l$acceptsMarketing as bool?),
       $__typename: (l$$__typename as String),
     );
   }
@@ -623,8 +782,6 @@ class Mutation$UpdateCustomer$customerUpdate$customer {
   final String? phone;
 
   final String updatedAt;
-
-  final bool? acceptsMarketing;
 
   final String $__typename;
 
@@ -642,8 +799,6 @@ class Mutation$UpdateCustomer$customerUpdate$customer {
     _resultData['phone'] = l$phone;
     final l$updatedAt = updatedAt;
     _resultData['updatedAt'] = l$updatedAt;
-    final l$acceptsMarketing = acceptsMarketing;
-    _resultData['acceptsMarketing'] = l$acceptsMarketing;
     final l$$__typename = $__typename;
     _resultData['__typename'] = l$$__typename;
     return _resultData;
@@ -657,7 +812,6 @@ class Mutation$UpdateCustomer$customerUpdate$customer {
     final l$email = email;
     final l$phone = phone;
     final l$updatedAt = updatedAt;
-    final l$acceptsMarketing = acceptsMarketing;
     final l$$__typename = $__typename;
     return Object.hashAll([
       l$id,
@@ -666,7 +820,6 @@ class Mutation$UpdateCustomer$customerUpdate$customer {
       l$email,
       l$phone,
       l$updatedAt,
-      l$acceptsMarketing,
       l$$__typename,
     ]);
   }
@@ -710,11 +863,6 @@ class Mutation$UpdateCustomer$customerUpdate$customer {
     if (l$updatedAt != lOther$updatedAt) {
       return false;
     }
-    final l$acceptsMarketing = acceptsMarketing;
-    final lOther$acceptsMarketing = other.acceptsMarketing;
-    if (l$acceptsMarketing != lOther$acceptsMarketing) {
-      return false;
-    }
     final l$$__typename = $__typename;
     final lOther$$__typename = other.$__typename;
     if (l$$__typename != lOther$$__typename) {
@@ -751,7 +899,6 @@ abstract class CopyWith$Mutation$UpdateCustomer$customerUpdate$customer<TRes> {
     String? email,
     String? phone,
     String? updatedAt,
-    bool? acceptsMarketing,
     String? $__typename,
   });
 }
@@ -776,7 +923,6 @@ class _CopyWithImpl$Mutation$UpdateCustomer$customerUpdate$customer<TRes>
     Object? email = _undefined,
     Object? phone = _undefined,
     Object? updatedAt = _undefined,
-    Object? acceptsMarketing = _undefined,
     Object? $__typename = _undefined,
   }) =>
       _then(Mutation$UpdateCustomer$customerUpdate$customer(
@@ -791,9 +937,6 @@ class _CopyWithImpl$Mutation$UpdateCustomer$customerUpdate$customer<TRes>
         updatedAt: updatedAt == _undefined || updatedAt == null
             ? _instance.updatedAt
             : (updatedAt as String),
-        acceptsMarketing: acceptsMarketing == _undefined
-            ? _instance.acceptsMarketing
-            : (acceptsMarketing as bool?),
         $__typename: $__typename == _undefined || $__typename == null
             ? _instance.$__typename
             : ($__typename as String),
@@ -813,7 +956,6 @@ class _CopyWithStubImpl$Mutation$UpdateCustomer$customerUpdate$customer<TRes>
     String? email,
     String? phone,
     String? updatedAt,
-    bool? acceptsMarketing,
     String? $__typename,
   }) =>
       _res;

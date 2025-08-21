@@ -31,7 +31,7 @@ type Mutation {
   # Customer mutations
   customerCreate(input: CustomerInput!): CustomerCreatePayload
   customerUpdate(input: CustomerUpdateInput!): CustomerUpdatePayload
-  customerDisable(input: CustomerDisableInput!): CustomerDisablePayload
+  customerDelete(input: CustomerDeleteInput!): CustomerDeletePayload
 }
 
 # Basic types - these should be replaced with actual Shopify schema
@@ -164,7 +164,7 @@ input CustomerUpdateInput {
   phone: String
 }
 
-input CustomerDisableInput {
+input CustomerDeleteInput {
   id: ID!
 }
 
@@ -199,8 +199,8 @@ type CustomerUpdatePayload {
   userErrors: [UserError!]!
 }
 
-type CustomerDisablePayload {
-  customer: Customer
+type CustomerDeletePayload {
+  deletedCustomerId: ID
   userErrors: [UserError!]!
 }
 
@@ -229,6 +229,13 @@ enum CurrencyCode {
   AUD
   JPY
   TRY
+}
+
+enum WeightUnit {
+  GRAMS
+  KILOGRAMS
+  OUNCES
+  POUNDS
 }
 
 # Scalars

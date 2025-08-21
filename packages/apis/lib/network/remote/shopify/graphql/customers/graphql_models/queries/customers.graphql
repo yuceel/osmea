@@ -9,25 +9,7 @@ query Customers($first: Int!, $after: String, $query: String) {
         phone
         createdAt
         updatedAt
-        acceptsMarketing
-        emailMarketingConsent {
-          marketingState
-          marketingOptInLevel
-        }
-        addresses(first: 5) {
-          edges {
-            node {
-              id
-              address1
-              address2
-              city
-              province
-              country
-              zip
-              phone
-            }
-          }
-        }
+
       }
       cursor
     }

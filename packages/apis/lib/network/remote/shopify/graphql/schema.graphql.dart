@@ -1039,19 +1039,19 @@ class _CopyWithStubImpl$Input$CustomerUpdateInput<TRes>
       _res;
 }
 
-class Input$CustomerDisableInput {
-  factory Input$CustomerDisableInput({required String id}) =>
-      Input$CustomerDisableInput._({
+class Input$CustomerDeleteInput {
+  factory Input$CustomerDeleteInput({required String id}) =>
+      Input$CustomerDeleteInput._({
         r'id': id,
       });
 
-  Input$CustomerDisableInput._(this._$data);
+  Input$CustomerDeleteInput._(this._$data);
 
-  factory Input$CustomerDisableInput.fromJson(Map<String, dynamic> data) {
+  factory Input$CustomerDeleteInput.fromJson(Map<String, dynamic> data) {
     final result$data = <String, dynamic>{};
     final l$id = data['id'];
     result$data['id'] = (l$id as String);
-    return Input$CustomerDisableInput._(result$data);
+    return Input$CustomerDeleteInput._(result$data);
   }
 
   Map<String, dynamic> _$data;
@@ -1065,18 +1065,18 @@ class Input$CustomerDisableInput {
     return result$data;
   }
 
-  CopyWith$Input$CustomerDisableInput<Input$CustomerDisableInput>
-      get copyWith => CopyWith$Input$CustomerDisableInput(
-            this,
-            (i) => i,
-          );
+  CopyWith$Input$CustomerDeleteInput<Input$CustomerDeleteInput> get copyWith =>
+      CopyWith$Input$CustomerDeleteInput(
+        this,
+        (i) => i,
+      );
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) {
       return true;
     }
-    if (other is! Input$CustomerDisableInput ||
+    if (other is! Input$CustomerDeleteInput ||
         runtimeType != other.runtimeType) {
       return false;
     }
@@ -1095,40 +1095,40 @@ class Input$CustomerDisableInput {
   }
 }
 
-abstract class CopyWith$Input$CustomerDisableInput<TRes> {
-  factory CopyWith$Input$CustomerDisableInput(
-    Input$CustomerDisableInput instance,
-    TRes Function(Input$CustomerDisableInput) then,
-  ) = _CopyWithImpl$Input$CustomerDisableInput;
+abstract class CopyWith$Input$CustomerDeleteInput<TRes> {
+  factory CopyWith$Input$CustomerDeleteInput(
+    Input$CustomerDeleteInput instance,
+    TRes Function(Input$CustomerDeleteInput) then,
+  ) = _CopyWithImpl$Input$CustomerDeleteInput;
 
-  factory CopyWith$Input$CustomerDisableInput.stub(TRes res) =
-      _CopyWithStubImpl$Input$CustomerDisableInput;
+  factory CopyWith$Input$CustomerDeleteInput.stub(TRes res) =
+      _CopyWithStubImpl$Input$CustomerDeleteInput;
 
   TRes call({String? id});
 }
 
-class _CopyWithImpl$Input$CustomerDisableInput<TRes>
-    implements CopyWith$Input$CustomerDisableInput<TRes> {
-  _CopyWithImpl$Input$CustomerDisableInput(
+class _CopyWithImpl$Input$CustomerDeleteInput<TRes>
+    implements CopyWith$Input$CustomerDeleteInput<TRes> {
+  _CopyWithImpl$Input$CustomerDeleteInput(
     this._instance,
     this._then,
   );
 
-  final Input$CustomerDisableInput _instance;
+  final Input$CustomerDeleteInput _instance;
 
-  final TRes Function(Input$CustomerDisableInput) _then;
+  final TRes Function(Input$CustomerDeleteInput) _then;
 
   static const _undefined = <dynamic, dynamic>{};
 
-  TRes call({Object? id = _undefined}) => _then(Input$CustomerDisableInput._({
+  TRes call({Object? id = _undefined}) => _then(Input$CustomerDeleteInput._({
         ..._instance._$data,
         if (id != _undefined && id != null) 'id': (id as String),
       }));
 }
 
-class _CopyWithStubImpl$Input$CustomerDisableInput<TRes>
-    implements CopyWith$Input$CustomerDisableInput<TRes> {
-  _CopyWithStubImpl$Input$CustomerDisableInput(this._res);
+class _CopyWithStubImpl$Input$CustomerDeleteInput<TRes>
+    implements CopyWith$Input$CustomerDeleteInput<TRes> {
+  _CopyWithStubImpl$Input$CustomerDeleteInput(this._res);
 
   TRes _res;
 

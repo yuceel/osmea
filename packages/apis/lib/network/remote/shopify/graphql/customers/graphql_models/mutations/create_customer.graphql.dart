@@ -324,13 +324,6 @@ const documentNodeMutationCreateCustomer = DocumentNode(definitions: [
                 selectionSet: null,
               ),
               FieldNode(
-                name: NameNode(value: 'acceptsMarketing'),
-                alias: null,
-                arguments: [],
-                directives: [],
-                selectionSet: null,
-              ),
-              FieldNode(
                 name: NameNode(value: '__typename'),
                 alias: null,
                 arguments: [],
@@ -593,7 +586,6 @@ class Mutation$CreateCustomer$customerCreate$customer {
     this.phone,
     required this.createdAt,
     required this.updatedAt,
-    this.acceptsMarketing,
     this.$__typename = 'Customer',
   });
 
@@ -606,7 +598,6 @@ class Mutation$CreateCustomer$customerCreate$customer {
     final l$phone = json['phone'];
     final l$createdAt = json['createdAt'];
     final l$updatedAt = json['updatedAt'];
-    final l$acceptsMarketing = json['acceptsMarketing'];
     final l$$__typename = json['__typename'];
     return Mutation$CreateCustomer$customerCreate$customer(
       id: (l$id as String),
@@ -616,7 +607,6 @@ class Mutation$CreateCustomer$customerCreate$customer {
       phone: (l$phone as String?),
       createdAt: (l$createdAt as String),
       updatedAt: (l$updatedAt as String),
-      acceptsMarketing: (l$acceptsMarketing as bool?),
       $__typename: (l$$__typename as String),
     );
   }
@@ -634,8 +624,6 @@ class Mutation$CreateCustomer$customerCreate$customer {
   final String createdAt;
 
   final String updatedAt;
-
-  final bool? acceptsMarketing;
 
   final String $__typename;
 
@@ -655,8 +643,6 @@ class Mutation$CreateCustomer$customerCreate$customer {
     _resultData['createdAt'] = l$createdAt;
     final l$updatedAt = updatedAt;
     _resultData['updatedAt'] = l$updatedAt;
-    final l$acceptsMarketing = acceptsMarketing;
-    _resultData['acceptsMarketing'] = l$acceptsMarketing;
     final l$$__typename = $__typename;
     _resultData['__typename'] = l$$__typename;
     return _resultData;
@@ -671,7 +657,6 @@ class Mutation$CreateCustomer$customerCreate$customer {
     final l$phone = phone;
     final l$createdAt = createdAt;
     final l$updatedAt = updatedAt;
-    final l$acceptsMarketing = acceptsMarketing;
     final l$$__typename = $__typename;
     return Object.hashAll([
       l$id,
@@ -681,7 +666,6 @@ class Mutation$CreateCustomer$customerCreate$customer {
       l$phone,
       l$createdAt,
       l$updatedAt,
-      l$acceptsMarketing,
       l$$__typename,
     ]);
   }
@@ -730,11 +714,6 @@ class Mutation$CreateCustomer$customerCreate$customer {
     if (l$updatedAt != lOther$updatedAt) {
       return false;
     }
-    final l$acceptsMarketing = acceptsMarketing;
-    final lOther$acceptsMarketing = other.acceptsMarketing;
-    if (l$acceptsMarketing != lOther$acceptsMarketing) {
-      return false;
-    }
     final l$$__typename = $__typename;
     final lOther$$__typename = other.$__typename;
     if (l$$__typename != lOther$$__typename) {
@@ -772,7 +751,6 @@ abstract class CopyWith$Mutation$CreateCustomer$customerCreate$customer<TRes> {
     String? phone,
     String? createdAt,
     String? updatedAt,
-    bool? acceptsMarketing,
     String? $__typename,
   });
 }
@@ -798,7 +776,6 @@ class _CopyWithImpl$Mutation$CreateCustomer$customerCreate$customer<TRes>
     Object? phone = _undefined,
     Object? createdAt = _undefined,
     Object? updatedAt = _undefined,
-    Object? acceptsMarketing = _undefined,
     Object? $__typename = _undefined,
   }) =>
       _then(Mutation$CreateCustomer$customerCreate$customer(
@@ -816,9 +793,6 @@ class _CopyWithImpl$Mutation$CreateCustomer$customerCreate$customer<TRes>
         updatedAt: updatedAt == _undefined || updatedAt == null
             ? _instance.updatedAt
             : (updatedAt as String),
-        acceptsMarketing: acceptsMarketing == _undefined
-            ? _instance.acceptsMarketing
-            : (acceptsMarketing as bool?),
         $__typename: $__typename == _undefined || $__typename == null
             ? _instance.$__typename
             : ($__typename as String),
@@ -839,7 +813,6 @@ class _CopyWithStubImpl$Mutation$CreateCustomer$customerCreate$customer<TRes>
     String? phone,
     String? createdAt,
     String? updatedAt,
-    bool? acceptsMarketing,
     String? $__typename,
   }) =>
       _res;

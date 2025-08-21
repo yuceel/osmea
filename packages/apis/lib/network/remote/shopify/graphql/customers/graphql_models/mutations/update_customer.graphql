@@ -1,5 +1,5 @@
-mutation UpdateCustomer($input: CustomerUpdateInput!) {
-  customerUpdate(input: $input) {
+mutation UpdateCustomer($id: ID!, $firstName: String, $lastName: String, $email: String, $phone: String) {
+  customerUpdate(input: {id: $id, firstName: $firstName, lastName: $lastName, email: $email, phone: $phone}) {
     customer {
       id
       firstName
@@ -7,7 +7,6 @@ mutation UpdateCustomer($input: CustomerUpdateInput!) {
       email
       phone
       updatedAt
-      acceptsMarketing
     }
     userErrors {
       field

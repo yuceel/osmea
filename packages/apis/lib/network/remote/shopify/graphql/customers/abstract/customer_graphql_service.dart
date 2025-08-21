@@ -1,6 +1,6 @@
 import 'package:apis/network/remote/shopify/graphql/customers/graphql_models/mutations/create_customer.graphql.dart';
 import 'package:apis/network/remote/shopify/graphql/customers/graphql_models/mutations/update_customer.graphql.dart';
-import 'package:apis/network/remote/shopify/graphql/customers/graphql_models/mutations/delete_customer.graphql.dart';
+import 'package:apis/network/remote/shopify/graphql/customers/graphql_models/mutations/customer_delete.graphql.dart';
 import 'package:apis/network/remote/shopify/graphql/customers/graphql_models/queries/customer.graphql.dart';
 import 'package:apis/network/remote/shopify/graphql/customers/graphql_models/queries/customers.graphql.dart';
 import 'package:apis/network/remote/shopify/graphql/customers/graphql_models/queries/customers_count.graphql.dart';
@@ -32,9 +32,9 @@ abstract class CustomerGraphQLService {
     required Variables$Mutation$UpdateCustomer input,
   });
 
-  /// 🚫 Disable a customer (Shopify's customerDisable mutation)
-  Future<Mutation$DisableCustomer> disableCustomer({
-    required Variables$Mutation$DisableCustomer input,
+  /// 🗑️ Delete a customer (Shopify's customerDelete mutation)
+  Future<Mutation$DeleteCustomer> deleteCustomer({
+    required Variables$Mutation$DeleteCustomer input,
   });
 
   /// 🔢 Get total count of customers

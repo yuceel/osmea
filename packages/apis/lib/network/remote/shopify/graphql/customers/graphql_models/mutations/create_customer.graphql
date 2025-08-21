@@ -8,7 +8,6 @@ mutation CreateCustomer($input: CustomerInput!) {
       phone
       createdAt
       updatedAt
-      acceptsMarketing
     }
     userErrors {
       field

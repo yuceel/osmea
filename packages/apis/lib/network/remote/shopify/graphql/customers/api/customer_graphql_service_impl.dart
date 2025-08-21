@@ -1,7 +1,7 @@
 import 'package:apis/network/remote/shopify/graphql/customers/abstract/customer_graphql_service.dart';
 import 'package:apis/network/remote/shopify/graphql/customers/graphql_models/mutations/create_customer.graphql.dart';
 import 'package:apis/network/remote/shopify/graphql/customers/graphql_models/mutations/update_customer.graphql.dart';
-import 'package:apis/network/remote/shopify/graphql/customers/graphql_models/mutations/delete_customer.graphql.dart';
+import 'package:apis/network/remote/shopify/graphql/customers/graphql_models/mutations/customer_delete.graphql.dart';
 import 'package:apis/network/remote/shopify/graphql/customers/graphql_models/queries/customer.graphql.dart';
 import 'package:apis/network/remote/shopify/graphql/customers/graphql_models/queries/customers.graphql.dart';
 import 'package:apis/network/remote/shopify/graphql/customers/graphql_models/queries/customers_count.graphql.dart';
@@ -76,15 +76,15 @@ class CustomerGraphQLServiceImpl extends BaseGraphQLService
   }
 
   @override
-  Future<Mutation$DisableCustomer> disableCustomer({
-    required Variables$Mutation$DisableCustomer input,
+  Future<Mutation$DeleteCustomer> deleteCustomer({
+    required Variables$Mutation$DeleteCustomer input,
   }) async {
     final result = await this.mutateWithDocument(
-      documentNode: documentNodeMutationDisableCustomer,
+      documentNode: documentNodeMutationDeleteCustomer,
       variables: input.toJson(),
     );
 
-    return Mutation$DisableCustomer.fromJson(
+    return Mutation$DeleteCustomer.fromJson(
         result['data'] as Map<String, dynamic>);
   }
 

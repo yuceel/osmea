@@ -7,34 +7,8 @@ query Customer($id: ID!) {
     phone
     createdAt
     updatedAt
-    acceptsMarketing
-    emailMarketingConsent {
-      marketingState
-      marketingOptInLevel
-    }
-    addresses(first: 20) {
-      edges {
-        node {
-          id
-          address1
-          address2
-          city
-          province
-          country
-          zip
-          phone
-        }
-      }
-    }
-    orders(first: 50) {
-      edges {
-        node {
-          id
-          name
-          totalPrice: totalPrice
-          createdAt
-        }
-      }
-    }
+
+
+
   }
 }
