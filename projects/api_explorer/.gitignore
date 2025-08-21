@@ -36,3 +36,4 @@ build/
 *.freezed.dart
 *.config.dart
 *.graphql.dart
+!schema.graphql.dart
