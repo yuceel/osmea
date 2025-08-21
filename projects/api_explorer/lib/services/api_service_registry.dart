@@ -127,20 +127,18 @@ extension ApiCategoryExtension on ApiCategory {
         return 'Queries';
       case ApiCategory.graphqlProductsAndCollectionsMutations:
         return 'Mutations';
-      // GraphQL Orders
-      // case ApiCategory.graphqlOrders:
-      //   return 'Orders';
-      // case ApiCategory.graphqlOrdersQueries:
-      //   return 'Queries';
-      // case ApiCategory.graphqlOrdersMutations:
-      //   return 'Mutations';
-      // GraphQL Customers
+      
       case ApiCategory.graphqlCustomers:
         return 'Customers';
       case ApiCategory.graphqlCustomersQueries:
         return 'Queries';
       case ApiCategory.graphqlCustomersMutations:
         return 'Mutations';
+      // GraphQL Webhooks
+      case ApiCategory.graphqlWebhooks:
+        return 'Webhooks';
+      case ApiCategory.graphqlWebhookQueries:
+        return 'Queries';
       // GraphQL Shop
       case ApiCategory.woocommerceCoupons:
         return 'Coupons APIs';
