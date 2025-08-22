@@ -23,6 +23,7 @@ import '../components/footer_storybook/showcase/unified_footer_showcase.dart';
 import '../components/carousel_storybook/showcase/unified_carousel_showcase.dart';
 import '../components/searchbar_storybook/showcase/unified_searchbar_showcase.dart';
 import '../components/ticket_storybook/showcase/unified_ticket_showcase.dart';
+import '../components/bottom_sheet_storybook/bottom_sheets.dart';
 
 /// Model for component information displayed on home page and stories
 class ComponentInfo {
@@ -220,5 +221,13 @@ final List<ComponentInfo> allComponents = [
     color: Colors.green,
     storyPath: StoryConfig.buildComponentStoryName('Ticket Widget'),
     getStories: getUnifiedTicketShowcase,
+  ),
+  ComponentInfo(
+    name: 'Bottom Sheets',
+    description: 'Modal overlays for displaying content and actions',
+    icon: Icons.call_to_action,
+    color: Colors.deepPurple,
+    storyPath: StoryConfig.buildComponentStoryName('Bottom Sheets'),
+    getStories: getAllBottomSheetStories,
   ),
 ];
