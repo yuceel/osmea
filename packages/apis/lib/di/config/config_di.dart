@@ -3,11 +3,6 @@
 
 import 'package:apis/apis.dart'; // 📦 Main APIs package
 import 'package:apis/di/config/config_di.config.dart'; // ⚙️ Generated DI config
-import 'package:apis/network/remote/shopify/graphql/services/base_graphql_service.dart'; // 🏗️ Base GraphQL Service
-import 'package:apis/network/remote/shopify/graphql/products/abstract/product_graphql_service.dart'; // 🛍️ Product GraphQL Service
-import 'package:apis/network/remote/shopify/graphql/products/api/product_graphql_service_impl.dart'; // 🛍️ Product GraphQL Implementation
-import 'package:apis/network/remote/shopify/graphql/customers/abstract/customer_graphql_service.dart'; // 👥 Customer GraphQL Service
-import 'package:apis/network/remote/shopify/graphql/customers/api/customer_graphql_service_impl.dart'; // 👥 Customer GraphQL Implementation
 import 'package:apis/dio_config/shopify_graphql_client.dart'; // 🔌 Shopify GraphQL Client
 import 'package:get_it/get_it.dart'; // 🛠️ Service locator
 import 'package:injectable/injectable.dart'; // 💉 Dependency injection
@@ -56,21 +51,6 @@ void _registerGraphQLServices(GetIt getIt) {
     if (!getIt.isRegistered<ShopifyGraphQLClient>()) {
       getIt.registerSingleton<ShopifyGraphQLClient>(ShopifyGraphQLClient());
     }
-
-    // Product GraphQL Service
-    if (!getIt.isRegistered<ProductGraphQLService>()) {
-      getIt.registerFactory<ProductGraphQLService>(
-        () => ProductGraphQLServiceImpl(getIt<ShopifyGraphQLClient>()),
-      );
-    }
-
-    // Customer GraphQL Service
-    if (!getIt.isRegistered<CustomerGraphQLService>()) {
-      getIt.registerFactory<CustomerGraphQLService>(
-        () => CustomerGraphQLServiceImpl(getIt<ShopifyGraphQLClient>()),
-      );
-    }
-
     logger.i('GraphQL services registered successfully');
   } catch (e) {
     logger.w('Some GraphQL services could not be registered: $e');
