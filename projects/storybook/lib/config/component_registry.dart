@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
 import 'story_config.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
-import '../components/cards_storybook/showcase/unified_card_showcase.dart';
-import '../components/chips_storybook/showcase/unified_chip_showcase.dart';
-import '../components/avatar_storybook/showcase/unified_avatar_showcase.dart';
-import '../components/button_storybook/showcase/unified_button_showcase.dart';
-import '../components/badge_storybook/showcase/unified_badge_showcase.dart';
-import '../components/text_field_storybook/showcase/unified_text_field_showcase.dart';
-import '../components/navbar_storybook/showcase/unified_navbar_showcase.dart';
-import '../components/appbar_storybook/showcase/unified_appbar_showcase.dart';
-import '../components/checkbox_storybook/showcase/unified_checkbox_showcase.dart';
-import '../components/radio_button_storybook/showcase/unified_radio_button_showcase.dart';
-import '../components/switch_button_storybook/showcase/unified_switch_button_showcase.dart';
-import '../components/loading_storybook/showcase/unified_loading_showcase.dart';
+import '../components/cards_storybook/cards.dart';
+import '../components/chips_storybook/chips.dart';
+import '../components/avatar_storybook/avatars.dart';
+import '../components/button_storybook/buttons.dart';
+import '../components/badge_storybook/badges.dart';
+import '../components/text_field_storybook/text_fields.dart';
+import '../components/navbar_storybook/navbars.dart';
+import '../components/appbar_storybook/appbars.dart';
+import '../components/checkbox_storybook/checkboxes.dart';
+import '../components/radio_button_storybook/radio_buttons.dart';
+import '../components/switch_button_storybook/switch_buttons.dart';
+import '../components/loading_storybook/loadings.dart';
 import '../components/text_storybook/texts.dart';
-import '../components/progress_storybook/showcase/unified_progress_showcase.dart';
-import '../components/divider_storybook/showcase/unified_divider_showcase.dart';
+import '../components/progress_storybook/progresses.dart';
+import '../components/divider_storybook/dividers.dart';
 import '../components/list_item_storybook/list_items.dart';
-import '../components/counter_storybook/showcase/unified_counter_showcase.dart';
+import '../components/counter_storybook/counters.dart';
 import '../components/container_storybook/containers.dart';
-import '../components/footer_storybook/showcase/unified_footer_showcase.dart';
-import '../components/carousel_storybook/showcase/unified_carousel_showcase.dart';
-import '../components/searchbar_storybook/showcase/unified_searchbar_showcase.dart';
-import '../components/ticket_storybook/showcase/unified_ticket_showcase.dart';
+import '../components/footer_storybook/footers.dart';
+import '../components/carousel_storybook/carousels.dart';
+import '../components/searchbar_storybook/searchbars.dart';
+import '../components/ticket_storybook/tickets.dart';
 import '../components/bottom_sheet_storybook/bottom_sheets.dart';
 
 /// Model for component information displayed on home page and stories
@@ -52,7 +52,7 @@ final List<ComponentInfo> allComponents = [
     icon: Icons.credit_card,
     color: Colors.deepPurple,
     storyPath: StoryConfig.buildComponentStoryName('Cards'),
-    getStories: getUnifiedCardShowcase,
+    getStories: getAllCardStories,
   ),
   ComponentInfo(
     name: 'Chips',
@@ -60,7 +60,7 @@ final List<ComponentInfo> allComponents = [
     icon: Icons.label_important,
     color: Colors.blueGrey,
     storyPath: StoryConfig.buildComponentStoryName('Chips'),
-    getStories: getUnifiedChipShowcase,
+    getStories: getAllChipStories,
   ),
   ComponentInfo(
     name: 'Avatars',
@@ -68,7 +68,7 @@ final List<ComponentInfo> allComponents = [
     icon: Icons.account_circle,
     color: Colors.cyan,
     storyPath: StoryConfig.buildComponentStoryName('Avatars'),
-    getStories: getUnifiedAvatarShowcase,
+    getStories: getAllAvatarStories,
   ),
   ComponentInfo(
     name: 'Buttons',
@@ -76,7 +76,7 @@ final List<ComponentInfo> allComponents = [
     icon: Icons.smart_button,
     color: Colors.blue,
     storyPath: StoryConfig.buildComponentStoryName('Buttons'),
-    getStories: getUnifiedButtonShowcase,
+    getStories: getAllButtonStories,
   ),
   ComponentInfo(
     name: 'Badges',
@@ -84,7 +84,7 @@ final List<ComponentInfo> allComponents = [
     icon: Icons.label,
     color: Colors.amber,
     storyPath: StoryConfig.buildComponentStoryName('Badges'),
-    getStories: getUnifiedBadgeShowcase,
+    getStories: getAllBadgeStories,
   ),
   ComponentInfo(
     name: 'Text Fields',
@@ -92,7 +92,7 @@ final List<ComponentInfo> allComponents = [
     icon: Icons.text_fields,
     color: Colors.green,
     storyPath: StoryConfig.buildComponentStoryName('Text Fields'),
-    getStories: getUnifiedTextFieldShowcase,
+    getStories: getAllTextFieldStories,
   ),
   ComponentInfo(
     name: 'Navigation Bar',
@@ -100,7 +100,7 @@ final List<ComponentInfo> allComponents = [
     icon: Icons.navigation,
     color: Colors.orange,
     storyPath: StoryConfig.buildComponentStoryName('Navigation Bar'),
-    getStories: getUnifiedNavbarShowcase,
+    getStories: getAllNavbarStories,
   ),
   ComponentInfo(
     name: 'App Bar',
@@ -108,7 +108,7 @@ final List<ComponentInfo> allComponents = [
     icon: Icons.app_settings_alt,
     color: Colors.purple,
     storyPath: StoryConfig.buildComponentStoryName('App Bar'),
-    getStories: getUnifiedAppBarShowcase,
+    getStories: getAllAppBarStories,
   ),
   ComponentInfo(
     name: 'Checkboxes',
@@ -116,7 +116,7 @@ final List<ComponentInfo> allComponents = [
     icon: Icons.check_box,
     color: Colors.teal,
     storyPath: StoryConfig.buildComponentStoryName('Checkboxes'),
-    getStories: getUnifiedCheckboxShowcase,
+    getStories: getAllCheckboxStories,
   ),
   ComponentInfo(
     name: 'Radio Buttons',
@@ -124,7 +124,7 @@ final List<ComponentInfo> allComponents = [
     icon: Icons.radio_button_checked,
     color: Colors.red,
     storyPath: StoryConfig.buildComponentStoryName('Radio Buttons'),
-    getStories: getUnifiedRadioButtonShowcase,
+    getStories: getAllRadioButtonStories,
   ),
   ComponentInfo(
     name: 'Switch Buttons',
@@ -132,7 +132,7 @@ final List<ComponentInfo> allComponents = [
     icon: Icons.toggle_on,
     color: Colors.indigo,
     storyPath: StoryConfig.buildComponentStoryName('Switch Buttons'),
-    getStories: getUnifiedSwitchButtonShowcase,
+    getStories: getAllSwitchButtonStories,
   ),
   ComponentInfo(
       name: 'Progress Indicators',
@@ -140,7 +140,7 @@ final List<ComponentInfo> allComponents = [
       icon: Icons.timeline,
       color: Colors.lightBlue,
       storyPath: StoryConfig.buildComponentStoryName('Progress'),
-      getStories: getUnifiedProgressShowcase,
+      getStories: getAllProgressStories,
     ),
   ComponentInfo(
     name: 'Text',
@@ -156,7 +156,7 @@ final List<ComponentInfo> allComponents = [
     icon: Icons.autorenew,
     color: Colors.lightBlue,
     storyPath: StoryConfig.buildComponentStoryName('Loading Animations'),
-    getStories: getUnifiedLoadingShowcase,
+    getStories: getAllLoadingStories,
   ),
   ComponentInfo(
     name: 'Dividers',
@@ -164,7 +164,7 @@ final List<ComponentInfo> allComponents = [
     icon: Icons.horizontal_rule,
     color: Colors.grey,
     storyPath: StoryConfig.buildComponentStoryName('Dividers'),
-    getStories: getUnifiedDividerShowcase,
+    getStories: getAllDividerStories,
   ),
   ComponentInfo(
     name: 'List Item',
@@ -180,7 +180,7 @@ final List<ComponentInfo> allComponents = [
     icon: Icons.add_shopping_cart,
     color: Colors.deepOrange,
     storyPath: StoryConfig.buildComponentStoryName('Counters'),
-    getStories: getUnifiedCounterShowcase,
+    getStories: getAllCounterStories,
   ),
   ComponentInfo(
     name: 'Containers',
@@ -196,7 +196,7 @@ final List<ComponentInfo> allComponents = [
     icon: Icons.foundation,
     color: Colors.blueGrey,
     storyPath: StoryConfig.buildComponentStoryName('Footers'),
-    getStories: getUnifiedFooterShowcase,
+    getStories: getAllFooterStories,
   ),
   ComponentInfo(
     name: 'Carousels',
@@ -204,7 +204,7 @@ final List<ComponentInfo> allComponents = [
     icon: Icons.view_carousel,
     color: Colors.cyan,
     storyPath: StoryConfig.buildComponentStoryName('Carousels'),
-    getStories: getUnifiedCarouselShowcase,
+    getStories: getAllCarouselStories,
   ),
   ComponentInfo(
     name: 'Searchbars',
@@ -212,7 +212,7 @@ final List<ComponentInfo> allComponents = [
     icon: Icons.search,
     color: Colors.teal,
     storyPath: StoryConfig.buildComponentStoryName('Searchbars'),
-    getStories: getUnifiedSearchbarShowcase,
+    getStories: getAllSearchbarStories,
   ),
   ComponentInfo(
     name: 'Ticket Widget',
@@ -220,7 +220,7 @@ final List<ComponentInfo> allComponents = [
     icon: Icons.confirmation_number,
     color: Colors.green,
     storyPath: StoryConfig.buildComponentStoryName('Ticket Widget'),
-    getStories: getUnifiedTicketShowcase,
+    getStories: getAllTicketStories,
   ),
   ComponentInfo(
     name: 'Bottom Sheets',

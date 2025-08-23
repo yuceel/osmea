@@ -76,7 +76,7 @@ List<Story> getUnifiedBottomSheetShowcase() {
           initial: null,
           options: [
             const Option(label: 'Default', value: null),
-            Option(label: 'White', value: OsmeaColors.white),
+            const Option(label: 'White', value: OsmeaColors.white),
             Option(label: 'Grey 50', value: OsmeaColors.grey.shade50),
             Option(label: 'Nordic Blue', value: OsmeaColors.nordicBlue),
             Option(label: 'Forest Heart', value: OsmeaColors.forestHeart),
@@ -89,7 +89,7 @@ List<Story> getUnifiedBottomSheetShowcase() {
           options: [
             const Option(label: 'Default', value: null),
             Option(label: 'Grey 50', value: OsmeaColors.grey.shade50),
-            Option(label: 'White', value: OsmeaColors.white),
+            const Option(label: 'White', value: OsmeaColors.white),
             Option(label: 'Forest Heart Light', value: OsmeaColors.forestHeart.withAlpha(25)),
           ],
         ),

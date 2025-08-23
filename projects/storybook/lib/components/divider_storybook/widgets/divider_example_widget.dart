@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:osmea_components/src/components/divider/divider.dart';
-import 'package:osmea_components/src/enums/divider_enums.dart';
+import 'package:osmea_components/osmea_components.dart';
 
 /// 📏 **Divider Example Widget**
 /// 
@@ -94,7 +93,7 @@ class DividerExampleWidget extends StatelessWidget {
   }
 
   Widget _buildDivider() {
-    return OsmeaDivider(
+    return OsmeaComponents.divider(
       variant: variant,
       thickness: _getThickness(size),
       color: color ?? Colors.grey.shade400,
