@@ -45,21 +45,15 @@ class PanelHeader extends StatelessWidget {
               children: [
                 OsmeaComponents.container(
                   padding: EdgeInsets.all(isNarrow ? 12 : 16),
-                  color: Theme.of(context)
-                      .colorScheme
-                      .surfaceContainerHighest
-                      .withValues(alpha: 0.2),
+                  color: OsmeaColors.snow.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .outline
-                        .withValues(alpha: 0.3),
+                    color: OsmeaColors.snow.withValues(alpha: 0.3),
                     width: 1,
                   ),
                   child: Icon(
                     Icons.api_rounded,
-                    color: Theme.of(context).colorScheme.onSurface,
+                    color: OsmeaColors.snow,
                     size: isNarrow ? 18 : 24,
                   ),
                 ),
@@ -67,7 +61,7 @@ class PanelHeader extends StatelessWidget {
                 OsmeaComponents.text(
                   'API Configuration',
                   variant: OsmeaTextVariant.titleLarge,
-                  color: Theme.of(context).colorScheme.onPrimary,
+                  color: OsmeaColors.snow,
                   fontSize: isNarrow ? 16 : 20,
                   fontWeight: FontWeight.w600,
                 ),
@@ -75,10 +69,7 @@ class PanelHeader extends StatelessWidget {
                 OsmeaComponents.text(
                   serviceName ?? 'Select an API service to begin',
                   variant: OsmeaTextVariant.bodyMedium,
-                  color: Theme.of(context)
-                      .colorScheme
-                      .onPrimary
-                      .withValues(alpha: 0.9),
+                  color: OsmeaColors.snow.withValues(alpha: 0.9),
                   fontSize: isNarrow ? 12 : 14,
                   maxLines: 2,
                 ),

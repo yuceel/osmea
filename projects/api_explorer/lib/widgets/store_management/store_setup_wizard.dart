@@ -51,10 +51,11 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
   static final RegExp _shopifyTokenRegex = RegExp(
       r'^shpat_[a-fA-F0-9]{32}$|^shpca_[a-fA-F0-9]{32}$|^[a-fA-F0-9]{32}$');
   static final RegExp _apiVersionRegex = RegExp(r'^\d{4}-\d{2}$');
+  static final RegExp _wooCommerceApiVersionRegex = RegExp(r'^v[0-9]+$');
   static final RegExp _shopifyUrlRegex = RegExp(
       r'^[a-zA-Z0-9\-]+\.myshopify\.com$|^https?://[a-zA-Z0-9\-]+\.myshopify\.com/?$');
   static final RegExp _wooCommerceUrlRegex =
-      RegExp(r'^https?://[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,}/?$');
+      RegExp(r'^https?://[a-zA-Z0-9\-\.:]+(?:\.[a-zA-Z]{2,}|:\d+)/?.*$');
   static final RegExp _usernameRegex = RegExp(r'^[a-zA-Z0-9_\-\.@]{3,50}$');
   static final RegExp _passwordRegex =
       RegExp(r'^.{8,}$'); // Minimum 8 characters
@@ -250,7 +251,7 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
         isValid = false;
       } else if (!_wooCommerceUrlRegex.hasMatch(_storeUrlController.text)) {
         _storeUrlError =
-            'Invalid URL format (must include http:// or https://)';
+            'Invalid URL format (e.g., http://localhost:8000 or https://yourstore.com)';
         isValid = false;
       }
 
@@ -270,6 +271,15 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
         isValid = false;
       } else if (!_passwordRegex.hasMatch(_passwordController.text)) {
         _passwordError = 'Password must be at least 8 characters';
+        isValid = false;
+      }
+
+      // API version validation for WooCommerce
+      if (_apiVersionController.text.isEmpty) {
+        _apiVersionError = 'API version is required';
+        isValid = false;
+      } else if (!_wooCommerceApiVersionRegex.hasMatch(_apiVersionController.text)) {
+        _apiVersionError = 'API version must be in format v3, v2, etc.';
         isValid = false;
       }
     }
@@ -783,10 +793,12 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
           _buildTextField(
             controller: _apiVersionController,
             label: 'API Version',
-            hint: '2024-07',
+            hint: _selectedPlatform == 'shopify' ? '2025-07' : 'v3',
             icon: Icons.api,
             errorText: _apiVersionError,
-            helperText: 'API version in YYYY-MM format',
+            helperText: _selectedPlatform == 'shopify' 
+                ? 'API version in YYYY-MM format' 
+                : 'API version (e.g., v3)',
             keyboardType: TextInputType.datetime,
           ),
 

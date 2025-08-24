@@ -70,7 +70,7 @@ class ShopifyGraphQLClient implements GraphQLBaseClient {
     }
 
     final apiVersion =
-        ApiNetwork.apiVersion.isNotEmpty ? ApiNetwork.apiVersion : '2024-07';
+        ApiNetwork.apiVersion.isNotEmpty ? ApiNetwork.apiVersion : '2025-07';
 
     final baseUrl =
         'https://${ApiNetwork.storeName}.myshopify.com/admin/api/$apiVersion/graphql';

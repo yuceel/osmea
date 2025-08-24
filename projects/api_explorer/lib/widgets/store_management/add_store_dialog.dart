@@ -18,7 +18,7 @@ class _AddStoreDialogState extends State<AddStoreDialog>
 
   int _currentStep = 0;
   String? _selectedPlatform;
-  String _apiVersion = '2024-07';
+  String _apiVersion = '2025-07';
   bool _isLoading = false;
   final _formKey = GlobalKey<FormState>();
 
@@ -34,7 +34,7 @@ class _AddStoreDialogState extends State<AddStoreDialog>
   void initState() {
     super.initState();
     _selectedPlatform = 'shopify';
-    _apiVersion = '2024-07';
+    _apiVersion = '2025-07';
     _apiVersionController.text = _apiVersion;
     _initializeAnimations();
   }
@@ -374,6 +374,8 @@ class _AddStoreDialogState extends State<AddStoreDialog>
             onTap: () {
               setState(() {
                 _selectedPlatform = 'shopify';
+                _apiVersion = '2025-07';
+                _apiVersionController.text = _apiVersion;
               });
             },
             borderRadius: BorderRadius.circular(12),
@@ -453,6 +455,8 @@ class _AddStoreDialogState extends State<AddStoreDialog>
           onTap: () {
             setState(() {
               _selectedPlatform = 'woocommerce';
+              _apiVersion = 'v3';
+              _apiVersionController.text = _apiVersion;
             });
           },
           borderRadius: BorderRadius.circular(12),
@@ -562,7 +566,7 @@ class _AddStoreDialogState extends State<AddStoreDialog>
               OsmeaComponents.textField(
                 controller: _apiVersionController,
                 label: 'API Version',
-                hint: '2024-07',
+                hint: _selectedPlatform == 'shopify' ? '2025-07' : 'v3',
                 prefixIcon: const Icon(Icons.api),
                 variant: TextFieldVariant.outlined,
                 type: TextFieldType.text,

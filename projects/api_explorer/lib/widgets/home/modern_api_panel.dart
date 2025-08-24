@@ -316,6 +316,8 @@ class _ModernApiPanelState extends State<ModernApiPanel>
 
   Widget _buildResponsiveEmptyState(String title, String message, IconData icon,
       bool isNarrow, bool isMobile, bool isVeryNarrow) {
+    final theme = Theme.of(context);
+    
     return OsmeaComponents.padding(
       padding: EdgeInsets.all(isNarrow
           ? context.spacing16
@@ -334,7 +336,9 @@ class _ModernApiPanelState extends State<ModernApiPanel>
                   : isMobile
                       ? 44
                       : context.spacing48,
-              color: OsmeaColors.nordicBlue.withValues(alpha: 0.5),
+              color: theme.brightness == Brightness.dark
+                  ? OsmeaColors.snow.withValues(alpha: 0.7)
+                  : OsmeaColors.nordicBlue.withValues(alpha: 0.5),
             ),
             OsmeaComponents.sizedBox(
                 height: isNarrow ? context.spacing12 : context.spacing16),
@@ -343,7 +347,9 @@ class _ModernApiPanelState extends State<ModernApiPanel>
               variant: OsmeaTextVariant.titleMedium,
               fontSize: isNarrow ? context.spacing16 : context.spacing16,
               fontWeight: FontWeight.w600,
-              color: OsmeaColors.eclipse,
+              color: theme.brightness == Brightness.dark
+                  ? OsmeaColors.snow
+                  : OsmeaColors.eclipse,
               textAlign: TextAlign.center,
             ),
             OsmeaComponents.sizedBox(
@@ -352,7 +358,9 @@ class _ModernApiPanelState extends State<ModernApiPanel>
               message,
               variant: OsmeaTextVariant.bodyMedium,
               fontSize: isNarrow ? context.spacing12 : context.spacing16,
-              color: OsmeaColors.nordicBlue.withValues(alpha: 0.7),
+              color: theme.brightness == Brightness.dark
+                  ? OsmeaColors.snow.withValues(alpha: 0.8)
+                  : OsmeaColors.nordicBlue.withValues(alpha: 0.7),
               textAlign: TextAlign.center,
             ),
           ],

@@ -50,7 +50,9 @@ class ServiceInfo extends StatelessWidget {
                   child: Icon(
                     Icons.info_outline,
                     size: isVeryNarrow ? 12 : 14,
-                    color: OsmeaColors.nordicBlue,
+                    color: theme.brightness == Brightness.dark
+                        ? OsmeaColors.snow.withValues(alpha: 0.8)
+                        : OsmeaColors.nordicBlue,
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -61,7 +63,9 @@ class ServiceInfo extends StatelessWidget {
                       OsmeaComponents.text(
                         entry.key,
                         variant: OsmeaTextVariant.labelMedium,
-                        color: OsmeaColors.eclipse,
+                        color: theme.brightness == Brightness.dark
+                            ? OsmeaColors.snow
+                            : OsmeaColors.eclipse,
                         fontSize: isVeryNarrow ? 10 : 12,
                         fontWeight: FontWeight.w600,
                       ),
