@@ -2656,6 +2656,22 @@ class ApiServiceRegistry {
     ),
 
     ApiService(
+      name: 'Update Webhook Subscription (GraphQL)',
+      endpoint: '/graphql/webhooks/subscriptions/update',
+      category: ApiCategory.graphqlWebhookMutations,
+      subcategory: 'Mutations',
+      handler: UpdateWebhookSubscriptionGraphQLHandler(),
+    ),
+
+    ApiService(
+      name: 'Delete Webhook Subscription (GraphQL)',
+      endpoint: '/graphql/webhooks/subscriptions/delete',
+      category: ApiCategory.graphqlWebhookMutations,
+      subcategory: 'Mutations',
+      handler: DeleteWebhookSubscriptionGraphQLHandler(),
+    ),
+
+    ApiService(
       name: 'List Smart Collections',
       endpoint: '/smart_collections',
       category: ApiCategory.products,
