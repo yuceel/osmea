@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:apis/apis.dart';
 import 'package:apis/dio_config/dio_client/abstract/api_base_client.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 
@@ -110,7 +111,7 @@ class ShopifyGraphQLClient implements GraphQLBaseClient {
         final data = response.data as Map<String, dynamic>;
 
         // Debug: Log the raw response
-        print('ShopifyGraphQLClient Raw Response: $data');
+        debugPrint('ShopifyGraphQLClient Raw Response: $data');
 
         // Check for GraphQL errors
         if (data.containsKey('errors')) {
@@ -138,9 +139,9 @@ class ShopifyGraphQLClient implements GraphQLBaseClient {
     Map<String, dynamic>? variables,
   }) async {
     try {
-      print('🔍 DEBUG: Starting GraphQL mutation');
-      print('🔍 DEBUG: Mutation string: $mutation');
-      print('🔍 DEBUG: Variables: $variables');
+      debugPrint('🔍 DEBUG: Starting GraphQL mutation');
+      debugPrint('🔍 DEBUG: Mutation string: $mutation');
+      debugPrint('🔍 DEBUG: Variables: $variables');
 
       final dio = createGraphQLDio();
 
@@ -153,7 +154,7 @@ class ShopifyGraphQLClient implements GraphQLBaseClient {
         final data = response.data as Map<String, dynamic>;
 
         // Debug: Log the raw response
-        print('ShopifyGraphQLClient Raw Response: $data');
+        debugPrint('ShopifyGraphQLClient Raw Response: $data');
 
         // Check for GraphQL errors
         if (data.containsKey('errors')) {
@@ -225,7 +226,7 @@ class GraphQLInterceptorDefault extends Interceptor {
 
     if (token.isEmpty) {
       // ⚠️ Warn if access token is missing
-      print(
+      debugPrint(
           "X-Shopify-Access-Token is missing! Set it before making requests. 🔑");
     }
 
@@ -269,7 +270,7 @@ class GraphQLInterceptorDefault extends Interceptor {
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
     // 🐞 Log error details for debugging
-    print('GraphQL Error: ${err.message}');
+    debugPrint('GraphQL Error: ${err.message}');
     super.onError(err, handler);
   }
 }

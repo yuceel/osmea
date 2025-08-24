@@ -1,4 +1,5 @@
 import 'package:apis/dio_config/dio_client/abstract/api_base_client.dart';
+import 'package:flutter/foundation.dart';
 import 'package:gql/language.dart' as gql;
 
 /// 🚀 Enhanced Base GraphQL Service
@@ -35,8 +36,8 @@ abstract class BaseGraphQLService {
     required Map<String, dynamic> parameters,
   }) async {
     try {
-      print('🔍 Executing GraphQL Query with auto variables');
-      print('📊 Parameters: $parameters');
+      debugPrint('🔍 Executing GraphQL Query with auto variables');
+      debugPrint('📊 Parameters: $parameters');
 
       final stopwatch = Stopwatch()..start();
       final result = await _executeQueryWithDocument(
@@ -44,13 +45,13 @@ abstract class BaseGraphQLService {
         variables: _extractVariables(parameters),
       );
       stopwatch.stop();
-      print('✅ Query completed in ${stopwatch.elapsedMilliseconds}ms');
+      debugPrint('✅ Query completed in ${stopwatch.elapsedMilliseconds}ms');
       _recordMetrics('Query', stopwatch.elapsed);
 
       _handleGraphQLErrors(result, 'Query');
       return _parseResponse<Map<String, dynamic>>(result, 'Query');
     } catch (e) {
-      print('❌ GraphQL Query Error: $e');
+      debugPrint('❌ GraphQL Query Error: $e');
       rethrow;
     }
   }
@@ -79,11 +80,11 @@ abstract class BaseGraphQLService {
     required Map<String, dynamic> parameters,
   }) async {
     try {
-      print('✏️ Executing GraphQL Mutation with auto variables');
-      print('📊 Parameters: $parameters');
+      debugPrint('✏️ Executing GraphQL Mutation with auto variables');
+      debugPrint('📊 Parameters: $parameters');
 
       final extractedVariables = _extractVariables(parameters);
-      print('🔍 DEBUG: Extracted variables: $extractedVariables');
+      debugPrint('🔍 DEBUG: Extracted variables: $extractedVariables');
 
       final stopwatch = Stopwatch()..start();
       final result = await _executeMutationWithDocument(
@@ -91,13 +92,13 @@ abstract class BaseGraphQLService {
         variables: extractedVariables,
       );
       stopwatch.stop();
-      print('✅ Mutation completed in ${stopwatch.elapsedMilliseconds}ms');
+      debugPrint('✅ Mutation completed in ${stopwatch.elapsedMilliseconds}ms');
       _recordMetrics('Mutation', stopwatch.elapsed);
 
       _handleGraphQLErrors(result, 'Mutation');
       return _parseResponse<Map<String, dynamic>>(result, 'Mutation');
     } catch (e) {
-      print('❌ GraphQL Mutation Error: $e');
+      debugPrint('❌ GraphQL Mutation Error: $e');
       rethrow;
     }
   }
@@ -124,8 +125,8 @@ abstract class BaseGraphQLService {
     required Map<String, dynamic> parameters,
   }) async* {
     try {
-      print('📡 Starting GraphQL Subscription with auto variables');
-      print('📊 Parameters: $parameters');
+      debugPrint('📡 Starting GraphQL Subscription with auto variables');
+      debugPrint('📊 Parameters: $parameters');
 
       final stopwatch = Stopwatch()..start();
       final stream = await _executeSubscriptionWithDocument(
@@ -133,7 +134,8 @@ abstract class BaseGraphQLService {
         variables: _extractVariables(parameters),
       );
       stopwatch.stop();
-      print('✅ Subscription started in ${stopwatch.elapsedMilliseconds}ms');
+      debugPrint(
+          '✅ Subscription started in ${stopwatch.elapsedMilliseconds}ms');
       _recordMetrics('Subscription', stopwatch.elapsed);
 
       await for (final result in stream) {
@@ -142,12 +144,12 @@ abstract class BaseGraphQLService {
           final parsed = _parseResponse<T>(result, 'Subscription');
           yield parsed;
         } catch (e) {
-          print('❌ Subscription Stream Error: $e');
+          debugPrint('❌ Subscription Stream Error: $e');
           rethrow;
         }
       }
     } catch (e) {
-      print('❌ GraphQL Subscription Error: $e');
+      debugPrint('❌ GraphQL Subscription Error: $e');
       rethrow;
     }
   }
@@ -158,7 +160,8 @@ abstract class BaseGraphQLService {
   Map<String, dynamic> _extractVariables(Map<String, dynamic> parameters) {
     final variables = <String, dynamic>{};
 
-    print('🔍 DEBUG: _extractVariables called with parameters: $parameters');
+    debugPrint(
+        '🔍 DEBUG: _extractVariables called with parameters: $parameters');
 
     for (final entry in parameters.entries) {
       final key = entry.key;
@@ -168,42 +171,45 @@ abstract class BaseGraphQLService {
         // Handle objects with toJson() method
         if (value is Map<String, dynamic>) {
           variables[key] = value;
-          print('🔍 DEBUG: Added Map value for key $key: $value');
+          debugPrint('🔍 DEBUG: Added Map value for key $key: $value');
         } else if (value.toString().contains('toJson') ||
             value.toString().contains('Variables\$Mutation\$')) {
           // Try to call toJson() if available
           try {
-            print('🔍 DEBUG: Calling toJson() on value for key $key: $value');
+            debugPrint(
+                '🔍 DEBUG: Calling toJson() on value for key $key: $value');
             final toJsonResult = (value as dynamic).toJson();
-            print('🔍 DEBUG: toJson() result for key $key: $toJsonResult');
+            debugPrint('🔍 DEBUG: toJson() result for key $key: $toJsonResult');
 
             // If key is "input", extract the inner fields directly
             if (key == 'input') {
-              print(
+              debugPrint(
                   '🔍 DEBUG: Processing input key, extracting inner fields...');
               variables.addAll(toJsonResult); // Add all inner fields directly
-              print('🔍 DEBUG: Extracted inner fields: $toJsonResult');
+              debugPrint('🔍 DEBUG: Extracted inner fields: $toJsonResult');
             } else {
               variables[key] = toJsonResult;
             }
 
-            print('🔍 DEBUG: Added toJson result for key $key: $toJsonResult');
+            debugPrint(
+                '🔍 DEBUG: Added toJson result for key $key: $toJsonResult');
           } catch (e) {
             // Fallback to direct value
-            print('🔍 DEBUG: toJson() failed for key $key, using fallback: $e');
+            debugPrint(
+                '🔍 DEBUG: toJson() failed for key $key, using fallback: $e');
             variables[key] = value;
-            print('🔍 DEBUG: Added fallback value for key $key: $value');
+            debugPrint('🔍 DEBUG: Added fallback value for key $key: $value');
           }
         } else {
           variables[key] = value;
-          print('🔍 DEBUG: Added direct value for key $key: $value');
+          debugPrint('🔍 DEBUG: Added direct value for key $key: $value');
         }
       } else {
-        print('🔍 DEBUG: Skipping null value for key $key');
+        debugPrint('🔍 DEBUG: Skipping null value for key $key');
       }
     }
 
-    print('🔍 DEBUG: Final variables: $variables');
+    debugPrint('🔍 DEBUG: Final variables: $variables');
     return variables;
   }
 
@@ -216,8 +222,8 @@ abstract class BaseGraphQLService {
     Map<String, dynamic>? variables,
   }) async {
     try {
-      print('🔍 Executing GraphQL Query');
-      print('📊 Variables: ${variables ?? {}}');
+      debugPrint('🔍 Executing GraphQL Query');
+      debugPrint('📊 Variables: ${variables ?? {}}');
 
       final stopwatch = Stopwatch()..start();
       final result = await _executeQueryWithDocument(
@@ -225,13 +231,13 @@ abstract class BaseGraphQLService {
         variables: variables ?? {},
       );
       stopwatch.stop();
-      print('✅ Query completed in ${stopwatch.elapsedMilliseconds}ms');
+      debugPrint('✅ Query completed in ${stopwatch.elapsedMilliseconds}ms');
       _recordMetrics('Query', stopwatch.elapsed);
 
       _handleGraphQLErrors(result, 'Query');
       return _parseResponse<T>(result, 'Query');
     } catch (e) {
-      print('❌ GraphQL Query Error: $e');
+      debugPrint('❌ GraphQL Query Error: $e');
       rethrow;
     }
   }
@@ -245,8 +251,8 @@ abstract class BaseGraphQLService {
     Map<String, dynamic>? variables,
   }) async {
     try {
-      print('✏️ Executing GraphQL Mutation');
-      print('📊 Variables: ${variables ?? {}}');
+      debugPrint('✏️ Executing GraphQL Mutation');
+      debugPrint('📊 Variables: ${variables ?? {}}');
 
       final stopwatch = Stopwatch()..start();
       final result = await _executeMutationWithDocument(
@@ -254,13 +260,13 @@ abstract class BaseGraphQLService {
         variables: variables ?? {},
       );
       stopwatch.stop();
-      print('✅ Mutation completed in ${stopwatch.elapsedMilliseconds}ms');
+      debugPrint('✅ Mutation completed in ${stopwatch.elapsedMilliseconds}ms');
       _recordMetrics('Mutation', stopwatch.elapsed);
 
       _handleGraphQLErrors(result, 'Mutation');
       return _parseResponse<T>(result, 'Mutation');
     } catch (e) {
-      print('❌ GraphQL Mutation Error: $e');
+      debugPrint('❌ GraphQL Mutation Error: $e');
       rethrow;
     }
   }
@@ -274,8 +280,8 @@ abstract class BaseGraphQLService {
     Map<String, dynamic>? variables,
   }) async* {
     try {
-      print('📡 Starting GraphQL Subscription');
-      print('📊 Variables: ${variables ?? {}}');
+      debugPrint('📡 Starting GraphQL Subscription');
+      debugPrint('📊 Variables: ${variables ?? {}}');
 
       final stopwatch = Stopwatch()..start();
       final stream = await _executeSubscriptionWithDocument(
@@ -283,7 +289,8 @@ abstract class BaseGraphQLService {
         variables: variables ?? {},
       );
       stopwatch.stop();
-      print('✅ Subscription started in ${stopwatch.elapsedMilliseconds}ms');
+      debugPrint(
+          '✅ Subscription started in ${stopwatch.elapsedMilliseconds}ms');
       _recordMetrics('Subscription', stopwatch.elapsed);
 
       await for (final result in stream) {
@@ -292,12 +299,12 @@ abstract class BaseGraphQLService {
           final parsed = _parseResponse<T>(result, 'Subscription');
           yield parsed;
         } catch (e) {
-          print('❌ Subscription Stream Error: $e');
+          debugPrint('❌ Subscription Stream Error: $e');
           rethrow;
         }
       }
     } catch (e) {
-      print('❌ GraphQL Subscription Error: $e');
+      debugPrint('❌ GraphQL Subscription Error: $e');
       rethrow;
     }
   }
@@ -314,7 +321,7 @@ abstract class BaseGraphQLService {
       );
       return response;
     } catch (e) {
-      print('❌ GraphQL Query Error: $e');
+      debugPrint('❌ GraphQL Query Error: $e');
       rethrow;
     }
   }
@@ -328,7 +335,7 @@ abstract class BaseGraphQLService {
       final queryString = gql.printNode(documentNode);
       return await query(query: queryString, variables: variables);
     } catch (e) {
-      print('❌ GraphQL Query with Document Error: $e');
+      debugPrint('❌ GraphQL Query with Document Error: $e');
       rethrow;
     }
   }
@@ -345,7 +352,7 @@ abstract class BaseGraphQLService {
       );
       return response;
     } catch (e) {
-      print('❌ GraphQL Mutation Error: $e');
+      debugPrint('❌ GraphQL Mutation Error: $e');
       rethrow;
     }
   }
@@ -359,7 +366,7 @@ abstract class BaseGraphQLService {
       final mutationString = gql.printNode(documentNode);
       return await mutate(mutation: mutationString, variables: variables);
     } catch (e) {
-      print('❌ GraphQL Mutation with Document Error: $e');
+      debugPrint('❌ GraphQL Mutation with Document Error: $e');
       rethrow;
     }
   }
@@ -377,7 +384,7 @@ abstract class BaseGraphQLService {
       );
       return response;
     } catch (e) {
-      print('❌ GraphQL Query Execution Error: $e');
+      debugPrint('❌ GraphQL Query Execution Error: $e');
       rethrow;
     }
   }
@@ -395,7 +402,7 @@ abstract class BaseGraphQLService {
       );
       return response;
     } catch (e) {
-      print('❌ GraphQL Mutation Execution Error: $e');
+      debugPrint('❌ GraphQL Mutation Execution Error: $e');
       rethrow;
     }
   }
@@ -411,7 +418,7 @@ abstract class BaseGraphQLService {
       // Actual WebSocket/SSE implementation would go here
       throw UnimplementedError('GraphQL Subscriptions not yet implemented');
     } catch (e) {
-      print('❌ GraphQL Subscription Execution Error: $e');
+      debugPrint('❌ GraphQL Subscription Execution Error: $e');
       rethrow;
     }
   }
@@ -421,7 +428,7 @@ abstract class BaseGraphQLService {
     if (result.containsKey('errors')) {
       final errors = result['errors'] as List;
       if (errors.isNotEmpty) {
-        print('❌ GraphQL $operationName Errors: $errors');
+        debugPrint('❌ GraphQL $operationName Errors: $errors');
         throw Exception('GraphQL $operationName Errors: $errors');
       }
     }
@@ -438,14 +445,14 @@ abstract class BaseGraphQLService {
         throw Exception('No data in GraphQL $operationName response');
       }
     } catch (e) {
-      print('❌ Error parsing GraphQL $operationName response: $e');
+      debugPrint('❌ Error parsing GraphQL $operationName response: $e');
       rethrow;
     }
   }
 
   /// 📈 Record Metrics
   void _recordMetrics(String operationName, Duration duration) {
-    print('📊 $operationName completed in ${duration.inMilliseconds}ms');
+    debugPrint('📊 $operationName completed in ${duration.inMilliseconds}ms');
     // Here you could add actual metrics collection
   }
 
