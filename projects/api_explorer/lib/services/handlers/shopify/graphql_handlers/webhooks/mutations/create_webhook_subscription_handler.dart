@@ -1,6 +1,4 @@
 import 'package:apis/network/remote/shopify/graphql/webhooks/abstract/webhooks_service.dart';
-import 'package:apis/network/remote/shopify/graphql/webhooks/graphql_models/mutations/create_webhook_subscription.graphql.dart';
-import 'package:apis/network/remote/shopify/graphql/schema.graphql.dart';
 import 'package:api_explorer/services/api_request_handler.dart';
 import 'package:api_explorer/services/api_service_registry.dart';
 import 'package:get_it/get_it.dart';
@@ -46,14 +44,14 @@ class CreateWebhookSubscriptionGraphQLHandler implements ApiRequestHandler {
             type: ApiFieldType.text,
           ),
           const ApiField(
-            name: 'include_fields',
+            name: 'includeFields',
             label: 'Include Fields',
             hint: 'Comma-separated list of fields to include',
             isRequired: false,
             type: ApiFieldType.text,
           ),
           const ApiField(
-            name: 'metafield_namespaces',
+            name: 'metafieldNamespaces',
             label: 'Metafield Namespaces',
             hint: 'Comma-separated list of metafield namespaces',
             isRequired: false,
@@ -161,12 +159,31 @@ class CreateWebhookSubscriptionGraphQLHandler implements ApiRequestHandler {
         };
       }
 
-      // Parse topic enum with extended list
-      Enum$WebhookSubscriptionTopic webhookTopic;
+      // Validate topic against allowed values
       try {
-        webhookTopic = Enum$WebhookSubscriptionTopic.values.firstWhere(
-          (t) => t.name.toUpperCase() == topic.toUpperCase(),
-        );
+        final validTopics = [
+          "ORDERS_CREATE",
+          "ORDERS_DELETE",
+          "ORDERS_UPDATE",
+          "ORDERS_PAID",
+          "ORDERS_CANCELLED",
+          "ORDERS_FULFILLED",
+          "CUSTOMERS_CREATE",
+          "CUSTOMERS_DELETE",
+          "CUSTOMERS_UPDATE",
+          "PRODUCTS_CREATE",
+          "PRODUCTS_DELETE",
+          "PRODUCTS_UPDATE",
+          "INVENTORY_LEVELS_UPDATE",
+          "METAOBJECTS_CREATE",
+          "METAOBJECTS_DELETE",
+          "METAOBJECTS_UPDATE",
+          "APP_UNINSTALLED"
+        ];
+
+        if (!validTopics.contains(topic.toUpperCase())) {
+          throw Exception('Invalid topic');
+        }
       } catch (e) {
         return {
           "status": "error",
@@ -216,16 +233,16 @@ class CreateWebhookSubscriptionGraphQLHandler implements ApiRequestHandler {
         };
       }
 
-      // Create input object
-      final input = Variables$Mutation$WebhookSubscriptionCreate(
-        topic: webhookTopic,
-        webhookSubscription: Input$WebhookSubscriptionInput(
-          callbackUrl: callbackUrl,
-          filter: filter,
-        ),
-      );
+      // Create input object as Map
+      final input = {
+        'topic': topic,
+        'webhookSubscription': {
+          'callbackUrl': callbackUrl,
+          if (filter != null) 'filter': filter,
+        },
+      };
 
-      print('🔍 DEBUG: Input object created: ${input.toJson()}');
+      print('🔍 DEBUG: Input object created: $input');
       print(
           '🔍 DEBUG: About to call WebhooksGraphQLService.webhookSubscriptionCreate');
 
@@ -235,13 +252,13 @@ class CreateWebhookSubscriptionGraphQLHandler implements ApiRequestHandler {
         input: input,
       );
 
-      print('🔍 DEBUG: Response received: ${response.toJson()}');
+      print('🔍 DEBUG: Response received: $response');
 
       // Return success response with created webhook subscription data
       return {
         "status": "success",
         "message": "Webhook subscription created successfully via GraphQL",
-        "data": response.toJson(),
+        "data": response,
         "mutation_type": "WebhookSubscriptionCreate",
         "graphql_operation": "webhookSubscriptionCreate",
         "webhook_topic": topic,
@@ -314,8 +331,8 @@ class CreateWebhookSubscriptionGraphQLHandler implements ApiRequestHandler {
       "optional_parameters": [
         "format",
         "filter",
-        "include_fields",
-        "metafield_namespaces"
+        "includeFields",
+        "metafieldNamespaces"
       ],
       "graphql_operation": "webhookSubscriptionCreate",
       "supported_input_formats": ["Flat parameters", "Nested JSON structure"],
