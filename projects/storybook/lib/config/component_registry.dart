@@ -24,6 +24,8 @@ import '../components/carousel_storybook/carousels.dart';
 import '../components/searchbar_storybook/searchbars.dart';
 import '../components/ticket_storybook/tickets.dart';
 import '../components/bottom_sheet_storybook/bottom_sheets.dart';
+import '../components/stepper_storybook/showcase/unified_stepper_showcase.dart';
+
 
 /// Model for component information displayed on home page and stories
 class ComponentInfo {
@@ -229,5 +231,13 @@ final List<ComponentInfo> allComponents = [
     color: Colors.deepPurple,
     storyPath: StoryConfig.buildComponentStoryName('Bottom Sheets'),
     getStories: getAllBottomSheetStories,
+  ),
+  ComponentInfo(
+    name: 'Steppers',
+    description: 'Multi-step progress indicators for workflows and forms',
+    icon: Icons.linear_scale,
+    color: Colors.indigo,
+    storyPath: StoryConfig.buildComponentStoryName('Steppers'),
+    getStories: getUnifiedStepperShowcase,
   ),
 ];
