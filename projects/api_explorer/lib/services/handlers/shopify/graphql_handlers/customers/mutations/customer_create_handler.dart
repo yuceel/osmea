@@ -40,7 +40,7 @@ class CreateCustomerGraphQLHandler implements ApiRequestHandler {
           const ApiField(
             name: 'phone',
             label: 'Phone',
-            hint: 'Customer phone number',
+            hint: 'Customer phone number (e.g., +1234567890 or 1234567890)',
             isRequired: false,
             type: ApiFieldType.text,
           ),
@@ -63,32 +63,77 @@ class CreateCustomerGraphQLHandler implements ApiRequestHandler {
     }
 
     try {
-      // Extract parameters
-      final firstName = params['firstName'];
-      final lastName = params['lastName'];
-      final email = params['email'];
-      final phone = params['phone'];
+      // Extract parameters with fallbacks
+      final firstName = params['firstName'] ?? '';
+      final lastName = params['lastName'] ?? '';
+      final email = params['email'] ?? '';
+      final phone = params['phone'] ?? '';
 
-      // Validate email
-      if (email == null || email.isEmpty) {
+      print('🔍 DEBUG: Extracted parameters:');
+      print('🔍 DEBUG: firstName: $firstName');
+      print('🔍 DEBUG: lastName: $lastName');
+      print('🔍 DEBUG: email: $email');
+      print('🔍 DEBUG: phone: $phone');
+
+      // Validate email with better error handling
+      if (email.isEmpty) {
+        print('🔍 DEBUG: Email validation failed - email is empty');
         return {
           "status": "error",
           "message": "Email is required and cannot be empty",
+          "details": "Received parameters: ${params.toString()}",
           "timestamp": DateTime.now().toIso8601String(),
         };
       }
 
-      // Call the GraphQL service
-      final response = await GetIt.I<CustomerGraphQLService>().createCustomer(
-        input: Variables$Mutation$CreateCustomer(
-          input: Input$CustomerInput(
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            phone: phone,
-          ),
+      // Validate phone format if provided
+      String validatedPhone = phone;
+      if (phone.isNotEmpty) {
+        // Remove all non-digit characters except + at the beginning
+        final cleanPhone = phone.replaceAll(RegExp(r'[^\d+]'), '');
+
+        // Check if phone starts with + and has at least 10 digits
+        if (!cleanPhone.startsWith('+') || cleanPhone.length < 11) {
+          // Try without + prefix
+          final phoneWithoutPlus = phone.replaceAll(RegExp(r'[^\d]'), '');
+          if (phoneWithoutPlus.length < 10) {
+            print('🔍 DEBUG: Phone validation failed - invalid format: $phone');
+            return {
+              "status": "error",
+              "message": "Phone number format is invalid",
+              "details":
+                  "Phone must be in format: +1234567890 or 1234567890 (minimum 10 digits)",
+              "timestamp": DateTime.now().toIso8601String(),
+            };
+          }
+          // Use phone without + prefix
+          validatedPhone = phoneWithoutPlus;
+          print('🔍 DEBUG: Phone validated and formatted: $validatedPhone');
+        } else {
+          validatedPhone = cleanPhone;
+          print('🔍 DEBUG: Phone validated and formatted: $validatedPhone');
+        }
+      }
+
+      // Create input object
+      final input = Variables$Mutation$CreateCustomer(
+        input: Input$CustomerInput(
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          phone: validatedPhone,
         ),
       );
+
+      print('🔍 DEBUG: Input object created: ${input.toJson()}');
+      print('🔍 DEBUG: About to call CustomerGraphQLService.createCustomer');
+
+      // Call the GraphQL service
+      final response = await GetIt.I<CustomerGraphQLService>().createCustomer(
+        input: input,
+      );
+
+      print('🔍 DEBUG: Response received: ${response.toJson()}');
 
       // Return success response
       return {

@@ -3891,13 +3891,6 @@ class ApiServiceRegistry {
       handler: GetCustomersCountHandler(),
     ),
     ApiService(
-      name: 'Customers List - GraphQL Query',
-      endpoint: '',
-      category: ApiCategory.graphqlCustomersQueries,
-      subcategory: 'Customers',
-      handler: CustomersHandler(),
-    ),
-    ApiService(
       name: 'Create Customer - GraphQL Mutation',
       endpoint: '',
       category: ApiCategory.graphqlCustomersMutations,
@@ -3906,14 +3899,14 @@ class ApiServiceRegistry {
     ),
     ApiService(
       name: 'Update Customer - GraphQL Mutation',
-      endpoint: '',
+      endpoint: '/customers/update',
       category: ApiCategory.graphqlCustomersMutations,
       subcategory: 'Customers',
       handler: UpdateCustomerGraphQLHandler(),
     ),
     ApiService(
       name: 'Disable Customer - GraphQL Mutation',
-      endpoint: '',
+      endpoint: '/customers/disable',
       category: ApiCategory.graphqlCustomersMutations,
       subcategory: 'Customers',
       handler: DisableCustomerGraphQLHandler(),
@@ -3975,14 +3968,6 @@ class ApiServiceRegistry {
     ];
   }
 
-  // // Orders subcategories
-  // static List<ApiCategory> getGraphqlOrdersSubCategories() {
-  //   return [
-  //     ApiCategory.graphqlOrdersQueries,
-  //     ApiCategory.graphqlOrdersMutations,
-  //   ];
-  // }
-
   // Customers subcategories
   static List<ApiCategory> getGraphqlCustomersSubCategories() {
     return [
@@ -3990,13 +3975,6 @@ class ApiServiceRegistry {
       ApiCategory.graphqlCustomersMutations,
     ];
   }
-
-  // // Shop subcategories
-  // static List<ApiCategory> getGraphqlShopSubCategories() {
-  //   return [
-  //     ApiCategory.graphqlShopQueries,
-  //   ];
-  // }
 
   static List<ApiCategory> getWooCommerceCategories() {
     return [

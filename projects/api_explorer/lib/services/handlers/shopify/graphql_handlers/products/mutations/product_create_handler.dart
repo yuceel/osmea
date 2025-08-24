@@ -104,10 +104,15 @@ class CreateProductGraphQLHandler implements ApiRequestHandler {
         ),
       );
 
+      print('🔍 DEBUG: Input object created: ${input.toJson()}');
+      print('🔍 DEBUG: About to call ProductGraphQLService.createProduct');
+
       // Call the GraphQL service
       final response = await GetIt.I<ProductGraphQLService>().createProduct(
         input: input,
       );
+
+      print('🔍 DEBUG: Response received: ${response.toJson()}');
 
       // Return success response with created product data
       return {

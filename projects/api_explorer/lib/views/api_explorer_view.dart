@@ -162,6 +162,15 @@ class _ApiExplorerViewState extends State<ApiExplorerView>
           _parameters['subcategory'] = 'Mutations';
         }
       }
+
+      // Debug: Print the selected service and its required fields
+      print('🔍 DEBUG: Service selected: ${service.name}');
+      print('🔍 DEBUG: Service category: ${service.category}');
+      print('🔍 DEBUG: Service subcategory: ${service.subcategory}');
+      print('🔍 DEBUG: Service methods: ${service.supportedMethods}');
+      print('🔍 DEBUG: Service required fields: ${service.requiredFields}');
+      print('🔍 DEBUG: Initial parameters: $_parameters');
+
       _updateApiUrl();
     });
   }
@@ -176,6 +185,9 @@ class _ApiExplorerViewState extends State<ApiExplorerView>
   void _onParametersChanged(Map<String, String> parameters) {
     setState(() {
       _parameters = parameters;
+      print('🔍 DEBUG: Parameters changed: $_parameters');
+      print('🔍 DEBUG: Parameters keys: ${_parameters.keys.toList()}');
+      print('🔍 DEBUG: Parameters values: ${_parameters.values.toList()}');
       _updateApiUrl();
     });
   }

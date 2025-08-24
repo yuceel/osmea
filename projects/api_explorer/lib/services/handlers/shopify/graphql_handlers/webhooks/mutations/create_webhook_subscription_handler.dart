@@ -83,8 +83,6 @@ class CreateWebhookSubscriptionGraphQLHandler implements ApiRequestHandler {
       String? callbackUrl;
       String? format;
       String? filter;
-      String? includeFields;
-      String? metafieldNamespaces;
 
       // Check if webhookSubscription is provided as nested object
       if (params.containsKey('webhookSubscription')) {
@@ -106,17 +104,11 @@ class CreateWebhookSubscriptionGraphQLHandler implements ApiRequestHandler {
             callbackUrl = webhookSub['callbackUrl'] ?? params['callbackUrl'];
             format = webhookSub['format'] ?? params['format'];
             filter = webhookSub['filter'] ?? params['filter'];
-            includeFields =
-                webhookSub['include_fields'] ?? params['include_fields'];
-            metafieldNamespaces = webhookSub['metafield_namespaces'] ??
-                params['metafield_namespaces'];
           } catch (e) {
             // Fallback to direct parameter access
             callbackUrl = params['callbackUrl'];
             format = params['format'];
             filter = params['filter'];
-            includeFields = params['include_fields'];
-            metafieldNamespaces = params['metafield_namespaces'];
           }
         }
       } else {
@@ -124,8 +116,6 @@ class CreateWebhookSubscriptionGraphQLHandler implements ApiRequestHandler {
         callbackUrl = params['callbackUrl'];
         format = params['format'];
         filter = params['filter'];
-        includeFields = params['include_fields'];
-        metafieldNamespaces = params['metafield_namespaces'];
       }
 
       // Validate required parameters
@@ -171,22 +161,6 @@ class CreateWebhookSubscriptionGraphQLHandler implements ApiRequestHandler {
         };
       }
 
-      // Parse include_fields if provided
-      List<String>? includeFieldsList;
-      if (includeFields != null && includeFields.isNotEmpty) {
-        includeFieldsList =
-            includeFields.split(',').map((field) => field.trim()).toList();
-      }
-
-      // Parse metafield_namespaces if provided
-      List<String>? metafieldNamespacesList;
-      if (metafieldNamespaces != null && metafieldNamespaces.isNotEmpty) {
-        metafieldNamespacesList = metafieldNamespaces
-            .split(',')
-            .map((namespace) => namespace.trim())
-            .toList();
-      }
-
       // Parse topic enum with extended list
       Enum$WebhookSubscriptionTopic webhookTopic;
       try {
@@ -227,40 +201,41 @@ class CreateWebhookSubscriptionGraphQLHandler implements ApiRequestHandler {
         };
       }
 
-      // Parse format enum if provided
-      Enum$WebhookSubscriptionFormat? webhookFormat;
-      if (format != null && format.isNotEmpty) {
-        try {
-          webhookFormat = Enum$WebhookSubscriptionFormat.values.firstWhere(
-            (f) => f.name.toUpperCase() == format!.toUpperCase(),
-          );
-        } catch (e) {
-          return {
-            "status": "error",
-            "message": "Invalid webhook format: $format",
-            "valid_formats": ["JSON", "XML"],
-            "timestamp": DateTime.now().toIso8601String(),
-          };
-        }
+      // Parse format enum if provided (Shopify GraphQL doesn't support format in webhook subscriptions)
+      // Format is always JSON in Shopify GraphQL API
+      if (format != null &&
+          format.isNotEmpty &&
+          format.toUpperCase() != 'JSON') {
+        return {
+          "status": "error",
+          "message": "Invalid webhook format: $format",
+          "details":
+              "Shopify GraphQL API only supports JSON format for webhook subscriptions",
+          "valid_formats": ["JSON"],
+          "timestamp": DateTime.now().toIso8601String(),
+        };
       }
 
       // Create input object
-      final input = Variables$Mutation$webhookSubscriptionCreate(
+      final input = Variables$Mutation$WebhookSubscriptionCreate(
         topic: webhookTopic,
         webhookSubscription: Input$WebhookSubscriptionInput(
           callbackUrl: callbackUrl,
-          format: webhookFormat,
           filter: filter,
-          include_fields: includeFieldsList,
-          metafield_namespaces: metafieldNamespacesList,
         ),
       );
+
+      print('🔍 DEBUG: Input object created: ${input.toJson()}');
+      print(
+          '🔍 DEBUG: About to call WebhooksGraphQLService.webhookSubscriptionCreate');
 
       // Call the GraphQL service
       final response =
           await GetIt.I<WebhooksGraphQLService>().webhookSubscriptionCreate(
         input: input,
       );
+
+      print('🔍 DEBUG: Response received: ${response.toJson()}');
 
       // Return success response with created webhook subscription data
       return {
@@ -277,10 +252,6 @@ class CreateWebhookSubscriptionGraphQLHandler implements ApiRequestHandler {
           "webhookSubscription": {
             "callbackUrl": callbackUrl,
             if (filter != null) "filter": filter,
-            if (webhookFormat != null) "format": webhookFormat.name,
-            if (includeFieldsList != null) "include_fields": includeFieldsList,
-            if (metafieldNamespacesList != null)
-              "metafield_namespaces": metafieldNamespacesList,
           }
         },
         "timestamp": DateTime.now().toIso8601String(),

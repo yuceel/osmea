@@ -25,7 +25,21 @@ class GetCustomerHandler implements ApiRequestHandler {
 
     try {
       // Extract parameters - flexible to accept both 'customerId' and 'first'
-      final customerId = params['customerId'] ?? params['first'];
+      String? customerId;
+
+      // First, try exact matches
+      if (params.containsKey('customerId') &&
+          params['customerId']!.trim().isNotEmpty) {
+        customerId = params['customerId']!.trim();
+        debugPrint('🚨 Found customerId in exact match: "$customerId"');
+      } else if (params.containsKey('first') &&
+          params['first']!.trim().isNotEmpty) {
+        customerId = params['first']!.trim();
+        debugPrint('🚨 Found customerId in "first" field: "$customerId"');
+      } else {
+        customerId = null;
+        debugPrint('🚨 No customer ID found in any parameter');
+      }
 
       // Debug logging - MORE VISIBLE
       debugPrint('🚨🚨🚨 GetCustomerHandler - DEBUG INFO 🚨🚨🚨');
@@ -33,16 +47,36 @@ class GetCustomerHandler implements ApiRequestHandler {
       debugPrint('🚨 All params: $params');
       debugPrint('🚨 Params keys: ${params.keys.toList()}');
       debugPrint('🚨 Params values: ${params.values.toList()}');
+      debugPrint('🚨 Params entries: ${params.entries.toList()}');
       debugPrint('🚨 Extracted customerId: "$customerId"');
-      debugPrint('🚨 CustomerId type: ${customerId.runtimeType}');
+      debugPrint('🚨 CustomerId type: ${customerId?.runtimeType}');
+      debugPrint('🚨 CustomerId isEmpty: ${customerId?.isEmpty}');
+      debugPrint('🚨 CustomerId trim().isEmpty: ${customerId?.trim().isEmpty}');
       debugPrint('🚨🚨🚨 END DEBUG INFO 🚨🚨🚨');
 
       // Validate customer ID - more flexible validation
       if (customerId == null || customerId.trim().isEmpty) {
+        debugPrint(
+            '🚨 Customer ID validation failed - customerId is null or empty');
+        debugPrint('🚨 customerId: "$customerId"');
+        debugPrint('🚨 customerId.trim(): "${customerId?.trim()}"');
+
+        // Provide more detailed error information
+        final errorDetails = {
+          "received_parameters": params,
+          "parameter_keys": params.keys.toList(),
+          "parameter_values": params.values.toList(),
+          "expected_field": "customerId",
+          "supported_alternative_fields": ["first"],
+          "validation_failed": "customerId is null or contains only whitespace"
+        };
+
         return {
           "status": "error",
           "message":
               "Customer ID is required and cannot be empty. Please enter a valid Customer ID.",
+          "details": "Received parameters: ${params.toString()}",
+          "debug_info": errorDetails,
           "timestamp": DateTime.now().toIso8601String(),
         };
       }

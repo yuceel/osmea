@@ -13,7 +13,6 @@ export 'handlers/shopify/graphql_handlers/products/mutations/product_create_hand
 export 'handlers/shopify/graphql_handlers/customers/mutations/customer_create_handler.dart';
 export 'handlers/shopify/graphql_handlers/customers/mutations/customer_update_handler.dart';
 export 'handlers/shopify/graphql_handlers/customers/mutations/customer_disable_handler.dart';
-export 'handlers/shopify/graphql_handlers/customers/mutations/customers_handler.dart';
 export 'handlers/shopify/graphql_handlers/customers/queries/get_customers_handler.dart';
 export 'handlers/shopify/graphql_handlers/customers/queries/get_customer_handler.dart';
 export 'handlers/shopify/graphql_handlers/customers/queries/get_customers_count_handler.dart';
