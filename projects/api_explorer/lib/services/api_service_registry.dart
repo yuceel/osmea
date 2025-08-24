@@ -2626,21 +2626,21 @@ class ApiServiceRegistry {
     // 🔔 GraphQL Webhooks APIs
     ApiService(
       name: 'Get Webhook Subscriptions (GraphQL)',
-      endpoint: '/graphql/webhooks/subscriptions',
+      endpoint: '',
       category: ApiCategory.graphqlWebhookQueries,
       subcategory: 'Queries',
       handler: GetWebhookSubscriptionsHandler(),
     ),
     ApiService(
       name: 'Get Webhook Subscription (GraphQL)',
-      endpoint: '/graphql/webhooks/subscriptions/:id',
+      endpoint: '',
       category: ApiCategory.graphqlWebhookQueries,
       subcategory: 'Queries',
       handler: GetWebhookSubscriptionHandler(),
     ),
     ApiService(
       name: 'Get Webhook Subscriptions Count (GraphQL)',
-      endpoint: '/graphql/webhooks/subscriptions/count',
+      endpoint: '',
       category: ApiCategory.graphqlWebhookQueries,
       subcategory: 'Queries',
       handler: GetWebhookSubscriptionsCountHandler(),
@@ -2649,7 +2649,7 @@ class ApiServiceRegistry {
     // Webhook Mutation APIs
     ApiService(
       name: 'Create Webhook Subscription (GraphQL)',
-      endpoint: '/graphql/webhooks/subscriptions/create',
+      endpoint: '',
       category: ApiCategory.graphqlWebhookMutations,
       subcategory: 'Mutations',
       handler: CreateWebhookSubscriptionGraphQLHandler(),
@@ -2657,7 +2657,7 @@ class ApiServiceRegistry {
 
     ApiService(
       name: 'Update Webhook Subscription (GraphQL)',
-      endpoint: '/graphql/webhooks/subscriptions/update',
+      endpoint: '',
       category: ApiCategory.graphqlWebhookMutations,
       subcategory: 'Mutations',
       handler: UpdateWebhookSubscriptionGraphQLHandler(),
@@ -2665,7 +2665,7 @@ class ApiServiceRegistry {
 
     ApiService(
       name: 'Delete Webhook Subscription (GraphQL)',
-      endpoint: '/graphql/webhooks/subscriptions/delete',
+      endpoint: '',
       category: ApiCategory.graphqlWebhookMutations,
       subcategory: 'Mutations',
       handler: DeleteWebhookSubscriptionGraphQLHandler(),
