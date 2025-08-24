@@ -24,6 +24,7 @@ import '../components/carousel_storybook/carousels.dart';
 import '../components/searchbar_storybook/searchbars.dart';
 import '../components/ticket_storybook/tickets.dart';
 import '../components/bottom_sheet_storybook/bottom_sheets.dart';
+import '../components/popup_storybook/popups.dart';
 import '../components/stepper_storybook/showcase/unified_stepper_showcase.dart';
 
 
@@ -231,6 +232,14 @@ final List<ComponentInfo> allComponents = [
     color: Colors.deepPurple,
     storyPath: StoryConfig.buildComponentStoryName('Bottom Sheets'),
     getStories: getAllBottomSheetStories,
+  ),
+  ComponentInfo(
+    name: 'Popups',
+    description: 'Modal dialogs, alerts, tooltips, and overlay components',
+    icon: Icons.crop_square,
+    color: Colors.indigo,
+    storyPath: StoryConfig.buildComponentStoryName('Popups'),
+    getStories: getAllPopupStories,
   ),
   ComponentInfo(
     name: 'Steppers',
