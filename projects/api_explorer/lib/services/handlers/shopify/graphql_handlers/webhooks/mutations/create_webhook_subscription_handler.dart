@@ -1,6 +1,7 @@
 import 'package:apis/network/remote/shopify/graphql/webhooks/abstract/webhooks_service.dart';
 import 'package:api_explorer/services/api_request_handler.dart';
 import 'package:api_explorer/services/api_service_registry.dart';
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 ///*******************************************************************
@@ -242,8 +243,8 @@ class CreateWebhookSubscriptionGraphQLHandler implements ApiRequestHandler {
         },
       };
 
-      print('🔍 DEBUG: Input object created: $input');
-      print(
+      debugPrint('🔍 DEBUG: Input object created: $input');
+      debugPrint(
           '🔍 DEBUG: About to call WebhooksGraphQLService.webhookSubscriptionCreate');
 
       // Call the GraphQL service
@@ -252,7 +253,7 @@ class CreateWebhookSubscriptionGraphQLHandler implements ApiRequestHandler {
         input: input,
       );
 
-      print('🔍 DEBUG: Response received: $response');
+      debugPrint('🔍 DEBUG: Response received: $response');
 
       // Return success response with created webhook subscription data
       return {

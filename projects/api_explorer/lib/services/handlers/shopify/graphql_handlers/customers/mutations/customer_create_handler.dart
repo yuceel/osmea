@@ -3,6 +3,7 @@ import 'package:apis/network/remote/shopify/graphql/customers/graphql_models/mut
 import 'package:apis/network/remote/shopify/graphql/schema.graphql.dart';
 import 'package:api_explorer/services/api_request_handler.dart';
 import 'package:api_explorer/services/api_service_registry.dart';
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 ///*******************************************************************
@@ -69,15 +70,15 @@ class CreateCustomerGraphQLHandler implements ApiRequestHandler {
       final email = params['email'] ?? '';
       final phone = params['phone'] ?? '';
 
-      print('🔍 DEBUG: Extracted parameters:');
-      print('🔍 DEBUG: firstName: $firstName');
-      print('🔍 DEBUG: lastName: $lastName');
-      print('🔍 DEBUG: email: $email');
-      print('🔍 DEBUG: phone: $phone');
+      debugPrint('🔍 DEBUG: Extracted parameters:');
+      debugPrint('🔍 DEBUG: firstName: $firstName');
+      debugPrint('🔍 DEBUG: lastName: $lastName');
+      debugPrint('🔍 DEBUG: email: $email');
+      debugPrint('🔍 DEBUG: phone: $phone');
 
       // Validate email with better error handling
       if (email.isEmpty) {
-        print('🔍 DEBUG: Email validation failed - email is empty');
+        debugPrint('🔍 DEBUG: Email validation failed - email is empty');
         return {
           "status": "error",
           "message": "Email is required and cannot be empty",
@@ -97,7 +98,7 @@ class CreateCustomerGraphQLHandler implements ApiRequestHandler {
           // Try without + prefix
           final phoneWithoutPlus = phone.replaceAll(RegExp(r'[^\d]'), '');
           if (phoneWithoutPlus.length < 10) {
-            print('🔍 DEBUG: Phone validation failed - invalid format: $phone');
+            debugPrint('🔍 DEBUG: Phone validation failed - invalid format: $phone');
             return {
               "status": "error",
               "message": "Phone number format is invalid",
@@ -108,10 +109,10 @@ class CreateCustomerGraphQLHandler implements ApiRequestHandler {
           }
           // Use phone without + prefix
           validatedPhone = phoneWithoutPlus;
-          print('🔍 DEBUG: Phone validated and formatted: $validatedPhone');
+          debugPrint('🔍 DEBUG: Phone validated and formatted: $validatedPhone');
         } else {
           validatedPhone = cleanPhone;
-          print('🔍 DEBUG: Phone validated and formatted: $validatedPhone');
+          debugPrint('🔍 DEBUG: Phone validated and formatted: $validatedPhone');
         }
       }
 
@@ -125,15 +126,15 @@ class CreateCustomerGraphQLHandler implements ApiRequestHandler {
         ),
       );
 
-      print('🔍 DEBUG: Input object created: ${input.toJson()}');
-      print('🔍 DEBUG: About to call CustomerGraphQLService.createCustomer');
+      debugPrint('🔍 DEBUG: Input object created: ${input.toJson()}');
+      debugPrint('🔍 DEBUG: About to call CustomerGraphQLService.createCustomer');
 
       // Call the GraphQL service
       final response = await GetIt.I<CustomerGraphQLService>().createCustomer(
         input: input,
       );
 
-      print('🔍 DEBUG: Response received: ${response.toJson()}');
+      debugPrint('🔍 DEBUG: Response received: ${response.toJson()}');
 
       // Return success response
       return {

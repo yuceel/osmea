@@ -3,6 +3,7 @@ import 'package:apis/network/remote/shopify/graphql/products/graphql_models/muta
 import 'package:apis/network/remote/shopify/graphql/schema.graphql.dart';
 import 'package:api_explorer/services/api_request_handler.dart';
 import 'package:api_explorer/services/api_service_registry.dart';
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 ///*******************************************************************
@@ -104,15 +105,15 @@ class CreateProductGraphQLHandler implements ApiRequestHandler {
         ),
       );
 
-      print('🔍 DEBUG: Input object created: ${input.toJson()}');
-      print('🔍 DEBUG: About to call ProductGraphQLService.createProduct');
+      debugPrint('🔍 DEBUG: Input object created: ${input.toJson()}');
+      debugPrint('🔍 DEBUG: About to call ProductGraphQLService.createProduct');
 
       // Call the GraphQL service
       final response = await GetIt.I<ProductGraphQLService>().createProduct(
         input: input,
       );
 
-      print('🔍 DEBUG: Response received: ${response.toJson()}');
+      debugPrint('🔍 DEBUG: Response received: ${response.toJson()}');
 
       // Return success response with created product data
       return {

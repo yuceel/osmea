@@ -2,6 +2,7 @@ import 'package:apis/network/remote/shopify/graphql/customers/abstract/customer_
 import 'package:apis/network/remote/shopify/graphql/customers/graphql_models/mutations/customer_delete.graphql.dart';
 import 'package:api_explorer/services/api_request_handler.dart';
 import 'package:api_explorer/services/api_service_registry.dart';
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 ///*******************************************************************
@@ -42,12 +43,12 @@ class DisableCustomerGraphQLHandler implements ApiRequestHandler {
     }
 
     try {
-      print('🔍 DEBUG: ===== CUSTOMER DISABLE HANDLER DEBUG =====');
-      print('🔍 DEBUG: Method: $method');
-      print('🔍 DEBUG: All params received: $params');
-      print('🔍 DEBUG: Params keys: ${params.keys.toList()}');
-      print('🔍 DEBUG: Params values: ${params.values.toList()}');
-      print('🔍 DEBUG: Params entries: ${params.entries.toList()}');
+      debugPrint('🔍 DEBUG: ===== CUSTOMER DISABLE HANDLER DEBUG =====');
+      debugPrint('🔍 DEBUG: Method: $method');
+      debugPrint('🔍 DEBUG: All params received: $params');
+      debugPrint('🔍 DEBUG: Params keys: ${params.keys.toList()}');
+      debugPrint('🔍 DEBUG: Params values: ${params.values.toList()}');
+      debugPrint('🔍 DEBUG: Params entries: ${params.entries.toList()}');
 
       // Extract customer ID with priority order
       String? customerId;
@@ -56,16 +57,16 @@ class DisableCustomerGraphQLHandler implements ApiRequestHandler {
       if (params.containsKey('customerId') &&
           params['customerId']!.trim().isNotEmpty) {
         customerId = params['customerId']!.trim();
-        print('🔍 DEBUG: Found customerId in exact match: "$customerId"');
+        debugPrint('🔍 DEBUG: Found customerId in exact match: "$customerId"');
       }
       // Priority 2: Check other common keys as fallback
       else if (params.containsKey('id') && params['id']!.trim().isNotEmpty) {
         customerId = params['id']!.trim();
-        print('🔍 DEBUG: Found customerId in "id" field: "$customerId"');
+        debugPrint('🔍 DEBUG: Found customerId in "id" field: "$customerId"');
       }
       // Priority 3: Check for any parameter containing customer ID pattern
       else {
-        print(
+        debugPrint(
             '🔍 DEBUG: No exact match found, searching for customer ID pattern');
 
         // Check all parameters for potential customer ID content
@@ -73,7 +74,7 @@ class DisableCustomerGraphQLHandler implements ApiRequestHandler {
           final key = entry.key;
           final value = entry.value.trim();
 
-          print('🔍 DEBUG: Checking parameter "$key" = "$value"');
+          debugPrint('🔍 DEBUG: Checking parameter "$key" = "$value"');
 
           if (value.isNotEmpty) {
             // Check if this parameter contains a customer ID pattern
@@ -81,7 +82,7 @@ class DisableCustomerGraphQLHandler implements ApiRequestHandler {
                 (key.toLowerCase().contains('customer') && value.isNotEmpty) ||
                 (key.toLowerCase().contains('id') && value.isNotEmpty)) {
               customerId = value;
-              print(
+              debugPrint(
                   '🔍 DEBUG: Found potential customer ID in parameter "$key": "$customerId"');
               break;
             }
@@ -92,17 +93,17 @@ class DisableCustomerGraphQLHandler implements ApiRequestHandler {
       // If still no customer ID found
       if (customerId == null || customerId.isEmpty) {
         customerId = '';
-        print('🔍 DEBUG: No customer ID found in any parameter');
+        debugPrint('🔍 DEBUG: No customer ID found in any parameter');
       }
 
-      print('🔍 DEBUG: Final customerId extracted: "$customerId"');
-      print('🔍 DEBUG: customerId length: ${customerId.length}');
-      print('🔍 DEBUG: customerId isEmpty: ${customerId.isEmpty}');
-      print('🔍 DEBUG: ===== END DEBUG =====');
+      debugPrint('🔍 DEBUG: Final customerId extracted: "$customerId"');
+      debugPrint('🔍 DEBUG: customerId length: ${customerId.length}');
+      debugPrint('🔍 DEBUG: customerId isEmpty: ${customerId.isEmpty}');
+      debugPrint('🔍 DEBUG: ===== END DEBUG =====');
 
       // Validate customer ID
       if (customerId.isEmpty) {
-        print('🔍 DEBUG: Customer ID validation failed - customerId is empty');
+        debugPrint('🔍 DEBUG: Customer ID validation failed - customerId is empty');
 
         // Provide detailed error information
         final errorDetails = {
@@ -134,7 +135,7 @@ class DisableCustomerGraphQLHandler implements ApiRequestHandler {
 
       // Validate Shopify GraphQL ID format
       if (!customerId.startsWith('gid://shopify/Customer/')) {
-        print('🔍 DEBUG: Customer ID format validation failed: $customerId');
+        debugPrint('🔍 DEBUG: Customer ID format validation failed: $customerId');
         return {
           "status": "error",
           "message":
@@ -145,8 +146,8 @@ class DisableCustomerGraphQLHandler implements ApiRequestHandler {
         };
       }
 
-      print('🔍 DEBUG: Customer ID validation passed: $customerId');
-      print('🔍 DEBUG: Calling GraphQL service...');
+      debugPrint('🔍 DEBUG: Customer ID validation passed: $customerId');
+      debugPrint('🔍 DEBUG: Calling GraphQL service...');
 
       // Call the GraphQL service to delete/disable customer
       final response = await GetIt.I<CustomerGraphQLService>().deleteCustomer(
@@ -155,7 +156,7 @@ class DisableCustomerGraphQLHandler implements ApiRequestHandler {
         ),
       );
 
-      print('🔍 DEBUG: GraphQL service call successful');
+      debugPrint('🔍 DEBUG: GraphQL service call successful');
 
       // Return success response
       return {
@@ -168,7 +169,7 @@ class DisableCustomerGraphQLHandler implements ApiRequestHandler {
         "timestamp": DateTime.now().toIso8601String(),
       };
     } catch (e) {
-      print('🔍 DEBUG: Error occurred: $e');
+      debugPrint('🔍 DEBUG: Error occurred: $e');
 
       // Error handling with more details
       return {

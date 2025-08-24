@@ -1,6 +1,7 @@
 import 'package:apis/network/remote/shopify/graphql/webhooks/abstract/webhooks_service.dart';
 import 'package:api_explorer/services/api_request_handler.dart';
 import 'package:api_explorer/services/api_service_registry.dart';
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 ///*******************************************************************
@@ -76,8 +77,8 @@ class UpdateWebhookSubscriptionGraphQLHandler implements ApiRequestHandler {
 
     try {
       // Debug: Log all parameters
-      print('🔍 DEBUG: All params: $params');
-      print('🔍 DEBUG: All param keys: ${params.keys.toList()}');
+      debugPrint('🔍 DEBUG: All params: $params');
+      debugPrint('🔍 DEBUG: All param keys: ${params.keys.toList()}');
 
       // Try different ways to get ID parameter
       String? id = params['id'] ??
@@ -86,7 +87,7 @@ class UpdateWebhookSubscriptionGraphQLHandler implements ApiRequestHandler {
           params['webhookSubscriptionId'] ??
           params['webhook_subscription_id'];
 
-      print('🔍 DEBUG: ID param found: $id');
+      debugPrint('🔍 DEBUG: ID param found: $id');
 
       // Get other parameters
       String? callbackUrl = params['callbackUrl'];
