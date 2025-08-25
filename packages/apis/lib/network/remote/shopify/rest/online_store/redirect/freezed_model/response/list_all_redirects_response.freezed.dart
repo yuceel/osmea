@@ -1,0 +1,387 @@
+// coverage:ignore-file
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
+
+part of 'list_all_redirects_response.dart';
+
+// **************************************************************************
+// FreezedGenerator
+// **************************************************************************
+
+T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+
+ListAllRedirectsResponse _$ListAllRedirectsResponseFromJson(
+    Map<String, dynamic> json) {
+  return _ListAllRedirectsResponse.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ListAllRedirectsResponse {
+  @JsonKey(name: "redirects")
+  List<Redirect>? get redirects => throw _privateConstructorUsedError;
+
+  /// Serializes this ListAllRedirectsResponse to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of ListAllRedirectsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $ListAllRedirectsResponseCopyWith<ListAllRedirectsResponse> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ListAllRedirectsResponseCopyWith<$Res> {
+  factory $ListAllRedirectsResponseCopyWith(ListAllRedirectsResponse value,
+          $Res Function(ListAllRedirectsResponse) then) =
+      _$ListAllRedirectsResponseCopyWithImpl<$Res, ListAllRedirectsResponse>;
+  @useResult
+  $Res call({@JsonKey(name: "redirects") List<Redirect>? redirects});
+}
+
+/// @nodoc
+class _$ListAllRedirectsResponseCopyWithImpl<$Res,
+        $Val extends ListAllRedirectsResponse>
+    implements $ListAllRedirectsResponseCopyWith<$Res> {
+  _$ListAllRedirectsResponseCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of ListAllRedirectsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? redirects = freezed,
+  }) {
+    return _then(_value.copyWith(
+      redirects: freezed == redirects
+          ? _value.redirects
+          : redirects // ignore: cast_nullable_to_non_nullable
+              as List<Redirect>?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ListAllRedirectsResponseImplCopyWith<$Res>
+    implements $ListAllRedirectsResponseCopyWith<$Res> {
+  factory _$$ListAllRedirectsResponseImplCopyWith(
+          _$ListAllRedirectsResponseImpl value,
+          $Res Function(_$ListAllRedirectsResponseImpl) then) =
+      __$$ListAllRedirectsResponseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({@JsonKey(name: "redirects") List<Redirect>? redirects});
+}
+
+/// @nodoc
+class __$$ListAllRedirectsResponseImplCopyWithImpl<$Res>
+    extends _$ListAllRedirectsResponseCopyWithImpl<$Res,
+        _$ListAllRedirectsResponseImpl>
+    implements _$$ListAllRedirectsResponseImplCopyWith<$Res> {
+  __$$ListAllRedirectsResponseImplCopyWithImpl(
+      _$ListAllRedirectsResponseImpl _value,
+      $Res Function(_$ListAllRedirectsResponseImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ListAllRedirectsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? redirects = freezed,
+  }) {
+    return _then(_$ListAllRedirectsResponseImpl(
+      redirects: freezed == redirects
+          ? _value._redirects
+          : redirects // ignore: cast_nullable_to_non_nullable
+              as List<Redirect>?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ListAllRedirectsResponseImpl implements _ListAllRedirectsResponse {
+  const _$ListAllRedirectsResponseImpl(
+      {@JsonKey(name: "redirects") final List<Redirect>? redirects})
+      : _redirects = redirects;
+
+  factory _$ListAllRedirectsResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ListAllRedirectsResponseImplFromJson(json);
+
+  final List<Redirect>? _redirects;
+  @override
+  @JsonKey(name: "redirects")
+  List<Redirect>? get redirects {
+    final value = _redirects;
+    if (value == null) return null;
+    if (_redirects is EqualUnmodifiableListView) return _redirects;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  String toString() {
+    return 'ListAllRedirectsResponse(redirects: $redirects)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ListAllRedirectsResponseImpl &&
+            const DeepCollectionEquality()
+                .equals(other._redirects, _redirects));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_redirects));
+
+  /// Create a copy of ListAllRedirectsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ListAllRedirectsResponseImplCopyWith<_$ListAllRedirectsResponseImpl>
+      get copyWith => __$$ListAllRedirectsResponseImplCopyWithImpl<
+          _$ListAllRedirectsResponseImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ListAllRedirectsResponseImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ListAllRedirectsResponse implements ListAllRedirectsResponse {
+  const factory _ListAllRedirectsResponse(
+          {@JsonKey(name: "redirects") final List<Redirect>? redirects}) =
+      _$ListAllRedirectsResponseImpl;
+
+  factory _ListAllRedirectsResponse.fromJson(Map<String, dynamic> json) =
+      _$ListAllRedirectsResponseImpl.fromJson;
+
+  @override
+  @JsonKey(name: "redirects")
+  List<Redirect>? get redirects;
+
+  /// Create a copy of ListAllRedirectsResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ListAllRedirectsResponseImplCopyWith<_$ListAllRedirectsResponseImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+Redirect _$RedirectFromJson(Map<String, dynamic> json) {
+  return _Redirect.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Redirect {
+  @JsonKey(name: "id")
+  int? get id => throw _privateConstructorUsedError;
+  @JsonKey(name: "path")
+  String? get path => throw _privateConstructorUsedError;
+  @JsonKey(name: "target")
+  String? get target => throw _privateConstructorUsedError;
+
+  /// Serializes this Redirect to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of Redirect
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $RedirectCopyWith<Redirect> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RedirectCopyWith<$Res> {
+  factory $RedirectCopyWith(Redirect value, $Res Function(Redirect) then) =
+      _$RedirectCopyWithImpl<$Res, Redirect>;
+  @useResult
+  $Res call(
+      {@JsonKey(name: "id") int? id,
+      @JsonKey(name: "path") String? path,
+      @JsonKey(name: "target") String? target});
+}
+
+/// @nodoc
+class _$RedirectCopyWithImpl<$Res, $Val extends Redirect>
+    implements $RedirectCopyWith<$Res> {
+  _$RedirectCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of Redirect
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? path = freezed,
+    Object? target = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
+      path: freezed == path
+          ? _value.path
+          : path // ignore: cast_nullable_to_non_nullable
+              as String?,
+      target: freezed == target
+          ? _value.target
+          : target // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RedirectImplCopyWith<$Res>
+    implements $RedirectCopyWith<$Res> {
+  factory _$$RedirectImplCopyWith(
+          _$RedirectImpl value, $Res Function(_$RedirectImpl) then) =
+      __$$RedirectImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(name: "id") int? id,
+      @JsonKey(name: "path") String? path,
+      @JsonKey(name: "target") String? target});
+}
+
+/// @nodoc
+class __$$RedirectImplCopyWithImpl<$Res>
+    extends _$RedirectCopyWithImpl<$Res, _$RedirectImpl>
+    implements _$$RedirectImplCopyWith<$Res> {
+  __$$RedirectImplCopyWithImpl(
+      _$RedirectImpl _value, $Res Function(_$RedirectImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of Redirect
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? path = freezed,
+    Object? target = freezed,
+  }) {
+    return _then(_$RedirectImpl(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
+      path: freezed == path
+          ? _value.path
+          : path // ignore: cast_nullable_to_non_nullable
+              as String?,
+      target: freezed == target
+          ? _value.target
+          : target // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RedirectImpl implements _Redirect {
+  const _$RedirectImpl(
+      {@JsonKey(name: "id") this.id,
+      @JsonKey(name: "path") this.path,
+      @JsonKey(name: "target") this.target});
+
+  factory _$RedirectImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RedirectImplFromJson(json);
+
+  @override
+  @JsonKey(name: "id")
+  final int? id;
+  @override
+  @JsonKey(name: "path")
+  final String? path;
+  @override
+  @JsonKey(name: "target")
+  final String? target;
+
+  @override
+  String toString() {
+    return 'Redirect(id: $id, path: $path, target: $target)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RedirectImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.path, path) || other.path == path) &&
+            (identical(other.target, target) || other.target == target));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, path, target);
+
+  /// Create a copy of Redirect
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RedirectImplCopyWith<_$RedirectImpl> get copyWith =>
+      __$$RedirectImplCopyWithImpl<_$RedirectImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RedirectImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Redirect implements Redirect {
+  const factory _Redirect(
+      {@JsonKey(name: "id") final int? id,
+      @JsonKey(name: "path") final String? path,
+      @JsonKey(name: "target") final String? target}) = _$RedirectImpl;
+
+  factory _Redirect.fromJson(Map<String, dynamic> json) =
+      _$RedirectImpl.fromJson;
+
+  @override
+  @JsonKey(name: "id")
+  int? get id;
+  @override
+  @JsonKey(name: "path")
+  String? get path;
+  @override
+  @JsonKey(name: "target")
+  String? get target;
+
+  /// Create a copy of Redirect
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$RedirectImplCopyWith<_$RedirectImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
