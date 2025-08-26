@@ -34,14 +34,14 @@
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="icon" type="image/png" href="assets/images/mf_logo.png"/>
 
   <title>OSMEA API Explorer</title>
   <link rel="manifest" href="manifest.json">
 
   <!-- Flutter web configuration -->
   <script>
-    // Flutter web configuration to prevent white screen on refresh
+    // Flutter web configuration for path-based routing (no hash)
     var serviceWorkerVersion = '{{flutter_service_worker_version}}';
     var scriptLoaded = false;
     
@@ -56,14 +56,20 @@
       document.head.appendChild(scriptTag);
     }
 
-    // Handle browser back/forward buttons
+    // Handle browser back/forward buttons for path-based routing
     window.addEventListener('popstate', function(event) {
       console.log('🔧 Browser navigation detected:', event.state);
+      // Flutter will handle the routing automatically
     });
 
-    // Handle page refresh
+    // Handle page refresh for path-based routing
     window.addEventListener('beforeunload', function(event) {
       console.log('🔧 Page refresh detected, preserving state...');
+    });
+
+    // Handle direct URL access (important for path-based routing)
+    window.addEventListener('load', function() {
+      console.log('🔧 Page loaded, current path:', window.location.pathname);
     });
 
     if ('serviceWorker' in navigator) {

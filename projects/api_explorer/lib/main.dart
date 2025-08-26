@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:core/core.dart';
 import 'package:api_explorer/services/api_service_registry.dart';
 import 'package:apis/apis.dart';
@@ -13,6 +14,11 @@ import 'di/config/config_di.dart';
 Future<void> main() async {
   // 🪄🧵 Ensures Flutter bindings are initialized
   WidgetsFlutterBinding.ensureInitialized();
+
+  // 🌐 Configure web URL strategy to use paths instead of hash (#)
+  if (kIsWeb) {
+    usePathUrlStrategy();
+  }
 
   // 🌐 Network initialization is now handled by the wizard system
   try {
