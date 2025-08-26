@@ -26,6 +26,7 @@ import '../components/ticket_storybook/tickets.dart';
 import '../components/bottom_sheet_storybook/bottom_sheets.dart';
 import '../components/popup_storybook/popups.dart';
 import '../components/stepper_storybook/showcase/unified_stepper_showcase.dart';
+import '../components/dropdown_storybook/dropdowns.dart';
 
 
 /// Model for component information displayed on home page and stories
@@ -144,6 +145,14 @@ final List<ComponentInfo> allComponents = [
     color: Colors.grey,
     storyPath: StoryConfig.buildComponentStoryName('Dividers'),
     getStories: getAllDividerStories,
+  ),
+  ComponentInfo(
+    name: 'Dropdowns',
+    description: 'Selection controls with primitive, icon, and avatar options',
+    icon: Icons.arrow_drop_down_circle,
+    color: Colors.deepPurple,
+    storyPath: StoryConfig.buildComponentStoryName('Dropdowns'),
+    getStories: getAllDropdownStories,
   ),
   ComponentInfo(
     name: 'Footers',
