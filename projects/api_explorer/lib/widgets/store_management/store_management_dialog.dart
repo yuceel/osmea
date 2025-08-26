@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:api_explorer/widgets/store_management/add_store_dialog.dart';
+import 'package:api_explorer/widgets/store_management/store_setup_wizard.dart';
 import 'package:apis/apis.dart';
 import 'package:core/core.dart';
 
@@ -56,10 +56,45 @@ class _StoreManagementDialogState extends State<StoreManagementDialog> {
   }
 
   void _showAddStoreDialog(BuildContext context) async {
-    final result = await showDialog<StoreConfiguration>(
-      context: context,
-      builder: (context) => const AddStoreDialog(),
+    final result = await StoreSetupWizard.show(
+      context,
+      onStoreAdded: (store) {
+        // Handle store added callback
+      },
+      isInitialSetup: false,
     );
+
+    if (result != null) {
+      await _loadStores();
+      widget.onStoreChanged(result);
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: OsmeaComponents.column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                OsmeaComponents.text(
+                  '✅ Store added successfully!',
+                  textStyle: OsmeaTextStyle.bodyMedium(context).copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                OsmeaComponents.sizedBox(height: 4),
+                OsmeaComponents.text(
+                  '${result.platform.toUpperCase()}: ${result.displayName}',
+                  textStyle: OsmeaTextStyle.captionMedium(context),
+                ),
+              ],
+            ),
+            backgroundColor: OsmeaColors.forestHeart,
+            duration: const Duration(seconds: 3),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    }
 
     if (result != null) {
       await _loadStores();
