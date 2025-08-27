@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:apis/apis.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:core/core.dart';
@@ -622,9 +623,26 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: _animationController,
-      builder: (context, child) {
+    return Focus(
+      autofocus: true,
+      onKeyEvent: (node, event) {
+        if (event is KeyDownEvent && event.logicalKey == LogicalKeyboardKey.enter) {
+          if (_currentStep == 0 && _selectedPlatform != null) {
+            _nextStep();
+            return KeyEventResult.handled;
+          } else if (_currentStep == 1 && _validateForm()) {
+            _nextStep();
+            return KeyEventResult.handled;
+          } else if (_currentStep == 2) {
+            _completeSetup();
+            return KeyEventResult.handled;
+          }
+        }
+        return KeyEventResult.ignored;
+      },
+      child: AnimatedBuilder(
+        animation: _animationController,
+        builder: (context, child) {
         return FadeTransition(
           opacity: _opacityAnimation,
           child: SlideTransition(
@@ -740,6 +758,7 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
           ),
         );
       },
+    ),
     );
   }
 
