@@ -995,17 +995,6 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
             icon: Icons.key,
             isAccessToken: true,
           ),
-
-          OsmeaComponents.sizedBox(height: context.spacing24),
-
-          // Shopify store URL
-          _buildTextField(
-            controller: _storeUrlController,
-            label: 'Store URL',
-            hint: 'e.g., mystore.myshopify.com',
-            errorText: _storeUrlError,
-            icon: Icons.link,
-          ),
         ] else if (_selectedPlatform == 'woocommerce') ...[
           // WooCommerce store URL
           _buildTextField(
@@ -1156,13 +1145,12 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
             children: [
               _buildReviewItem(
                   'Platform', _getPlatformDisplayName(_selectedPlatform ?? '')),
+              _buildReviewItem('Store URL', _storeUrlController.text.trim()),
               _buildReviewItem('Store Name', _storeNameController.text.trim()),
               if (_selectedPlatform == 'shopify') ...[
                 _buildReviewItem(
                     'Access Token', _accessTokenController.text.trim()),
-                _buildReviewItem('Store URL', _storeUrlController.text.trim()),
               ] else if (_selectedPlatform == 'woocommerce') ...[
-                _buildReviewItem('Store URL', _storeUrlController.text.trim()),
                 _buildReviewItem('Username', _usernameController.text.trim()),
                 _buildReviewItem('Password', '••••••••'),
               ],
