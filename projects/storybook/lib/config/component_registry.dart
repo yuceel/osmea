@@ -24,6 +24,7 @@ import '../components/carousel_storybook/carousels.dart';
 import '../components/searchbar_storybook/searchbars.dart';
 import '../components/ticket_storybook/tickets.dart';
 import '../components/bottom_sheet_storybook/bottom_sheets.dart';
+import '../components/collapse_storybook/collapses.dart';
 import '../components/popup_storybook/popups.dart';
 import '../components/stepper_storybook/showcase/unified_stepper_showcase.dart';
 import '../components/dropdown_storybook/dropdowns.dart';
@@ -121,6 +122,14 @@ final List<ComponentInfo> allComponents = [
     color: Colors.blueGrey,
     storyPath: StoryConfig.buildComponentStoryName('Chips'),
     getStories: getAllChipStories,
+  ),
+  ComponentInfo(
+    name: 'Collapse',
+    description: 'Expandable content panels with smooth animations and accordion mode',
+    icon: Icons.expand_more,
+    color: Colors.teal,
+    storyPath: StoryConfig.buildComponentStoryName('Collapse'),
+    getStories: getAllCollapseStories,
   ),
   ComponentInfo(
     name: 'Containers',
