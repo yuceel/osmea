@@ -532,56 +532,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
 
               OsmeaComponents.sizedBox(width: context.spacing12),
 
-              // Modern Status Badge
-              OsmeaComponents.container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: context.spacing8,
-                  vertical: context.spacing4,
-                ),
-                decoration: BoxDecoration(
-                  color: (profile['status'] ?? 'Unknown') == 'Active'
-                      ? OsmeaColors.forestHeart.withValues(alpha: isDark ? 0.2 : 0.1)
-                      : OsmeaColors.amberFlame.withValues(alpha: isDark ? 0.2 : 0.1),
-                  borderRadius: context.borderRadiusMinStandard,
-                  border: Border.all(
-                    color: (profile['status'] ?? 'Unknown') == 'Active'
-                        ? OsmeaColors.forestHeart
-                            .withValues(alpha: isDark ? 0.3 : 0.2)
-                        : OsmeaColors.amberFlame
-                            .withValues(alpha: isDark ? 0.3 : 0.2),
-                    width: 1,
-                  ),
-                ),
-                child: OsmeaComponents.row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      width: 6,
-                      height: 6,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: (profile['status'] ?? 'Unknown') == 'Active'
-                            ? OsmeaColors.forestHeart
-                            : OsmeaColors.amberFlame,
-                      ),
-                    ),
-                    OsmeaComponents.sizedBox(width: context.spacing4),
-                    OsmeaComponents.text(
-                      profile['status'] ?? 'Unknown',
-                      variant: OsmeaTextVariant.labelSmall,
-                      fontSize: 11,
-                      fontWeight: FontWeight.w600,
-                      color: (profile['status'] ?? 'Unknown') == 'Active'
-                          ? OsmeaColors.forestHeart
-                          : OsmeaColors.amberFlame,
-                    ),
-                  ],
-                ),
-              ),
-
-              OsmeaComponents.sizedBox(width: context.spacing8),
-
-              // Actions Menu
+              // Store actions menu - status badge kaldırıldı
               _buildActionMenu(context),
             ],
           ),
