@@ -680,6 +680,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                     OsmeaColors.nordicBlue,
                     Icons.link,
                   ),
+                OsmeaComponents.sizedBox(height: context.spacing8),
 
                 // API Version Row
                 _buildInfoRow(
@@ -698,11 +699,30 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
           OsmeaComponents.row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              OsmeaComponents.button(
-                text: 'Close',
-                onPressed: () => Navigator.of(context).pop(),
-                variant: ButtonVariant.secondary,
-                size: ButtonSize.medium,
+              // Edit Button
+              IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close profile dialog
+                  if (_selectedStore != null) {
+                    StoreSetupWizard.show(
+                      context,
+                      isInitialSetup: false,
+                      existingStore: _selectedStore,
+                      onStoreAdded: (store) {
+                        setState(() {
+                          _selectedStore = store;
+                        });
+                        _updateApiUrlFromStore(store);
+                        _showSnackBar('Store updated successfully', isError: false);
+                      },
+                    );
+                  }
+                },
+                icon: Icon(
+                  Icons.edit,
+                  color: OsmeaColors.nordicBlue,
+                ),
+                tooltip: 'Edit Store',
               ),
             ],
           ),
