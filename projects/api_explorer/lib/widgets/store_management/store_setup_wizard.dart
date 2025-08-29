@@ -7,11 +7,13 @@ import 'package:core/core.dart';
 class StoreSetupWizard extends StatefulWidget {
   final Function(StoreConfiguration)? onStoreAdded;
   final bool isInitialSetup;
+  final StoreConfiguration? existingStore;
 
   const StoreSetupWizard({
     super.key,
     this.onStoreAdded,
     this.isInitialSetup = true,
+    this.existingStore,
   });
 
   @override
@@ -19,7 +21,8 @@ class StoreSetupWizard extends StatefulWidget {
 
   static Future<StoreConfiguration?> show(BuildContext context,
       {Function(StoreConfiguration)? onStoreAdded,
-      bool isInitialSetup = false}) async {
+      bool isInitialSetup = false,
+      StoreConfiguration? existingStore}) async {
     return showDialog<StoreConfiguration>(
       context: context,
       barrierDismissible: false,
@@ -28,6 +31,7 @@ class StoreSetupWizard extends StatefulWidget {
         return StoreSetupWizard(
           onStoreAdded: onStoreAdded,
           isInitialSetup: isInitialSetup,
+          existingStore: existingStore,
         );
       },
     );
@@ -93,8 +97,11 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
     _initializeAnimations();
     _loadExistingConfiguration();
 
-    // Only restore previous step for initial setup, not for adding new stores
-    if (widget.isInitialSetup) {
+    // For editing existing store, start from step 1 (configuration step)
+    if (widget.existingStore != null) {
+      _currentStep = 1;
+      _loadExistingStoreData();
+    } else if (widget.isInitialSetup) {
       _restoreWizardStep(); // Restore previous step
     } else {
       // Reset to first step for new store addition
@@ -216,6 +223,28 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
     }
   }
 
+  void _loadExistingStoreData() {
+    if (widget.existingStore == null) return;
+    
+    final store = widget.existingStore!;
+    setState(() {
+      _selectedPlatform = store.platform;
+      _storeNameController.text = store.displayName;
+      _apiVersionController.text = store.apiVersion;
+      
+      if (store.platform == 'shopify') {
+        _accessTokenController.text = store.shopifyAccessToken ?? '';
+        _storeUrlController.text = store.storeUrl ?? '';
+      } else if (store.platform == 'woocommerce') {
+        _storeUrlController.text = store.storeUrl ?? '';
+        _usernameController.text = store.username ?? '';
+        _passwordController.text = store.password ?? '';
+      }
+    });
+    
+    debugPrint('✅ Existing store data loaded: ${store.displayName}');
+  }
+
   void _nextStep() {
     if (_currentStep < 2) {
       if (_currentStep == 1 && !_validateForm()) {
@@ -247,6 +276,9 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
 
   /// Check for duplicate store name in real-time during form validation
   void _checkDuplicateNameInRealTime() {
+    // Only check for duplicates when adding new store (not editing)
+    if (widget.existingStore != null) return;
+    
     try {
       final storeService = StoreManagementService();
       storeService.refreshStores().then((_) {
@@ -278,32 +310,36 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
       final newStoreName = _storeNameController.text.trim();
       final newStoreUrl = _storeUrlController.text.trim();
       final newPlatform = _selectedPlatform!;
+      final currentStoreId = widget.existingStore?.id;
 
-      // Check for duplicate store name
+      // Check for duplicate store name (excluding current store when editing)
       final duplicateName = existingStores.any((store) =>
-          store.displayName.toLowerCase() == newStoreName.toLowerCase());
+          store.displayName.toLowerCase() == newStoreName.toLowerCase() &&
+          store.id != currentStoreId);
 
       if (duplicateName) {
         return (true, 'name', newStoreName);
       }
 
-      // Check for duplicate store URL (for same platform)
+      // Check for duplicate store URL (for same platform, excluding current store)
       if (newStoreUrl.isNotEmpty) {
         final duplicateUrl = existingStores.any((store) =>
             store.platform == newPlatform &&
-            store.storeUrl?.toLowerCase() == newStoreUrl.toLowerCase());
+            store.storeUrl?.toLowerCase() == newStoreUrl.toLowerCase() &&
+            store.id != currentStoreId);
 
         if (duplicateUrl) {
           return (true, 'URL', newStoreUrl);
         }
       }
 
-      // Check for duplicate Shopify store name (myshopify.com)
+      // Check for duplicate Shopify store name (myshopify.com, excluding current store)
       if (newPlatform == 'shopify' && newStoreUrl.isNotEmpty) {
         final shopifyStoreName = newStoreUrl.replaceAll('.myshopify.com', '');
         final duplicateShopifyName = existingStores.any((store) =>
             store.platform == 'shopify' &&
-            store.storeUrl?.contains(shopifyStoreName) == true);
+            store.storeUrl?.contains(shopifyStoreName) == true &&
+            store.id != currentStoreId);
 
         if (duplicateShopifyName) {
           return (true, 'Shopify store', shopifyStoreName);
@@ -326,32 +362,34 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
       return;
     }
 
-    // Check for duplicate store
-    final (isDuplicate, duplicateType, duplicateValue) =
-        await _checkForDuplicateStore();
-    if (isDuplicate) {
-      debugPrint(
-          '❌ Duplicate store detected: $duplicateType - $duplicateValue');
-      String errorMessage;
-      switch (duplicateType) {
-        case 'name':
-          errorMessage =
-              'A store with the name "$duplicateValue" already exists. Please use a different name.';
-          break;
-        case 'URL':
-          errorMessage =
-              'A store with the URL "$duplicateValue" already exists. Please use a different URL.';
-          break;
-        case 'Shopify store':
-          errorMessage =
-              'A Shopify store with the name "$duplicateValue" already exists. Please use a different store name.';
-          break;
-        default:
-          errorMessage =
-              'A store with this configuration already exists. Please use different values.';
+    // Only check for duplicate store when adding new store (not editing)
+    if (widget.existingStore == null) {
+      final (isDuplicate, duplicateType, duplicateValue) =
+          await _checkForDuplicateStore();
+      if (isDuplicate) {
+        debugPrint(
+            '❌ Duplicate store detected: $duplicateType - $duplicateValue');
+        String errorMessage;
+        switch (duplicateType) {
+          case 'name':
+            errorMessage =
+                'A store with the name "$duplicateValue" already exists. Please use a different name.';
+            break;
+          case 'URL':
+            errorMessage =
+                'A store with the URL "$duplicateValue" already exists. Please use a different URL.';
+            break;
+          case 'Shopify store':
+            errorMessage =
+                'A Shopify store with the name "$duplicateValue" already exists. Please use a different store name.';
+            break;
+          default:
+            errorMessage =
+                'A store with this configuration already exists. Please use different values.';
+        }
+        _showErrorMessage(errorMessage);
+        return;
       }
-      _showErrorMessage(errorMessage);
-      return;
     }
 
     debugPrint('✅ Form validation passed');
@@ -361,7 +399,7 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
       debugPrint('🔧 Creating StoreConfiguration...');
 
       final config = StoreConfiguration(
-        id: null,
+        id: widget.existingStore?.id, // Use existing ID when editing
         storeName: _storeNameController.text.trim(),
         displayName: _storeNameController.text.trim(),
         platform: _selectedPlatform!,
@@ -380,9 +418,9 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
         password: _selectedPlatform == 'woocommerce'
             ? _passwordController.text.trim()
             : null,
-        isActive: true,
-        isDefault: true,
-        createdAt: DateTime.now(),
+        isActive: widget.existingStore?.isActive ?? true,
+        isDefault: widget.existingStore?.isDefault ?? true,
+        createdAt: widget.existingStore?.createdAt ?? DateTime.now(),
         updatedAt: DateTime.now(),
       );
 
@@ -390,14 +428,22 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
       debugPrint('🔧 _selectedPlatform: $_selectedPlatform');
       debugPrint('🔧 Config created: ${config.toJson()}');
 
-      debugPrint('🔧 Calling WizardHelper.addStore...');
-      final success = await WizardHelper.addStore(config);
-      debugPrint('🔧 WizardHelper.addStore result: $success');
+      // Use updateStore for existing stores, addStore for new stores
+      final bool success;
+      if (widget.existingStore != null) {
+        debugPrint('🔧 Calling WizardHelper.updateStore...');
+        success = await WizardHelper.updateStore(config);
+        debugPrint('🔧 WizardHelper.updateStore result: $success');
+      } else {
+        debugPrint('🔧 Calling WizardHelper.addStore...');
+        success = await WizardHelper.addStore(config);
+        debugPrint('🔧 WizardHelper.addStore result: $success');
+      }
 
       if (success) {
         debugPrint('🔧 Configuration saved successfully');
 
-        // Notify parent about the new store
+        // Notify parent about the store (new or updated)
         widget.onStoreAdded?.call(config);
 
         // Reinitialize networks after configuration
@@ -406,8 +452,9 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
           await _reinitializeNetworks(config);
           debugPrint('✅ Networks reinitialized successfully');
         } catch (e) {
-          debugPrint('🔧 Failed to reinitialize networks: $e');
-          debugPrint('🔧 Network reinitialization warning: $e');
+          debugPrint('⚠️ Network reinitialization warning: $e');
+          // Continue with success flow even if network reinitialization fails
+          // The store configuration was saved successfully
         }
 
         if (mounted) {
@@ -419,7 +466,9 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   OsmeaComponents.text(
-                    '✅ Store configuration saved successfully!',
+                    widget.existingStore != null
+                        ? '✅ Store configuration updated successfully!'
+                        : '✅ Store configuration saved successfully!',
                     textStyle: OsmeaTextStyle.bodyMedium(context).copyWith(
                       fontWeight: FontWeight.w600,
                     ),
@@ -476,22 +525,28 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
         ApiNetwork.updateApiVersion(config.apiVersion);
         debugPrint('✅ Shopify network reinitialized');
       } else if (config.platform == 'woocommerce') {
-        // Reinitialize WooCommerce network
-        if (config.storeUrl != null) {
-          WooNetwork.updateStoreUrl(config.storeUrl!);
+        // Reinitialize WooCommerce network - wrapped in try-catch to handle potential errors
+        try {
+          if (config.storeUrl != null) {
+            WooNetwork.updateStoreUrl(config.storeUrl!);
+          }
+          if (config.username != null) {
+            WooNetwork.updateUsername(config.username!);
+          }
+          if (config.password != null) {
+            WooNetwork.updatePassword(config.password!);
+          }
+          WooNetwork.updateApiVersion(config.apiVersion);
+          debugPrint('✅ WooCommerce network reinitialized');
+        } catch (wooError) {
+          debugPrint('⚠️ WooCommerce network reinitialization failed: $wooError');
+          // Don't rethrow - just log the error and continue
         }
-        if (config.username != null) {
-          WooNetwork.updateUsername(config.username!);
-        }
-        if (config.password != null) {
-          WooNetwork.updatePassword(config.password!);
-        }
-        WooNetwork.updateApiVersion(config.apiVersion);
-        debugPrint('✅ WooCommerce network reinitialized');
       }
     } catch (e) {
-      debugPrint('❌ Error reinitializing networks: $e');
-      rethrow;
+      debugPrint('⚠️ Network reinitialization warning: $e');
+      // Don't rethrow the error - just log it as a warning
+      // The store configuration was still saved successfully
     }
   }
 
@@ -711,9 +766,11 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
                             ),
                             OsmeaComponents.sizedBox(width: context.spacing16),
                             OsmeaComponents.text(
-                              widget.isInitialSetup
-                                  ? 'Store Setup Wizard'
-                                  : 'Add New Store',
+                              widget.existingStore != null
+                                  ? 'Edit Store'
+                                  : widget.isInitialSetup
+                                      ? 'Store Setup Wizard'
+                                      : 'Add New Store',
                               textStyle: OsmeaTextStyle.displayMedium(context)
                                   .copyWith(
                                 color: OsmeaColors.white,
