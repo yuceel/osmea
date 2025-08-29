@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:core/core.dart';
 import 'package:api_explorer/styles/app_theme.dart';
 import 'package:apis/apis.dart';
-
+import 'package:api_explorer/widgets/store_management/store_setup_wizard.dart';
 /// Modern IDE-style application header using Osmea components
 class AppHeader extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -131,13 +131,27 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
 
         OsmeaComponents.sizedBox(width: context.spacing24),
 
-        // API URL Display
-        if (apiUrl.isNotEmpty) ...[
-          OsmeaComponents.expanded(
-            child: _buildApiUrlDisplay(context),
+        // API URL Display or Store Warning
+        OsmeaComponents.expanded(
+          child: FutureBuilder<StoreConfiguration?>(
+            future: WizardHelper.getCurrentStore(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const SizedBox.shrink();
+              }
+              
+              final currentStore = snapshot.data;
+              if (currentStore == null || !currentStore.isComplete) {
+                return _buildStoreWarning(context);
+              } else if (apiUrl.isNotEmpty) {
+                return _buildApiUrlDisplay(context);
+              }
+              
+              return const SizedBox.shrink();
+            },
           ),
-          OsmeaComponents.sizedBox(width: context.spacing16),
-        ],
+        ),
+        OsmeaComponents.sizedBox(width: context.spacing16),
       ],
     );
   }
@@ -229,6 +243,85 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
               backgroundColor: Colors.transparent,
             ),
           ),
+        ],
+      ),
+    );
+  }
+
+  /// Build the store warning display when no store is configured
+  Widget _buildStoreWarning(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return OsmeaComponents.container(
+      padding: EdgeInsets.symmetric(
+        horizontal: context.spacing16,
+        vertical: context.spacing10,
+      ),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            OsmeaColors.amberFlame.withValues(alpha: isDark ? 0.15 : 0.08),
+            OsmeaColors.amberFlame.withValues(alpha: isDark ? 0.10 : 0.05),
+          ],
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+        ),
+        borderRadius: context.borderRadiusMinStandard,
+        border: Border.all(
+          color: OsmeaColors.amberFlame.withValues(alpha: isDark ? 0.3 : 0.2),
+          width: 1,
+        ),
+      ),
+      child: OsmeaComponents.row(
+        children: [
+          // Warning Icon
+          OsmeaComponents.container(
+            padding: EdgeInsets.all(context.spacing6),
+            decoration: BoxDecoration(
+              color: OsmeaColors.amberFlame.withValues(alpha: isDark ? 0.2 : 0.15),
+              borderRadius: context.borderRadiusMinStandard,
+              border: Border.all(
+                color: OsmeaColors.amberFlame.withValues(alpha: isDark ? 0.3 : 0.25),
+                width: 1,
+              ),
+            ),
+            child: Icon(
+              Icons.warning_amber_rounded,
+              size: 18,
+              color: OsmeaColors.amberFlame,
+            ),
+          ),
+          OsmeaComponents.sizedBox(width: context.spacing12),
+          
+          // Warning Message
+          OsmeaComponents.expanded(
+            child: OsmeaComponents.column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                OsmeaComponents.text(
+                  'Store Configuration Required',
+                  variant: OsmeaTextVariant.labelMedium,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: OsmeaColors.amberFlame,
+                ),
+                OsmeaComponents.text(
+                  'Please click "Connect Store" button to configure your store settings',
+                  variant: OsmeaTextVariant.bodySmall,
+                  fontSize: 11,
+                  color: isDark 
+                    ? Colors.white.withValues(alpha: 0.8) 
+                    : OsmeaColors.steel.withValues(alpha: 0.8),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+          
+          OsmeaComponents.sizedBox(width: context.spacing8),
+        
         ],
       ),
     );
@@ -355,9 +448,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
                   text: 'Connect Store',
                   variant: ButtonVariant.outlined,
                   size: ButtonSize.small,
-                  onPressed: () {
-                    onStoreChange?.call();
-                  },
+                  onPressed: () => _openStoreSetupWizard(context),
                   icon: Icon(
                     Icons.add_rounded,
                     size: 16,
@@ -519,6 +610,25 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
       }
     } catch (e) {
       debugPrint('❌ Failed to copy URL: $e');
+    }
+  }
+
+  /// Open the store setup wizard
+  Future<void> _openStoreSetupWizard(BuildContext context) async {
+    try {
+      final result = await StoreSetupWizard.show(
+        context,
+        isInitialSetup: true,
+        onStoreAdded: (config) {
+        },
+      );
+
+      if (result != null) {
+        // Store configuration completed
+        debugPrint('✅ Store configuration completed: ${result.displayName}');
+      }
+    } catch (e) {
+      debugPrint('❌ Error opening store setup wizard: $e');
     }
   }
 
