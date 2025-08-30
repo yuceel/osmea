@@ -96,7 +96,7 @@ class SplashViewModel extends BaseViewModelBloc<SplashEvent, SplashState> {
 
     // Additional debug info
     await _onboardingHelper.getOnboardingDebugInfo();
-    Future.delayed(const Duration(seconds: 2), () {
+    await Future.delayed(const Duration(seconds: 2), () {
       // PROD mode logic: Check if onboarding was seen
       if (hasSeenOnboarding) {
         _navigationCallback?.call('/welcome');
