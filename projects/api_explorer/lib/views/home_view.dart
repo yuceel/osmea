@@ -1,9 +1,11 @@
 import 'package:api_explorer/widgets/home/modern_sidebar.dart';
+import 'package:api_explorer/widgets/home/responsive_popup.dart';
 import 'package:api_explorer/widgets/layout/app_header.dart';
 import 'package:api_explorer/widgets/responsive_layout/responsive_content.dart';
 import 'package:api_explorer/widgets/store_management/store_management_dialog.dart';
 import 'package:api_explorer/widgets/store_management/store_setup_wizard.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:apis/apis.dart';
 import 'package:apis/services/store_change_notifier.dart';
 import 'package:api_explorer/services/api_service_registry.dart';
@@ -18,7 +20,8 @@ class HomeView extends StatefulWidget {
   State<HomeView> createState() => _HomeViewState();
 }
 
-class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
+class _HomeViewState extends State<HomeView>
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   // Core state
   ApiService? _selectedService;
   String _selectedMethod = 'GET';
@@ -30,6 +33,12 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
   bool _isDarkMode = false;
   StoreConfiguration? _selectedStore;
   StreamSubscription<StoreChangeEvent>? _storeChangeSubscription;
+
+  // Responsive popup state
+  bool _showResponsivePopup = false;
+  double _previousScreenWidth = 0;
+  bool _hasShownResponsivePopup = false;
+  late WidgetsBindingObserver _widgetsBindingObserver;
 
   // Scaffold key for drawer control
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -51,6 +60,29 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
     _loadCurrentStore();
     _listenToStoreChanges();
     _restoreAppState(); // Restore previous state
+
+    // Initialize screen width for responsive popup
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        final screenWidth = MediaQuery.of(context).size.width;
+        _previousScreenWidth = screenWidth;
+
+        // Check if screen is already small on app startup
+        if (screenWidth < 1200 && !_hasShownResponsivePopup) {
+          if (kDebugMode) {
+            debugPrint(
+                '📱 App started on small screen, showing popup immediately');
+          }
+          setState(() {
+            _showResponsivePopup = true;
+            _hasShownResponsivePopup = true;
+          });
+        }
+      }
+    });
+
+    // Add observer for window resize events
+    WidgetsBinding.instance.addObserver(this);
   }
 
   // State persistence methods
@@ -136,6 +168,139 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
     _sidebarAnimationController.forward();
   }
 
+  // Responsive popup methods
+  void _checkScreenSizeChange(double currentWidth) {
+    if (_previousScreenWidth == 0) {
+      _previousScreenWidth = currentWidth;
+      if (kDebugMode) {
+        debugPrint('🖥️ Initial screen width: ${currentWidth}px');
+      }
+
+      // Check if app started on small screen
+      if (currentWidth < 1200 && !_hasShownResponsivePopup) {
+        if (kDebugMode) {
+          debugPrint(
+              '📱 App started on small screen, showing popup immediately');
+        }
+        setState(() {
+          _showResponsivePopup = true;
+          _hasShownResponsivePopup = true;
+        });
+      }
+      return;
+    }
+
+    if (kDebugMode) {
+      debugPrint(
+          '🔄 Screen size change: ${_previousScreenWidth}px → ${currentWidth}px');
+    }
+
+    // Check if screen was resized from web format (>1200px) to smaller size
+    if (_previousScreenWidth >= 1200 &&
+        currentWidth < 1200 &&
+        !_hasShownResponsivePopup) {
+      if (kDebugMode) {
+        debugPrint('📱 Showing responsive popup (web → mobile)');
+      }
+      setState(() {
+        _showResponsivePopup = true;
+        _hasShownResponsivePopup = true;
+      });
+    }
+
+    // Reset popup state if screen size increases again
+    if (currentWidth >= 1200 && _hasShownResponsivePopup) {
+      if (kDebugMode) {
+        debugPrint('💻 Hiding responsive popup (mobile → web)');
+      }
+      setState(() {
+        _showResponsivePopup = false;
+        _hasShownResponsivePopup = false;
+      });
+    }
+
+    _previousScreenWidth = currentWidth;
+  }
+
+  void _dismissResponsivePopup() {
+    if (kDebugMode) {
+      debugPrint('❌ Responsive popup dismissed by user');
+    }
+    setState(() {
+      _showResponsivePopup = false;
+    });
+  }
+
+  void _openWebVersion() {
+    if (kDebugMode) {
+      debugPrint('🌐 User chose to use web version');
+    }
+    _dismissResponsivePopup();
+
+    // Show a message that web version is recommended
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text(
+            'We recommend opening the web version in full screen in your browser.'),
+        backgroundColor: OsmeaColors.nordicBlue,
+        duration: const Duration(seconds: 3),
+        action: SnackBarAction(
+          label: 'OK',
+          textColor: Colors.white,
+          onPressed: () {},
+        ),
+      ),
+    );
+  }
+
+  // Test method for responsive popup (only in debug mode)
+  void _testResponsivePopup() {
+    if (kDebugMode) {
+      debugPrint('🧪 Manually testing responsive popup');
+      setState(() {
+        _showResponsivePopup = true;
+        _hasShownResponsivePopup = true;
+      });
+    }
+  }
+
+  // Test method for simulating different screen sizes (only in debug mode)
+  void _testScreenSizeSimulation() {
+    if (kDebugMode) {
+      final currentWidth = MediaQuery.of(context).size.width;
+      debugPrint('🧪 Current screen width: ${currentWidth}px');
+
+      if (currentWidth >= 1200) {
+        debugPrint('🧪 Simulating small screen (web → mobile)');
+        setState(() {
+          _previousScreenWidth = currentWidth;
+          _hasShownResponsivePopup = false;
+        });
+        _checkScreenSizeChange(800); // Simulate 800px width
+      } else {
+        debugPrint('🧪 Simulating large screen (mobile → web)');
+        setState(() {
+          _previousScreenWidth = currentWidth;
+          _hasShownResponsivePopup = true;
+        });
+        _checkScreenSizeChange(1400); // Simulate 1400px width
+      }
+    }
+  }
+
+  @override
+  void didChangeMetrics() {
+    super.didChangeMetrics();
+    if (mounted) {
+      final screenWidth = MediaQuery.of(context).size.width;
+      if (kDebugMode) {
+        debugPrint(
+            '📐 Window metrics changed, checking screen size: ${screenWidth}px');
+      }
+      _checkScreenSizeChange(screenWidth);
+    }
+  }
+
   void _initializeDefaults() {
     ApiNetwork.initOnRequestInterceptor(
       onRequestInInterceptor: () async {
@@ -180,6 +345,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
     _responseAnimationController.dispose();
     _themeAnimationController.dispose();
     _storeChangeSubscription?.cancel();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
@@ -713,7 +879,8 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                           _selectedStore = store;
                         });
                         _updateApiUrlFromStore(store);
-                        _showSnackBar('Store updated successfully', isError: false);
+                        _showSnackBar('Store updated successfully',
+                            isError: false);
                       },
                     );
                   }
@@ -852,57 +1019,78 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
 
-    return AnimatedBuilder(
-      animation: _themeAnimation,
-      builder: (context, child) {
-        return Theme(
-          data: _isDarkMode ? ThemeData.dark() : ThemeData.light(),
-          child: Scaffold(
-            key: _scaffoldKey,
-            backgroundColor:
-                _isDarkMode ? OsmeaColors.eclipse : OsmeaColors.white,
-            appBar: AppHeader(
-              title: 'OSMEA APIs',
-              apiUrl: _currentApiUrl,
-              onUrlCopied: () =>
-                  _showSnackBar('URL copied to clipboard!', isError: false),
-              onThemeToggle: _toggleTheme,
-              onDrawerToggle: _toggleDrawer,
-              isDarkMode: _isDarkMode,
-              onProfileTap: _onProfileTap,
-              onStoreChange: _onStoreChange,
-            ),
-            drawer: Drawer(
-              width: _calculateDrawerWidth(screenWidth),
-              child: ModernSidebar(
-                expanded: true, // Always expanded in drawer
-                selectedService: _selectedService,
-                onServiceSelected: (service) {
-                  _onServiceSelected(service);
-                  // Close drawer after selection
-                  Navigator.of(context).pop();
-                },
-                animation: _sidebarAnimation,
+    // Check for screen size changes to show responsive popup
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkScreenSizeChange(screenWidth);
+    });
+
+    // Also check immediately if this is the first build
+    if (_previousScreenWidth == 0) {
+      _checkScreenSizeChange(screenWidth);
+    }
+
+    return Stack(
+      children: [
+        AnimatedBuilder(
+          animation: _themeAnimation,
+          builder: (context, child) {
+            return Theme(
+              data: _isDarkMode ? ThemeData.dark() : ThemeData.light(),
+              child: Scaffold(
+                key: _scaffoldKey,
+                backgroundColor:
+                    _isDarkMode ? OsmeaColors.eclipse : OsmeaColors.white,
+                appBar: AppHeader(
+                  title: 'OSMEA APIs',
+                  apiUrl: _currentApiUrl,
+                  onUrlCopied: () =>
+                      _showSnackBar('URL copied to clipboard!', isError: false),
+                  onThemeToggle: _toggleTheme,
+                  onDrawerToggle: _toggleDrawer,
+                  isDarkMode: _isDarkMode,
+                  onProfileTap: _onProfileTap,
+                  onStoreChange: _onStoreChange,
+                ),
+                drawer: Drawer(
+                  width: _calculateDrawerWidth(screenWidth),
+                  child: ModernSidebar(
+                    expanded: true, // Always expanded in drawer
+                    selectedService: _selectedService,
+                    onServiceSelected: (service) {
+                      _onServiceSelected(service);
+                      // Close drawer after selection
+                      Navigator.of(context).pop();
+                    },
+                    animation: _sidebarAnimation,
+                  ),
+                ),
+                body: ResponsiveContent(
+                  selectedService: _selectedService,
+                  selectedMethod: _selectedMethod,
+                  parameters: _parameters,
+                  rawBody: _rawBody,
+                  currentApiUrl: _currentApiUrl,
+                  loading: _loading,
+                  responseData: _responseData,
+                  responseAnimation: _responseAnimation,
+                  onMethodChanged: _onMethodChanged,
+                  onParametersChanged: _onParametersChanged,
+                  onRawBodyChanged: _onRawBodyChanged,
+                  onSendRequest: _sendRequest,
+                  screenWidth: screenWidth,
+                ),
               ),
-            ),
-            body: ResponsiveContent(
-              selectedService: _selectedService,
-              selectedMethod: _selectedMethod,
-              parameters: _parameters,
-              rawBody: _rawBody,
-              currentApiUrl: _currentApiUrl,
-              loading: _loading,
-              responseData: _responseData,
-              responseAnimation: _responseAnimation,
-              onMethodChanged: _onMethodChanged,
-              onParametersChanged: _onParametersChanged,
-              onRawBodyChanged: _onRawBodyChanged,
-              onSendRequest: _sendRequest,
-              screenWidth: screenWidth,
-            ),
-          ),
-        );
-      },
+            );
+          },
+        ),
+
+        // Responsive popup overlay
+        ResponsivePopup(
+          isVisible: _showResponsivePopup,
+          onDismiss: _dismissResponsivePopup,
+          onUseWebVersion: _openWebVersion,
+        ),
+      ],
     );
   }
 }

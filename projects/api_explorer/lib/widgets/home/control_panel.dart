@@ -1,5 +1,6 @@
 import 'package:api_explorer/widgets/home/http_method_selector.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:api_explorer/services/api_service_registry.dart';
 import 'package:api_explorer/styles/app_theme.dart';
 import 'package:core/core.dart';
@@ -167,6 +168,51 @@ class _ControlPanelState extends State<ControlPanel>
               ],
             ),
           ),
+
+          // 🧪 Test Buttons (only in debug mode)
+          if (kDebugMode) ...[
+            Container(
+              margin: const EdgeInsets.only(left: OsmeaAppTheme.spaceMd),
+              child: IconButton(
+                onPressed: () {
+                  // This will be handled by the parent widget
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                          'Responsive popup test - resize window to <1200px to see it'),
+                      duration: Duration(seconds: 3),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.bug_report_outlined),
+                tooltip: 'Test Responsive Popup',
+                style: IconButton.styleFrom(
+                  backgroundColor: Colors.white.withOpacity(0.2),
+                  foregroundColor: Colors.white,
+                ),
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(left: OsmeaAppTheme.spaceSm),
+              child: IconButton(
+                onPressed: () {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                          'Screen size simulation - check console for details'),
+                      duration: Duration(seconds: 3),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.screen_rotation_outlined),
+                tooltip: 'Test Screen Size Simulation',
+                style: IconButton.styleFrom(
+                  backgroundColor: Colors.white.withOpacity(0.2),
+                  foregroundColor: Colors.white,
+                ),
+              ),
+            ),
+          ],
         ],
       ),
     );
