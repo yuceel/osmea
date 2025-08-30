@@ -24,8 +24,10 @@ import '../components/carousel_storybook/carousels.dart';
 import '../components/searchbar_storybook/searchbars.dart';
 import '../components/ticket_storybook/tickets.dart';
 import '../components/bottom_sheet_storybook/bottom_sheets.dart';
+import '../components/collapse_storybook/collapses.dart';
 import '../components/popup_storybook/popups.dart';
 import '../components/stepper_storybook/showcase/unified_stepper_showcase.dart';
+import '../components/dropdown_storybook/dropdowns.dart';
 
 
 /// Model for component information displayed on home page and stories
@@ -122,6 +124,14 @@ final List<ComponentInfo> allComponents = [
     getStories: getAllChipStories,
   ),
   ComponentInfo(
+    name: 'Collapse',
+    description: 'Expandable content panels with smooth animations and accordion mode',
+    icon: Icons.expand_more,
+    color: Colors.teal,
+    storyPath: StoryConfig.buildComponentStoryName('Collapse'),
+    getStories: getAllCollapseStories,
+  ),
+  ComponentInfo(
     name: 'Containers',
     description: 'Flexible layout containers with styling and interaction',
     icon: Icons.crop_square,
@@ -144,6 +154,14 @@ final List<ComponentInfo> allComponents = [
     color: Colors.grey,
     storyPath: StoryConfig.buildComponentStoryName('Dividers'),
     getStories: getAllDividerStories,
+  ),
+  ComponentInfo(
+    name: 'Dropdowns',
+    description: 'Selection controls with primitive, icon, and avatar options',
+    icon: Icons.arrow_drop_down_circle,
+    color: Colors.deepPurple,
+    storyPath: StoryConfig.buildComponentStoryName('Dropdowns'),
+    getStories: getAllDropdownStories,
   ),
   ComponentInfo(
     name: 'Footers',
