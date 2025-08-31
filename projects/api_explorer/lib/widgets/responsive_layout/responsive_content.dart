@@ -39,7 +39,7 @@ class ResponsiveContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final isWideScreen = screenWidth >= 1200;
+    final isWideScreen = screenWidth >= 1000;
     final isMediumScreen = screenWidth >= 800;
 
     if (isWideScreen) {

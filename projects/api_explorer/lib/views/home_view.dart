@@ -38,6 +38,7 @@ class _HomeViewState extends State<HomeView>
   bool _showResponsivePopup = false;
   double _previousScreenWidth = 0;
   bool _hasShownResponsivePopup = false;
+  bool _isAppFullyLoaded = false;
   late WidgetsBindingObserver _widgetsBindingObserver;
 
   // Scaffold key for drawer control
@@ -67,17 +68,24 @@ class _HomeViewState extends State<HomeView>
         final screenWidth = MediaQuery.of(context).size.width;
         _previousScreenWidth = screenWidth;
 
-        // Check if screen is already small on app startup
-        if (screenWidth < 1200 && !_hasShownResponsivePopup) {
-          if (kDebugMode) {
-            debugPrint(
-                '📱 App started on small screen, showing popup immediately');
+        // Mark app as fully loaded after a delay
+        Future.delayed(const Duration(seconds: 2), () {
+          if (mounted) {
+            setState(() {
+              _isAppFullyLoaded = true;
+            });
+
+            // Only show popup if app is fully loaded and screen is small
+            if (screenWidth < 1000 && !_hasShownResponsivePopup) {
+              if (kDebugMode) {
+                debugPrint(
+                    '📱 App fully loaded on small screen, showing popup after delay');
+              }
+              // Close wizard and show popup safely
+              _showResponsivePopupSafely();
+            }
           }
-          setState(() {
-            _showResponsivePopup = true;
-            _hasShownResponsivePopup = true;
-          });
-        }
+        });
       }
     });
 
@@ -176,17 +184,7 @@ class _HomeViewState extends State<HomeView>
         debugPrint('🖥️ Initial screen width: ${currentWidth}px');
       }
 
-      // Check if app started on small screen
-      if (currentWidth < 1200 && !_hasShownResponsivePopup) {
-        if (kDebugMode) {
-          debugPrint(
-              '📱 App started on small screen, showing popup immediately');
-        }
-        setState(() {
-          _showResponsivePopup = true;
-          _hasShownResponsivePopup = true;
-        });
-      }
+      // Don't show popup immediately on startup - wait for app to be fully loaded
       return;
     }
 
@@ -195,21 +193,20 @@ class _HomeViewState extends State<HomeView>
           '🔄 Screen size change: ${_previousScreenWidth}px → ${currentWidth}px');
     }
 
-    // Check if screen was resized from web format (>1200px) to smaller size
-    if (_previousScreenWidth >= 1200 &&
-        currentWidth < 1200 &&
+    // Only show popup if app is fully loaded and screen size decreases significantly
+    if (_isAppFullyLoaded &&
+        _previousScreenWidth >= 1000 &&
+        currentWidth < 1000 &&
         !_hasShownResponsivePopup) {
       if (kDebugMode) {
         debugPrint('📱 Showing responsive popup (web → mobile)');
       }
-      setState(() {
-        _showResponsivePopup = true;
-        _hasShownResponsivePopup = true;
-      });
+      // Close wizard and show popup safely
+      _showResponsivePopupSafely();
     }
 
     // Reset popup state if screen size increases again
-    if (currentWidth >= 1200 && _hasShownResponsivePopup) {
+    if (currentWidth >= 1000 && _hasShownResponsivePopup) {
       if (kDebugMode) {
         debugPrint('💻 Hiding responsive popup (mobile → web)');
       }
@@ -549,7 +546,7 @@ class _HomeViewState extends State<HomeView>
   }
 
   double _calculateDrawerWidth(double screenWidth) {
-    final isWideScreen = screenWidth >= 1200;
+    final isWideScreen = screenWidth >= 1000;
     final isMediumScreen = screenWidth >= 800;
 
     if (isWideScreen) return 320;
@@ -1013,6 +1010,56 @@ class _HomeViewState extends State<HomeView>
         },
       ),
     );
+  }
+
+  void _showResponsivePopupAndCloseWizard() {
+    // First, close any open setup wizard or dialogs
+    if (Navigator.canPop(context)) {
+      Navigator.of(context).popUntil((route) => route.isFirst);
+      if (kDebugMode) {
+        debugPrint(
+            '🔒 Closed setup wizard/dialogs before showing responsive popup');
+      }
+    }
+
+    // Then show the responsive popup
+    setState(() {
+      _showResponsivePopup = true;
+      _hasShownResponsivePopup = true;
+    });
+
+    if (kDebugMode) {
+      debugPrint('📱 Responsive popup shown after closing wizard');
+    }
+  }
+
+  void _closeAllDialogsAndWizards() {
+    // Close any open dialogs, wizards, or modals
+    if (Navigator.canPop(context)) {
+      // Close all routes until we reach the first one (main app)
+      Navigator.of(context).popUntil((route) => route.isFirst);
+      if (kDebugMode) {
+        debugPrint('🔒 Closed all dialogs and wizards');
+      }
+    }
+  }
+
+  void _showResponsivePopupSafely() {
+    // Close any open dialogs first
+    _closeAllDialogsAndWizards();
+
+    // Wait a bit for dialogs to close, then show popup
+    Future.delayed(const Duration(milliseconds: 100), () {
+      if (mounted) {
+        setState(() {
+          _showResponsivePopup = true;
+          _hasShownResponsivePopup = true;
+        });
+        if (kDebugMode) {
+          debugPrint('📱 Responsive popup shown safely after closing dialogs');
+        }
+      }
+    });
   }
 
   @override

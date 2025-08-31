@@ -69,6 +69,11 @@ Future<void> main() async {
   // 🚀 Initialize MasterApp components
   await MasterApp.runBefore(allowCollectDataTelemetry: true);
 
+  // ⏳ Small delay to ensure proper initialization
+  if (kIsWeb) {
+    await Future.delayed(const Duration(milliseconds: 500));
+  }
+
   // 🏁 Start the app with MasterApp using centralized router
   runApp(MasterApp(
     router: AppRouter.router,
