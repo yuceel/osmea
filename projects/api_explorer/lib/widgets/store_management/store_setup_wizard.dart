@@ -8,12 +8,14 @@ class StoreSetupWizard extends StatefulWidget {
   final Function(StoreConfiguration)? onStoreAdded;
   final bool isInitialSetup;
   final StoreConfiguration? existingStore;
+  final bool forceReset;
 
   const StoreSetupWizard({
     super.key,
     this.onStoreAdded,
     this.isInitialSetup = true,
     this.existingStore,
+    this.forceReset = false,
   });
 
   @override
@@ -22,7 +24,8 @@ class StoreSetupWizard extends StatefulWidget {
   static Future<StoreConfiguration?> show(BuildContext context,
       {Function(StoreConfiguration)? onStoreAdded,
       bool isInitialSetup = false,
-      StoreConfiguration? existingStore}) async {
+      StoreConfiguration? existingStore,
+      bool forceReset = false}) async {
     return showDialog<StoreConfiguration>(
       context: context,
       barrierDismissible: false,
@@ -32,6 +35,7 @@ class StoreSetupWizard extends StatefulWidget {
           onStoreAdded: onStoreAdded,
           isInitialSetup: isInitialSetup,
           existingStore: existingStore,
+          forceReset: forceReset,
         );
       },
     );
@@ -101,6 +105,10 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
     if (widget.existingStore != null) {
       _currentStep = 1;
       _loadExistingStoreData();
+    } else if (widget.forceReset) {
+      // Force restart from beginning and clear saved state
+      _currentStep = 0;
+      _clearWizardStep();
     } else if (widget.isInitialSetup) {
       _restoreWizardStep(); // Restore previous step
     } else {
@@ -171,6 +179,17 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
     }
   }
 
+  Future<void> _clearWizardStep() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove('wizard_current_step');
+      await prefs.remove('wizard_selected_platform');
+      debugPrint('✅ Wizard state cleared');
+    } catch (e) {
+      debugPrint('❌ Error clearing wizard step: $e');
+    }
+  }
+
   void _initializeAnimations() {
     _animationController = AnimationController(
       duration: const Duration(milliseconds: 500),
@@ -225,13 +244,13 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
 
   void _loadExistingStoreData() {
     if (widget.existingStore == null) return;
-    
+
     final store = widget.existingStore!;
     setState(() {
       _selectedPlatform = store.platform;
       _storeNameController.text = store.displayName;
       _apiVersionController.text = store.apiVersion;
-      
+
       if (store.platform == 'shopify') {
         _accessTokenController.text = store.shopifyAccessToken ?? '';
         _storeUrlController.text = store.storeUrl ?? '';
@@ -241,7 +260,7 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
         _passwordController.text = store.password ?? '';
       }
     });
-    
+
     debugPrint('✅ Existing store data loaded: ${store.displayName}');
   }
 
@@ -278,7 +297,7 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
   void _checkDuplicateNameInRealTime() {
     // Only check for duplicates when adding new store (not editing)
     if (widget.existingStore != null) return;
-    
+
     try {
       final storeService = StoreManagementService();
       storeService.refreshStores().then((_) {
@@ -539,7 +558,8 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
           WooNetwork.updateApiVersion(config.apiVersion);
           debugPrint('✅ WooCommerce network reinitialized');
         } catch (wooError) {
-          debugPrint('⚠️ WooCommerce network reinitialization failed: $wooError');
+          debugPrint(
+              '⚠️ WooCommerce network reinitialization failed: $wooError');
           // Don't rethrow - just log the error and continue
         }
       }
@@ -681,7 +701,8 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
     return Focus(
       autofocus: true,
       onKeyEvent: (node, event) {
-        if (event is KeyDownEvent && event.logicalKey == LogicalKeyboardKey.enter) {
+        if (event is KeyDownEvent &&
+            event.logicalKey == LogicalKeyboardKey.enter) {
           if (_currentStep == 0 && _selectedPlatform != null) {
             _nextStep();
             return KeyEventResult.handled;
@@ -698,124 +719,126 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
       child: AnimatedBuilder(
         animation: _animationController,
         builder: (context, child) {
-        return FadeTransition(
-          opacity: _opacityAnimation,
-          child: SlideTransition(
-            position: _slideAnimation,
-            child: ScaleTransition(
-              scale: _scaleAnimation,
-              child: Dialog(
-                backgroundColor: OsmeaColors.transparent,
-                child: OsmeaComponents.container(
-                  // Responsive sizing using MediaQuery
-                  width: MediaQuery.of(context).size.width > 600
-                      ? 500.0 // 500px on larger screens
-                      : MediaQuery.of(context).size.width *
-                          0.95, // 95% width on small screens
-                  constraints: BoxConstraints(
-                    maxHeight:
-                        MediaQuery.of(context).size.height * 0.85, // 85% height
-                    minHeight: 500.0,
-                    minWidth: 300.0,
-                  ),
-                  decoration: BoxDecoration(
-                    color: OsmeaColors.white,
-                    borderRadius: context.borderRadiusNormal,
-                    boxShadow: [
-                      BoxShadow(
-                        color: OsmeaColors.black.withValues(alpha: 0.2),
-                        blurRadius: 20,
-                        offset: const Offset(0, 10),
-                      ),
-                    ],
-                  ),
-                  child: OsmeaComponents.column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      // Header
-                      OsmeaComponents.container(
-                        width: double.infinity,
-                        padding: context.paddingNormal,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              OsmeaColors.nordicBlue,
-                              OsmeaColors.eclipse
+          return FadeTransition(
+            opacity: _opacityAnimation,
+            child: SlideTransition(
+              position: _slideAnimation,
+              child: ScaleTransition(
+                scale: _scaleAnimation,
+                child: Dialog(
+                  backgroundColor: OsmeaColors.transparent,
+                  child: OsmeaComponents.container(
+                    // Responsive sizing using MediaQuery
+                    width: MediaQuery.of(context).size.width > 600
+                        ? 500.0 // 500px on larger screens
+                        : MediaQuery.of(context).size.width *
+                            0.95, // 95% width on small screens
+                    constraints: BoxConstraints(
+                      maxHeight: MediaQuery.of(context).size.height *
+                          0.85, // 85% height
+                      minHeight: 500.0,
+                      minWidth: 300.0,
+                    ),
+                    decoration: BoxDecoration(
+                      color: OsmeaColors.white,
+                      borderRadius: context.borderRadiusNormal,
+                      boxShadow: [
+                        BoxShadow(
+                          color: OsmeaColors.black.withValues(alpha: 0.2),
+                          blurRadius: 20,
+                          offset: const Offset(0, 10),
+                        ),
+                      ],
+                    ),
+                    child: OsmeaComponents.column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // Header
+                        OsmeaComponents.container(
+                          width: double.infinity,
+                          padding: context.paddingNormal,
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                OsmeaColors.nordicBlue,
+                                OsmeaColors.eclipse
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(context.radiusNormal),
+                              topRight: Radius.circular(context.radiusNormal),
+                            ),
+                          ),
+                          child: OsmeaComponents.row(
+                            children: [
+                              OsmeaComponents.container(
+                                padding: context.paddingLow,
+                                decoration: BoxDecoration(
+                                  color:
+                                      OsmeaColors.white.withValues(alpha: 0.2),
+                                  borderRadius: context.borderRadiusNormal,
+                                ),
+                                child: Icon(
+                                  Icons.store,
+                                  color: OsmeaColors.white,
+                                  size: context.iconSizeNormal,
+                                ),
+                              ),
+                              OsmeaComponents.sizedBox(
+                                  width: context.spacing16),
+                              OsmeaComponents.text(
+                                widget.existingStore != null
+                                    ? 'Edit Store'
+                                    : widget.isInitialSetup
+                                        ? 'Store Setup Wizard'
+                                        : 'Add New Store',
+                                textStyle: OsmeaTextStyle.displayMedium(context)
+                                    .copyWith(
+                                  color: OsmeaColors.white,
+                                ),
+                              ),
+                              const Spacer(),
+                              IconButton(
+                                onPressed: () => Navigator.of(context).pop(),
+                                icon: Icon(
+                                  Icons.close,
+                                  color: OsmeaColors.white,
+                                ),
+                              ),
                             ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(context.radiusNormal),
-                            topRight: Radius.circular(context.radiusNormal),
                           ),
                         ),
-                        child: OsmeaComponents.row(
-                          children: [
-                            OsmeaComponents.container(
-                              padding: context.paddingLow,
-                              decoration: BoxDecoration(
-                                color: OsmeaColors.white.withValues(alpha: 0.2),
-                                borderRadius: context.borderRadiusNormal,
-                              ),
-                              child: Icon(
-                                Icons.store,
-                                color: OsmeaColors.white,
-                                size: context.iconSizeNormal,
-                              ),
-                            ),
-                            OsmeaComponents.sizedBox(width: context.spacing16),
-                            OsmeaComponents.text(
-                              widget.existingStore != null
-                                  ? 'Edit Store'
-                                  : widget.isInitialSetup
-                                      ? 'Store Setup Wizard'
-                                      : 'Add New Store',
-                              textStyle: OsmeaTextStyle.displayMedium(context)
-                                  .copyWith(
-                                color: OsmeaColors.white,
-                              ),
-                            ),
-                            const Spacer(),
-                            IconButton(
-                              onPressed: () => Navigator.of(context).pop(),
-                              icon: Icon(
-                                Icons.close,
-                                color: OsmeaColors.white,
-                              ),
-                            ),
-                          ],
+
+                        // Step indicator
+                        OsmeaComponents.container(
+                          padding: context.paddingNormal,
+                          child: _buildStepIndicator(),
                         ),
-                      ),
 
-                      // Step indicator
-                      OsmeaComponents.container(
-                        padding: context.paddingNormal,
-                        child: _buildStepIndicator(),
-                      ),
-
-                      // Content
-                      Expanded(
-                        child: OsmeaComponents.singleChildScrollView(
-                          padding: context.horizontalPaddingNormal,
-                          child: _buildStepContent(),
+                        // Content
+                        Expanded(
+                          child: OsmeaComponents.singleChildScrollView(
+                            padding: context.horizontalPaddingNormal,
+                            child: _buildStepContent(),
+                          ),
                         ),
-                      ),
 
-                      // Bottom navigation
-                      OsmeaComponents.container(
-                        padding: context.paddingNormal,
-                        child: _buildNavigationButtons(),
-                      ),
-                    ],
+                        // Bottom navigation
+                        OsmeaComponents.container(
+                          padding: context.paddingNormal,
+                          child: _buildNavigationButtons(),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        );
-      },
-    ),
+          );
+        },
+      ),
     );
   }
 

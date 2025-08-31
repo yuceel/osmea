@@ -126,6 +126,7 @@ class _StoreManagementDialogState extends State<StoreManagementDialog> {
       try {
         await widget.storeService.deleteStore(store.id!);
         await _loadStores();
+
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -133,6 +134,9 @@ class _StoreManagementDialogState extends State<StoreManagementDialog> {
               backgroundColor: OsmeaColors.forestHeart,
             ),
           );
+
+          // Close dialog after successful deletion to trigger page refresh
+          Navigator.of(context).pop();
         }
       } catch (e) {
         if (mounted) {
@@ -248,9 +252,10 @@ class _StoreManagementDialogState extends State<StoreManagementDialog> {
                                 margin: const EdgeInsets.only(bottom: 12),
                                 padding: const EdgeInsets.all(16),
                                 decoration: BoxDecoration(
-                                  color: isActiveStore 
-                                      ? OsmeaColors.white 
-                                      : OsmeaColors.silver.withValues(alpha: 0.1),
+                                  color: isActiveStore
+                                      ? OsmeaColors.white
+                                      : OsmeaColors.silver
+                                          .withValues(alpha: 0.1),
                                   borderRadius: BorderRadius.circular(12),
                                   border: Border.all(
                                     color: isActiveStore
@@ -260,7 +265,7 @@ class _StoreManagementDialogState extends State<StoreManagementDialog> {
                                   ),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: isActiveStore 
+                                      color: isActiveStore
                                           ? OsmeaColors.shadowLight
                                           : OsmeaColors.transparent,
                                       blurRadius: 4,
@@ -275,7 +280,7 @@ class _StoreManagementDialogState extends State<StoreManagementDialog> {
                                       width: 40,
                                       height: 40,
                                       decoration: BoxDecoration(
-                                        color: isActiveStore 
+                                        color: isActiveStore
                                             ? (store.platform == 'shopify'
                                                 ? OsmeaColors.forestHeart
                                                 : OsmeaColors.nordicBlue)
@@ -307,7 +312,7 @@ class _StoreManagementDialogState extends State<StoreManagementDialog> {
                                                             context)
                                                         .copyWith(
                                                   fontWeight: FontWeight.w600,
-                                                  color: isActiveStore 
+                                                  color: isActiveStore
                                                       ? OsmeaColors.eclipse
                                                       : OsmeaColors.steel,
                                                 ),
@@ -349,9 +354,10 @@ class _StoreManagementDialogState extends State<StoreManagementDialog> {
                                             textStyle: OsmeaTextStyle.bodySmall(
                                                     context)
                                                 .copyWith(
-                                              color: isActiveStore 
+                                              color: isActiveStore
                                                   ? OsmeaColors.steel
-                                                  : OsmeaColors.steel.withValues(alpha: 0.6),
+                                                  : OsmeaColors.steel
+                                                      .withValues(alpha: 0.6),
                                             ),
                                           ),
                                         ],
@@ -363,9 +369,10 @@ class _StoreManagementDialogState extends State<StoreManagementDialog> {
                                       onPressed: () => _deleteStore(store),
                                       icon: Icon(
                                         Icons.delete_outline,
-                                        color: isActiveStore 
+                                        color: isActiveStore
                                             ? OsmeaColors.slate
-                                            : OsmeaColors.steel.withValues(alpha: 0.5),
+                                            : OsmeaColors.steel
+                                                .withValues(alpha: 0.5),
                                         size: 20,
                                       ),
                                       tooltip: 'Delete Store',

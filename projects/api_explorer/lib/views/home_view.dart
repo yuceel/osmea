@@ -954,6 +954,11 @@ class _HomeViewState extends State<HomeView>
                 }
               }
               break;
+            case StoreChangeType.deleted:
+              // Handle store deletion - refresh page to update UI
+              debugPrint('🗑️ Store deleted, refreshing page...');
+              _handleStoreDeleted();
+              break;
             default:
               break;
           }
@@ -967,10 +972,52 @@ class _HomeViewState extends State<HomeView>
     }
   }
 
+  /// Handle store deletion by refreshing the page state
+  Future<void> _handleStoreDeleted() async {
+    try {
+      // Reset current store and reload from service
+      setState(() {
+        _selectedStore = null;
+        _selectedService = null;
+        _parameters.clear();
+        _rawBody = null;
+        _responseData = null;
+        _currentApiUrl = '';
+      });
+
+      // Reload current store from storage
+      await _loadCurrentStore();
+
+      // If no stores are available, show setup wizard
+      final storeService = StoreManagementService();
+      await storeService.init();
+
+      if (storeService.allStores.isEmpty) {
+        if (mounted) {
+          Future.delayed(const Duration(milliseconds: 500), () {
+            if (mounted) {
+              _showSetupWizard();
+            }
+          });
+        }
+      }
+
+      // Force UI refresh
+      if (mounted) {
+        setState(() {});
+      }
+    } catch (e) {
+      debugPrint('❌ Error handling store deletion: $e');
+    }
+  }
+
   void _showSetupWizard() {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) => StoreSetupWizard(
+        isInitialSetup: true, // Force wizard to start from the beginning
+        forceReset: true, // Clear any saved wizard state
         onStoreAdded: (store) {
           setState(() {
             _selectedStore = store;
