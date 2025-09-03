@@ -18,11 +18,13 @@ class CommonLogger extends ICommonLogger {
   @override
   void printLocalStoreLogs(List<String> msg) {
     if (kDebugMode) {
-      // 🏷️ Add start/end markers for local store logs
-      msg.add("==========Local Store Start==========");
-      msg.add(msg[0]);
-      msg.add("==========Local Store End============");
-      logger.d(msg.join("\n"));
+      // 🏷️ Create a copy to avoid modifying original list
+      final logMessages = <String>[
+        "==========Local Store Start==========",
+        ...msg,
+        "==========Local Store End============"
+      ];
+      logger.d(logMessages.join("\n"));
     }
   }
 
@@ -30,11 +32,13 @@ class CommonLogger extends ICommonLogger {
   @override
   void printURLLogs(List<String> msg) {
     if (kDebugMode) {
-      // 🏷️ Add start/end markers for URL logs
-      msg.add("==========URL Start==========");
-      msg.add(msg[0]);
-      msg.add("==========URL Store End============");
-      logger.log(Level.debug , msg.join("\n"));
+      // 🏷️ Create a copy to avoid modifying original list
+      final logMessages = <String>[
+        "==========URL Start==========",
+        ...msg,
+        "==========URL End============"
+      ];
+      logger.log(Level.debug, logMessages.join("\n"));
     }
   }
 
@@ -42,11 +46,13 @@ class CommonLogger extends ICommonLogger {
   @override
   void printApplicationLifecycleLogs(List<String> msg) {
     if (kDebugMode) {
-      // 🏷️ Add start/end markers for lifecycle logs
-      msg.add("==========Application Life Cycle Start==========");
-      msg.add(msg[0]);
-      msg.add("===========Application Life Cycle END============");
-      logger.log(Level.debug , msg.join("\n"));
+      // 🏷️ Create a copy to avoid modifying original list
+      final logMessages = <String>[
+        "==========Application Life Cycle Start==========",
+        ...msg,
+        "===========Application Life Cycle END============"
+      ];
+      logger.log(Level.debug, logMessages.join("\n"));
     }
   }
 
@@ -54,11 +60,13 @@ class CommonLogger extends ICommonLogger {
   @override
   void printBaseViewModelLogs(List<String> msg) {
     if (kDebugMode) {
-      // 🏷️ Add start/end markers for base view model logs
-      msg.add("==========Base View Model Start==========");
-      msg.add(msg[0]);
-      msg.add("===========Base View Model END============");
-      logger.log(Level.debug , msg.join("\n"));
+      // 🏷️ Create a copy to avoid modifying original list
+      final logMessages = <String>[
+        "==========Base View Model Start==========",
+        ...msg,
+        "===========Base View Model END============"
+      ];
+      logger.log(Level.debug, logMessages.join("\n"));
     }
   }
 
@@ -66,11 +74,13 @@ class CommonLogger extends ICommonLogger {
   @override
   void printBaseViewModelQubitLogs(List<String> msg) {
     if (kDebugMode) {
-      // 🏷️ Add start/end markers for base view model cubit logs
-      msg.add("==========Base View Model Start==========");
-      msg.add(msg[0]);
-      msg.add("===========Base View Model END============");
-      logger.log(Level.debug , msg.join("\n"));
+      // 🏷️ Create a copy to avoid modifying original list
+      final logMessages = <String>[
+        "==========Base View Model Cubit Start==========",
+        ...msg,
+        "===========Base View Model Cubit END============"
+      ];
+      logger.log(Level.debug, logMessages.join("\n"));
     }
   }
 
@@ -78,11 +88,13 @@ class CommonLogger extends ICommonLogger {
   @override
   void printWidgetLogs(List<String> msg) {
     if (kDebugMode) {
-      // 🏷️ Add start/end markers for widget logs
-      msg.add("==========Widget Start==========");
-      msg.add(msg[0]);
-      msg.add("===========Widget End============");
-      logger.log(Level.debug , msg.join("\n"));
+      // 🏷️ Create a copy to avoid modifying original list
+      final logMessages = <String>[
+        "==========Widget Start==========",
+        ...msg,
+        "===========Widget End============"
+      ];
+      logger.log(Level.debug, logMessages.join("\n"));
     }
   }
 
@@ -90,11 +102,13 @@ class CommonLogger extends ICommonLogger {
   @override
   void printViewLogs(List<String> msg) {
     if (kDebugMode) {
-      // 🏷️ Add start/end markers for view logs
-      msg.add("==========View Start==========");
-      msg.add(msg[0]);
-      msg.add("===========View End============");
-      logger.log(Level.debug , msg.join("\n"));
+      // 🏷️ Create a copy to avoid modifying original list
+      final logMessages = <String>[
+        "==========View Start==========",
+        ...msg,
+        "===========View End============"
+      ];
+      logger.log(Level.debug, logMessages.join("\n"));
     }
   }
 

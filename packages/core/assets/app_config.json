@@ -1,0 +1,195 @@
+{
+  "app_settings": {
+    "app_name": "OSMEA Mobile App",
+    "app_version": "1.0.0",
+    "build_number": "1",
+    "environment": "production",
+    "debug_mode": false,
+    "maintenance_mode": false
+  },
+  "api_configuration": {
+    "base_url": "https://api.masterfabric.co/",
+    "timeout_seconds": 30,
+    "retry_count": 3,
+    "enable_logging": false
+  },
+  "firebase_configuration": {
+    "analytics_enabled": true,
+    "crashlytics_enabled": true,
+    "performance_monitoring_enabled": true,
+    "remote_config_enabled": true,
+    "remote_config_fetch_timeout": 60,
+    "remote_config_cache_expiration": 3600
+  },
+  "ui_configuration": {
+    "theme_mode": "light",
+    "primary_color": "#2196F3",
+    "accent_color": "#FFC107",
+    "font_scale": 1.0,
+    "enable_haptic_feedback": true,
+    "enable_sound_effects": true
+  },
+  "security_configuration": {
+    "enable_ssl_pinning": true,
+    "certificate_validation": true,
+    "biometric_authentication": false,
+    "session_timeout_minutes": 30
+  },
+  "storage_configuration": {
+    "enable_encryption": true,
+    "cache_size_mb": 100,
+    "auto_cleanup_enabled": true,
+    "backup_enabled": false
+  },
+  "notification_configuration": {
+    "push_notifications_enabled": true,
+    "local_notifications_enabled": true,
+    "notification_sound": "default",
+    "vibration_enabled": true
+  },
+  "feature_flags": {
+    "onboarding_enabled": true,
+    "dark_mode_available": true,
+    "offline_mode_enabled": false,
+    "beta_features_enabled": false,
+    "analytics_opt_out_available": true
+  },
+  "localization_configuration": {
+    "default_language": "en",
+    "supported_languages": ["en", "tr", "de", "fr", "es"],
+    "rtl_support": false,
+    "auto_detect_language": true
+  },
+  "performance_configuration": {
+    "image_cache_size_mb": 50,
+    "network_cache_size_mb": 25,
+    "lazy_loading_enabled": true,
+    "preload_critical_assets": true
+  },
+  "onboarding_configuration": {
+    "style": "style1",
+    "auto_advance_seconds": null,
+    "show_skip_button": true,
+    "show_page_indicator": true,
+    "animation_duration": 300,
+    "primary_color": "#2196F3",
+    "secondary_color": "#FFC107",
+    "pages": [
+      {
+        "title": "Welcome to OSMEA",
+        "description": "Build amazing applications with modern Flutter components.",
+        "icon_path": null,
+        "image_path": null,
+        "background_color": "#FFFFFF",
+        "text_color": "#374151",
+        "button_text": null,
+        "skip_text": "Skip",
+        "next_text": "Next"
+      },
+      {
+        "title": "Powerful Components",
+        "description": "Easily bring your designs to life with 100+ customizable UI components.",
+        "icon_path": null,
+        "image_path": null,
+        "background_color": "#F9FAFB",
+        "text_color": "#1F2937",
+        "button_text": null,
+        "skip_text": "Skip",
+        "next_text": "Continue"
+      },
+      {
+        "title": "Get Started Now!",
+        "description": "You're ready to discover the power of OSMEA UI Kit.",
+        "icon_path": null,
+        "image_path": null,
+        "background_color": "#F0FDF4",
+        "text_color": "#166534",
+        "button_text": "Let's Start",
+        "skip_text": null,
+        "next_text": null
+      }
+    ]
+  },
+  "error_handling_configuration": {
+    "style": "style3",
+    "auto_retry_seconds": 5,
+    "show_retry_button": true,
+    "show_home_button": true,
+    "show_support_button": true,
+    "animation_duration": 400,
+    "primary_color": "#EF4444",
+    "secondary_color": "#F59E0B",
+    "support_email": "support@masterfabric.co",
+    "support_phone": "+90 5xx xxxx xxxx",
+    "common_under_message": "These warnings are displayed to users for general information purposes.",
+    "dev_warning_message": "This screen is for development purposes only.",
+    "prod_warning_message": "Should not be displayed in production environment.",
+    "error_pages": {
+      "general": {
+        "title": "An Error Occurred",
+        "description": "An unexpected error occurred. Please try again or contact our support team.",
+        "error_type": "general",
+        "icon_path": null,
+        "image_path": null,
+        "background_color": "#FFFFFF",
+        "text_color": "#374151",
+        "retry_button_text": "Try Again",
+        "home_button_text": "Home",
+        "support_button_text": "Support",
+        "error_code": null
+      },
+      "network": {
+        "title": "No Internet Connection",
+        "description": "Check your internet connection and try again. Make sure your WiFi or mobile data connection is active.",
+        "error_type": "network",
+        "icon_path": null,
+        "image_path": null,
+        "background_color": "#FFFFFF",
+        "text_color": "#374151",
+        "retry_button_text": "Reconnect",
+        "home_button_text": "Home",
+        "support_button_text": "Help",
+        "error_code": null
+      },
+      "server": {
+        "title": "Server Error",
+        "description": "We're experiencing a temporary issue with our servers. Please try again in a few minutes.",
+        "error_type": "server",
+        "icon_path": null,
+        "image_path": null,
+        "background_color": "#FFFFFF",
+        "text_color": "#374151",
+        "retry_button_text": "Try Again",
+        "home_button_text": "Home",
+        "support_button_text": "Report",
+        "error_code": null
+      },
+      "authentication": {
+        "title": "Login Required",
+        "description": "You need to log in again to perform this operation.",
+        "error_type": "authentication",
+        "icon_path": null,
+        "image_path": null,
+        "background_color": "#FFFFFF",
+        "text_color": "#374151",
+        "retry_button_text": "Log In",
+        "home_button_text": "Home",
+        "support_button_text": "Help",
+        "error_code": null
+      },
+      "maintenance": {
+        "title": "Maintenance Mode",
+        "description": "Our system is currently under maintenance. Please wait a moment for better service.",
+        "error_type": "maintenance",
+        "icon_path": null,
+        "image_path": null,
+        "background_color": "#FEF3C7",
+        "text_color": "#92400E",
+        "retry_button_text": "Check Again",
+        "home_button_text": "Home",
+        "support_button_text": "Get Info",
+        "error_code": null
+      }
+    }
+  }
+}

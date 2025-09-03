@@ -15,6 +15,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.0      # State management
+  equatable: ^2.0.7         # Value equality
   go_router: ^15.1.1 # Routing
   injectable: ^2.5.0        # Dependency injection
   logger: ^2.5.0            # Logging utility
@@ -27,8 +28,10 @@ dependencies:
   shared_preferences: ^2.5.3 # Shared preferences
   firebase_analytics: ^11.4.5 # Analytics
   firebase_core: ^3.13.0 # Firebase core
+  firebase_remote_config: ^5.3.4 # Remote Config
   device_info_plus: ^11.4.0 # Device info
   package_info_plus: ^8.3.0 # Package info
+  url_launcher: ^6.3.1 # URL launcher for support links
   osmea_components:
     path: ../components # osmea UI kit
 
@@ -46,4 +49,7 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
-# (Add Flutter-specific configuration here if needed)
+flutter:
+  assets:
+    - assets/
+    - assets/i18n/
