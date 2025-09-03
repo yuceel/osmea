@@ -27,6 +27,7 @@ import '../components/bottom_sheet_storybook/bottom_sheets.dart';
 import '../components/collapse_storybook/collapses.dart';
 import '../components/popup_storybook/popups.dart';
 import '../components/stepper_storybook/showcase/unified_stepper_showcase.dart';
+import '../components/snackbar_storybook/snackbars.dart';
 import '../components/dropdown_storybook/dropdowns.dart';
 import '../components/image_storybook/images.dart';
 
@@ -235,6 +236,14 @@ final List<ComponentInfo> allComponents = [
     color: Colors.teal,
     storyPath: StoryConfig.buildComponentStoryName('Searchbars'),
     getStories: getAllSearchbarStories,
+  ),
+  ComponentInfo(
+    name: 'Snackbars',
+    description: 'Temporary notifications and feedback messages with various styles',
+    icon: Icons.message_rounded,
+    color: Colors.orange,
+    storyPath: StoryConfig.buildComponentStoryName('Snackbars'),
+    getStories: getAllSnackbarStories,
   ),
   ComponentInfo(
     name: 'Steppers',

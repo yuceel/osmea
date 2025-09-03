@@ -123,20 +123,67 @@ class _PositionedSnackbarGroup extends StatelessWidget {
               children: displaySnackbars.asMap().entries.map((entry) {
                 final index = entry.key;
                 final snackbar = entry.value;
-                return Positioned(
-                  bottom: index * 8.0,
-                  left: 0,
-                  right: 0,
-                  child: Transform.translate(
-                    offset: Offset(0, -index * 2.0),
-                    child: OsmeaSnackbar(
-                      key: ValueKey(snackbar.id),
-                      state: snackbar,
-                      onClose: () =>
-                          SnackbarManager().hideSnackbar(snackbar.id),
-                    ),
-                  ),
-                );
+                
+                // Different positioning logic for different positions
+                Widget positionedSnackbar;
+                switch (position) {
+                  case SnackbarPosition.top:
+                    positionedSnackbar = Positioned(
+                      top: index * 8.0,
+                      left: 0,
+                      right: 0,
+                      child: Transform.translate(
+                        offset: Offset(0, index * 2.0),
+                        child: OsmeaSnackbar(
+                          key: ValueKey(snackbar.id),
+                          state: snackbar,
+                          onClose: () =>
+                              SnackbarManager().hideSnackbar(snackbar.id),
+                        ),
+                      ),
+                    );
+                    break;
+                  case SnackbarPosition.center:
+                    // For center position, position relative to center point
+                    // First snackbar at center, subsequent ones offset upward
+                    positionedSnackbar = Positioned(
+                      top: 0,
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Transform.translate(
+                          offset: Offset(0, -index * 10.0), // Stack upward from center
+                          child: OsmeaSnackbar(
+                            key: ValueKey(snackbar.id),
+                            state: snackbar,
+                            onClose: () =>
+                                SnackbarManager().hideSnackbar(snackbar.id),
+                          ),
+                        ),
+                      ),
+                    );
+                    break;
+                  case SnackbarPosition.bottom:
+                    positionedSnackbar = Positioned(
+                      bottom: index * 8.0,
+                      left: 0,
+                      right: 0,
+                      child: Transform.translate(
+                        offset: Offset(0, -index * 2.0),
+                        child: OsmeaSnackbar(
+                          key: ValueKey(snackbar.id),
+                          state: snackbar,
+                          onClose: () =>
+                              SnackbarManager().hideSnackbar(snackbar.id),
+                        ),
+                      ),
+                    );
+                    break;
+                }
+                
+                return positionedSnackbar;
               }).toList(),
             ),
           ),
