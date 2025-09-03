@@ -39,7 +39,6 @@ class _HomeViewState extends State<HomeView>
   double _previousScreenWidth = 0;
   bool _hasShownResponsivePopup = false;
   bool _isAppFullyLoaded = false;
-  late WidgetsBindingObserver _widgetsBindingObserver;
 
   // Scaffold key for drawer control
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();

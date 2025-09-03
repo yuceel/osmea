@@ -202,7 +202,7 @@ class _ResponsivePopupState extends State<ResponsivePopup>
                                     decoration: BoxDecoration(
                                       color: Theme.of(context)
                                           .colorScheme
-                                          .surfaceVariant
+                                          .surfaceContainerHighest
                                           .withValues(alpha: 0.3),
                                       borderRadius:
                                           context.borderRadiusMinStandard,

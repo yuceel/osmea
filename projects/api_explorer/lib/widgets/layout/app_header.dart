@@ -4,6 +4,7 @@ import 'package:core/core.dart';
 import 'package:api_explorer/styles/app_theme.dart';
 import 'package:apis/apis.dart';
 import 'package:api_explorer/widgets/store_management/store_setup_wizard.dart';
+
 /// Modern IDE-style application header using Osmea components
 class AppHeader extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -36,8 +37,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
     return OsmeaComponents.appBar(
       backgroundColor:
           isDark ? OsmeaAppTheme.darkSurface : OsmeaAppTheme.lightSurface,
-      elevation: 0,
-      shadowColor: Theme.of(context).colorScheme.shadow.withValues(alpha: 0.05),
+      elevation: 0.5,
       surfaceTintColor: Colors.transparent,
       leading: onDrawerToggle != null
           ? OsmeaComponents.iconButton(
@@ -127,24 +127,24 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const SizedBox.shrink();
               }
-              
+
               final currentStore = snapshot.data;
               if (currentStore == null || !currentStore.isComplete) {
                 return _buildStoreWarning(context);
               } else if (apiUrl.isNotEmpty) {
                 return _buildApiUrlDisplay(context);
               }
-              
+
               return const SizedBox.shrink();
             },
           ),
         ),
-        
+
         OsmeaComponents.sizedBox(width: context.spacing16),
-        
+
         // Store Profile - moved from actions
         _buildCompactStoreProfile(context),
-        
+
         OsmeaComponents.sizedBox(width: context.spacing16),
       ],
     );
@@ -160,8 +160,9 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
         vertical: context.spacing6,
       ),
       decoration: OsmeaAppTheme.glassDecoration(
-        backgroundColor:
-            isDark ? OsmeaColors.deepSea.withValues(alpha: 0.1) : OsmeaColors.snow,
+        backgroundColor: isDark
+            ? OsmeaColors.deepSea.withValues(alpha: 0.1)
+            : OsmeaColors.snow,
         borderColor: isDark
             ? OsmeaColors.deepSea.withValues(alpha: 0.2)
             : OsmeaColors.silver.withValues(alpha: 0.3),
@@ -176,10 +177,12 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
               vertical: context.spacing4,
             ),
             decoration: BoxDecoration(
-              color: OsmeaColors.forestHeart.withValues(alpha: isDark ? 0.15 : 0.1),
+              color: OsmeaColors.forestHeart
+                  .withValues(alpha: isDark ? 0.15 : 0.1),
               borderRadius: context.borderRadiusMinStandard,
               border: Border.all(
-                color: OsmeaColors.forestHeart.withValues(alpha: isDark ? 0.25 : 0.2),
+                color: OsmeaColors.forestHeart
+                    .withValues(alpha: isDark ? 0.25 : 0.2),
                 width: 1,
               ),
             ),
@@ -209,7 +212,9 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
               apiUrl,
               variant: OsmeaTextVariant.bodySmall,
               fontSize: 12,
-              color: isDark ? Colors.white.withValues(alpha: 0.9) : OsmeaColors.steel,
+              color: isDark
+                  ? Colors.white.withValues(alpha: 0.9)
+                  : OsmeaColors.steel,
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -227,8 +232,9 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
               icon: Icon(
                 Icons.content_copy_rounded,
                 size: 16,
-                color:
-                    isDark ? Colors.white.withValues(alpha: 0.9) : OsmeaColors.steel,
+                color: isDark
+                    ? Colors.white.withValues(alpha: 0.9)
+                    : OsmeaColors.steel,
               ),
               onPressed: () => _copyUrlToClipboard(context),
               variant: ButtonVariant.ghost,
@@ -272,10 +278,12 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
           OsmeaComponents.container(
             padding: EdgeInsets.all(context.spacing6),
             decoration: BoxDecoration(
-              color: OsmeaColors.amberFlame.withValues(alpha: isDark ? 0.2 : 0.15),
+              color:
+                  OsmeaColors.amberFlame.withValues(alpha: isDark ? 0.2 : 0.15),
               borderRadius: context.borderRadiusMinStandard,
               border: Border.all(
-                color: OsmeaColors.amberFlame.withValues(alpha: isDark ? 0.3 : 0.25),
+                color: OsmeaColors.amberFlame
+                    .withValues(alpha: isDark ? 0.3 : 0.25),
                 width: 1,
               ),
             ),
@@ -286,7 +294,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
             ),
           ),
           OsmeaComponents.sizedBox(width: context.spacing12),
-          
+
           // Warning Message
           OsmeaComponents.expanded(
             child: OsmeaComponents.column(
@@ -304,18 +312,17 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
                   'Please click "Connect Store" button to configure your store settings',
                   variant: OsmeaTextVariant.bodySmall,
                   fontSize: 11,
-                  color: isDark 
-                    ? OsmeaColors.white.withValues(alpha: 0.8) 
-                    : OsmeaColors.steel.withValues(alpha: 0.8),
+                  color: isDark
+                      ? OsmeaColors.white.withValues(alpha: 0.8)
+                      : OsmeaColors.steel.withValues(alpha: 0.8),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),
           ),
-          
-          OsmeaComponents.sizedBox(width: context.spacing8),
 
+          OsmeaComponents.sizedBox(width: context.spacing8),
         ],
       ),
     );
@@ -324,7 +331,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
   /// Build the actions section
   List<AppBarAction> _buildAppBarActions(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    
+
     return [
       // Theme Toggle Button as AppBarAction
       AppBarAction(
@@ -332,9 +339,8 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
         icon: Icon(
           isDarkMode ? Icons.light_mode : Icons.dark_mode,
           size: 20,
-          color: isDark 
-              ? Colors.white.withValues(alpha: 0.9)
-              : OsmeaColors.steel,
+          color:
+              isDark ? Colors.white.withValues(alpha: 0.9) : OsmeaColors.steel,
         ),
         onPressed: onThemeToggle,
         tooltip: isDarkMode ? 'Switch to light mode' : 'Switch to dark mode',
@@ -565,8 +571,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
       final result = await StoreSetupWizard.show(
         context,
         isInitialSetup: true,
-        onStoreAdded: (config) {
-        },
+        onStoreAdded: (config) {},
       );
 
       if (result != null) {
@@ -707,7 +712,8 @@ class _ActionMenuWidgetState extends State<_ActionMenuWidget> {
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: OsmeaComponents.text('✅ Store added successfully: ${result.displayName}'),
+              content: OsmeaComponents.text(
+                  '✅ Store added successfully: ${result.displayName}'),
               backgroundColor: OsmeaColors.forestHeart,
               duration: const Duration(seconds: 3),
             ),
