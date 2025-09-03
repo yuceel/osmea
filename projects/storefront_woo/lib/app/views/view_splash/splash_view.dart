@@ -10,10 +10,19 @@ class SplashView extends MasterView<SplashViewModel, SplashEvent, SplashState> {
     super.key,
     Map<String, dynamic> arguments = const {
       "title": "Splash Screen",
-      "description": "Welcome to OSMEA Store",
+      "description": "Welcome to Storefront Woo",
     },
     MasterViewTypes currentView = MasterViewTypes.content,
   }) : super(arguments: arguments, currentView: currentView);
+
+  @override
+  void initialContent(
+    SplashViewModel viewModel,
+    BuildContext context,
+  ) {
+    // Start splash logic with onboarding check
+    viewModel.startSplashWithDirectNavigation(context);
+  }
 
   @override
   Widget viewContent(

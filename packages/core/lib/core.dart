@@ -55,3 +55,11 @@ export 'package:core/src/models/error_handling_models.dart';
 export 'package:core/src/views/error_handling/error_handling_view.dart';
 export 'package:core/src/views/error_handling/cubit/error_handling_cubit.dart';
 export 'package:core/src/views/error_handling/cubit/error_handling_state.dart';
+
+// 📋 Exports the info models
+export 'package:core/src/models/info_models.dart';
+
+// 📋 Exports the info bottom sheet view and cubit
+export 'package:core/src/views/info_bottom_sheet/info_bottom_sheet_view.dart';
+export 'package:core/src/views/info_bottom_sheet/cubit/info_bottom_sheet_cubit.dart';
+export 'package:core/src/views/info_bottom_sheet/cubit/info_bottom_sheet_state.dart';
