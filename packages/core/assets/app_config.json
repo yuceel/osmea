@@ -111,7 +111,7 @@
     ]
   },
   "error_handling_configuration": {
-    "style": "style2",
+    "style": "style3",
     "auto_retry_seconds": 5,
     "show_retry_button": true,
     "show_home_button": true,
@@ -120,7 +120,10 @@
     "primary_color": "#EF4444",
     "secondary_color": "#F59E0B",
     "support_email": "support@masterfabric.co",
-    "support_phone": "+90 555 123 45 67",
+    "support_phone": "+90 5xx xxxx xxxx",
+    "common_under_message": "These warnings are displayed to users for general information purposes.",
+    "dev_warning_message": "This screen is for development purposes only.",
+    "prod_warning_message": "Should not be displayed in production environment.",
     "error_pages": {
       "general": {
         "title": "An Error Occurred",

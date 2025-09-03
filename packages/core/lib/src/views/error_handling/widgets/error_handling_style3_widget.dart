@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:core/src/models/error_handling_models.dart';
 import 'package:core/src/views/error_handling/cubit/error_handling_cubit.dart';
 import 'package:core/src/views/error_handling/cubit/error_handling_state.dart';
-import 'package:core/src/models/error_handling_models.dart';
 import 'package:osmea_components/osmea_components.dart';
 
 /// 🎨 **OSMEA Error Handling Style 3 Widget**
@@ -11,12 +11,12 @@ import 'package:osmea_components/osmea_components.dart';
 /// Copyright (c) 2025, OSMEA Team
 /// https://github.com/masterfabric-mobile/osmea/tree/dev/packages/core
 ///
-/// Minimal error handling style - Clean text-based design with minimal visual elements
+/// Minimal text-based error handling - Clean and simple design
 ///
 /// {@category Widgets}
 /// {@subCategory ErrorHandlingStyle3}
 
-class ErrorHandlingStyle3Widget extends StatelessWidget {
+class ErrorHandlingStyle3Widget extends StatefulWidget {
   final VoidCallback? onRetry;
   final VoidCallback? onGoHome;
   final VoidCallback? onContactSupport;
@@ -33,363 +33,232 @@ class ErrorHandlingStyle3Widget extends StatelessWidget {
   });
 
   @override
+  State<ErrorHandlingStyle3Widget> createState() => _ErrorHandlingStyle3WidgetState();
+}
+
+class _ErrorHandlingStyle3WidgetState extends State<ErrorHandlingStyle3Widget>
+    with TickerProviderStateMixin {
+  
+  late AnimationController _animationController;
+  late Animation<double> _fadeAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeAnimations();
+  }
+
+  void _initializeAnimations() {
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+    
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeInOut,
+    ));
+    
+    _animationController.forward();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+
     return BlocBuilder<ErrorHandlingCubit, ErrorHandlingState>(
       builder: (context, state) {
-        if (!state.isShowingError) {
+        if (state.status != ErrorHandlingStatus.showingError) {
           return const SizedBox.shrink();
         }
 
-        return OsmeaComponents.container(
-          color: state.currentErrorPage?.getBackgroundColor() ?? OsmeaColors.paperWhite,
-          child: SafeArea(
-            child: OsmeaComponents.container(
-              padding: context.paddingHigh,
-              child: OsmeaComponents.column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // 🔝 Top Section - Navigation
-                  _buildTopNavigation(context, state),
-                  
-                  // 📱 Main Content
-                  Expanded(
-                    child: OsmeaComponents.column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
+        final config = state.config;
+        final currentErrorPage = state.currentErrorPage;
+        
+        // Update animation duration from config
+        if (config?.animationDuration != null) {
+          _animationController.duration = Duration(milliseconds: config!.animationDuration);
+        }
+        
+        // Get colors from config
+        final backgroundColor = currentErrorPage?.getBackgroundColor() ?? 
+                               config?.getPrimaryColor() ?? 
+                               OsmeaColors.white;
+        final textColor = currentErrorPage?.getTextColor() ?? OsmeaColors.black;
+        
+        // Get messages from config
+        final title = currentErrorPage?.title ?? state.errorTitle;
+        final description = currentErrorPage?.description ?? state.errorDescription;
+        final devWarning = config?.devWarningMessage ?? 'This screen is for development purposes only.';
+        final prodWarning = config?.prodWarningMessage ?? 'Should not be displayed in production environment.';
+        final footer = config?.commonUnderMessage;
+        
+        // Get button texts from config
+        final retryText = currentErrorPage?.retryButtonText ?? state.retryButtonText;
+        final homeText = currentErrorPage?.homeButtonText ?? state.homeButtonText;
+        final supportText = currentErrorPage?.supportButtonText ?? state.supportButtonText;
+
+        return FadeTransition(
+          opacity: _fadeAnimation,
+          child: OsmeaComponents.container(
+            color: backgroundColor,
+            child: SafeArea(
+              child: OsmeaComponents.container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: screenSize.width * 0.08,
+                  vertical: screenSize.height * 0.08,
+                ),
+                child: OsmeaComponents.column(
+                  crossAxisAlignment: crossStart,
+                  children: [
+                    // Simple Error Title
+                    OsmeaComponents.text(
+                      title,
+                      color: textColor,
+                      textStyle: OsmeaTextStyle.headlineSmall(context).copyWith(
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: -0.3,
+                      ),
+                    ),
+
+                    OsmeaComponents.sizedBox(height: screenSize.height * 0.02),
+
+                    // Simple divider
+                    OsmeaComponents.container(
+                      width: 40,
+                      height: 1,
+                      color: config?.getSecondaryColor() ?? OsmeaColors.ash,
+                    ),
+
+                    OsmeaComponents.sizedBox(height: screenSize.height * 0.02),
+
+                    // Error Description
+                    OsmeaComponents.text(
+                      description,
+                      color: textColor.withOpacity(0.8),
+                      textStyle: OsmeaTextStyle.bodyLarge(context).copyWith(
+                        fontWeight: FontWeight.w300,
+                        height: 1.6,
+                      ),
+                    ),
+
+                    OsmeaComponents.sizedBox(height: screenSize.height * 0.04),
+
+                    // Simple Action Buttons - Text style
+                    OsmeaComponents.column(
+                      crossAxisAlignment: crossStart,
                       children: [
-                        // 🚨 Error Badge
-                        _buildErrorBadge(context, state),
-                        
-                        OsmeaComponents.sizedBox(height: context.spacing24),
-                        
-                        // 📝 Error Content
-                        _buildErrorContent(context, state),
-                        
-                        OsmeaComponents.sizedBox(height: context.spacing32),
-                        
-                        // 🎯 Action Buttons (Minimal)
-                        _buildMinimalActionButtons(context, state),
+                        if (state.shouldShowRetryButton && state.canRetry)
+                          GestureDetector(
+                            onTap: widget.onRetry,
+                            child: OsmeaComponents.container(
+                              padding: EdgeInsets.symmetric(vertical: 12, horizontal: 0),
+                              child: OsmeaComponents.text(
+                                '→ $retryText',
+                                color: config?.getPrimaryColor() ?? OsmeaColors.nordicBlue,
+                                textStyle: OsmeaTextStyle.bodyLarge(context).copyWith(
+                                  fontWeight: FontWeight.w400,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
+                            ),
+                          ),
+                        if (state.shouldShowHomeButton)
+                          GestureDetector(
+                            onTap: widget.onGoHome,
+                            child: OsmeaComponents.container(
+                              padding: EdgeInsets.symmetric(vertical: 12, horizontal: 0),
+                              child: OsmeaComponents.text(
+                                '→ $homeText',
+                                color: textColor.withOpacity(0.7),
+                                textStyle: OsmeaTextStyle.bodyLarge(context).copyWith(
+                                  fontWeight: FontWeight.w400,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
+                            ),
+                          ),
+                        if (state.shouldShowSupportButton)
+                          GestureDetector(
+                            onTap: widget.onContactSupport,
+                            child: OsmeaComponents.container(
+                              padding: EdgeInsets.symmetric(vertical: 12, horizontal: 0),
+                              child: OsmeaComponents.text(
+                                '→ $supportText',
+                                color: textColor.withOpacity(0.7),
+                                textStyle: OsmeaTextStyle.bodyLarge(context).copyWith(
+                                  fontWeight: FontWeight.w400,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
+                            ),
+                          ),
                       ],
                     ),
-                  ),
-                  
-                  // 🔽 Bottom Section - Status & Debug
-                  _buildBottomStatus(context, state),
-                ],
+
+                    OsmeaComponents.sizedBox(height: screenSize.height * 0.06),
+
+                    // Development warnings - smaller and subtle
+                    OsmeaComponents.text(
+                      devWarning,
+                      color: OsmeaColors.slate,
+                      textStyle: OsmeaTextStyle.labelMedium(context).copyWith(
+                        fontWeight: FontWeight.w300,
+                        height: 1.5,
+                      ),
+                    ),
+
+                    OsmeaComponents.sizedBox(height: screenSize.height * 0.01),
+
+                    OsmeaComponents.text(
+                      prodWarning,
+                      color: OsmeaColors.slate,
+                      textStyle: OsmeaTextStyle.labelMedium(context).copyWith(
+                        fontWeight: FontWeight.w300,
+                        height: 1.5,
+                      ),
+                    ),
+
+                    if (kDebugMode) ...[
+                      OsmeaComponents.sizedBox(height: screenSize.height * 0.03),
+                      OsmeaComponents.text(
+                        "Code: '${state.errorCode ?? '-'}'  |  Status: ${state.status.name}",
+                        color: OsmeaColors.pewter,
+                        textStyle: OsmeaTextStyle.labelSmall(context).copyWith(
+                          fontWeight: FontWeight.w300,
+                          fontFamily: 'monospace',
+                        ),
+                      ),
+                    ],
+
+                    // Footer message
+                    if (footer != null) ...[
+                      OsmeaComponents.sizedBox(height: screenSize.height * 0.04),
+                      OsmeaComponents.text(
+                        footer,
+                        color: OsmeaColors.silver,
+                        textStyle: OsmeaTextStyle.labelSmall(context).copyWith(
+                          fontWeight: FontWeight.w300,
+                          height: 1.5,
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
               ),
             ),
           ),
         );
       },
     );
-  }
-
-  /// 🔝 Build top navigation
-  Widget _buildTopNavigation(BuildContext context, ErrorHandlingState state) {
-    return OsmeaComponents.row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        // Back Button (if available)
-        if (onGoBack != null)
-          OsmeaComponents.button(
-            text: '← Back',
-            onPressed: onGoBack,
-            variant: ButtonVariant.ghost,
-            textColor: OsmeaColors.pewter,
-          )
-        else
-          const SizedBox.shrink(),
-        
-        // Error Code Badge (if available)
-        if (state.errorCode != null)
-          OsmeaComponents.container(
-            padding: EdgeInsets.symmetric(
-              horizontal: context.spacing8,
-              vertical: context.spacing2,
-            ),
-            decoration: BoxDecoration(
-              color: OsmeaColors.pewter.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(context.radiusLow),
-            ),
-            child: OsmeaComponents.text(
-              '#${state.errorCode}',
-              variant: OsmeaTextVariant.bodySmall,
-              color: OsmeaColors.pewter,
-              fontFamily: 'monospace',
-            ),
-          ),
-      ],
-    );
-  }
-
-  /// 🚨 Build error badge
-  Widget _buildErrorBadge(BuildContext context, ErrorHandlingState state) {
-    return OsmeaComponents.container(
-      padding: EdgeInsets.symmetric(
-        horizontal: context.spacing12,
-        vertical: context.spacing6,
-      ),
-      decoration: BoxDecoration(
-        color: _getErrorTypeColor(state.currentErrorType).withOpacity(0.1),
-        borderRadius: BorderRadius.circular(context.radiusLow),
-        border: Border.all(
-          color: _getErrorTypeColor(state.currentErrorType).withOpacity(0.3),
-          width: 1,
-        ),
-      ),
-      child: OsmeaComponents.row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          OsmeaComponents.container(
-            width: 8,
-            height: 8,
-            decoration: BoxDecoration(
-              color: _getErrorTypeColor(state.currentErrorType),
-              shape: BoxShape.circle,
-            ),
-          ),
-          OsmeaComponents.sizedBox(width: context.spacing8),
-          OsmeaComponents.text(
-            _getErrorTypeLabel(state.currentErrorType),
-            variant: OsmeaTextVariant.bodySmall,
-            color: _getErrorTypeColor(state.currentErrorType),
-            fontWeight: FontWeight.w500,
-          ),
-        ],
-      ),
-    );
-  }
-
-  /// 📝 Build error content
-  Widget _buildErrorContent(BuildContext context, ErrorHandlingState state) {
-    return OsmeaComponents.column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Error Title
-        OsmeaComponents.text(
-          state.errorTitle,
-          variant: OsmeaTextVariant.headlineMedium,
-          color: state.currentErrorPage?.getTextColor() ?? OsmeaColors.thunder,
-          fontWeight: FontWeight.w600,
-        ),
-        
-        OsmeaComponents.sizedBox(height: context.spacing16),
-        
-        // Error Description
-        OsmeaComponents.text(
-          state.errorDescription,
-          variant: OsmeaTextVariant.bodyLarge,
-          color: OsmeaColors.pewter,
-        ),
-        
-        // Additional Error Details (if available)
-        if (state.errorMessage != null && 
-            state.errorMessage != state.errorDescription) ...[
-          OsmeaComponents.sizedBox(height: context.spacing12),
-          OsmeaComponents.container(
-            padding: context.paddingLow,
-            decoration: BoxDecoration(
-              color: OsmeaColors.pewter.withOpacity(0.05),
-              borderRadius: BorderRadius.circular(context.radiusLow),
-            ),
-            child: OsmeaComponents.text(
-              'Detail: ${state.errorMessage}',
-              variant: OsmeaTextVariant.bodySmall,
-              color: OsmeaColors.pewter,
-              fontStyle: FontStyle.italic,
-            ),
-          ),
-        ],
-        
-        // Retry Count Info (if available)
-        if (state.retryCount > 0) ...[
-          OsmeaComponents.sizedBox(height: context.spacing12),
-          OsmeaComponents.text(
-            'Attempt count: ${state.retryCount}/${state.maxRetryCount}',
-            variant: OsmeaTextVariant.bodySmall,
-            color: OsmeaColors.pewter,
-          ),
-        ],
-      ],
-    );
-  }
-
-  /// 🎯 Build minimal action buttons
-  Widget _buildMinimalActionButtons(BuildContext context, ErrorHandlingState state) {
-    final buttons = <Widget>[];
-
-    // Retry Button (Text style)
-    if (state.shouldShowRetryButton && !state.isRetrying) {
-      buttons.add(
-        OsmeaComponents.button(
-          text: '${state.retryButtonText} →',
-          onPressed: onRetry,
-          variant: ButtonVariant.ghost,
-          textColor: OsmeaColors.nordicBlue,
-        ),
-      );
-    }
-
-    // Retrying Indicator (Text style)
-    if (state.isRetrying) {
-      buttons.add(
-        OsmeaComponents.row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            OsmeaComponents.loading(
-              type: LoadingType.circularFade,
-              size: 16,
-              color: OsmeaColors.nordicBlue,
-            ),
-            OsmeaComponents.sizedBox(width: context.spacing8),
-            OsmeaComponents.text(
-              'Retrying...',
-              variant: OsmeaTextVariant.bodyMedium,
-              color: OsmeaColors.nordicBlue,
-            ),
-          ],
-        ),
-      );
-    }
-
-    // Home Button (Text style)
-    if (state.shouldShowHomeButton) {
-      buttons.add(
-        OsmeaComponents.button(
-          text: '${state.homeButtonText} →',
-          onPressed: onGoHome,
-          variant: ButtonVariant.ghost,
-          textColor: OsmeaColors.pewter,
-        ),
-      );
-    }
-
-    // Support Button (Text style)
-    if (state.shouldShowSupportButton) {
-      buttons.add(
-        OsmeaComponents.button(
-          text: '${state.supportButtonText} →',
-          onPressed: onContactSupport,
-          variant: ButtonVariant.ghost,
-          textColor: OsmeaColors.pewter,
-        ),
-      );
-    }
-
-    return OsmeaComponents.column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: buttons.map((button) => 
-        OsmeaComponents.container(
-          margin: EdgeInsets.only(bottom: context.spacing8),
-          child: button,
-        ),
-      ).toList(),
-    );
-  }
-
-  /// 🔽 Build bottom status
-  Widget _buildBottomStatus(BuildContext context, ErrorHandlingState state) {
-    return OsmeaComponents.column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Auto Retry Status
-        if (state.isAutoRetryActive)
-          _buildAutoRetryStatus(context, state),
-        
-        // Debug Info (Debug mode only)
-        if (kDebugMode) ...[
-          if (state.isAutoRetryActive)
-            OsmeaComponents.sizedBox(height: context.spacing8),
-          _buildMinimalDebugInfo(context, state),
-        ],
-      ],
-    );
-  }
-
-  /// 🕐 Build auto retry status
-  Widget _buildAutoRetryStatus(BuildContext context, ErrorHandlingState state) {
-    return OsmeaComponents.row(
-      children: [
-        OsmeaComponents.container(
-          width: 6,
-          height: 6,
-          decoration: BoxDecoration(
-            color: OsmeaColors.nordicBlue,
-            shape: BoxShape.circle,
-          ),
-        ),
-        OsmeaComponents.sizedBox(width: context.spacing8),
-        OsmeaComponents.text(
-          'Auto retry in ${state.autoRetryCountdown} seconds',
-          variant: OsmeaTextVariant.bodySmall,
-          color: OsmeaColors.pewter,
-        ),
-      ],
-    );
-  }
-
-  /// 🐛 Build minimal debug info
-  Widget _buildMinimalDebugInfo(BuildContext context, ErrorHandlingState state) {
-    return OsmeaComponents.text(
-      'Debug: ${state.currentErrorType} | Retry: ${state.retryCount}/${state.maxRetryCount}',
-      variant: OsmeaTextVariant.bodySmall,
-      color: OsmeaColors.pewter.withOpacity(0.7),
-      fontFamily: 'monospace',
-    );
-  }
-
-  /// 🎨 Get error type color
-  Color _getErrorTypeColor(ErrorType errorType) {
-    switch (errorType) {
-      case ErrorType.network:
-        return OsmeaColors.orange;
-      case ErrorType.server:
-        return OsmeaColors.red;
-      case ErrorType.authentication:
-      case ErrorType.authorization:
-        return OsmeaColors.purple;
-      case ErrorType.notFound:
-        return OsmeaColors.blue;
-      case ErrorType.timeout:
-        return OsmeaColors.sunsetGlow;
-      case ErrorType.maintenance:
-        return OsmeaColors.pewter;
-      case ErrorType.versionMismatch:
-        return OsmeaColors.forestHeart;
-      case ErrorType.localStorage:
-        return OsmeaColors.amberFlame;
-      case ErrorType.permission:
-        return OsmeaColors.red;
-      default:
-        return OsmeaColors.red;
-    }
-  }
-
-  /// 🏷️ Get error type label
-  String _getErrorTypeLabel(ErrorType errorType) {
-    switch (errorType) {
-      case ErrorType.network:
-        return 'Connection Error';
-      case ErrorType.server:
-        return 'Server Error';
-      case ErrorType.authentication:
-        return 'Authentication';
-      case ErrorType.authorization:
-        return 'Authorization';
-      case ErrorType.notFound:
-        return 'Not Found';
-      case ErrorType.timeout:
-        return 'Timeout';
-      case ErrorType.maintenance:
-        return 'Maintenance Mode';
-      case ErrorType.versionMismatch:
-        return 'Version Mismatch';
-      case ErrorType.localStorage:
-        return 'Storage Error';
-      case ErrorType.permission:
-        return 'Permission Error';
-      default:
-        return 'General Error';
-    }
   }
 }

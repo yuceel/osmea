@@ -180,6 +180,15 @@ class ErrorHandlingConfigModel {
   /// Support phone number
   final String? supportPhone;
 
+  /// Footer icin genel aciklama mesaji (TR)
+  final String? commonUnderMessage;
+
+  /// Uyari 1 (gelistirme)
+  final String? devWarningMessage;
+
+  /// Uyari 2 (uretim)
+  final String? prodWarningMessage;
+
   const ErrorHandlingConfigModel({
     required this.errorPages,
     this.style = ErrorHandlingStyle.style1,
@@ -192,6 +201,9 @@ class ErrorHandlingConfigModel {
     this.secondaryColor,
     this.supportEmail,
     this.supportPhone,
+    this.commonUnderMessage,
+    this.devWarningMessage,
+    this.prodWarningMessage,
   });
 
   /// Create ErrorHandlingConfigModel from JSON
@@ -222,6 +234,9 @@ class ErrorHandlingConfigModel {
       secondaryColor: json['secondary_color'] as String?,
       supportEmail: json['support_email'] as String?,
       supportPhone: json['support_phone'] as String?,
+      commonUnderMessage: json['common_under_message'] as String?,
+      devWarningMessage: json['dev_warning_message'] as String?,
+      prodWarningMessage: json['prod_warning_message'] as String?,
     );
   }
 
@@ -244,6 +259,9 @@ class ErrorHandlingConfigModel {
       'secondary_color': secondaryColor,
       'support_email': supportEmail,
       'support_phone': supportPhone,
+      'common_under_message': commonUnderMessage,
+      'dev_warning_message': devWarningMessage,
+      'prod_warning_message': prodWarningMessage,
     };
   }
 

@@ -35,6 +35,9 @@ class ErrorHandlingView extends StatefulWidget {
   
   /// Custom retry function - uses default retry behavior if null
   final Future<bool> Function()? customRetryFunction;
+  
+  /// Override error handling style - if null, uses config style
+  final ErrorHandlingStyle? overrideStyle;
 
   const ErrorHandlingView({
     super.key,
@@ -43,6 +46,7 @@ class ErrorHandlingView extends StatefulWidget {
     this.onGoBack,
     this.onDismiss,
     this.customRetryFunction,
+    this.overrideStyle,
   });
 
   @override
@@ -104,6 +108,36 @@ class _ErrorHandlingViewState extends State<ErrorHandlingView>
       listener: _handleStateChanges,
       builder: (context, state) {
         return Scaffold(
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(kToolbarHeight),
+            child: OsmeaComponents.container(
+              color: _getBackgroundColor(context, state),
+              child: SafeArea(
+                bottom: false,
+                child: OsmeaComponents.container(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: context.spacing16,
+                    vertical: context.spacing8,
+                  ),
+                  child: OsmeaComponents.row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      GestureDetector(
+                        onTap: () => Navigator.of(context).maybePop(),
+                        child: OsmeaComponents.container(
+                          padding: EdgeInsets.all(context.spacing8),
+                          child: Icon(
+                            Icons.arrow_back,
+                            color: OsmeaColors.slate,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
           backgroundColor: _getBackgroundColor(context, state),
           body: _buildBody(context, state),
         );
@@ -306,7 +340,8 @@ class _ErrorHandlingViewState extends State<ErrorHandlingView>
 
   /// 🎨 Build error view based on style type
   Widget _buildErrorByStyle(BuildContext context, ErrorHandlingState state) {
-    final style = state.config!.style;
+    // Use override style if provided, otherwise use config style
+    final style = widget.overrideStyle ?? state.config!.style;
 
     switch (style) {
       case ErrorHandlingStyle.style1:
@@ -492,6 +527,9 @@ class ErrorHandlingScreen extends StatelessWidget {
   
   /// Custom retry function
   final Future<bool> Function()? customRetryFunction;
+  
+  /// Override error handling style - if null, uses config style
+  final ErrorHandlingStyle? overrideStyle;
 
   const ErrorHandlingScreen({
     super.key,
@@ -500,6 +538,7 @@ class ErrorHandlingScreen extends StatelessWidget {
     this.onGoBack,
     this.onDismiss,
     this.customRetryFunction,
+    this.overrideStyle,
   });
 
   @override
@@ -511,6 +550,7 @@ class ErrorHandlingScreen extends StatelessWidget {
         onGoBack: onGoBack,
         onDismiss: onDismiss,
         customRetryFunction: customRetryFunction,
+        overrideStyle: overrideStyle,
       ),
     );
   }
