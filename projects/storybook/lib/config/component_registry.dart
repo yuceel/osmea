@@ -28,6 +28,7 @@ import '../components/collapse_storybook/collapses.dart';
 import '../components/popup_storybook/popups.dart';
 import '../components/stepper_storybook/showcase/unified_stepper_showcase.dart';
 import '../components/dropdown_storybook/dropdowns.dart';
+import '../components/image_storybook/images.dart';
 
 
 /// Model for component information displayed on home page and stories
@@ -170,6 +171,14 @@ final List<ComponentInfo> allComponents = [
     color: Colors.blueGrey,
     storyPath: StoryConfig.buildComponentStoryName('Footers'),
     getStories: getAllFooterStories,
+  ),
+  ComponentInfo(
+    name: 'Images',
+    description: 'Image components with various shapes, sizes, and loading states',
+    icon: Icons.image,
+    color: Colors.purple.shade400,
+    storyPath: StoryConfig.buildComponentStoryName('Images'),
+    getStories: getAllImageStories,
   ),
   ComponentInfo(
     name: 'List Item',
