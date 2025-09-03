@@ -250,41 +250,6 @@ class _HomeViewState extends State<HomeView>
     );
   }
 
-  // Test method for responsive popup (only in debug mode)
-  void _testResponsivePopup() {
-    if (kDebugMode) {
-      debugPrint('🧪 Manually testing responsive popup');
-      setState(() {
-        _showResponsivePopup = true;
-        _hasShownResponsivePopup = true;
-      });
-    }
-  }
-
-  // Test method for simulating different screen sizes (only in debug mode)
-  void _testScreenSizeSimulation() {
-    if (kDebugMode) {
-      final currentWidth = MediaQuery.of(context).size.width;
-      debugPrint('🧪 Current screen width: ${currentWidth}px');
-
-      if (currentWidth >= 1200) {
-        debugPrint('🧪 Simulating small screen (web → mobile)');
-        setState(() {
-          _previousScreenWidth = currentWidth;
-          _hasShownResponsivePopup = false;
-        });
-        _checkScreenSizeChange(800); // Simulate 800px width
-      } else {
-        debugPrint('🧪 Simulating large screen (mobile → web)');
-        setState(() {
-          _previousScreenWidth = currentWidth;
-          _hasShownResponsivePopup = true;
-        });
-        _checkScreenSizeChange(1400); // Simulate 1400px width
-      }
-    }
-  }
-
   @override
   void didChangeMetrics() {
     super.didChangeMetrics();
@@ -1059,26 +1024,6 @@ class _HomeViewState extends State<HomeView>
     );
   }
 
-  void _showResponsivePopupAndCloseWizard() {
-    // First, close any open setup wizard or dialogs
-    if (Navigator.canPop(context)) {
-      Navigator.of(context).popUntil((route) => route.isFirst);
-      if (kDebugMode) {
-        debugPrint(
-            '🔒 Closed setup wizard/dialogs before showing responsive popup');
-      }
-    }
-
-    // Then show the responsive popup
-    setState(() {
-      _showResponsivePopup = true;
-      _hasShownResponsivePopup = true;
-    });
-
-    if (kDebugMode) {
-      debugPrint('📱 Responsive popup shown after closing wizard');
-    }
-  }
 
   void _closeAllDialogsAndWizards() {
     // Close any open dialogs, wizards, or modals
