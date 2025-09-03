@@ -90,7 +90,7 @@ class _StoreSelectorState extends State<StoreSelector> {
     return OsmeaComponents.row(
       children: [
         // Store Selector Button
-        Expanded(
+        OsmeaComponents.expanded(
           child: OsmeaComponents.column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -133,7 +133,7 @@ class _StoreSelectorState extends State<StoreSelector> {
                                   color: _getPlatformColor(store.platform),
                                 ),
                                 OsmeaComponents.sizedBox(width: 8),
-                                Expanded(
+                                OsmeaComponents.expanded(
                                   child: OsmeaComponents.column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,

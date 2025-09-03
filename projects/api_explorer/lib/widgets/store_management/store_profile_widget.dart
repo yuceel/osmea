@@ -99,7 +99,7 @@ class _StoreProfileWidgetState extends State<StoreProfileWidget> {
         child: OsmeaComponents.row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(
+            OsmeaComponents.sizedBox(
               width: 16,
               height: 16,
               child: CircularProgressIndicator(

@@ -799,7 +799,7 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
                                   color: OsmeaColors.white,
                                 ),
                               ),
-                              const Spacer(),
+                              OsmeaComponents.spacer(),
                               IconButton(
                                 onPressed: () => Navigator.of(context).pop(),
                                 icon: Icon(
@@ -818,7 +818,7 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
                         ),
 
                         // Content
-                        Expanded(
+                        OsmeaComponents.expanded(
                           child: OsmeaComponents.singleChildScrollView(
                             padding: context.horizontalPaddingNormal,
                             child: _buildStepContent(),
@@ -864,7 +864,7 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
                           : OsmeaColors.silver,
                   shape: BoxShape.circle,
                 ),
-                child: Center(
+                child: OsmeaComponents.center(
                   child: isCompleted
                       ? Icon(
                           Icons.check,
@@ -933,7 +933,7 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
         // Platform options
         OsmeaComponents.row(
           children: [
-            Expanded(
+            OsmeaComponents.expanded(
               child: _buildPlatformOption(
                 'shopify',
                 'Shopify',
@@ -943,7 +943,7 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
               ),
             ),
             OsmeaComponents.sizedBox(width: context.spacing16),
-            Expanded(
+            OsmeaComponents.expanded(
               child: _buildPlatformOption(
                 'woocommerce',
                 'WooCommerce',
@@ -1260,7 +1260,7 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
                 size: 24,
               ),
               OsmeaComponents.sizedBox(width: context.spacing16),
-              Expanded(
+              OsmeaComponents.expanded(
                 child: OsmeaComponents.text(
                   'Your store credentials will be securely stored and used only for API requests. You can modify or remove them later from the store management section.',
                   textStyle: OsmeaTextStyle.bodyMedium(context),
@@ -1290,7 +1290,7 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
             ),
           ),
           OsmeaComponents.sizedBox(width: context.spacing16),
-          Expanded(
+          OsmeaComponents.expanded(
             child: OsmeaComponents.text(
               value,
               textStyle: OsmeaTextStyle.bodyMedium(context),
@@ -1317,7 +1317,7 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
     return OsmeaComponents.row(
       children: [
         if (_currentStep > 0)
-          Expanded(
+          OsmeaComponents.expanded(
             child: OsmeaComponents.button(
               text: 'Previous',
               variant: ButtonVariant.outlined,
@@ -1327,7 +1327,7 @@ class _StoreSetupWizardState extends State<StoreSetupWizard>
           ),
         if (_currentStep > 0)
           OsmeaComponents.sizedBox(width: context.spacing16),
-        Expanded(
+        OsmeaComponents.expanded(
           child: OsmeaComponents.button(
             text: _currentStep == 2 ? 'Complete Setup' : 'Next',
             variant: ButtonVariant.primary,

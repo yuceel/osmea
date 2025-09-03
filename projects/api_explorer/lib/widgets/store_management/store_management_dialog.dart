@@ -170,7 +170,7 @@ class _StoreManagementDialogState extends State<StoreManagementDialog> {
                   'Store Management',
                   textStyle: OsmeaTextStyle.displaySmall(context),
                 ),
-                const Spacer(),
+                OsmeaComponents.spacer(),
                 IconButton(
                   onPressed: () => Navigator.of(context).pop(),
                   icon: Icon(Icons.close, color: OsmeaColors.steel),
@@ -189,7 +189,7 @@ class _StoreManagementDialogState extends State<StoreManagementDialog> {
                   icon: const Icon(Icons.add),
                   onPressed: () => _showAddStoreDialog(context),
                 ),
-                const Spacer(),
+                OsmeaComponents.spacer(),
                 OsmeaComponents.text(
                   '${_stores.length} stores',
                   textStyle: OsmeaTextStyle.bodyMedium(context).copyWith(
@@ -201,11 +201,11 @@ class _StoreManagementDialogState extends State<StoreManagementDialog> {
             OsmeaComponents.sizedBox(height: 24),
 
             // Store List
-            Expanded(
+            OsmeaComponents.expanded(
               child: _isLoading
-                  ? const Center(child: CircularProgressIndicator())
+                  ? OsmeaComponents.center(child: CircularProgressIndicator())
                   : _stores.isEmpty
-                      ? Center(
+                      ? OsmeaComponents.center(
                           child: OsmeaComponents.column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -298,7 +298,7 @@ class _StoreManagementDialogState extends State<StoreManagementDialog> {
                                     OsmeaComponents.sizedBox(width: 16),
 
                                     // Store Info
-                                    Expanded(
+                                    OsmeaComponents.expanded(
                                       child: OsmeaComponents.column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
