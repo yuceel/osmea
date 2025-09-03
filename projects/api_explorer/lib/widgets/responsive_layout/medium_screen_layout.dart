@@ -40,7 +40,7 @@ class MediumScreenLayout extends StatelessWidget {
     return OsmeaComponents.column(
       children: [
         // API Configuration Panel
-        Expanded(
+        OsmeaComponents.expanded(
           flex: 2,
           child: selectedService == null
               ? const EmptyApiGuidance()
@@ -59,7 +59,7 @@ class MediumScreenLayout extends StatelessWidget {
         ),
 
         // Response Panel
-        Expanded(
+        OsmeaComponents.expanded(
           flex: 3,
           child: AnimatedBuilder(
             animation: responseAnimation,

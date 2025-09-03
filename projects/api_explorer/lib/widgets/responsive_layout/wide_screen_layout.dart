@@ -40,7 +40,7 @@ class WideScreenLayout extends StatelessWidget {
     return OsmeaComponents.row(
       children: [
         // API Configuration Panel
-        Expanded(
+        OsmeaComponents.expanded(
           flex: 2,
           child: selectedService == null
               ? const EmptyApiGuidance()
@@ -59,7 +59,7 @@ class WideScreenLayout extends StatelessWidget {
         ),
 
         // Response Panel (IDE Design)
-        Expanded(
+        OsmeaComponents.expanded(
           flex: 3,
           child: AnimatedBuilder(
             animation: responseAnimation,
