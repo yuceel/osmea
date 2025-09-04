@@ -154,76 +154,7 @@ const List<Map<String, dynamic>> useCases = [
   },
 ];
 
-/// Get alignment description for display
-String getMainAxisAlignmentDescription(MainAxisAlignment alignment) {
-  switch (alignment) {
-    case MainAxisAlignment.start:
-      return 'Start';
-    case MainAxisAlignment.end:
-      return 'End';
-    case MainAxisAlignment.center:
-      return 'Center';
-    case MainAxisAlignment.spaceBetween:
-      return 'Space Between';
-    case MainAxisAlignment.spaceAround:
-      return 'Space Around';
-    case MainAxisAlignment.spaceEvenly:
-      return 'Space Evenly';
-  }
-}
-
-String getCrossAxisAlignmentDescription(CrossAxisAlignment alignment) {
-  switch (alignment) {
-    case CrossAxisAlignment.start:
-      return 'Start';
-    case CrossAxisAlignment.end:
-      return 'End';
-    case CrossAxisAlignment.center:
-      return 'Center';
-    case CrossAxisAlignment.stretch:
-      return 'Stretch';
-    case CrossAxisAlignment.baseline:
-      return 'Baseline';
-  }
-}
-
-String getMainAxisSizeDescription(MainAxisSize size) {
-  switch (size) {
-    case MainAxisSize.min:
-      return 'Min';
-    case MainAxisSize.max:
-      return 'Max';
-  }
-}
-
-String getVerticalDirectionDescription(VerticalDirection direction) {
-  switch (direction) {
-    case VerticalDirection.down:
-      return 'Down';
-    case VerticalDirection.up:
-      return 'Up';
-  }
-}
-
-String getTextDirectionDescription(TextDirection direction) {
-  switch (direction) {
-    case TextDirection.ltr:
-      return 'LTR';
-    case TextDirection.rtl:
-      return 'RTL';
-  }
-}
-
-String getTextBaselineDescription(TextBaseline baseline) {
-  switch (baseline) {
-    case TextBaseline.alphabetic:
-      return 'Alphabetic';
-    case TextBaseline.ideographic:
-      return 'Ideographic';
-  }
-}
-
-/// Get alignment label for display (shorter version)
+/// Get alignment label for display
 String getMainAxisAlignmentLabel(MainAxisAlignment alignment) {
   switch (alignment) {
     case MainAxisAlignment.start:

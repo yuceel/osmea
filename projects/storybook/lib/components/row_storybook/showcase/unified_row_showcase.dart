@@ -20,7 +20,7 @@ List<Story> getUnifiedRowShowcase() {
           initial: MainAxisAlignment.start,
           options: mainAxisAlignmentOptions
               .map((alignment) => Option(
-                    label: getMainAxisAlignmentDescription(alignment),
+                    label: getMainAxisAlignmentLabel(alignment),
                     value: alignment,
                   ))
               .toList(),
@@ -31,7 +31,7 @@ List<Story> getUnifiedRowShowcase() {
           initial: CrossAxisAlignment.center,
           options: crossAxisAlignmentOptions
               .map((alignment) => Option(
-                    label: getCrossAxisAlignmentDescription(alignment),
+                    label: getCrossAxisAlignmentLabel(alignment),
                     value: alignment,
                   ))
               .toList(),
@@ -42,7 +42,7 @@ List<Story> getUnifiedRowShowcase() {
           initial: MainAxisSize.max,
           options: mainAxisSizeOptions
               .map((size) => Option(
-                    label: getMainAxisSizeDescription(size),
+                    label: getMainAxisSizeLabel(size),
                     value: size,
                   ))
               .toList(),
@@ -53,7 +53,7 @@ List<Story> getUnifiedRowShowcase() {
           initial: VerticalDirection.down,
           options: verticalDirectionOptions
               .map((direction) => Option(
-                    label: getVerticalDirectionDescription(direction),
+                    label: getVerticalDirectionLabel(direction),
                     value: direction,
                   ))
               .toList(),

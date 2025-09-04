@@ -36,11 +36,10 @@ class RowShowcaseWidget extends StatelessWidget {
               subtitle:
                   'Horizontal layout component with flexible alignment and spacing options.',
               infoChips: {
-                'Main Axis': getMainAxisAlignmentDescription(mainAxisAlignment),
-                'Cross Axis':
-                    getCrossAxisAlignmentDescription(crossAxisAlignment),
-                'Size': getMainAxisSizeDescription(mainAxisSize),
-                'Direction': getVerticalDirectionDescription(verticalDirection),
+                'Main Axis': getMainAxisAlignmentLabel(mainAxisAlignment),
+                'Cross Axis': getCrossAxisAlignmentLabel(crossAxisAlignment),
+                'Size': getMainAxisSizeLabel(mainAxisSize),
+                'Direction': getVerticalDirectionLabel(verticalDirection),
               },
             ),
 
@@ -148,7 +147,7 @@ class RowShowcaseWidget extends StatelessWidget {
   }
 
   String _getRowDescription() {
-    return '${getMainAxisAlignmentDescription(mainAxisAlignment)}, ${getCrossAxisAlignmentDescription(crossAxisAlignment)}, ${getMainAxisSizeDescription(mainAxisSize)}, ${getVerticalDirectionDescription(verticalDirection)}';
+    return '${getMainAxisAlignmentLabel(mainAxisAlignment)}, ${getCrossAxisAlignmentLabel(crossAxisAlignment)}, ${getMainAxisSizeLabel(mainAxisSize)}, ${getVerticalDirectionLabel(verticalDirection)}';
   }
 
   Widget _buildPropertiesSection() {
@@ -180,18 +179,16 @@ class RowShowcaseWidget extends StatelessWidget {
           const SizedBox(height: 16),
           _buildPropertyRow(
               'Main Axis',
-              getMainAxisAlignmentDescription(mainAxisAlignment),
+              getMainAxisAlignmentLabel(mainAxisAlignment),
               Icons.horizontal_rule),
           _buildPropertyRow(
               'Cross Axis',
-              getCrossAxisAlignmentDescription(crossAxisAlignment),
+              getCrossAxisAlignmentLabel(crossAxisAlignment),
               Icons.vertical_align_center),
-          _buildPropertyRow('Size', getMainAxisSizeDescription(mainAxisSize),
-              Icons.aspect_ratio),
           _buildPropertyRow(
-              'Direction',
-              getVerticalDirectionDescription(verticalDirection),
-              Icons.swap_vert),
+              'Size', getMainAxisSizeLabel(mainAxisSize), Icons.aspect_ratio),
+          _buildPropertyRow('Direction',
+              getVerticalDirectionLabel(verticalDirection), Icons.swap_vert),
           const Divider(height: 24),
           _buildPropertyRow(
               'Children Count', '${children.length}', Icons.widgets),
