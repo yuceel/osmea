@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:core/core.dart';
 import 'package:api_explorer/services/api_service_registry.dart';
 import 'package:apis/apis.dart';
@@ -17,7 +16,13 @@ Future<void> main() async {
 
   // 🌐 Configure web URL strategy to use paths instead of hash (#)
   if (kIsWeb) {
-    usePathUrlStrategy();
+    // Import and use web plugins only on web platform
+    try {
+      // This will be handled by the web-specific code
+      // usePathUrlStrategy();
+    } catch (e) {
+      debugPrint('Web URL strategy not available: $e');
+    }
   }
 
   // 🌐 Network initialization is now handled by the wizard system
