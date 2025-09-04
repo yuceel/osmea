@@ -261,7 +261,7 @@ class StepperBuilder {
           width: double.infinity,
           padding: EdgeInsets.all(isVertical ? 12 : 20),
           decoration: BoxDecoration(
-            color: isCompleted ? OsmeaColors.forestHeart.withOpacity(0.1) : OsmeaColors.snow,
+            color: isCompleted ? OsmeaColors.forestHeart.withValues(alpha: 0.1) : OsmeaColors.snow,
             borderRadius: BorderRadius.circular(8),
             border: Border.all(
               color: isCompleted 
@@ -273,7 +273,7 @@ class StepperBuilder {
             ),
             boxShadow: (isCurrentStep || isCompleted) ? [
               BoxShadow(
-                color: (isCompleted ? OsmeaColors.forestHeart : OsmeaColors.nordicBlue).withOpacity(0.1),
+                color: (isCompleted ? OsmeaColors.forestHeart : OsmeaColors.nordicBlue).withValues(alpha: 0.1),
                 blurRadius: 8,
                 offset: const Offset(0, 2),
               ),

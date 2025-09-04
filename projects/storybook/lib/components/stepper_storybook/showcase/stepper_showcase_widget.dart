@@ -43,10 +43,10 @@ class UnifiedStepperShowcaseWidget extends StatefulWidget {
 class _UnifiedStepperShowcaseWidgetState extends State<UnifiedStepperShowcaseWidget> {
   // Separate states for horizontal and vertical orientations
   int _horizontalCurrentStep = 0;
-  Set<int> _horizontalCompletedSteps = <int>{};
+  final Set<int> _horizontalCompletedSteps = {};
   
   int _verticalCurrentStep = 0;
-  Set<int> _verticalCompletedSteps = <int>{};
+  final Set<int> _verticalCompletedSteps = {};
   
   // Getters to access current orientation's state
   int get currentStep => widget.orientation == ComponentOrientation.horizontal 

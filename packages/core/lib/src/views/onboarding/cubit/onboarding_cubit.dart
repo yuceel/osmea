@@ -1,0 +1,253 @@
+import 'package:flutter/foundation.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:core/src/models/onboarding_models.dart';
+import 'package:core/src/helper/onboarding_helper.dart';
+import 'package:core/src/helper/asset_config_helper.dart';
+import 'package:core/src/views/onboarding/cubit/onboarding_state.dart';
+
+/// 🎯 **OSMEA Onboarding Cubit**
+///
+/// Copyright (c) 2025, OSMEA Team
+/// https://github.com/masterfabric-mobile/osmea/tree/dev/packages/core
+///
+/// Cubit that manages onboarding operations with MVVM pattern
+///
+/// {@category ViewModels}
+/// {@subCategory OnboardingCubit}
+
+class OnboardingCubit extends Cubit<OnboardingState> {
+  OnboardingCubit() : super(const OnboardingState());
+
+  final OnboardingStorageHelper _storageHelper = OnboardingStorageHelper();
+  final AssetConfigHelper _configHelper = AssetConfigHelper();
+
+  /// 📱 Load onboarding data
+  Future<void> loadOnboardingData() async {
+    try {
+      emit(state.copyWith(status: OnboardingStatus.loading));
+
+      debugPrint("📱 Loading onboarding data...");
+
+      // Load app config (project-specific first, then core fallback)
+      final configLoaded = await _configHelper.loadConfig('assets/app_config.json');
+      if (!configLoaded) {
+        debugPrint("❌ Failed to load configuration file");
+        emit(state.copyWith(
+          status: OnboardingStatus.error,
+          errorMessage: "Configuration file could not be loaded",
+        ));
+        return;
+      }
+
+      // Get onboarding data from app config
+      final configData = _configHelper.getAllConfig();
+      
+      if (configData == null) {
+        debugPrint("❌ Configuration data not found");
+        emit(state.copyWith(
+          status: OnboardingStatus.error,
+          errorMessage: "Configuration data could not be loaded",
+        ));
+        return;
+      }
+
+      // Parse onboarding config
+      final onboardingData = configData['onboarding_configuration'];
+      if (onboardingData == null) {
+        debugPrint("❌ Onboarding configuration not found");
+        emit(state.copyWith(
+          status: OnboardingStatus.error,
+          errorMessage: "Onboarding configuration not found",
+        ));
+        return;
+      }
+
+      final onboardingConfig = OnboardingConfigModel.fromJson(onboardingData);
+      
+      // Check onboarding seen status
+      final hasSeenOnboarding = await _storageHelper.hasSeenOnboarding();
+
+      debugPrint("✅ Onboarding data loaded successfully. Page count: ${onboardingConfig.pages.length}");
+      debugPrint("👁️ Onboarding seen status: $hasSeenOnboarding");
+
+      emit(state.copyWith(
+        status: OnboardingStatus.ready,
+        config: onboardingConfig,
+        currentPageIndex: 0,
+        hasSeenOnboarding: hasSeenOnboarding,
+        totalPages: onboardingConfig.pages.length,
+      ));
+
+    } catch (e) {
+      debugPrint("❌ Error occurred while loading onboarding data: $e");
+      emit(state.copyWith(
+        status: OnboardingStatus.error,
+        errorMessage: "Failed to load data: ${e.toString()}",
+      ));
+    }
+  }
+
+  /// ➡️ Go to next page
+  void nextPage() {
+    if (state.config == null) return;
+
+    final nextIndex = state.currentPageIndex + 1;
+    
+    if (nextIndex < state.config!.pages.length) {
+      debugPrint("➡️ Moving to next page: $nextIndex");
+      emit(state.copyWith(currentPageIndex: nextIndex));
+    } else {
+      debugPrint("✅ Last page, finishing onboarding");
+      finishOnboarding();
+    }
+  }
+
+  /// ⬅️ Go to previous page
+  void previousPage() {
+    if (state.currentPageIndex > 0) {
+      final prevIndex = state.currentPageIndex - 1;
+      debugPrint("⬅️ Moving to previous page: $prevIndex");
+      emit(state.copyWith(currentPageIndex: prevIndex));
+    }
+  }
+
+  /// 🎯 Go to specific page
+  void goToPage(int pageIndex) {
+    if (state.config == null) return;
+
+    if (pageIndex >= 0 && pageIndex < state.config!.pages.length) {
+      debugPrint("🎯 Going to page $pageIndex");
+      emit(state.copyWith(currentPageIndex: pageIndex));
+    }
+  }
+
+  /// ⏭️ Skip onboarding
+  void skipOnboarding() {
+    debugPrint("⏭️ Skipping onboarding");
+    finishOnboarding();
+  }
+
+  /// ✅ Finish onboarding
+  Future<void> finishOnboarding() async {
+    try {
+      debugPrint("✅ Finishing onboarding...");
+      
+      // Mark onboarding as seen
+      await _storageHelper.markOnboardingSeen();
+      
+      emit(state.copyWith(
+        status: OnboardingStatus.completed,
+        hasSeenOnboarding: true,
+      ));
+
+      debugPrint("🎉 Onboarding completed successfully!");
+
+    } catch (e) {
+      debugPrint("❌ Error while finishing onboarding: $e");
+      emit(state.copyWith(
+        status: OnboardingStatus.error,
+        errorMessage: "Could not complete onboarding: ${e.toString()}",
+      ));
+    }
+  }
+
+  /// 🔄 Reset onboarding (Developer mode)
+  Future<void> resetOnboarding() async {
+    if (kDebugMode) {
+      try {
+        debugPrint("🔄 Resetting onboarding (DEV)...");
+        
+        await _storageHelper.resetOnboardingStatus();
+        
+        emit(state.copyWith(
+          status: OnboardingStatus.ready,
+          currentPageIndex: 0,
+          hasSeenOnboarding: false,
+        ));
+
+        debugPrint("✅ Onboarding reset successfully!");
+
+      } catch (e) {
+        debugPrint("❌ Error while resetting onboarding: $e");
+      }
+    }
+  }
+
+  /// 📊 Check onboarding status
+  Future<void> checkOnboardingStatus() async {
+    try {
+      final hasSeenOnboarding = await _storageHelper.hasSeenOnboarding();
+      
+      emit(state.copyWith(hasSeenOnboarding: hasSeenOnboarding));
+      
+      debugPrint("📊 Onboarding status checked: $hasSeenOnboarding");
+      
+    } catch (e) {
+      debugPrint("❌ Error while checking onboarding status: $e");
+    }
+  }
+
+  /// 🎮 Start auto advance
+  void startAutoAdvance() {
+    if (state.config?.autoAdvanceSeconds != null && 
+        state.config!.autoAdvanceSeconds! > 0) {
+      
+      debugPrint("🎮 Starting auto advance: ${state.config!.autoAdvanceSeconds} seconds");
+      
+      Future.delayed(Duration(seconds: state.config!.autoAdvanceSeconds!), () {
+        if (!isClosed && state.status == OnboardingStatus.ready) {
+          nextPage();
+        }
+      });
+    }
+  }
+
+  /// 📱 Get current page information
+  OnboardingPageModel? get currentPage {
+    if (state.config == null) return null;
+    if (state.currentPageIndex >= state.config!.pages.length) return null;
+    
+    return state.config!.pages[state.currentPageIndex];
+  }
+
+  /// 🏁 Check if last page
+  bool get isLastPage {
+    if (state.config == null) return false;
+    return state.currentPageIndex >= state.config!.pages.length - 1;
+  }
+
+  /// 🏠 Check if first page
+  bool get isFirstPage {
+    return state.currentPageIndex <= 0;
+  }
+
+  /// 📊 Calculate progress percentage
+  double get progress {
+    if (state.config == null || state.config!.pages.isEmpty) return 0.0;
+    return (state.currentPageIndex + 1) / state.config!.pages.length;
+  }
+
+  /// 🐛 Get debug information
+  Future<Map<String, dynamic>> getDebugInfo() async {
+    if (kDebugMode) {
+      final storageDebug = await _storageHelper.getOnboardingDebugInfo();
+      
+      return {
+        'cubit_state': {
+          'status': state.status.toString(),
+          'current_page_index': state.currentPageIndex,
+          'total_pages': state.totalPages,
+          'has_seen_onboarding': state.hasSeenOnboarding,
+          'config_loaded': state.config != null,
+          'error_message': state.errorMessage,
+        },
+        'storage_info': storageDebug,
+        'current_page': currentPage?.toString(),
+        'is_last_page': isLastPage,
+        'is_first_page': isFirstPage,
+        'progress': progress,
+      };
+    }
+    return {};
+  }
+}

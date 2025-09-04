@@ -32,7 +32,7 @@ class SectionContainer extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: (isDark ? Colors.black : Colors.grey).withOpacity(0.1),
+            color: (isDark ? Colors.black : Colors.grey).withValues(alpha: 0.1),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),

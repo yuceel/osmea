@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:osmea_storybook/components/sized_box_storybook/sized_boxes.dart';
+import 'package:osmea_storybook/components/rich_text_storybook/rich_texts.dart';
+import 'package:osmea_storybook/components/stack_storybook/stacks.dart';
 import 'story_config.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 import '../components/cards_storybook/cards.dart';
@@ -27,8 +30,9 @@ import '../components/bottom_sheet_storybook/bottom_sheets.dart';
 import '../components/collapse_storybook/collapses.dart';
 import '../components/popup_storybook/popups.dart';
 import '../components/stepper_storybook/showcase/unified_stepper_showcase.dart';
+import '../components/snackbar_storybook/snackbars.dart';
 import '../components/dropdown_storybook/dropdowns.dart';
-
+import '../components/image_storybook/images.dart';
 
 /// Model for component information displayed on home page and stories
 class ComponentInfo {
@@ -101,7 +105,8 @@ final List<ComponentInfo> allComponents = [
   ),
   ComponentInfo(
     name: 'Carousels',
-    description: 'Interactive carousel components with multiple variants and navigation',
+    description:
+        'Interactive carousel components with multiple variants and navigation',
     icon: Icons.view_carousel,
     color: Colors.cyan,
     storyPath: StoryConfig.buildComponentStoryName('Carousels'),
@@ -125,7 +130,8 @@ final List<ComponentInfo> allComponents = [
   ),
   ComponentInfo(
     name: 'Collapse',
-    description: 'Expandable content panels with smooth animations and accordion mode',
+    description:
+        'Expandable content panels with smooth animations and accordion mode',
     icon: Icons.expand_more,
     color: Colors.teal,
     storyPath: StoryConfig.buildComponentStoryName('Collapse'),
@@ -172,8 +178,18 @@ final List<ComponentInfo> allComponents = [
     getStories: getAllFooterStories,
   ),
   ComponentInfo(
+    name: 'Images',
+    description:
+        'Image components with various shapes, sizes, and loading states',
+    icon: Icons.image,
+    color: Colors.purple.shade400,
+    storyPath: StoryConfig.buildComponentStoryName('Images'),
+    getStories: getAllImageStories,
+  ),
+  ComponentInfo(
     name: 'List Item',
-    description: 'Interactive list items with various styles and configurations',
+    description:
+        'Interactive list items with various styles and configurations',
     icon: Icons.list,
     color: Colors.pink,
     storyPath: StoryConfig.buildComponentStoryName('List Item'),
@@ -220,12 +236,48 @@ final List<ComponentInfo> allComponents = [
     getStories: getAllRadioButtonStories,
   ),
   ComponentInfo(
+    name: 'RichText',
+    description:
+        'Display text with multiple styles, colors, and interactive elements',
+    icon: Icons.text_fields,
+    color: Colors.deepPurple,
+    storyPath: StoryConfig.buildComponentStoryName('RichText'),
+    getStories: getAllRichTextStories,
+  ),
+  ComponentInfo(
     name: 'Searchbars',
-    description: 'Search inputs with suggestions, history, and expandable features',
+    description:
+        'Search inputs with suggestions, history, and expandable features',
     icon: Icons.search,
     color: Colors.teal,
     storyPath: StoryConfig.buildComponentStoryName('Searchbars'),
     getStories: getAllSearchbarStories,
+  ),
+  ComponentInfo(
+    name: 'SizedBox',
+    description: 'Fixed-size container widget for layout and spacing control',
+    icon: Icons.crop_square,
+    color: Colors.blueGrey,
+    storyPath: StoryConfig.buildComponentStoryName('SizedBox'),
+    getStories: getAllSizedBoxStories,
+  ),
+  ComponentInfo(
+    name: 'Snackbars',
+    description:
+        'Temporary notifications and feedback messages with various styles',
+    icon: Icons.message_rounded,
+    color: Colors.orange,
+    storyPath: StoryConfig.buildComponentStoryName('Snackbars'),
+    getStories: getAllSnackbarStories,
+  ),
+    ComponentInfo(
+    name: 'Stack',
+    description:
+        'Layered widget positioning component for overlapping elements',
+    icon: Icons.layers,
+    color: Colors.deepPurple,
+    storyPath: StoryConfig.buildComponentStoryName('Stack'),
+    getStories: getAllStackStories,
   ),
   ComponentInfo(
     name: 'Steppers',
@@ -261,7 +313,8 @@ final List<ComponentInfo> allComponents = [
   ),
   ComponentInfo(
     name: 'Ticket Widget',
-    description: 'Dynamic form generation for support tickets with various input types',
+    description:
+        'Dynamic form generation for support tickets with various input types',
     icon: Icons.confirmation_number,
     color: Colors.green,
     storyPath: StoryConfig.buildComponentStoryName('Ticket Widget'),

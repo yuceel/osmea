@@ -88,7 +88,7 @@ class StepperUsageGuidelinesSection extends StatelessWidget {
                     height: 6,
                     margin: const EdgeInsets.only(top: 6, right: 8),
                     decoration: BoxDecoration(
-                      color: color.withOpacity(0.6),
+                      color: color.withValues(alpha: 0.6),
                       shape: BoxShape.circle,
                     ),
                   ),

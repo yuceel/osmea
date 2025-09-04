@@ -62,10 +62,10 @@ class StepperSizeInfoSection extends StatelessWidget {
             width: 80,
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
-              color: sizeColors[size]!.withOpacity(0.1),
+              color: sizeColors[size]!.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(4),
               border: Border.all(
-                color: sizeColors[size]!.withOpacity(0.3),
+                color: sizeColors[size]!.withValues(alpha: 0.3),
               ),
             ),
             child: Text(
