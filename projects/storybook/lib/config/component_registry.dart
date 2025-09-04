@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:osmea_storybook/components/align_storybook/aligns.dart';
+import 'package:osmea_storybook/components/stack_storybook/stacks.dart';
 import 'story_config.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 import '../components/cards_storybook/cards.dart';
@@ -31,7 +32,6 @@ import '../components/stepper_storybook/showcase/unified_stepper_showcase.dart';
 import '../components/snackbar_storybook/snackbars.dart';
 import '../components/dropdown_storybook/dropdowns.dart';
 import '../components/image_storybook/images.dart';
-
 
 /// Model for component information displayed on home page and stories
 class ComponentInfo {
@@ -112,7 +112,8 @@ final List<ComponentInfo> allComponents = [
   ),
   ComponentInfo(
     name: 'Carousels',
-    description: 'Interactive carousel components with multiple variants and navigation',
+    description:
+        'Interactive carousel components with multiple variants and navigation',
     icon: Icons.view_carousel,
     color: Colors.cyan,
     storyPath: StoryConfig.buildComponentStoryName('Carousels'),
@@ -136,7 +137,8 @@ final List<ComponentInfo> allComponents = [
   ),
   ComponentInfo(
     name: 'Collapse',
-    description: 'Expandable content panels with smooth animations and accordion mode',
+    description:
+        'Expandable content panels with smooth animations and accordion mode',
     icon: Icons.expand_more,
     color: Colors.teal,
     storyPath: StoryConfig.buildComponentStoryName('Collapse'),
@@ -184,7 +186,8 @@ final List<ComponentInfo> allComponents = [
   ),
   ComponentInfo(
     name: 'Images',
-    description: 'Image components with various shapes, sizes, and loading states',
+    description:
+        'Image components with various shapes, sizes, and loading states',
     icon: Icons.image,
     color: Colors.purple.shade400,
     storyPath: StoryConfig.buildComponentStoryName('Images'),
@@ -192,7 +195,8 @@ final List<ComponentInfo> allComponents = [
   ),
   ComponentInfo(
     name: 'List Item',
-    description: 'Interactive list items with various styles and configurations',
+    description:
+        'Interactive list items with various styles and configurations',
     icon: Icons.list,
     color: Colors.pink,
     storyPath: StoryConfig.buildComponentStoryName('List Item'),
@@ -240,15 +244,26 @@ final List<ComponentInfo> allComponents = [
   ),
   ComponentInfo(
     name: 'Searchbars',
-    description: 'Search inputs with suggestions, history, and expandable features',
+    description:
+        'Search inputs with suggestions, history, and expandable features',
     icon: Icons.search,
     color: Colors.teal,
     storyPath: StoryConfig.buildComponentStoryName('Searchbars'),
     getStories: getAllSearchbarStories,
   ),
   ComponentInfo(
+    name: 'Stack',
+    description:
+        'Layered widget positioning component for overlapping elements',
+    icon: Icons.layers,
+    color: Colors.deepPurple,
+    storyPath: StoryConfig.buildComponentStoryName('Stack'),
+    getStories: getAllStackStories,
+  ),
+  ComponentInfo(
     name: 'Snackbars',
-    description: 'Temporary notifications and feedback messages with various styles',
+    description:
+        'Temporary notifications and feedback messages with various styles',
     icon: Icons.message_rounded,
     color: Colors.orange,
     storyPath: StoryConfig.buildComponentStoryName('Snackbars'),
@@ -288,7 +303,8 @@ final List<ComponentInfo> allComponents = [
   ),
   ComponentInfo(
     name: 'Ticket Widget',
-    description: 'Dynamic form generation for support tickets with various input types',
+    description:
+        'Dynamic form generation for support tickets with various input types',
     icon: Icons.confirmation_number,
     color: Colors.green,
     storyPath: StoryConfig.buildComponentStoryName('Ticket Widget'),
