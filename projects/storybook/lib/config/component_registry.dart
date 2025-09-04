@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:osmea_storybook/components/clip_r_rect_storybook/clip_r_rects.dart';
 import 'story_config.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 import '../components/cards_storybook/cards.dart';
@@ -124,6 +125,14 @@ final List<ComponentInfo> allComponents = [
     color: Colors.blueGrey,
     storyPath: StoryConfig.buildComponentStoryName('Chips'),
     getStories: getAllChipStories,
+  ),  
+  ComponentInfo(
+    name: 'ClipRRect',
+    description: 'Clip child with rounded corners for beautiful UI elements',
+    icon: Icons.crop_square,
+    color: Colors.pink,
+    storyPath: StoryConfig.buildComponentStoryName('ClipRRect'),
+    getStories: getAllClipRRectStories,
   ),
   ComponentInfo(
     name: 'Collapse',
