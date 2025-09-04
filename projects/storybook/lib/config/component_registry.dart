@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:osmea_storybook/components/sized_box_storybook/sized_boxes.dart';
 import 'package:osmea_storybook/components/rich_text_storybook/rich_texts.dart';
 import 'package:osmea_storybook/components/stack_storybook/stacks.dart';
 import 'story_config.dart';
@@ -253,13 +254,12 @@ final List<ComponentInfo> allComponents = [
     getStories: getAllSearchbarStories,
   ),
   ComponentInfo(
-    name: 'Stack',
-    description:
-        'Layered widget positioning component for overlapping elements',
-    icon: Icons.layers,
-    color: Colors.deepPurple,
-    storyPath: StoryConfig.buildComponentStoryName('Stack'),
-    getStories: getAllStackStories,
+    name: 'SizedBox',
+    description: 'Fixed-size container widget for layout and spacing control',
+    icon: Icons.crop_square,
+    color: Colors.blueGrey,
+    storyPath: StoryConfig.buildComponentStoryName('SizedBox'),
+    getStories: getAllSizedBoxStories,
   ),
   ComponentInfo(
     name: 'Snackbars',
@@ -269,6 +269,15 @@ final List<ComponentInfo> allComponents = [
     color: Colors.orange,
     storyPath: StoryConfig.buildComponentStoryName('Snackbars'),
     getStories: getAllSnackbarStories,
+  ),
+    ComponentInfo(
+    name: 'Stack',
+    description:
+        'Layered widget positioning component for overlapping elements',
+    icon: Icons.layers,
+    color: Colors.deepPurple,
+    storyPath: StoryConfig.buildComponentStoryName('Stack'),
+    getStories: getAllStackStories,
   ),
   ComponentInfo(
     name: 'Steppers',
