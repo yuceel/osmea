@@ -25,10 +25,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -64,6 +61,15 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyC47INjr-dj_FNeUphDSYP_p1zXzN_WE04',
+    appId: '1:384773402210:ios:ee1ed354ca8b3d8bba2b3b',
+    messagingSenderId: '384773402210',
+    projectId: 'osmea-app',
+    storageBucket: 'osmea-app.firebasestorage.app',
+    iosBundleId: 'com.osmea.core',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyC47INjr-dj_FNeUphDSYP_p1zXzN_WE04',
     appId: '1:384773402210:ios:ee1ed354ca8b3d8bba2b3b',
     messagingSenderId: '384773402210',
