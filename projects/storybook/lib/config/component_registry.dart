@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:osmea_storybook/components/row_storybook/rows.dart';
 import 'story_config.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 import '../components/cards_storybook/cards.dart';
@@ -220,6 +221,15 @@ final List<ComponentInfo> allComponents = [
     color: Colors.lightBlue,
     storyPath: StoryConfig.buildComponentStoryName('Progress'),
     getStories: getAllProgressStories,
+  ),
+    ComponentInfo(
+    name: 'Row',
+    description:
+        'Horizontal layout component with flexible alignment and spacing options',
+    icon: Icons.view_stream,
+    color: Colors.indigo,
+    storyPath: StoryConfig.buildComponentStoryName('Row'),
+    getStories: getAllRowStories,
   ),
   ComponentInfo(
     name: 'Radio Buttons',
