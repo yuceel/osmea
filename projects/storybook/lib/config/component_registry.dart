@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:osmea_storybook/components/rich_text_storybook/rich_texts.dart';
 import 'package:osmea_storybook/components/stack_storybook/stacks.dart';
 import 'story_config.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
@@ -232,6 +233,15 @@ final List<ComponentInfo> allComponents = [
     color: Colors.red,
     storyPath: StoryConfig.buildComponentStoryName('Radio Buttons'),
     getStories: getAllRadioButtonStories,
+  ),
+  ComponentInfo(
+    name: 'RichText',
+    description:
+        'Display text with multiple styles, colors, and interactive elements',
+    icon: Icons.text_fields,
+    color: Colors.deepPurple,
+    storyPath: StoryConfig.buildComponentStoryName('RichText'),
+    getStories: getAllRichTextStories,
   ),
   ComponentInfo(
     name: 'Searchbars',
