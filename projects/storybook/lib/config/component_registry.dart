@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:osmea_storybook/components/align_storybook/aligns.dart';
 import 'story_config.dart';
 import 'package:storybook_flutter/storybook_flutter.dart';
 import '../components/cards_storybook/cards.dart';
@@ -53,6 +54,14 @@ class ComponentInfo {
 
 /// Central registry for all components (used for both home and stories)
 final List<ComponentInfo> allComponents = [
+    ComponentInfo(
+    name: 'Align',
+    description: 'Alignment widget for precise positioning control',
+    icon: Icons.align_horizontal_center,
+    color: Colors.indigo,
+    storyPath: StoryConfig.buildComponentStoryName('Align'),
+    getStories: getAllAlignStories,
+  ),
   ComponentInfo(
     name: 'App Bar',
     description: 'Top application bars and headers',
