@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:api_explorer/widgets/home/http_method_selector.dart';
 import 'package:api_explorer/widgets/home/panel_header.dart';
 import 'package:api_explorer/widgets/home/service_info.dart';
 import 'package:api_explorer/services/api_service_registry.dart';
 import 'package:core/core.dart';
+import 'dart:async';
 
 /// Modern API Panel using Osmea components
 class ModernApiPanel extends StatefulWidget {
@@ -16,7 +18,7 @@ class ModernApiPanel extends StatefulWidget {
   final Function(String) onMethodChanged;
   final Function(Map<String, String>) onParametersChanged;
   final Function(String?) onRawBodyChanged;
-  final VoidCallback onSendRequest;
+  final Function(Map<String, String>) onSendRequest;
 
   const ModernApiPanel({
     super.key,
@@ -42,31 +44,51 @@ class _ModernApiPanelState extends State<ModernApiPanel>
   final ScrollController _scrollController = ScrollController();
   bool _isDisposed = false;
   final Map<String, TextEditingController> _controllers = {};
-  ApiService? _previousService;
+  Timer? _debounceTimer;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 1, vsync: this);
-    _previousService = widget.selectedService;
+
+    // Initialize controllers with current parameters
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _syncControllersWithParameters();
+      }
+    });
   }
 
   @override
   void didUpdateWidget(ModernApiPanel oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    if (widget.selectedService != _previousService) {
+    // Check if service or method changed
+    if (oldWidget.selectedService?.name != widget.selectedService?.name ||
+        oldWidget.selectedMethod != widget.selectedMethod) {
+      // Service or method changed, clear all controller values
       for (var controller in _controllers.values) {
         controller.clear();
       }
       _controllers.clear();
-      _previousService = widget.selectedService;
+      if (kDebugMode) {
+        print(
+            '🔄 ModernApiPanel: Cleared all controller values for ${widget.selectedService?.name} - ${widget.selectedMethod}');
+      }
+      // Rebuild controllers for new service/method
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          _syncControllersWithParameters();
+        }
+      });
     }
+    // Don't sync on parameter changes - let the user type freely
   }
 
   @override
   void dispose() {
     _isDisposed = true;
+    _debounceTimer?.cancel();
     _tabController.dispose();
     _scrollController.dispose();
     for (var controller in _controllers.values) {
@@ -81,6 +103,59 @@ class _ModernApiPanelState extends State<ModernApiPanel>
       _controllers[fieldName] = TextEditingController();
     }
     return _controllers[fieldName]!;
+  }
+
+  void _syncControllersWithParameters() {
+    if (widget.selectedService == null) return;
+
+    final requiredFields =
+        widget.selectedService!.requiredFields[widget.selectedMethod] ?? [];
+
+    if (kDebugMode) {
+      print(
+          '🔄 ModernApiPanel: Syncing controllers for ${widget.selectedService?.name} - ${widget.selectedMethod}');
+      print(
+          '🔄 ModernApiPanel: Required fields: ${requiredFields.map((f) => f.name).toList()}');
+      print('🔄 ModernApiPanel: Current parameters: $widget.parameters');
+    }
+
+    // Set controller values from current parameters
+    for (final field in requiredFields) {
+      final controller = _getController(field.name);
+      final paramValue = widget.parameters[field.name] ?? '';
+      controller.text = paramValue;
+      if (kDebugMode) {
+        print(
+            '🔄 ModernApiPanel: Set controller for ${field.name} with value: $paramValue');
+      }
+    }
+  }
+
+  void _updateParameters() {
+    if (widget.selectedService == null) return;
+
+    // Cancel previous timer
+    _debounceTimer?.cancel();
+
+    // Set a new timer to debounce the parameter update
+    _debounceTimer = Timer(const Duration(milliseconds: 300), () {
+      if (!mounted || _isDisposed) return;
+
+      final requiredFields =
+          widget.selectedService!.requiredFields[widget.selectedMethod] ?? [];
+
+      // Collect current parameter values from controllers
+      final currentParams = <String, String>{};
+      for (final field in requiredFields) {
+        final controller = _controllers[field.name];
+        if (controller != null && controller.text.isNotEmpty) {
+          currentParams[field.name] = controller.text;
+        }
+      }
+
+      // Update parent with current parameters
+      widget.onParametersChanged(currentParams);
+    });
   }
 
   @override
@@ -273,10 +348,8 @@ class _ModernApiPanelState extends State<ModernApiPanel>
                   size: isNarrow ? TextFieldSize.small : TextFieldSize.medium,
                   variant: TextFieldVariant.outlined,
                   onChanged: (value) {
-                    final newParams =
-                        Map<String, String>.from(widget.parameters);
-                    newParams[field.name] = value;
-                    widget.onParametersChanged(newParams);
+                    // Update parameters when user types
+                    _updateParameters();
                   },
                 ),
               ],
@@ -305,7 +378,21 @@ class _ModernApiPanelState extends State<ModernApiPanel>
         child: OsmeaComponents.button(
           text: isNarrow ? 'Send' : 'Send Request',
           icon: Icon(Icons.send_rounded),
-          onPressed: widget.loading ? null : widget.onSendRequest,
+          onPressed: widget.loading
+              ? null
+              : () {
+                  // Collect current parameter values from controllers
+                  final currentParams = <String, String>{};
+                  for (final field in widget.selectedService!
+                          .requiredFields[widget.selectedMethod] ??
+                      []) {
+                    final controller = _controllers[field.name];
+                    if (controller != null) {
+                      currentParams[field.name] = controller.text;
+                    }
+                  }
+                  widget.onSendRequest(currentParams);
+                },
           state: widget.loading ? ButtonState.loading : ButtonState.enabled,
           variant: ButtonVariant.primary,
           size: isNarrow ? ButtonSize.medium : ButtonSize.large,
@@ -317,7 +404,7 @@ class _ModernApiPanelState extends State<ModernApiPanel>
   Widget _buildResponsiveEmptyState(String title, String message, IconData icon,
       bool isNarrow, bool isMobile, bool isVeryNarrow) {
     final theme = Theme.of(context);
-    
+
     return OsmeaComponents.padding(
       padding: EdgeInsets.all(isNarrow
           ? context.spacing16

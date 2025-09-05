@@ -22,7 +22,7 @@ class MobileLayoutWidget extends StatelessWidget {
   final ValueChanged<String> onMethodChanged;
   final ValueChanged<Map<String, String>> onParametersChanged;
   final ValueChanged<String?> onRawBodyChanged;
-  final VoidCallback sendRequest;
+  final Function(Map<String, String>) sendRequest;
   final Function(int) changeMobilePage;
   final VoidCallback toggleTheme;
   final bool isDarkMode;
@@ -65,6 +65,7 @@ class MobileLayoutWidget extends StatelessWidget {
             onPageChanged: changeMobilePage,
             children: [
               ModernApiPanel(
+                key: ValueKey('${selectedService?.name}_$selectedMethod'),
                 selectedService: selectedService,
                 selectedMethod: selectedMethod,
                 parameters: parameters,

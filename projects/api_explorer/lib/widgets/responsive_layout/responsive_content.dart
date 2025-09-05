@@ -16,7 +16,7 @@ class ResponsiveContent extends StatelessWidget {
   final ValueChanged<String> onMethodChanged;
   final ValueChanged<Map<String, String>> onParametersChanged;
   final ValueChanged<String?> onRawBodyChanged;
-  final VoidCallback onSendRequest;
+  final Function(Map<String, String>) onSendRequest;
   final double screenWidth;
 
   const ResponsiveContent({

@@ -254,12 +254,16 @@ class _ApiExplorerViewState extends State<ApiExplorerView>
     debugPrint('  Parameters: $_parameters');
     debugPrint('  Final URL: $url$queryParams');
 
+    // Fix any remaining double slashes in the final URL
+    final fullUrl = url + queryParams;
+    final cleanUrl = fullUrl.replaceAll('//', '/').replaceAll(':/', '://');
+
     setState(() {
-      _currentApiUrl = url + queryParams;
+      _currentApiUrl = cleanUrl;
     });
   }
 
-  Future<void> _sendRequest() async {
+  Future<void> _sendRequest([Map<String, String>? currentParams]) async {
     if (_selectedService == null) return;
 
     if (!mounted) return;
@@ -268,10 +272,13 @@ class _ApiExplorerViewState extends State<ApiExplorerView>
     });
 
     try {
+      // Use current parameters from text fields if provided, otherwise use stored parameters
+      final paramsToUse = currentParams ?? _parameters;
+
       // Call the actual handler
       final response = await _selectedService!.handler.handleRequest(
         _selectedMethod,
-        _parameters,
+        paramsToUse,
       );
 
       if (!mounted) return;

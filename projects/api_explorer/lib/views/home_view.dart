@@ -485,7 +485,7 @@ class _HomeViewState extends State<HomeView>
     });
   }
 
-  Future<void> _sendRequest() async {
+  Future<void> _sendRequest([Map<String, String>? currentParams]) async {
     if (_selectedService == null) {
       _showSnackBar('Please select an API service first', isError: true);
       return;

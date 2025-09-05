@@ -21,7 +21,7 @@ class DesktopLayoutWidget extends StatelessWidget {
   final ValueChanged<String> onMethodChanged;
   final ValueChanged<Map<String, String>> onParametersChanged;
   final ValueChanged<String?> onRawBodyChanged;
-  final VoidCallback sendRequest;
+  final Function(Map<String, String>) sendRequest;
 
   const DesktopLayoutWidget({
     super.key,
@@ -70,6 +70,7 @@ class DesktopLayoutWidget extends StatelessWidget {
               OsmeaComponents.expanded(
                 flex: isTablet ? 1 : 2,
                 child: ModernApiPanel(
+                  key: ValueKey('${selectedService?.name}_$selectedMethod'),
                   selectedService: selectedService,
                   selectedMethod: selectedMethod,
                   parameters: parameters,
