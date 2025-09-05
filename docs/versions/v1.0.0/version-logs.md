@@ -2,6 +2,86 @@
 
 > This changelog is generated from the latest closed pull requests. For a full, always-up-to-date changelog, visit [Closed PRs on GitHub](https://github.com/masterfabric-mobile/osmea/pulls?state=closed&sort=updated&direction=desc).  
 
+## v2.42.18
+
+### 🆕 Added & Improvements
+
+- **[#143 – Refactor Code Structure to OSMEA Components](https://github.com/masterfabric-mobile/osmea/pull/143)**  
+  Major improvements to WooCommerce/Shopify configuration flows, UI dialogs, and API explorer. Unified wizard-based setup and refactored store management.
+
+- **[#144 – Type Safety Improvements and Cleanup](https://github.com/masterfabric-mobile/osmea/pull/144)**  
+  Broad refactoring: improved type safety, removed Dio dependency, enhanced UI consistency, logging, and debugging.
+
+- **[#145 – Storybook – BottomSheet Component](https://github.com/masterfabric-mobile/osmea/pull/145)**  
+  Added interactive storybook for Bottom Sheet component with variant showcase, native-like behavior, and live configuration controls.
+
+- **[#147 – Storybook – Popup Component](https://github.com/masterfabric-mobile/osmea/pull/147)**  
+  Added modular storybook popup component with interactive feature showcase and real-time configuration.
+
+- **[#148 – Storybook – Stepper Component](https://github.com/masterfabric-mobile/osmea/pull/148)**  
+  Adds a fully interactive Stepper component and showcase to Storybook.
+
+- **[#149 – Apis - Refactor and Improvement GraphQL Structure](https://github.com/masterfabric-mobile/osmea/pull/149)**  
+  Introduces modern GraphQL architecture, migration from REST to GraphQL, annotation-driven type-safe client and service structure.
+
+- **[#150 – Storybook – Home Page UI Improvements](https://github.com/masterfabric-mobile/osmea/pull/150)**  
+  Modern card design, compact layout, and visual hierarchy improvements for the Storybook home page.
+
+- **[#151 – Storybook – Dropdown Component](https://github.com/masterfabric-mobile/osmea/pull/151)**  
+  Comprehensive Storybook showcase for Dropdown component with variant support.
+
+- **[#152 – Storybook – Collapse Component](https://github.com/masterfabric-mobile/osmea/pull/152)**  
+  Interactive Storybook showcase for Collapse and Accordion modes.
+  
+- **[#153 – Projects – Storefront Woo](https://github.com/masterfabric-mobile/osmea/pull/153)**
+  Initial setup for the Osmea Storefront Project, including project structure, environment configurations, dependency injection, branding updates, asset management, and multi-flavor support.
+
+- **[#154 – Storybook – Image Component](https://github.com/masterfabric-mobile/osmea/pull/154)**
+  Comprehensive Storybook showcase for Image component: modular architecture, interactive controls, multiple variants, flexible sizing, advanced configuration, enhanced error handling.
+
+- **[#155 – Storybook – Snackbar Component](https://github.com/masterfabric-mobile/osmea/pull/155)**
+  Full Storybook showcase for Snackbar: device frame positioning, stacking limit, progress bar animations, type-specific color support.
+
+- **[#156 – Storybook – Stack Component](https://github.com/masterfabric-mobile/osmea/pull/156)**
+  Added interactive Storybook showcase for Stack component (alignment, fit, clip behavior, multi-child support, modular architecture).
+
+- **[#157 – Storybook – Align Component](https://github.com/masterfabric-mobile/osmea/pull/157)**
+  Added Storybook for Align component (precise alignment controls, multiple child types, interactive settings, live preview, documentation).
+
+- **[#159 – Storybook – Padding Component](https://github.com/masterfabric-mobile/osmea/pull/159)**
+  Added Storybook for Padding component (flexible spacing, live slider controls, multiple child types, documentation).
+
+- **[#160 – Storybook – RichText Component](https://github.com/masterfabric-mobile/osmea/pull/160)**
+  Added Storybook for RichText component (inline styling, typography variants, layout/overflow, accessibility, live preview, documentation).
+
+- **[#161 – Storybook – Row Component](https://github.com/masterfabric-mobile/osmea/pull/161)**
+  Added Storybook for Row component (horizontal layout, alignment, spacing, sizing, child management, live preview, properties panel).
+
+- **[#162 – Storybook – SizedBox Component](https://github.com/masterfabric-mobile/osmea/pull/162)**
+  Added Storybook for SizedBox component (fixed dimensions, sliders, grid/dimension overlays, demo child variants, live preview, documentation).
+
+- **[#163 – Storybook – Toast Component](https://github.com/masterfabric-mobile/osmea/pull/163)**
+  Added Storybook for Toast component (interactive toast demonstration, style/type/position/animation controls, stacking behavior, config panel).
+
+---
+
+### 🐞 Bug Fixes
+
+- **[#146 – Storybook – Refactor](https://github.com/masterfabric-mobile/osmea/pull/146)**  
+  Unified imports, code cleanup, registry improvements, and export enhancements for storybook components.
+
+---
+
+### 📚 Documentation
+
+- No direct documentation-only PRs in this batch.
+
+---
+
+### ⚠️ Known Issues
+
+- No new known issues reported in these PRs.
+
 
 
 ## v1.28.13
