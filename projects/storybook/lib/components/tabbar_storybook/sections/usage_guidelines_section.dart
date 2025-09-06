@@ -16,9 +16,9 @@ class UsageGuidelinesSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-         const  Text(
+         const Text(
             TabBarUsageGuidelinesData.bestPracticesDescription,
-            style:  TextStyle(
+            style: TextStyle(
               fontSize: 14,
               color: Colors.black87,
               height: 1.5,

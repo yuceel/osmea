@@ -128,7 +128,7 @@ class SampleContentSection extends StatelessWidget {
             _getTabContentDetails(index),
             style: const TextStyle(
               fontSize: 12,
-                                  color:  Color(0xFF616161),
+              color: Color(0xFF616161),
               height: 1.4,
             ),
           ),
@@ -162,7 +162,7 @@ class SampleContentSection extends StatelessWidget {
                   style: const TextStyle(
                     fontSize: 11,
                     fontWeight: FontWeight.w500,
-                    color:  Color(0xFF616161),
+                    color: Color(0xFF616161),
                   ),
                 ),
               ),
