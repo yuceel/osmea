@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:api_explorer/widgets/store_management/add_store_dialog.dart';
+import 'package:api_explorer/widgets/store_management/store_setup_wizard.dart';
 import 'package:apis/apis.dart';
 import 'package:core/core.dart';
 
@@ -21,6 +21,7 @@ class StoreManagementDialog extends StatefulWidget {
 
 class _StoreManagementDialogState extends State<StoreManagementDialog> {
   List<StoreConfiguration> _stores = [];
+  StoreConfiguration? _currentStore;
   bool _isLoading = true;
 
   @override
@@ -36,8 +37,10 @@ class _StoreManagementDialogState extends State<StoreManagementDialog> {
 
     try {
       await widget.storeService.refreshStores();
+      final currentStore = await WizardHelper.getCurrentStore();
       setState(() {
         _stores = widget.storeService.allStores;
+        _currentStore = currentStore;
         _isLoading = false;
       });
     } catch (e) {
@@ -56,9 +59,12 @@ class _StoreManagementDialogState extends State<StoreManagementDialog> {
   }
 
   void _showAddStoreDialog(BuildContext context) async {
-    final result = await showDialog<StoreConfiguration>(
-      context: context,
-      builder: (context) => const AddStoreDialog(),
+    final result = await StoreSetupWizard.show(
+      context,
+      onStoreAdded: (store) {
+        // Handle store added callback
+      },
+      isInitialSetup: false,
     );
 
     if (result != null) {
@@ -120,6 +126,7 @@ class _StoreManagementDialogState extends State<StoreManagementDialog> {
       try {
         await widget.storeService.deleteStore(store.id!);
         await _loadStores();
+
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -127,6 +134,9 @@ class _StoreManagementDialogState extends State<StoreManagementDialog> {
               backgroundColor: OsmeaColors.forestHeart,
             ),
           );
+
+          // Close dialog after successful deletion to trigger page refresh
+          Navigator.of(context).pop();
         }
       } catch (e) {
         if (mounted) {
@@ -137,32 +147,6 @@ class _StoreManagementDialogState extends State<StoreManagementDialog> {
             ),
           );
         }
-      }
-    }
-  }
-
-  void _setDefaultStore(StoreConfiguration store) async {
-    try {
-      await widget.storeService.setDefaultStore(store.id!);
-      await _loadStores();
-      widget.onStoreChanged(store);
-
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: OsmeaComponents.text('Default store updated successfully'),
-            backgroundColor: OsmeaColors.forestHeart,
-          ),
-        );
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: OsmeaComponents.text('Error updating default store: $e'),
-            backgroundColor: OsmeaColors.slate,
-          ),
-        );
       }
     }
   }
@@ -186,7 +170,7 @@ class _StoreManagementDialogState extends State<StoreManagementDialog> {
                   'Store Management',
                   textStyle: OsmeaTextStyle.displaySmall(context),
                 ),
-                const Spacer(),
+                OsmeaComponents.spacer(),
                 IconButton(
                   onPressed: () => Navigator.of(context).pop(),
                   icon: Icon(Icons.close, color: OsmeaColors.steel),
@@ -205,7 +189,7 @@ class _StoreManagementDialogState extends State<StoreManagementDialog> {
                   icon: const Icon(Icons.add),
                   onPressed: () => _showAddStoreDialog(context),
                 ),
-                const Spacer(),
+                OsmeaComponents.spacer(),
                 OsmeaComponents.text(
                   '${_stores.length} stores',
                   textStyle: OsmeaTextStyle.bodyMedium(context).copyWith(
@@ -217,11 +201,11 @@ class _StoreManagementDialogState extends State<StoreManagementDialog> {
             OsmeaComponents.sizedBox(height: 24),
 
             // Store List
-            Expanded(
+            OsmeaComponents.expanded(
               child: _isLoading
-                  ? const Center(child: CircularProgressIndicator())
+                  ? OsmeaComponents.center(child: CircularProgressIndicator())
                   : _stores.isEmpty
-                      ? Center(
+                      ? OsmeaComponents.center(
                           child: OsmeaComponents.column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -253,6 +237,7 @@ class _StoreManagementDialogState extends State<StoreManagementDialog> {
                           itemCount: _stores.length,
                           itemBuilder: (context, index) {
                             final store = _stores[index];
+                            final isActiveStore = _currentStore?.id == store.id;
                             return InkWell(
                               onTap: () async {
                                 await widget.storeService
@@ -267,17 +252,22 @@ class _StoreManagementDialogState extends State<StoreManagementDialog> {
                                 margin: const EdgeInsets.only(bottom: 12),
                                 padding: const EdgeInsets.all(16),
                                 decoration: BoxDecoration(
-                                  color: OsmeaColors.white,
+                                  color: isActiveStore
+                                      ? OsmeaColors.white
+                                      : OsmeaColors.silver
+                                          .withValues(alpha: 0.1),
                                   borderRadius: BorderRadius.circular(12),
                                   border: Border.all(
-                                    color: store.isDefault
+                                    color: isActiveStore
                                         ? OsmeaColors.nordicBlue
                                         : OsmeaColors.silver,
-                                    width: store.isDefault ? 2 : 1,
+                                    width: isActiveStore ? 2 : 1,
                                   ),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: OsmeaColors.shadowLight,
+                                      color: isActiveStore
+                                          ? OsmeaColors.shadowLight
+                                          : OsmeaColors.transparent,
                                       blurRadius: 4,
                                       offset: const Offset(0, 2),
                                     ),
@@ -290,9 +280,11 @@ class _StoreManagementDialogState extends State<StoreManagementDialog> {
                                       width: 40,
                                       height: 40,
                                       decoration: BoxDecoration(
-                                        color: store.platform == 'shopify'
-                                            ? OsmeaColors.forestHeart
-                                            : OsmeaColors.nordicBlue,
+                                        color: isActiveStore
+                                            ? (store.platform == 'shopify'
+                                                ? OsmeaColors.forestHeart
+                                                : OsmeaColors.nordicBlue)
+                                            : OsmeaColors.steel,
                                         borderRadius: BorderRadius.circular(8),
                                       ),
                                       child: Icon(
@@ -306,7 +298,7 @@ class _StoreManagementDialogState extends State<StoreManagementDialog> {
                                     OsmeaComponents.sizedBox(width: 16),
 
                                     // Store Info
-                                    Expanded(
+                                    OsmeaComponents.expanded(
                                       child: OsmeaComponents.column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -320,9 +312,12 @@ class _StoreManagementDialogState extends State<StoreManagementDialog> {
                                                             context)
                                                         .copyWith(
                                                   fontWeight: FontWeight.w600,
+                                                  color: isActiveStore
+                                                      ? OsmeaColors.eclipse
+                                                      : OsmeaColors.steel,
                                                 ),
                                               ),
-                                              if (store.isDefault) ...[
+                                              if (isActiveStore) ...[
                                                 OsmeaComponents.sizedBox(
                                                     width: 8),
                                                 OsmeaComponents.container(
@@ -333,13 +328,13 @@ class _StoreManagementDialogState extends State<StoreManagementDialog> {
                                                   ),
                                                   decoration: BoxDecoration(
                                                     color:
-                                                        OsmeaColors.nordicBlue,
+                                                        OsmeaColors.forestHeart,
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             12),
                                                   ),
                                                   child: OsmeaComponents.text(
-                                                    'DEFAULT',
+                                                    'ACTIVE',
                                                     textStyle: OsmeaTextStyle
                                                             .captionSmall(
                                                                 context)
@@ -359,68 +354,28 @@ class _StoreManagementDialogState extends State<StoreManagementDialog> {
                                             textStyle: OsmeaTextStyle.bodySmall(
                                                     context)
                                                 .copyWith(
-                                              color: OsmeaColors.steel,
+                                              color: isActiveStore
+                                                  ? OsmeaColors.steel
+                                                  : OsmeaColors.steel
+                                                      .withValues(alpha: 0.6),
                                             ),
                                           ),
                                         ],
                                       ),
                                     ),
 
-                                    // Actions
-                                    PopupMenuButton<String>(
-                                      onSelected: (value) {
-                                        switch (value) {
-                                          case 'default':
-                                            if (!store.isDefault) {
-                                              _setDefaultStore(store);
-                                            }
-                                            break;
-                                          case 'delete':
-                                            _deleteStore(store);
-                                            break;
-                                        }
-                                      },
-                                      itemBuilder: (context) => [
-                                        if (!store.isDefault)
-                                          PopupMenuItem(
-                                            value: 'default',
-                                            child: OsmeaComponents.row(
-                                              children: [
-                                                Icon(Icons.star_outline,
-                                                    size: 18),
-                                                OsmeaComponents.sizedBox(
-                                                    width: 8),
-                                                OsmeaComponents.text(
-                                                    'Set as Default'),
-                                              ],
-                                            ),
-                                          ),
-                                        PopupMenuItem(
-                                          value: 'delete',
-                                          child: OsmeaComponents.row(
-                                            children: [
-                                              Icon(Icons.delete_outline,
-                                                  size: 18,
-                                                  color: OsmeaColors.slate),
-                                              OsmeaComponents.sizedBox(
-                                                  width: 8),
-                                              OsmeaComponents.text(
-                                                'Delete',
-                                                textStyle:
-                                                    OsmeaTextStyle.bodyMedium(
-                                                            context)
-                                                        .copyWith(
-                                                  color: OsmeaColors.slate,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                      child: Icon(
-                                        Icons.more_vert,
-                                        color: OsmeaColors.steel,
+                                    // Delete Button
+                                    IconButton(
+                                      onPressed: () => _deleteStore(store),
+                                      icon: Icon(
+                                        Icons.delete_outline,
+                                        color: isActiveStore
+                                            ? OsmeaColors.slate
+                                            : OsmeaColors.steel
+                                                .withValues(alpha: 0.5),
+                                        size: 20,
                                       ),
+                                      tooltip: 'Delete Store',
                                     ),
                                   ],
                                 ),

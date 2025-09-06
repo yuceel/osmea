@@ -102,7 +102,6 @@ class WizardHelper {
         'name': currentStore.displayName,
         'platform': currentStore.platform,
         'platformDisplayName': _getPlatformDisplayName(currentStore.platform),
-        'status': currentStore.isActive ? 'Active' : 'Inactive',
         'icon': _getPlatformIcon(currentStore.platform),
         'color': _getPlatformColor(currentStore.platform),
         'baseUrl': currentStore.baseUrl,

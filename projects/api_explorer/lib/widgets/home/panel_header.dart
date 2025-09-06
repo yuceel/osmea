@@ -57,7 +57,7 @@ class PanelHeader extends StatelessWidget {
                     size: isNarrow ? 18 : 24,
                   ),
                 ),
-                const SizedBox(height: 12),
+                OsmeaComponents.sizedBox(height: 12),
                 OsmeaComponents.text(
                   'API Configuration',
                   variant: OsmeaTextVariant.titleLarge,
@@ -65,7 +65,7 @@ class PanelHeader extends StatelessWidget {
                   fontSize: isNarrow ? 16 : 20,
                   fontWeight: FontWeight.w600,
                 ),
-                const SizedBox(height: 4),
+                OsmeaComponents.sizedBox(height: 4),
                 OsmeaComponents.text(
                   serviceName ?? 'Select an API service to begin',
                   variant: OsmeaTextVariant.bodyMedium,
@@ -91,8 +91,8 @@ class PanelHeader extends StatelessWidget {
                     size: isMobile ? 20 : 24,
                   ),
                 ),
-                SizedBox(width: isMobile ? 16 : 24),
-                Expanded(
+                OsmeaComponents.sizedBox(width: isMobile ? 16 : 24),
+                OsmeaComponents.expanded(
                   child: OsmeaComponents.column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -103,7 +103,7 @@ class PanelHeader extends StatelessWidget {
                         fontSize: isMobile ? 18 : 20,
                         fontWeight: FontWeight.w600,
                       ),
-                      const SizedBox(height: 4),
+                      OsmeaComponents.sizedBox(height: 4),
                       OsmeaComponents.text(
                         serviceName ?? 'Select an API service to begin',
                         variant: OsmeaTextVariant.bodyMedium,

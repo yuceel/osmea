@@ -168,7 +168,8 @@ class _ApiExplorerViewState extends State<ApiExplorerView>
       debugPrint('🔍 DEBUG: Service category: ${service.category}');
       debugPrint('🔍 DEBUG: Service subcategory: ${service.subcategory}');
       debugPrint('🔍 DEBUG: Service methods: ${service.supportedMethods}');
-      debugPrint('🔍 DEBUG: Service required fields: ${service.requiredFields}');
+      debugPrint(
+          '🔍 DEBUG: Service required fields: ${service.requiredFields}');
       debugPrint('🔍 DEBUG: Initial parameters: $_parameters');
 
       _updateApiUrl();
@@ -202,22 +203,67 @@ class _ApiExplorerViewState extends State<ApiExplorerView>
     if (_selectedService == null) return;
 
     String url = _selectedService!.endpoint;
+    String queryParams = '';
+
+    // Check if this is a WooCommerce service
+    bool isWooCommerceService =
+        _selectedService!.category.toString().contains('woocommerce');
+
     if (_parameters.isNotEmpty) {
-      final params = _parameters.entries
-          .where((e) => e.value.isNotEmpty)
-          .map((e) => '${e.key}=${Uri.encodeComponent(e.value)}')
-          .join('&');
-      if (params.isNotEmpty) {
-        url += '?$params';
+      if (isWooCommerceService) {
+        // For WooCommerce: Handle path parameters and query parameters separately
+        // Replace {parameter} with actual values in the URL
+        url = url.replaceAllMapped(RegExp(r'\{(\w+)\}'), (match) {
+          final paramName = match.group(1)!;
+          if (_parameters.containsKey(paramName) &&
+              _parameters[paramName]!.isNotEmpty) {
+            return _parameters[paramName]!;
+          }
+          return '{$paramName}';
+        });
+
+        // Add remaining parameters as query parameters
+        final queryParamsMap = Map<String, String>.from(_parameters);
+        queryParamsMap.removeWhere((key, value) =>
+            url.contains('{$key}') ||
+            url.contains('/$value/') ||
+            url.contains('/$value.'));
+
+        if (queryParamsMap.isNotEmpty) {
+          queryParams =
+              '?${queryParamsMap.entries.map((e) => '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}').join('&')}';
+        }
+      } else {
+        // For Shopify: Add all parameters as query parameters
+        final params = _parameters.entries
+            .where((e) => e.value.isNotEmpty)
+            .map((e) => '${e.key}=${Uri.encodeComponent(e.value)}')
+            .join('&');
+        if (params.isNotEmpty) {
+          queryParams = '?$params';
+        }
       }
     }
 
+    // Debug: Print URL construction details
+    debugPrint('🔍 URL Construction Debug:');
+    debugPrint('  Service: ${_selectedService!.name}');
+    debugPrint('  Category: ${_selectedService!.category}');
+    debugPrint('  Is WooCommerce: $isWooCommerceService');
+    debugPrint('  Original endpoint: ${_selectedService!.endpoint}');
+    debugPrint('  Parameters: $_parameters');
+    debugPrint('  Final URL: $url$queryParams');
+
+    // Fix any remaining double slashes in the final URL
+    final fullUrl = url + queryParams;
+    final cleanUrl = fullUrl.replaceAll('//', '/').replaceAll(':/', '://');
+
     setState(() {
-      _currentApiUrl = url;
+      _currentApiUrl = cleanUrl;
     });
   }
 
-  Future<void> _sendRequest() async {
+  Future<void> _sendRequest([Map<String, String>? currentParams]) async {
     if (_selectedService == null) return;
 
     if (!mounted) return;
@@ -226,10 +272,13 @@ class _ApiExplorerViewState extends State<ApiExplorerView>
     });
 
     try {
+      // Use current parameters from text fields if provided, otherwise use stored parameters
+      final paramsToUse = currentParams ?? _parameters;
+
       // Call the actual handler
       final response = await _selectedService!.handler.handleRequest(
         _selectedMethod,
-        _parameters,
+        paramsToUse,
       );
 
       if (!mounted) return;

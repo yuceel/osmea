@@ -72,7 +72,7 @@ class ListAllProductCategoriesHandler implements ApiRequestHandler {
 
       return {
         'success': true,
-        'data': response.toJson(),
+        'data': response.map((category) => category.toJson()).toList(),
         'message': 'Product categories retrieved successfully',
       };
     } catch (e) {

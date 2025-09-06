@@ -1,9 +1,11 @@
 import 'package:api_explorer/widgets/home/modern_sidebar.dart';
+import 'package:api_explorer/widgets/home/responsive_popup.dart';
 import 'package:api_explorer/widgets/layout/app_header.dart';
 import 'package:api_explorer/widgets/responsive_layout/responsive_content.dart';
 import 'package:api_explorer/widgets/store_management/store_management_dialog.dart';
 import 'package:api_explorer/widgets/store_management/store_setup_wizard.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:apis/apis.dart';
 import 'package:apis/services/store_change_notifier.dart';
 import 'package:api_explorer/services/api_service_registry.dart';
@@ -18,7 +20,8 @@ class HomeView extends StatefulWidget {
   State<HomeView> createState() => _HomeViewState();
 }
 
-class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
+class _HomeViewState extends State<HomeView>
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   // Core state
   ApiService? _selectedService;
   String _selectedMethod = 'GET';
@@ -30,6 +33,12 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
   bool _isDarkMode = false;
   StoreConfiguration? _selectedStore;
   StreamSubscription<StoreChangeEvent>? _storeChangeSubscription;
+
+  // Responsive popup state
+  bool _showResponsivePopup = false;
+  double _previousScreenWidth = 0;
+  bool _hasShownResponsivePopup = false;
+  bool _isAppFullyLoaded = false;
 
   // Scaffold key for drawer control
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -51,6 +60,36 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
     _loadCurrentStore();
     _listenToStoreChanges();
     _restoreAppState(); // Restore previous state
+
+    // Initialize screen width for responsive popup
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        final screenWidth = MediaQuery.of(context).size.width;
+        _previousScreenWidth = screenWidth;
+
+        // Mark app as fully loaded after a delay
+        Future.delayed(const Duration(seconds: 2), () {
+          if (mounted) {
+            setState(() {
+              _isAppFullyLoaded = true;
+            });
+
+            // Only show popup if app is fully loaded and screen is small
+            if (screenWidth < 1000 && !_hasShownResponsivePopup) {
+              if (kDebugMode) {
+                debugPrint(
+                    '📱 App fully loaded on small screen, showing popup after delay');
+              }
+              // Close wizard and show popup safely
+              _showResponsivePopupSafely();
+            }
+          }
+        });
+      }
+    });
+
+    // Add observer for window resize events
+    WidgetsBinding.instance.addObserver(this);
   }
 
   // State persistence methods
@@ -136,6 +175,93 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
     _sidebarAnimationController.forward();
   }
 
+  // Responsive popup methods
+  void _checkScreenSizeChange(double currentWidth) {
+    if (_previousScreenWidth == 0) {
+      _previousScreenWidth = currentWidth;
+      if (kDebugMode) {
+        debugPrint('🖥️ Initial screen width: ${currentWidth}px');
+      }
+
+      // Don't show popup immediately on startup - wait for app to be fully loaded
+      return;
+    }
+
+    if (kDebugMode) {
+      debugPrint(
+          '🔄 Screen size change: ${_previousScreenWidth}px → ${currentWidth}px');
+    }
+
+    // Only show popup if app is fully loaded and screen size decreases significantly
+    if (_isAppFullyLoaded &&
+        _previousScreenWidth >= 1000 &&
+        currentWidth < 1000 &&
+        !_hasShownResponsivePopup) {
+      if (kDebugMode) {
+        debugPrint('📱 Showing responsive popup (web → mobile)');
+      }
+      // Close wizard and show popup safely
+      _showResponsivePopupSafely();
+    }
+
+    // Reset popup state if screen size increases again
+    if (currentWidth >= 1000 && _hasShownResponsivePopup) {
+      if (kDebugMode) {
+        debugPrint('💻 Hiding responsive popup (mobile → web)');
+      }
+      setState(() {
+        _showResponsivePopup = false;
+        _hasShownResponsivePopup = false;
+      });
+    }
+
+    _previousScreenWidth = currentWidth;
+  }
+
+  void _dismissResponsivePopup() {
+    if (kDebugMode) {
+      debugPrint('❌ Responsive popup dismissed by user');
+    }
+    setState(() {
+      _showResponsivePopup = false;
+    });
+  }
+
+  void _openWebVersion() {
+    if (kDebugMode) {
+      debugPrint('🌐 User chose to use web version');
+    }
+    _dismissResponsivePopup();
+
+    // Show a message that web version is recommended
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text(
+            'We recommend opening the web version in full screen in your browser.'),
+        backgroundColor: OsmeaColors.nordicBlue,
+        duration: const Duration(seconds: 3),
+        action: SnackBarAction(
+          label: 'OK',
+          textColor: Colors.white,
+          onPressed: () {},
+        ),
+      ),
+    );
+  }
+
+  @override
+  void didChangeMetrics() {
+    super.didChangeMetrics();
+    if (mounted) {
+      final screenWidth = MediaQuery.of(context).size.width;
+      if (kDebugMode) {
+        debugPrint(
+            '📐 Window metrics changed, checking screen size: ${screenWidth}px');
+      }
+      _checkScreenSizeChange(screenWidth);
+    }
+  }
+
   void _initializeDefaults() {
     ApiNetwork.initOnRequestInterceptor(
       onRequestInInterceptor: () async {
@@ -180,6 +306,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
     _responseAnimationController.dispose();
     _themeAnimationController.dispose();
     _storeChangeSubscription?.cancel();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
@@ -223,14 +350,28 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
           endpoint = endpoint.substring(1); // Remove leading slash
         }
 
-        // Replace :parameter with {parameter} for display
-        endpoint = endpoint.replaceAllMapped(RegExp(r':(\w+)'), (match) {
-          final paramName = match.group(1)!;
-          if (params.containsKey(paramName) && params[paramName]!.isNotEmpty) {
-            return params[paramName]!;
-          }
-          return '{$paramName}';
-        });
+        // Handle parameter replacement for different endpoint formats
+        if (isWooCommerceService) {
+          // For WooCommerce: Replace {parameter} with actual values
+          endpoint = endpoint.replaceAllMapped(RegExp(r'\{(\w+)\}'), (match) {
+            final paramName = match.group(1)!;
+            if (params.containsKey(paramName) &&
+                params[paramName]!.isNotEmpty) {
+              return params[paramName]!;
+            }
+            return '{$paramName}';
+          });
+        } else {
+          // For Shopify: Replace :parameter with {parameter} for display
+          endpoint = endpoint.replaceAllMapped(RegExp(r':(\w+)'), (match) {
+            final paramName = match.group(1)!;
+            if (params.containsKey(paramName) &&
+                params[paramName]!.isNotEmpty) {
+              return params[paramName]!;
+            }
+            return '{$paramName}';
+          });
+        }
 
         // For WooCommerce services, don't add Shopify-specific prefixes
         if (isWooCommerceService) {
@@ -344,7 +485,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
     });
   }
 
-  Future<void> _sendRequest() async {
+  Future<void> _sendRequest([Map<String, String>? currentParams]) async {
     if (_selectedService == null) {
       _showSnackBar('Please select an API service first', isError: true);
       return;
@@ -383,7 +524,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
   }
 
   double _calculateDrawerWidth(double screenWidth) {
-    final isWideScreen = screenWidth >= 1200;
+    final isWideScreen = screenWidth >= 1000;
     final isMediumScreen = screenWidth >= 800;
 
     if (isWideScreen) return 320;
@@ -459,12 +600,6 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
     setState(() {
       _selectedService = null;
     });
-
-    // Show a success message
-    context.toastSuccess(
-      'Successfully switched to ${store.displayName}',
-      position: ToastPosition.bottom,
-    );
   }
 
   void _updateNetworkConfiguration(StoreConfiguration store) {
@@ -686,6 +821,7 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                     OsmeaColors.nordicBlue,
                     Icons.link,
                   ),
+                OsmeaComponents.sizedBox(height: context.spacing8),
 
                 // API Version Row
                 _buildInfoRow(
@@ -704,11 +840,31 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
           OsmeaComponents.row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              OsmeaComponents.button(
-                text: 'Close',
-                onPressed: () => Navigator.of(context).pop(),
-                variant: ButtonVariant.secondary,
-                size: ButtonSize.medium,
+              // Edit Button
+              IconButton(
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close profile dialog
+                  if (_selectedStore != null) {
+                    StoreSetupWizard.show(
+                      context,
+                      isInitialSetup: false,
+                      existingStore: _selectedStore,
+                      onStoreAdded: (store) {
+                        setState(() {
+                          _selectedStore = store;
+                        });
+                        _updateApiUrlFromStore(store);
+                        _showSnackBar('Store updated successfully',
+                            isError: false);
+                      },
+                    );
+                  }
+                },
+                icon: Icon(
+                  Icons.edit,
+                  color: OsmeaColors.nordicBlue,
+                ),
+                tooltip: 'Edit Store',
               ),
             ],
           ),
@@ -776,6 +932,11 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
                 }
               }
               break;
+            case StoreChangeType.deleted:
+              // Handle store deletion - refresh page to update UI
+              debugPrint('🗑️ Store deleted, refreshing page...');
+              _handleStoreDeleted();
+              break;
             default:
               break;
           }
@@ -789,10 +950,52 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
     }
   }
 
+  /// Handle store deletion by refreshing the page state
+  Future<void> _handleStoreDeleted() async {
+    try {
+      // Reset current store and reload from service
+      setState(() {
+        _selectedStore = null;
+        _selectedService = null;
+        _parameters.clear();
+        _rawBody = null;
+        _responseData = null;
+        _currentApiUrl = '';
+      });
+
+      // Reload current store from storage
+      await _loadCurrentStore();
+
+      // If no stores are available, show setup wizard
+      final storeService = StoreManagementService();
+      await storeService.init();
+
+      if (storeService.allStores.isEmpty) {
+        if (mounted) {
+          Future.delayed(const Duration(milliseconds: 500), () {
+            if (mounted) {
+              _showSetupWizard();
+            }
+          });
+        }
+      }
+
+      // Force UI refresh
+      if (mounted) {
+        setState(() {});
+      }
+    } catch (e) {
+      debugPrint('❌ Error handling store deletion: $e');
+    }
+  }
+
   void _showSetupWizard() {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) => StoreSetupWizard(
+        isInitialSetup: true, // Force wizard to start from the beginning
+        forceReset: true, // Clear any saved wizard state
         onStoreAdded: (store) {
           setState(() {
             _selectedStore = store;
@@ -834,61 +1037,111 @@ class _HomeViewState extends State<HomeView> with TickerProviderStateMixin {
     );
   }
 
+  void _closeAllDialogsAndWizards() {
+    // Close any open dialogs, wizards, or modals
+    if (Navigator.canPop(context)) {
+      // Close all routes until we reach the first one (main app)
+      Navigator.of(context).popUntil((route) => route.isFirst);
+      if (kDebugMode) {
+        debugPrint('🔒 Closed all dialogs and wizards');
+      }
+    }
+  }
+
+  void _showResponsivePopupSafely() {
+    // Close any open dialogs first
+    _closeAllDialogsAndWizards();
+
+    // Wait a bit for dialogs to close, then show popup
+    Future.delayed(const Duration(milliseconds: 100), () {
+      if (mounted) {
+        setState(() {
+          _showResponsivePopup = true;
+          _hasShownResponsivePopup = true;
+        });
+        if (kDebugMode) {
+          debugPrint('📱 Responsive popup shown safely after closing dialogs');
+        }
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
 
-    return AnimatedBuilder(
-      animation: _themeAnimation,
-      builder: (context, child) {
-        return Theme(
-          data: _isDarkMode ? ThemeData.dark() : ThemeData.light(),
-          child: Scaffold(
-            key: _scaffoldKey,
-            backgroundColor:
-                _isDarkMode ? OsmeaColors.eclipse : OsmeaColors.white,
-            appBar: AppHeader(
-              title: 'OSMEA APIs',
-              apiUrl: _currentApiUrl,
-              onUrlCopied: () =>
-                  _showSnackBar('URL copied to clipboard!', isError: false),
-              onThemeToggle: _toggleTheme,
-              onDrawerToggle: _toggleDrawer,
-              isDarkMode: _isDarkMode,
-              onProfileTap: _onProfileTap,
-              onStoreChange: _onStoreChange,
-            ),
-            drawer: Drawer(
-              width: _calculateDrawerWidth(screenWidth),
-              child: ModernSidebar(
-                expanded: true, // Always expanded in drawer
-                selectedService: _selectedService,
-                onServiceSelected: (service) {
-                  _onServiceSelected(service);
-                  // Close drawer after selection
-                  Navigator.of(context).pop();
-                },
-                animation: _sidebarAnimation,
+    // Check for screen size changes to show responsive popup
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkScreenSizeChange(screenWidth);
+    });
+
+    // Also check immediately if this is the first build
+    if (_previousScreenWidth == 0) {
+      _checkScreenSizeChange(screenWidth);
+    }
+
+    return Stack(
+      children: [
+        AnimatedBuilder(
+          animation: _themeAnimation,
+          builder: (context, child) {
+            return Theme(
+              data: _isDarkMode ? ThemeData.dark() : ThemeData.light(),
+              child: Scaffold(
+                key: _scaffoldKey,
+                backgroundColor:
+                    _isDarkMode ? OsmeaColors.eclipse : OsmeaColors.white,
+                appBar: AppHeader(
+                  title: 'OSMEA APIs',
+                  apiUrl: _currentApiUrl,
+                  onUrlCopied: () =>
+                      _showSnackBar('URL copied to clipboard!', isError: false),
+                  onThemeToggle: _toggleTheme,
+                  onDrawerToggle: _toggleDrawer,
+                  isDarkMode: _isDarkMode,
+                  onProfileTap: _onProfileTap,
+                  onStoreChange: _onStoreChange,
+                ),
+                drawer: Drawer(
+                  width: _calculateDrawerWidth(screenWidth),
+                  child: ModernSidebar(
+                    expanded: true, // Always expanded in drawer
+                    selectedService: _selectedService,
+                    onServiceSelected: (service) {
+                      _onServiceSelected(service);
+                      // Close drawer after selection
+                      Navigator.of(context).pop();
+                    },
+                    animation: _sidebarAnimation,
+                  ),
+                ),
+                body: ResponsiveContent(
+                  selectedService: _selectedService,
+                  selectedMethod: _selectedMethod,
+                  parameters: _parameters,
+                  rawBody: _rawBody,
+                  currentApiUrl: _currentApiUrl,
+                  loading: _loading,
+                  responseData: _responseData,
+                  responseAnimation: _responseAnimation,
+                  onMethodChanged: _onMethodChanged,
+                  onParametersChanged: _onParametersChanged,
+                  onRawBodyChanged: _onRawBodyChanged,
+                  onSendRequest: _sendRequest,
+                  screenWidth: screenWidth,
+                ),
               ),
-            ),
-            body: ResponsiveContent(
-              selectedService: _selectedService,
-              selectedMethod: _selectedMethod,
-              parameters: _parameters,
-              rawBody: _rawBody,
-              currentApiUrl: _currentApiUrl,
-              loading: _loading,
-              responseData: _responseData,
-              responseAnimation: _responseAnimation,
-              onMethodChanged: _onMethodChanged,
-              onParametersChanged: _onParametersChanged,
-              onRawBodyChanged: _onRawBodyChanged,
-              onSendRequest: _sendRequest,
-              screenWidth: screenWidth,
-            ),
-          ),
-        );
-      },
+            );
+          },
+        ),
+
+        // Responsive popup overlay
+        ResponsivePopup(
+          isVisible: _showResponsivePopup,
+          onDismiss: _dismissResponsivePopup,
+          onUseWebVersion: _openWebVersion,
+        ),
+      ],
     );
   }
 }

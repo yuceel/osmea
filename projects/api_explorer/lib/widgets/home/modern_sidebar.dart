@@ -51,6 +51,7 @@ class _ModernSidebarState extends State<ModernSidebar>
 
     _listenToStoreChanges();
     _loadCurrentStore();
+    _initializeDefaultCategory();
   }
 
   @override
@@ -68,7 +69,12 @@ class _ModernSidebarState extends State<ModernSidebar>
         (event) {
           if (mounted && !_isDisposed) {
             debugPrint('🔄 Sidebar: Store change detected: ${event.type}');
-            setState(() {});
+            setState(() {
+              // Reset selections when store changes
+              _selectedMainCategory = null;
+              _selectedCategory = null;
+              _selectedSubcategory = null;
+            });
             _loadCurrentStore();
           }
         },
@@ -88,19 +94,44 @@ class _ModernSidebarState extends State<ModernSidebar>
         setState(() {
           _currentStore = store;
         });
+        // Initialize default category after store is loaded
+        _initializeDefaultCategory();
       }
     } catch (e) {
       debugPrint('❌ Error loading current store in sidebar: $e');
     }
   }
 
+  /// Initialize default category to be expanded when sidebar opens
+  void _initializeDefaultCategory() {
+    if (_currentStore != null && _isCurrentStoreComplete) {
+      final availableCategories = ApiServiceRegistry.categories
+          .where((cat) => _hasStoreForPlatform(cat))
+          .toList();
+      
+      if (availableCategories.isNotEmpty && _selectedMainCategory == null) {
+        // Select the first available category by default
+        final defaultMainCategory = availableCategories.first;
+        final subCategories = _getCategoriesForCurrentStore(defaultMainCategory);
+        
+        setState(() {
+          _selectedMainCategory = defaultMainCategory;
+          _categoryAnimationController.forward();
+          
+          // Also auto-select first subcategory if available
+          if (subCategories.isNotEmpty) {
+            _selectedCategory = subCategories.first;
+          }
+        });
+      }
+    }
+  }
+
   void _selectMainCategory(ApiCategory mainCategory) {
     setState(() {
       if (_selectedMainCategory == mainCategory) {
-        _selectedMainCategory = null;
-        _selectedCategory = null;
-        _selectedSubcategory = null;
-        _categoryAnimationController.reverse();
+        // Don't close if already selected, just keep it open
+        return;
       } else {
         _selectedMainCategory = mainCategory;
         _selectedCategory = null;
@@ -113,9 +144,8 @@ class _ModernSidebarState extends State<ModernSidebar>
   void _selectCategory(ApiCategory category) {
     setState(() {
       if (_selectedCategory == category) {
-        _selectedCategory = null;
-        _selectedSubcategory = null;
-        _categoryAnimationController.reverse();
+        // Don't close if already selected, just keep it open
+        return;
       } else {
         _selectedCategory = category;
         _selectedSubcategory = null;
@@ -223,7 +253,7 @@ class _ModernSidebarState extends State<ModernSidebar>
                           ),
                           child: Icon(
                             Icons.explore_rounded,
-                            color: Colors.white,
+                            color: OsmeaColors.white,
                             size: isNarrow ? 20 : 24,
                           ),
                         ),
@@ -238,14 +268,14 @@ class _ModernSidebarState extends State<ModernSidebar>
                                 variant: OsmeaTextVariant.titleMedium,
                                 fontSize: isNarrow ? 16 : 18,
                                 fontWeight: FontWeight.w700,
-                                color: Colors.white,
+                                color: OsmeaColors.white,
                               ),
                               if (!isNarrow)
                                 OsmeaComponents.text(
                                   'Browse and test APIs',
                                   variant: OsmeaTextVariant.bodySmall,
                                   fontSize: 12,
-                                  color: Colors.white.withValues(alpha: 0.8),
+                                  color: OsmeaColors.white.withValues(alpha: 0.8),
                                 ),
                             ],
                           ),
@@ -259,7 +289,7 @@ class _ModernSidebarState extends State<ModernSidebar>
                       OsmeaComponents.flexible(
                         child: OsmeaComponents.container(
                           decoration: BoxDecoration(
-                            color: Colors.white.withValues(alpha: 0.1),
+                            color: OsmeaColors.white.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           padding: EdgeInsets.all(12),
@@ -268,7 +298,7 @@ class _ModernSidebarState extends State<ModernSidebar>
                               Icon(
                                 Icons.store,
                                 size: 16,
-                                color: Colors.white,
+                                color: OsmeaColors.white,
                               ),
                               OsmeaComponents.sizedBox(width: 8),
                               OsmeaComponents.expanded(
@@ -281,7 +311,7 @@ class _ModernSidebarState extends State<ModernSidebar>
                                       variant: OsmeaTextVariant.labelMedium,
                                       fontSize: 12,
                                       fontWeight: FontWeight.w600,
-                                      color: Colors.white,
+                                      color: OsmeaColors.white,
                                     ),
                                     OsmeaComponents.text(
                                       _isCurrentStoreComplete
@@ -290,8 +320,8 @@ class _ModernSidebarState extends State<ModernSidebar>
                                       variant: OsmeaTextVariant.labelSmall,
                                       fontSize: 10,
                                       color: _isCurrentStoreComplete
-                                          ? Colors.green[100]
-                                          : Colors.orange[100],
+                                          ? OsmeaColors.green[100]
+                                          : OsmeaColors.orange[100],
                                     ),
                                   ],
                                 ),
@@ -614,7 +644,7 @@ class _ModernSidebarState extends State<ModernSidebar>
                               color: isMainSelected
                                   ? OsmeaColors.nordicBlue
                                       .withValues(alpha: 0.03)
-                                  : Colors.transparent,
+                                  : OsmeaColors.transparent,
                               borderRadius: context.borderRadiusMinStandard,
                             ),
                             child: ListTile(
@@ -625,7 +655,7 @@ class _ModernSidebarState extends State<ModernSidebar>
                                 vertical: isMobile ? 2 : 4,
                               ),
                               leading: Icon(
-                                _getCategoryIcon(mainCategory),
+                                ApiServiceRegistry.getCategoryIcon(mainCategory),
                                 color: hasStore && _isCurrentStoreComplete
                                     ? (isMainSelected
                                         ? OsmeaColors.nordicBlue
@@ -751,7 +781,7 @@ class _ModernSidebarState extends State<ModernSidebar>
                                                 vertical: isMobile ? 2 : 4,
                                               ),
                                               leading: Icon(
-                                                _getCategoryIcon(category),
+                                                ApiServiceRegistry.getCategoryIcon(category),
                                                 color: isSelected
                                                     ? OsmeaColors.nordicBlue
                                                     : Theme.of(context)
@@ -966,7 +996,7 @@ class _ModernSidebarState extends State<ModernSidebar>
                                                                               BoxDecoration(
                                                                             color: isServiceSelected
                                                                                 ? OsmeaColors.nordicBlue.withValues(alpha: 0.1)
-                                                                                : Colors.transparent,
+                                                                                : OsmeaColors.transparent,
                                                                             borderRadius:
                                                                                 context.borderRadiusMinStandard,
                                                                             border: isServiceSelected
@@ -983,7 +1013,7 @@ class _ModernSidebarState extends State<ModernSidebar>
                                                                                 width: isNarrow ? 3 : 4,
                                                                                 height: isNarrow ? 12 : 16,
                                                                                 decoration: BoxDecoration(
-                                                                                  color: isServiceSelected ? OsmeaColors.nordicBlue : Colors.transparent,
+                                                                                  color: isServiceSelected ? OsmeaColors.nordicBlue : OsmeaColors.transparent,
                                                                                   borderRadius: context.borderRadiusMinStandard,
                                                                                 ),
                                                                               ),
@@ -1032,119 +1062,6 @@ class _ModernSidebarState extends State<ModernSidebar>
         );
       },
     );
-  }
-
-  IconData _getCategoryIcon(ApiCategory category) {
-    switch (category) {
-      case ApiCategory.shopify:
-        return Icons.shopping_bag_rounded;
-      case ApiCategory.woocommerce:
-        return Icons.shopping_cart_checkout_rounded;
-      case ApiCategory.shopifyGraphql:
-        return Icons.analytics_rounded;
-      case ApiCategory.graphql:
-        return Icons.analytics_rounded;
-      case ApiCategory.graphqlQueries:
-        return Icons.search_rounded;
-      case ApiCategory.graphqlMutations:
-        return Icons.edit_rounded;
-      case ApiCategory.graphqlProductsAndCollections:
-        return Icons.inventory_2_rounded;
-      case ApiCategory.graphqlProductsAndCollectionsQueries:
-        return Icons.search_rounded;
-      case ApiCategory.graphqlProductsAndCollectionsMutations:
-        return Icons.edit_rounded;
-      //case ApiCategory.graphqlOrders:
-      //return Icons.shopping_basket_rounded;
-      //case ApiCategory.graphqlOrdersQueries:
-      //return Icons.search_rounded;
-      //case ApiCategory.graphqlOrdersMutations:
-      //return Icons.edit_rounded;
-      case ApiCategory.graphqlCustomers:
-        return Icons.people_alt_rounded;
-      case ApiCategory.graphqlCustomersQueries:
-        return Icons.search_rounded;
-      case ApiCategory.graphqlCustomersMutations:
-        return Icons.edit_rounded;
-      case ApiCategory.graphqlWebhooks:
-        return Icons.webhook_rounded;
-      case ApiCategory.graphqlWebhookQueries:
-        return Icons.search_rounded;
-      case ApiCategory.graphqlWebhookMutations:
-        return Icons.edit_rounded;
-      case ApiCategory.access:
-        return Icons.security_rounded;
-      case ApiCategory.storefront:
-        return Icons.storefront_rounded;
-      case ApiCategory.admin:
-        return Icons.admin_panel_settings_rounded;
-      case ApiCategory.catalog:
-        return Icons.category_rounded;
-      case ApiCategory.customer:
-        return Icons.people_rounded;
-      case ApiCategory.discounts:
-        return Icons.local_offer_rounded;
-      case ApiCategory.billing:
-        return Icons.payment_rounded;
-      case ApiCategory.events:
-        return Icons.event_rounded;
-      case ApiCategory.inventory:
-        return Icons.inventory_rounded;
-      case ApiCategory.orders:
-        return Icons.shopping_cart_rounded;
-      case ApiCategory.marketingEvent:
-        return Icons.campaign_rounded;
-      case ApiCategory.giftCard:
-        return Icons.card_giftcard_rounded;
-      case ApiCategory.metafield:
-        return Icons.label_rounded;
-      case ApiCategory.onlineStore:
-        return Icons.store_rounded;
-      case ApiCategory.products:
-        return Icons.category_rounded;
-      case ApiCategory.storeProperties:
-        return Icons.settings_rounded;
-      case ApiCategory.tendertransaction:
-        return Icons.account_balance_wallet_rounded;
-      case ApiCategory.webhooks:
-        return Icons.webhook_rounded;
-      case ApiCategory.woocommerceCoupons:
-        return Icons.local_offer_rounded;
-      case ApiCategory.woocommerceProducts:
-        return Icons.category_rounded;
-      case ApiCategory.woocommerceOrders:
-        return Icons.shopping_cart_rounded;
-      case ApiCategory.woocommerceCustomers:
-        return Icons.people_rounded;
-      case ApiCategory.woocommerceWebhooks:
-        return Icons.webhook_rounded;
-      case ApiCategory.woocommerceSystemStatus:
-        return Icons.system_update_rounded;
-      case ApiCategory.woocommerceReports:
-        return Icons.analytics_rounded;
-      case ApiCategory.woocommerceShippingMethods:
-        return Icons.local_shipping_rounded;
-      case ApiCategory.woocommerceShippingZones:
-        return Icons.location_on_rounded;
-      case ApiCategory.woocommerceShippingZoneMethods:
-        return Icons.route_rounded;
-      case ApiCategory.woocommercePaymentGateways:
-        return Icons.payment_rounded;
-      case ApiCategory.woocommerceSetting:
-        return Icons.settings_applications_rounded;
-      case ApiCategory.woocommerceData:
-        return Icons.data_usage_rounded;
-      case ApiCategory.woocommerceContinents:
-        return Icons.public_rounded;
-      case ApiCategory.woocommerceCountries:
-        return Icons.flag_rounded;
-      case ApiCategory.woocommerceCurrencies:
-        return Icons.attach_money_rounded;
-      case ApiCategory.woocommerceRefunds:
-        return Icons.money_off_rounded;
-      case ApiCategory.woocommerceTaxes:
-        return Icons.receipt_long_rounded;
-    }
   }
 
   List<String> _getSubCategoriesForGraphQLCategory(ApiCategory category) {
@@ -1200,12 +1117,6 @@ class _ModernSidebarState extends State<ModernSidebar>
         return 'GraphQL Webhook Mutations';
       case ApiCategory.access:
         return 'Access';
-      case ApiCategory.storefront:
-        return 'Storefront';
-      case ApiCategory.admin:
-        return 'Admin';
-      case ApiCategory.catalog:
-        return 'Catalog';
       case ApiCategory.customer:
         return 'Customer';
       case ApiCategory.discounts:

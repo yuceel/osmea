@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:core/core.dart';
 import 'package:api_explorer/styles/app_theme.dart';
 import 'package:apis/apis.dart';
+import 'package:api_explorer/widgets/store_management/store_setup_wizard.dart';
 
 /// Modern IDE-style application header using Osmea components
 class AppHeader extends StatelessWidget implements PreferredSizeWidget {
@@ -33,43 +34,30 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return AppBar(
+    return OsmeaComponents.appBar(
       backgroundColor:
           isDark ? OsmeaAppTheme.darkSurface : OsmeaAppTheme.lightSurface,
-      elevation: 0,
-      scrolledUnderElevation: 2,
-      shadowColor: Theme.of(context).colorScheme.shadow.withValues(alpha: 0.05),
+      elevation: 0.5,
       surfaceTintColor: Colors.transparent,
-      shape: Border(
-        bottom: BorderSide(
-          color: isDark
-              ? OsmeaColors.deepSea.withValues(alpha: 0.2)
-              : OsmeaColors.silver.withValues(alpha: 0.2),
-          width: 1,
-        ),
-      ),
       leading: onDrawerToggle != null
-          ? OsmeaComponents.container(
-              margin: EdgeInsets.only(left: context.spacing12),
-              child: OsmeaComponents.iconButton(
-                icon: Icon(
-                  Icons.menu_rounded,
-                  color: Theme.of(context).brightness == Brightness.dark
-                      ? Colors.white
-                      : OsmeaColors.steel,
-                ),
-                onPressed: onDrawerToggle,
-                variant: ButtonVariant.ghost,
-                size: ButtonSize.medium,
-                tooltip: 'Open menu',
+          ? OsmeaComponents.iconButton(
+              icon: Icon(
+                Icons.menu_rounded,
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? Colors.white
+                    : OsmeaColors.steel,
               ),
+              onPressed: onDrawerToggle,
+              variant: ButtonVariant.ghost,
+              size: ButtonSize.medium,
+              tooltip: 'Open menu',
             )
           : null,
       title: _buildTitle(context),
-      actions: _buildActions(context),
+      actions: _buildAppBarActions(context),
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(1),
-        child: Container(
+        child: OsmeaComponents.container(
           height: 1,
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -90,7 +78,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
     return OsmeaComponents.row(
       children: [
         // Logo
-        SizedBox(
+        OsmeaComponents.sizedBox(
           height: 32,
           child: Image.asset(
             isDarkMode
@@ -131,13 +119,33 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
 
         OsmeaComponents.sizedBox(width: context.spacing24),
 
-        // API URL Display
-        if (apiUrl.isNotEmpty) ...[
-          OsmeaComponents.expanded(
-            child: _buildApiUrlDisplay(context),
+        // API URL Display or Store Warning
+        OsmeaComponents.expanded(
+          child: FutureBuilder<StoreConfiguration?>(
+            future: WizardHelper.getCurrentStore(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const SizedBox.shrink();
+              }
+
+              final currentStore = snapshot.data;
+              if (currentStore == null || !currentStore.isComplete) {
+                return _buildStoreWarning(context);
+              } else if (apiUrl.isNotEmpty) {
+                return _buildApiUrlDisplay(context);
+              }
+
+              return const SizedBox.shrink();
+            },
           ),
-          OsmeaComponents.sizedBox(width: context.spacing16),
-        ],
+        ),
+
+        OsmeaComponents.sizedBox(width: context.spacing16),
+
+        // Store Profile - moved from actions
+        _buildCompactStoreProfile(context),
+
+        OsmeaComponents.sizedBox(width: context.spacing16),
       ],
     );
   }
@@ -152,8 +160,9 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
         vertical: context.spacing6,
       ),
       decoration: OsmeaAppTheme.glassDecoration(
-        backgroundColor:
-            isDark ? OsmeaColors.deepSea.withValues(alpha: 0.1) : OsmeaColors.snow,
+        backgroundColor: isDark
+            ? OsmeaColors.deepSea.withValues(alpha: 0.1)
+            : OsmeaColors.snow,
         borderColor: isDark
             ? OsmeaColors.deepSea.withValues(alpha: 0.2)
             : OsmeaColors.silver.withValues(alpha: 0.3),
@@ -168,10 +177,12 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
               vertical: context.spacing4,
             ),
             decoration: BoxDecoration(
-              color: OsmeaColors.forestHeart.withValues(alpha: isDark ? 0.15 : 0.1),
+              color: OsmeaColors.forestHeart
+                  .withValues(alpha: isDark ? 0.15 : 0.1),
               borderRadius: context.borderRadiusMinStandard,
               border: Border.all(
-                color: OsmeaColors.forestHeart.withValues(alpha: isDark ? 0.25 : 0.2),
+                color: OsmeaColors.forestHeart
+                    .withValues(alpha: isDark ? 0.25 : 0.2),
                 width: 1,
               ),
             ),
@@ -201,7 +212,9 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
               apiUrl,
               variant: OsmeaTextVariant.bodySmall,
               fontSize: 12,
-              color: isDark ? Colors.white.withValues(alpha: 0.9) : OsmeaColors.steel,
+              color: isDark
+                  ? Colors.white.withValues(alpha: 0.9)
+                  : OsmeaColors.steel,
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -219,8 +232,9 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
               icon: Icon(
                 Icons.content_copy_rounded,
                 size: 16,
-                color:
-                    isDark ? Colors.white.withValues(alpha: 0.9) : OsmeaColors.steel,
+                color: isDark
+                    ? Colors.white.withValues(alpha: 0.9)
+                    : OsmeaColors.steel,
               ),
               onPressed: () => _copyUrlToClipboard(context),
               variant: ButtonVariant.ghost,
@@ -234,21 +248,101 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  /// Build the actions section
-  List<Widget> _buildActions(BuildContext context) {
-    return [
-      // Compact Store Profile Component - Show directly in header
-      _buildCompactStoreProfile(context),
+  /// Build the store warning display when no store is configured
+  Widget _buildStoreWarning(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
-      // Theme Toggle Button
-      OsmeaComponents.iconButton(
+    return OsmeaComponents.container(
+      padding: EdgeInsets.symmetric(
+        horizontal: context.spacing16,
+        vertical: context.spacing10,
+      ),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            OsmeaColors.amberFlame.withValues(alpha: isDark ? 0.15 : 0.08),
+            OsmeaColors.amberFlame.withValues(alpha: isDark ? 0.10 : 0.05),
+          ],
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+        ),
+        borderRadius: context.borderRadiusMinStandard,
+        border: Border.all(
+          color: OsmeaColors.amberFlame.withValues(alpha: isDark ? 0.3 : 0.2),
+          width: 1,
+        ),
+      ),
+      child: OsmeaComponents.row(
+        children: [
+          // Warning Icon
+          OsmeaComponents.container(
+            padding: EdgeInsets.all(context.spacing6),
+            decoration: BoxDecoration(
+              color:
+                  OsmeaColors.amberFlame.withValues(alpha: isDark ? 0.2 : 0.15),
+              borderRadius: context.borderRadiusMinStandard,
+              border: Border.all(
+                color: OsmeaColors.amberFlame
+                    .withValues(alpha: isDark ? 0.3 : 0.25),
+                width: 1,
+              ),
+            ),
+            child: Icon(
+              Icons.warning_amber_rounded,
+              size: 18,
+              color: OsmeaColors.amberFlame,
+            ),
+          ),
+          OsmeaComponents.sizedBox(width: context.spacing12),
+
+          // Warning Message
+          OsmeaComponents.expanded(
+            child: OsmeaComponents.column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                OsmeaComponents.text(
+                  'Store Configuration Required',
+                  variant: OsmeaTextVariant.labelMedium,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: OsmeaColors.amberFlame,
+                ),
+                OsmeaComponents.text(
+                  'Please click "Connect Store" button to configure your store settings',
+                  variant: OsmeaTextVariant.bodySmall,
+                  fontSize: 11,
+                  color: isDark
+                      ? OsmeaColors.white.withValues(alpha: 0.8)
+                      : OsmeaColors.steel.withValues(alpha: 0.8),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          ),
+
+          OsmeaComponents.sizedBox(width: context.spacing8),
+        ],
+      ),
+    );
+  }
+
+  /// Build the actions section
+  List<AppBarAction> _buildAppBarActions(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return [
+      // Theme Toggle Button as AppBarAction
+      AppBarAction(
+        type: AppBarActionType.settings,
         icon: Icon(
           isDarkMode ? Icons.light_mode : Icons.dark_mode,
           size: 20,
+          color:
+              isDark ? Colors.white.withValues(alpha: 0.9) : OsmeaColors.steel,
         ),
         onPressed: onThemeToggle,
-        variant: ButtonVariant.ghost,
-        size: ButtonSize.medium,
         tooltip: isDarkMode ? 'Switch to light mode' : 'Switch to dark mode',
       ),
     ];
@@ -282,7 +376,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
             child: OsmeaComponents.row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                SizedBox(
+                OsmeaComponents.sizedBox(
                   width: 16,
                   height: 16,
                   child: CircularProgressIndicator(
@@ -330,7 +424,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
                   padding: EdgeInsets.all(context.spacing6),
                   decoration: BoxDecoration(
                     color: isDark
-                        ? Colors.white.withValues(alpha: 0.1)
+                        ? OsmeaColors.white.withValues(alpha: 0.1)
                         : OsmeaColors.silver.withValues(alpha: 0.1),
                     borderRadius: context.borderRadiusMinStandard,
                   ),
@@ -338,7 +432,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
                     Icons.storefront_outlined,
                     size: 16,
                     color: isDark
-                        ? Colors.white.withValues(alpha: 0.9)
+                        ? OsmeaColors.white.withValues(alpha: 0.9)
                         : OsmeaColors.steel,
                   ),
                 ),
@@ -355,9 +449,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
                   text: 'Connect Store',
                   variant: ButtonVariant.outlined,
                   size: ButtonSize.small,
-                  onPressed: () {
-                    onStoreChange?.call();
-                  },
+                  onPressed: () => _openStoreSetupWizard(context),
                   icon: Icon(
                     Icons.add_rounded,
                     size: 16,
@@ -441,56 +533,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
 
               OsmeaComponents.sizedBox(width: context.spacing12),
 
-              // Modern Status Badge
-              OsmeaComponents.container(
-                padding: EdgeInsets.symmetric(
-                  horizontal: context.spacing8,
-                  vertical: context.spacing4,
-                ),
-                decoration: BoxDecoration(
-                  color: (profile['status'] ?? 'Unknown') == 'Active'
-                      ? OsmeaColors.forestHeart.withValues(alpha: isDark ? 0.2 : 0.1)
-                      : OsmeaColors.amberFlame.withValues(alpha: isDark ? 0.2 : 0.1),
-                  borderRadius: context.borderRadiusMinStandard,
-                  border: Border.all(
-                    color: (profile['status'] ?? 'Unknown') == 'Active'
-                        ? OsmeaColors.forestHeart
-                            .withValues(alpha: isDark ? 0.3 : 0.2)
-                        : OsmeaColors.amberFlame
-                            .withValues(alpha: isDark ? 0.3 : 0.2),
-                    width: 1,
-                  ),
-                ),
-                child: OsmeaComponents.row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      width: 6,
-                      height: 6,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: (profile['status'] ?? 'Unknown') == 'Active'
-                            ? OsmeaColors.forestHeart
-                            : OsmeaColors.amberFlame,
-                      ),
-                    ),
-                    OsmeaComponents.sizedBox(width: context.spacing4),
-                    OsmeaComponents.text(
-                      profile['status'] ?? 'Unknown',
-                      variant: OsmeaTextVariant.labelSmall,
-                      fontSize: 11,
-                      fontWeight: FontWeight.w600,
-                      color: (profile['status'] ?? 'Unknown') == 'Active'
-                          ? OsmeaColors.forestHeart
-                          : OsmeaColors.amberFlame,
-                    ),
-                  ],
-                ),
-              ),
-
-              OsmeaComponents.sizedBox(width: context.spacing8),
-
-              // Actions Menu
+              // Store actions menu - status badge kaldırıldı
               _buildActionMenu(context),
             ],
           ),
@@ -519,6 +562,24 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
       }
     } catch (e) {
       debugPrint('❌ Failed to copy URL: $e');
+    }
+  }
+
+  /// Open the store setup wizard
+  Future<void> _openStoreSetupWizard(BuildContext context) async {
+    try {
+      final result = await StoreSetupWizard.show(
+        context,
+        isInitialSetup: true,
+        onStoreAdded: (config) {},
+      );
+
+      if (result != null) {
+        // Store configuration completed
+        debugPrint('✅ Store configuration completed: ${result.displayName}');
+      }
+    } catch (e) {
+      debugPrint('❌ Error opening store setup wizard: $e');
     }
   }
 
@@ -588,7 +649,7 @@ class _ActionMenuWidgetState extends State<_ActionMenuWidget> {
         borderRadius: BorderRadius.circular(OsmeaAppTheme.radiusMd),
       ),
       elevation: 0,
-      surfaceTintColor: Colors.transparent,
+      surfaceTintColor: OsmeaColors.transparent,
       shadowColor: Colors.transparent,
       color: Theme.of(context).brightness == Brightness.dark
           ? OsmeaAppTheme.darkCard
@@ -612,6 +673,14 @@ class _ActionMenuWidgetState extends State<_ActionMenuWidget> {
         ),
         _buildMenuItem(
           context,
+          'add',
+          Icons.add,
+          'Add New Store',
+          'Add a new store configuration',
+          () => _showAddStoreDialog(context),
+        ),
+        _buildMenuItem(
+          context,
           'profile',
           Icons.account_circle_rounded,
           'Store Profile',
@@ -624,6 +693,44 @@ class _ActionMenuWidgetState extends State<_ActionMenuWidget> {
         _isMenuOpen = false;
       });
     });
+  }
+
+  /// Show add store dialog using StoreSetupWizard
+  void _showAddStoreDialog(BuildContext context) async {
+    try {
+      final result = await StoreSetupWizard.show(
+        context,
+        isInitialSetup: false,
+        onStoreAdded: (config) {
+          // Store added successfully, trigger refresh if needed
+          debugPrint('✅ New store added: ${config.displayName}');
+        },
+      );
+
+      if (result != null) {
+        // Show success message
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: OsmeaComponents.text(
+                  '✅ Store added successfully: ${result.displayName}'),
+              backgroundColor: OsmeaColors.forestHeart,
+              duration: const Duration(seconds: 3),
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      debugPrint('❌ Error opening add store dialog: $e');
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: OsmeaComponents.text('❌ Error adding store: $e'),
+            backgroundColor: OsmeaColors.slate,
+          ),
+        );
+      }
+    }
   }
 
   PopupMenuEntry<String> _buildMenuItem(
@@ -661,7 +768,7 @@ class _ActionMenuWidgetState extends State<_ActionMenuWidget> {
               icon,
               size: 20,
               color: Theme.of(context).brightness == Brightness.dark
-                  ? Colors.white
+                  ? OsmeaColors.white
                   : OsmeaColors.nordicBlue,
             ),
           ),
@@ -676,7 +783,7 @@ class _ActionMenuWidgetState extends State<_ActionMenuWidget> {
                   variant: OsmeaTextVariant.titleSmall,
                   fontSize: 14,
                   color: Theme.of(context).brightness == Brightness.dark
-                      ? Colors.white
+                      ? OsmeaColors.white
                       : OsmeaColors.steel,
                 ),
                 OsmeaComponents.sizedBox(height: context.spacing4),
@@ -685,7 +792,7 @@ class _ActionMenuWidgetState extends State<_ActionMenuWidget> {
                   variant: OsmeaTextVariant.bodySmall,
                   fontSize: 12,
                   color: Theme.of(context).brightness == Brightness.dark
-                      ? Colors.white.withValues(alpha: 0.7)
+                      ? OsmeaColors.white.withValues(alpha: 0.7)
                       : OsmeaColors.steel.withValues(alpha: 0.7),
                 ),
               ],

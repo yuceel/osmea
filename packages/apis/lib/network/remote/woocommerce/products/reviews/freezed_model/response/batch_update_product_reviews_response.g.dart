@@ -1,0 +1,70 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'batch_update_product_reviews_response.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+_$BatchUpdateProductReviewsResponseImpl
+    _$$BatchUpdateProductReviewsResponseImplFromJson(
+            Map<String, dynamic> json) =>
+        _$BatchUpdateProductReviewsResponseImpl(
+          create: (json['create'] as List<dynamic>?)
+              ?.map((e) => Create.fromJson(e as Map<String, dynamic>))
+              .toList(),
+          update: (json['update'] as List<dynamic>?)
+              ?.map((e) => Create.fromJson(e as Map<String, dynamic>))
+              .toList(),
+          delete: (json['delete'] as List<dynamic>?)
+              ?.map((e) => Create.fromJson(e as Map<String, dynamic>))
+              .toList(),
+        );
+
+Map<String, dynamic> _$$BatchUpdateProductReviewsResponseImplToJson(
+        _$BatchUpdateProductReviewsResponseImpl instance) =>
+    <String, dynamic>{
+      if (instance.create?.map((e) => e.toJson()).toList() case final value?)
+        'create': value,
+      if (instance.update?.map((e) => e.toJson()).toList() case final value?)
+        'update': value,
+      if (instance.delete?.map((e) => e.toJson()).toList() case final value?)
+        'delete': value,
+    };
+
+_$CreateImpl _$$CreateImplFromJson(Map<String, dynamic> json) => _$CreateImpl(
+      id: (json['id'] as num?)?.toInt(),
+      error: json['error'] == null
+          ? null
+          : Error.fromJson(json['error'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$CreateImplToJson(_$CreateImpl instance) =>
+    <String, dynamic>{
+      if (instance.id case final value?) 'id': value,
+      if (instance.error?.toJson() case final value?) 'error': value,
+    };
+
+_$ErrorImpl _$$ErrorImplFromJson(Map<String, dynamic> json) => _$ErrorImpl(
+      code: json['code'] as String?,
+      message: json['message'] as String?,
+      data: json['data'] == null
+          ? null
+          : Data.fromJson(json['data'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$ErrorImplToJson(_$ErrorImpl instance) =>
+    <String, dynamic>{
+      if (instance.code case final value?) 'code': value,
+      if (instance.message case final value?) 'message': value,
+      if (instance.data?.toJson() case final value?) 'data': value,
+    };
+
+_$DataImpl _$$DataImplFromJson(Map<String, dynamic> json) => _$DataImpl(
+      status: (json['status'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$$DataImplToJson(_$DataImpl instance) =>
+    <String, dynamic>{
+      if (instance.status case final value?) 'status': value,
+    };

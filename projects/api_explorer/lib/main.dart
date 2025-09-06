@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:core/core.dart';
 import 'package:api_explorer/services/api_service_registry.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:apis/apis.dart';
 import 'package:apis/services/wizard_helper.dart';
 import 'package:apis/dio_config/dio_client/api_dio_client.dart';
@@ -12,7 +13,19 @@ import 'di/config/config_di.dart';
 /// 🚀 Main entry point of the API Explorer application
 Future<void> main() async {
   // 🪄🧵 Ensures Flutter bindings are initialized
+  usePathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
+
+  // 🌐 Configure web URL strategy to use paths instead of hash (#)
+  if (kIsWeb) {
+    // Import and use web plugins only on web platform
+    try {
+      // This will be handled by the web-specific code
+      // usePathUrlStrategy();
+    } catch (e) {
+      debugPrint('Web URL strategy not available: $e');
+    }
+  }
 
   // 🌐 Network initialization is now handled by the wizard system
   try {
@@ -62,6 +75,11 @@ Future<void> main() async {
 
   // 🚀 Initialize MasterApp components
   await MasterApp.runBefore(allowCollectDataTelemetry: true);
+
+  // ⏳ Small delay to ensure proper initialization
+  if (kIsWeb) {
+    await Future.delayed(const Duration(milliseconds: 500));
+  }
 
   // 🏁 Start the app with MasterApp using centralized router
   runApp(MasterApp(

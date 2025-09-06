@@ -55,8 +55,8 @@ class ServiceInfo extends StatelessWidget {
                         : OsmeaColors.nordicBlue,
                   ),
                 ),
-                const SizedBox(width: 12),
-                Expanded(
+                OsmeaComponents.sizedBox(width: 12),
+                OsmeaComponents.expanded(
                   child: OsmeaComponents.column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -69,7 +69,7 @@ class ServiceInfo extends StatelessWidget {
                         fontSize: isVeryNarrow ? 10 : 12,
                         fontWeight: FontWeight.w600,
                       ),
-                      const SizedBox(height: 2),
+                      OsmeaComponents.sizedBox(height: 2),
                       OsmeaComponents.text(
                         entry.value,
                         variant: OsmeaTextVariant.bodySmall,

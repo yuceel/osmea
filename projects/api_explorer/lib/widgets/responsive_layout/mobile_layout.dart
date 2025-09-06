@@ -16,7 +16,7 @@ class MobileLayout extends StatelessWidget {
   final ValueChanged<String> onMethodChanged;
   final ValueChanged<Map<String, String>> onParametersChanged;
   final ValueChanged<String?> onRawBodyChanged;
-  final VoidCallback onSendRequest;
+  final Function(Map<String, String>) onSendRequest;
 
   const MobileLayout({
     super.key,
@@ -41,6 +41,7 @@ class MobileLayout extends StatelessWidget {
         : PageView(
             children: [
               ModernApiPanel(
+                key: ValueKey('${selectedService?.name}_$selectedMethod'),
                 selectedService: selectedService,
                 selectedMethod: selectedMethod,
                 parameters: parameters,

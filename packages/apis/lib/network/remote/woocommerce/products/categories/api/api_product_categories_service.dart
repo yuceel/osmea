@@ -29,7 +29,7 @@ abstract class ProductCategoriesServiceClient
   /// 📋 List all product categories from WooCommerce API
   @override
   @GET('/wp-json/wc/{apiVersion}/products/categories')
-  Future<ListAllProductCategoriesResponse> listAllProductCategories({
+  Future<List<ListAllProductCategoriesResponse>> listAllProductCategories({
     @Path('apiVersion') required String apiVersion,
     @Query('page') int? page,
     @Query('per_page') int? perPage,

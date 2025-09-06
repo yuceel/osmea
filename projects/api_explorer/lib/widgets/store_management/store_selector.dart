@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:apis/apis.dart';
+import 'package:apis/services/store_change_notifier.dart';
 import 'package:api_explorer/widgets/store_management/store_management_dialog.dart';
 import 'package:core/core.dart';
+import 'dart:async';
+
+enum _MenuAction { addStore, manageStores }
 
 class StoreSelector extends StatefulWidget {
   final Function(StoreConfiguration) onStoreChanged;
@@ -18,11 +22,19 @@ class StoreSelector extends StatefulWidget {
 class _StoreSelectorState extends State<StoreSelector> {
   late final StoreManagementService _storeService;
   StoreConfiguration? _selectedStore;
+  StreamSubscription<StoreChangeEvent>? _storeChangeSubscription;
 
   @override
   void initState() {
     super.initState();
     _initializeStoreService();
+    _listenToStoreChanges();
+  }
+
+  @override
+  void dispose() {
+    _storeChangeSubscription?.cancel();
+    super.dispose();
   }
 
   Future<void> _initializeStoreService() async {
@@ -40,16 +52,49 @@ class _StoreSelectorState extends State<StoreSelector> {
     }
   }
 
+  void _listenToStoreChanges() {
+    try {
+      _storeChangeSubscription = WizardHelper.storeChangeStream.listen(
+        (event) {
+          switch (event.type) {
+            case StoreChangeType.deleted:
+              // Reload current store after deletion
+              _loadCurrentStore();
+              break;
+            case StoreChangeType.switched:
+            case StoreChangeType.added:
+              if (event.data is StoreConfiguration) {
+                final store = event.data as StoreConfiguration;
+                setState(() {
+                  _selectedStore = store;
+                });
+              }
+              break;
+            default:
+              break;
+          }
+        },
+        onError: (error) {
+          debugPrint(
+              '❌ Error listening to store changes in StoreSelector: $error');
+        },
+      );
+    } catch (e) {
+      debugPrint(
+          '❌ Error setting up store change listener in StoreSelector: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return OsmeaComponents.row(
       children: [
         // Store Selector Button
-        Expanded(
+        OsmeaComponents.expanded(
           child: OsmeaComponents.column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              PopupMenuButton<StoreConfiguration>(
+              PopupMenuButton<Object>(
                 child: OsmeaComponents.container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -77,66 +122,68 @@ class _StoreSelectorState extends State<StoreSelector> {
                   ),
                 ),
                 itemBuilder: (context) => [
-                  ...(_storeService.allStores).map((store) => PopupMenuItem(
-                        value: store,
-                        child: OsmeaComponents.row(
-                          children: [
-                            Icon(
-                              _getPlatformIcon(store.platform),
-                              size: 16,
-                              color: _getPlatformColor(store.platform),
-                            ),
-                            OsmeaComponents.sizedBox(width: 8),
-                            Expanded(
-                              child: OsmeaComponents.column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  OsmeaComponents.text(
-                                    store.displayName,
-                                    textStyle:
-                                        OsmeaTextStyle.bodyMedium(context)
-                                            .copyWith(
-                                      fontWeight: FontWeight.w500,
+                  ...(_storeService.allStores)
+                      .map((store) => PopupMenuItem<Object>(
+                            value: store,
+                            child: OsmeaComponents.row(
+                              children: [
+                                Icon(
+                                  _getPlatformIcon(store.platform),
+                                  size: 16,
+                                  color: _getPlatformColor(store.platform),
+                                ),
+                                OsmeaComponents.sizedBox(width: 8),
+                                OsmeaComponents.expanded(
+                                  child: OsmeaComponents.column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      OsmeaComponents.text(
+                                        store.displayName,
+                                        textStyle:
+                                            OsmeaTextStyle.bodyMedium(context)
+                                                .copyWith(
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      OsmeaComponents.text(
+                                        store.platform.toUpperCase(),
+                                        textStyle:
+                                            OsmeaTextStyle.captionSmall(context)
+                                                .copyWith(
+                                          color: OsmeaColors.steel,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                if (store.isDefault)
+                                  OsmeaComponents.container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 6,
+                                      vertical: 2,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: OsmeaColors.nordicBlue,
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: OsmeaComponents.text(
+                                      'DEFAULT',
+                                      textStyle:
+                                          OsmeaTextStyle.captionSmall(context)
+                                              .copyWith(
+                                        color: OsmeaColors.white,
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                     ),
                                   ),
-                                  OsmeaComponents.text(
-                                    store.platform.toUpperCase(),
-                                    textStyle:
-                                        OsmeaTextStyle.captionSmall(context)
-                                            .copyWith(
-                                      color: OsmeaColors.steel,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                              ],
                             ),
-                            if (store.isDefault)
-                              OsmeaComponents.container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 6,
-                                  vertical: 2,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: OsmeaColors.nordicBlue,
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: OsmeaComponents.text(
-                                  'DEFAULT',
-                                  textStyle:
-                                      OsmeaTextStyle.captionSmall(context)
-                                          .copyWith(
-                                    color: OsmeaColors.white,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                          ],
-                        ),
-                      )),
+                          )),
                   const PopupMenuDivider(),
-                  PopupMenuItem(
-                    value: null,
+                  PopupMenuItem<Object>(
+                    value: _MenuAction.addStore,
                     child: OsmeaComponents.row(
                       children: [
                         Icon(Icons.add,
@@ -152,8 +199,8 @@ class _StoreSelectorState extends State<StoreSelector> {
                       ],
                     ),
                   ),
-                  PopupMenuItem(
-                    value: null,
+                  PopupMenuItem<Object>(
+                    value: _MenuAction.manageStores,
                     child: OsmeaComponents.row(
                       children: [
                         Icon(Icons.settings,
@@ -170,13 +217,21 @@ class _StoreSelectorState extends State<StoreSelector> {
                     ),
                   ),
                 ],
-                onSelected: (store) async {
-                  // Switch to selected store
-                  await _storeService.switchToStore(store.id!);
-                  setState(() {
-                    _selectedStore = store;
-                  });
-                  widget.onStoreChanged(store);
+                onSelected: (Object? value) async {
+                  if (value is StoreConfiguration) {
+                    // Switch to selected store
+                    await _storeService.switchToStore(value.id!);
+                    setState(() {
+                      _selectedStore = value;
+                    });
+                    widget.onStoreChanged(value);
+                  } else if (value == _MenuAction.addStore) {
+                    // Handle add new store action
+                    // You can add your add store logic here
+                  } else if (value == _MenuAction.manageStores) {
+                    // Handle manage stores action
+                    _showStoreManagementDialog(context);
+                  }
                 },
               ),
             ],

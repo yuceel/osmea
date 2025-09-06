@@ -258,7 +258,8 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
             color: OsmeaColors.deepSea,
             size: isNarrow ? 14 : 16,
           ),
-          const SizedBox(width: 6),
+          OsmeaComponents.sizedBox(width: 6),
+
           OsmeaComponents.text(
             widget.responseData == null && !widget.loading
                 ? 'sample_code.dart'
@@ -269,7 +270,7 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
             fontWeight: FontWeight.w500,
           ),
 
-          const Spacer(),
+          OsmeaComponents.spacer(),
 
           // IDE Controls
           if (!isNarrow) ...[
@@ -283,7 +284,7 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
                   Icons.content_copy, 'Copy', _copyResponse, isNarrow),
             ],
           ],
-          const SizedBox(width: 8),
+          OsmeaComponents.sizedBox(width: 8),
         ],
       ),
     );
@@ -453,7 +454,7 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
           ),
 
           // Code content
-          Expanded(
+          OsmeaComponents.expanded(
             child: ListView.builder(
               controller: _codeScrollController,
               itemCount: _codeLines.length,
@@ -465,7 +466,7 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
                   alignment: Alignment.centerLeft,
                   child: SelectableText(
                     line,
-                    style: TextStyle(
+                    style: OsmeaTextStyle.bodyMedium(context).copyWith(
                       color: _ideTheme ? OsmeaColors.white : OsmeaColors.shark,
                       fontSize: isNarrow ? 11 : 12,
                       height: 1.2,
@@ -506,8 +507,8 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
                     color: OsmeaColors.deepSea,
                     size: isNarrow ? 20 : 24,
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
+                  OsmeaComponents.sizedBox(width: 12),
+                  OsmeaComponents.expanded(
                     child: OsmeaComponents.column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -519,7 +520,7 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
                           fontSize: isNarrow ? 16 : 18,
                           fontWeight: FontWeight.w700,
                         ),
-                        const SizedBox(height: 4),
+                        OsmeaComponents.sizedBox(height: 4),
                         OsmeaComponents.text(
                           'https://github.com/masterfabric-mobile/osmea',
                           variant: OsmeaTextVariant.bodyMedium,
@@ -533,7 +534,7 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
               ),
             ),
 
-            SizedBox(height: isNarrow ? 16 : 24),
+            OsmeaComponents.sizedBox(height: isNarrow ? 16 : 24),
 
             // Project Description
             OsmeaComponents.basicCard(
@@ -549,7 +550,7 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
                   : OsmeaColors.silver.withValues(alpha: 0.5),
             ),
 
-            SizedBox(height: isNarrow ? 16 : 24),
+            OsmeaComponents.sizedBox(height: isNarrow ? 16 : 24),
 
             // Key Features
             OsmeaComponents.basicCard(
@@ -565,7 +566,7 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
               customContent: OsmeaComponents.column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 12),
+                  OsmeaComponents.sizedBox(height: 12),
                   _buildFeatureItem('🔌 Multi-Platform Support',
                       'Shopify, WooCommerce, BigCommerce', isNarrow),
                   _buildFeatureItem('📱 Cross-Platform',
@@ -586,7 +587,7 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
   }
 
   Widget _buildFeatureItem(String title, String description, bool isNarrow) {
-    return Padding(
+    return OsmeaComponents.padding(
       padding: EdgeInsets.only(bottom: isNarrow ? 8 : 12),
       child: OsmeaComponents.row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -602,8 +603,8 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
               size: 12,
             ),
           ),
-          const SizedBox(width: 12),
-          Expanded(
+          OsmeaComponents.sizedBox(width: 12),
+          OsmeaComponents.expanded(
             child: OsmeaComponents.column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -660,7 +661,7 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
               ],
             ),
           ),
-          const SizedBox(height: 16),
+          OsmeaComponents.sizedBox(height: 16),
           OsmeaComponents.text(
             'Examples for Access Scope Handler and other API handlers will be displayed here.',
             variant: OsmeaTextVariant.bodyMedium,
@@ -749,7 +750,7 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
             alignment: Alignment.centerLeft,
             child: SelectableText(
               line,
-              style: TextStyle(
+              style: OsmeaTextStyle.bodyMedium(context).copyWith(
                 color: _ideTheme ? OsmeaColors.white : OsmeaColors.shark,
                 fontSize: isNarrow ? 9 : 11,
                 height: 1.4,
@@ -770,11 +771,11 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
   }
 
   Widget _buildLoadingState(bool isTablet, bool isMobile, bool isNarrow) {
-    return Center(
+    return OsmeaComponents.center(
       child: OsmeaComponents.column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(
+          OsmeaComponents.sizedBox(
             width: 40,
             height: 40,
             child: CircularProgressIndicator(
@@ -782,7 +783,7 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
               strokeWidth: 3,
             ),
           ),
-          const SizedBox(height: 16),
+          OsmeaComponents.sizedBox(height: 16),
           OsmeaComponents.text(
             'Loading response...',
             variant: OsmeaTextVariant.bodyMedium,
@@ -795,7 +796,7 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
   }
 
   Widget _buildEmptyState(bool isTablet, bool isMobile, bool isNarrow) {
-    return Center(
+    return OsmeaComponents.center(
       child: OsmeaComponents.column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -804,7 +805,7 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
             size: isNarrow ? 48 : 64,
             color: OsmeaColors.deepSea,
           ),
-          const SizedBox(height: 16),
+          OsmeaComponents.sizedBox(height: 16),
           OsmeaComponents.text(
             'No response data available',
             variant: OsmeaTextVariant.titleMedium,
@@ -812,7 +813,7 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
             fontSize: isNarrow ? 14 : 16,
             fontWeight: FontWeight.w500,
           ),
-          const SizedBox(height: 8),
+          OsmeaComponents.sizedBox(height: 8),
           OsmeaComponents.text(
             'Make a request to see the response here',
             variant: OsmeaTextVariant.bodyMedium,
@@ -835,13 +836,13 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
       ),
       child: OsmeaComponents.row(
         children: [
-          const SizedBox(width: 12),
+          OsmeaComponents.sizedBox(width: 12),
           Icon(
             Icons.info_outline,
             color: OsmeaColors.white,
             size: isNarrow ? 12 : 14,
           ),
-          const SizedBox(width: 6),
+          OsmeaComponents.sizedBox(width: 6),
           OsmeaComponents.text(
             widget.responseData == null && !widget.loading
                 ? (_selectedTab == 0
@@ -855,7 +856,7 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
             fontSize: isNarrow ? 10 : 11,
             fontWeight: FontWeight.w500,
           ),
-          const Spacer(),
+          OsmeaComponents.spacer(),
           if (!isNarrow) ...[
             OsmeaComponents.text(
               widget.responseData == null && !widget.loading ? 'Dart' : 'JSON',
@@ -864,7 +865,7 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
               fontSize: isNarrow ? 10 : 11,
               fontWeight: FontWeight.w500,
             ),
-            const SizedBox(width: 12),
+            OsmeaComponents.sizedBox(width: 12),
           ],
         ],
       ),
@@ -886,9 +887,9 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
       final responseText = _formatResponseData();
       Clipboard.setData(ClipboardData(text: responseText));
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Response copied to clipboard!'),
-          duration: Duration(seconds: 2),
+        SnackBar(
+          content: OsmeaComponents.text('Response copied to clipboard!'),
+          duration: const Duration(seconds: 2),
         ),
       );
     }
@@ -897,9 +898,9 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
   void _zoomIn() {
     // Implement zoom in functionality
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Zoom in functionality coming soon!'),
-        duration: Duration(seconds: 1),
+      SnackBar(
+        content: OsmeaComponents.text('Zoom in functionality coming soon!'),
+        duration: const Duration(seconds: 1),
       ),
     );
   }
@@ -907,9 +908,9 @@ class _IdeResponsePanelState extends State<IdeResponsePanel>
   void _zoomOut() {
     // Implement zoom out functionality
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Zoom out functionality coming soon!'),
-        duration: Duration(seconds: 1),
+      SnackBar(
+        content: OsmeaComponents.text('Zoom out functionality coming soon!'),
+        duration: const Duration(seconds: 1),
       ),
     );
   }

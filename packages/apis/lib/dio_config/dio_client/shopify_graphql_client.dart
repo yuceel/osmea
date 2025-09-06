@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'dart:io' show HttpClient, X509Certificate;
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
 import 'package:apis/apis.dart';
@@ -29,6 +29,11 @@ class ShopifyGraphQLClient implements GraphQLBaseClient {
   /// 🛡️ Sets up proxy settings for QA environments (if proxy IP is provided)
   @override
   void setupProxySettings(Dio dio) {
+    // 🌐 Web platform doesn't support HttpClient configuration
+    if (kIsWeb) {
+      return;
+    }
+
     final String proxyIp = ApiNetwork.proxyIp;
 
     if (proxyIp.isNotEmpty) {
@@ -44,6 +49,22 @@ class ShopifyGraphQLClient implements GraphQLBaseClient {
           // ⚠️ Disable certificate validation for QA/testing only!
           client.badCertificateCallback =
               (X509Certificate cert, String host, int port) => true;
+
+          return client;
+        },
+      );
+    } else {
+      // 🍎 macOS-specific configuration for better network compatibility
+      dio.httpClientAdapter = IOHttpClientAdapter(
+        createHttpClient: () {
+          final client = HttpClient();
+
+          // Set connection timeout and other macOS-specific settings
+          client.connectionTimeout = const Duration(seconds: 30);
+          client.idleTimeout = const Duration(seconds: 30);
+
+          // Enable automatic decompression
+          client.autoUncompress = true;
 
           return client;
         },
@@ -98,24 +119,23 @@ class ShopifyGraphQLClient implements GraphQLBaseClient {
     try {
       final dio = createGraphQLDio();
 
-      final response = await dio.post('', data: {
-        'query': query,
-        if (variables != null) 'variables': variables,
-      });
+      final response = await dio.post(
+        '',
+        data: {
+          'query': query,
+          if (variables != null) 'variables': variables,
+        },
+      );
 
       if (response.statusCode == 200) {
         final data = response.data as Map<String, dynamic>;
 
-        // Debug: Log the raw response
-        debugPrint('ShopifyGraphQLClient Raw Response: $data');
-
         // Check for GraphQL errors
-        if (data.containsKey('errors')) {
+        if (data.containsKey('errors') && data['errors'] != null) {
           final errors = data['errors'] as List;
-          final errorMessage = errors.isNotEmpty
-              ? errors.first['message'] ?? 'GraphQL error occurred'
-              : 'GraphQL error occurred';
-          throw Exception('GraphQL Error: $errorMessage');
+          if (errors.isNotEmpty) {
+            throw Exception('GraphQL Error: ${errors.first}');
+          }
         }
 
         return data;
@@ -123,7 +143,7 @@ class ShopifyGraphQLClient implements GraphQLBaseClient {
         throw Exception('HTTP Error: ${response.statusCode}');
       }
     } catch (e) {
-      _logger.e('GraphQL query failed: $e');
+      _logger.e('GraphQL Query Error: $e');
       rethrow;
     }
   }
@@ -135,30 +155,25 @@ class ShopifyGraphQLClient implements GraphQLBaseClient {
     Map<String, dynamic>? variables,
   }) async {
     try {
-      debugPrint('🔍 DEBUG: Starting GraphQL mutation');
-      debugPrint('🔍 DEBUG: Mutation string: $mutation');
-      debugPrint('🔍 DEBUG: Variables: $variables');
-
       final dio = createGraphQLDio();
 
-      final response = await dio.post('', data: {
-        'query': mutation,
-        if (variables != null) 'variables': variables,
-      });
+      final response = await dio.post(
+        '',
+        data: {
+          'query': mutation,
+          if (variables != null) 'variables': variables,
+        },
+      );
 
       if (response.statusCode == 200) {
         final data = response.data as Map<String, dynamic>;
 
-        // Debug: Log the raw response
-        debugPrint('ShopifyGraphQLClient Raw Response: $data');
-
         // Check for GraphQL errors
-        if (data.containsKey('errors')) {
+        if (data.containsKey('errors') && data['errors'] != null) {
           final errors = data['errors'] as List;
-          final errorMessage = errors.isNotEmpty
-              ? errors.first['message'] ?? 'GraphQL error occurred'
-              : 'GraphQL error occurred';
-          throw Exception('GraphQL Error: $errorMessage');
+          if (errors.isNotEmpty) {
+            throw Exception('GraphQL Error: ${errors.first}');
+          }
         }
 
         return data;
@@ -166,12 +181,12 @@ class ShopifyGraphQLClient implements GraphQLBaseClient {
         throw Exception('HTTP Error: ${response.statusCode}');
       }
     } catch (e) {
-      _logger.e('GraphQL mutation failed: $e');
+      _logger.e('GraphQL Mutation Error: $e');
       rethrow;
     }
   }
 
-  /// Dispose the client
+  /// 🗑️ Disposes any resources
   @override
   void dispose() {
     // No cleanup needed for static Dio instances
@@ -179,6 +194,11 @@ class ShopifyGraphQLClient implements GraphQLBaseClient {
 
   /// 🛡️ Legacy proxy settings method (kept for backward compatibility)
   static void _proxySettingsForQA(Dio dio) {
+    // 🌐 Web platform doesn't support HttpClient configuration
+    if (kIsWeb) {
+      return;
+    }
+
     final String proxyIp = ApiNetwork.proxyIp;
 
     if (proxyIp.isNotEmpty) {
@@ -194,6 +214,22 @@ class ShopifyGraphQLClient implements GraphQLBaseClient {
           // ⚠️ Disable certificate validation for QA/testing only!
           client.badCertificateCallback =
               (X509Certificate cert, String host, int port) => true;
+
+          return client;
+        },
+      );
+    } else {
+      // 🍎 macOS-specific configuration for better network compatibility
+      dio.httpClientAdapter = IOHttpClientAdapter(
+        createHttpClient: () {
+          final client = HttpClient();
+
+          // Set connection timeout and other macOS-specific settings
+          client.connectionTimeout = const Duration(seconds: 30);
+          client.idleTimeout = const Duration(seconds: 30);
+
+          // Enable automatic decompression
+          client.autoUncompress = true;
 
           return client;
         },
@@ -231,8 +267,11 @@ class GraphQLInterceptorDefault extends Interceptor {
       "Accept": "application/json",
       "Content-Type": "application/json",
       "X-Shopify-Access-Token": token,
-      "User-Agent": "OSMEA-API-Explorer/1.0 (Flutter Web)",
     });
+
+    // 📋 Log outgoing request
+    debugPrint('GraphQL Request: ${options.method} ${options.uri}');
+    debugPrint('GraphQL Headers: ${options.headers}');
 
     super.onRequest(options, handler);
   }

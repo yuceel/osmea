@@ -32,8 +32,5 @@ migrate_working_dir/
 build/
 
 # Ignore generated and config files
-*.g.dart
-*.freezed.dart
-*.config.dart
-*.graphql.dart
-!schema.graphql.dart
+.metedata
+.env

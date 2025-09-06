@@ -7,7 +7,7 @@ import 'package:apis/network/remote/woocommerce/products/categories/freezed_mode
 import 'package:apis/network/remote/woocommerce/products/categories/freezed_model/response/batch_update_product_categories_response.dart';
 
 abstract class ProductCategoriesService {
-  Future<ListAllProductCategoriesResponse> listAllProductCategories({
+  Future<List<ListAllProductCategoriesResponse>> listAllProductCategories({
     required String apiVersion,
     int? page,
     int? perPage,

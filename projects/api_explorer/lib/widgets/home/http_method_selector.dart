@@ -110,7 +110,7 @@ class HttpMethodSelector extends StatelessWidget {
           backgroundColor: isSelected ? methodColor : null,
           textColor: isSelected ? Colors.white : methodColor,
           borderColor: methodColor,
-          textStyle: TextStyle(
+          textStyle: OsmeaTextStyle.labelMedium(context).copyWith(
             fontWeight: FontWeight.w600,
             fontSize: isMobile ? 13 : 14,
           ),
@@ -124,7 +124,7 @@ class HttpMethodSelector extends StatelessWidget {
           fitContent: true,
           // Custom action widget for selection indicator
           actionWidget: isSelected
-              ? Container(
+              ? OsmeaComponents.container(
                   width: 16,
                   height: 16,
                   decoration: BoxDecoration(

@@ -16,7 +16,7 @@ class ResponsiveContent extends StatelessWidget {
   final ValueChanged<String> onMethodChanged;
   final ValueChanged<Map<String, String>> onParametersChanged;
   final ValueChanged<String?> onRawBodyChanged;
-  final VoidCallback onSendRequest;
+  final Function(Map<String, String>) onSendRequest;
   final double screenWidth;
 
   const ResponsiveContent({
@@ -39,7 +39,7 @@ class ResponsiveContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final isWideScreen = screenWidth >= 1200;
+    final isWideScreen = screenWidth >= 1000;
     final isMediumScreen = screenWidth >= 800;
 
     if (isWideScreen) {

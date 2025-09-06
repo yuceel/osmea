@@ -89,7 +89,7 @@ abstract class CoreColumn extends AbstractCoreWidget {
       textDirection: textDirection,
       verticalDirection: verticalDirection,
       textBaseline: textBaseline,
-      children: children, 
+      children: children,
     );
   }
 }

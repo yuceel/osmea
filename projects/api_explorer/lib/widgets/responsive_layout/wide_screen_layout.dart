@@ -17,7 +17,7 @@ class WideScreenLayout extends StatelessWidget {
   final ValueChanged<String> onMethodChanged;
   final ValueChanged<Map<String, String>> onParametersChanged;
   final ValueChanged<String?> onRawBodyChanged;
-  final VoidCallback onSendRequest;
+  final Function(Map<String, String>) onSendRequest;
 
   const WideScreenLayout({
     super.key,
@@ -40,11 +40,12 @@ class WideScreenLayout extends StatelessWidget {
     return OsmeaComponents.row(
       children: [
         // API Configuration Panel
-        Expanded(
+        OsmeaComponents.expanded(
           flex: 2,
           child: selectedService == null
               ? const EmptyApiGuidance()
               : ModernApiPanel(
+                  key: ValueKey('${selectedService?.name}_$selectedMethod'),
                   selectedService: selectedService,
                   selectedMethod: selectedMethod,
                   parameters: parameters,
@@ -59,7 +60,7 @@ class WideScreenLayout extends StatelessWidget {
         ),
 
         // Response Panel (IDE Design)
-        Expanded(
+        OsmeaComponents.expanded(
           flex: 3,
           child: AnimatedBuilder(
             animation: responseAnimation,
