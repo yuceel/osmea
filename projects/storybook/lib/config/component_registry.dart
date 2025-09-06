@@ -40,6 +40,7 @@ import '../components/dropdown_storybook/dropdowns.dart';
 import '../components/image_storybook/images.dart';
 import '../components/toast_storybook/toasts.dart';
 import '../components/spacer_storybook/spacers.dart';
+import '../components/tabbar_storybook/tabbars.dart';
 
 /// Model for component information displayed on home page and stories
 class ComponentInfo {
@@ -369,6 +370,14 @@ final List<ComponentInfo> allComponents = [
     color: Colors.green,
     storyPath: StoryConfig.buildComponentStoryName('Text Fields'),
     getStories: getAllTextFieldStories,
+  ),
+  ComponentInfo(
+    name: 'Tab Bars',
+    description: 'Tab navigation components with various styles and configurations',
+    icon: Icons.tab,
+    color: Colors.indigo,
+    storyPath: StoryConfig.buildComponentStoryName('Tab Bars'),
+    getStories: getAllTabBarStories,
   ),
   ComponentInfo(
     name: 'Ticket Widget',
