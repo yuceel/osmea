@@ -3,6 +3,7 @@ import 'package:osmea_storybook/components/align_storybook/aligns.dart';
 import 'package:osmea_storybook/components/sized_box_storybook/sized_boxes.dart';
 import 'package:osmea_storybook/components/rich_text_storybook/rich_texts.dart';
 import 'package:osmea_storybook/components/row_storybook/rows.dart';
+import 'package:osmea_storybook/components/column_storybook/columns.dart';
 import 'package:osmea_storybook/components/padding_storybook/paddings.dart';
 import 'package:osmea_storybook/components/clip_r_rect_storybook/clip_r_rects.dart';
 import 'package:osmea_storybook/components/stack_storybook/stacks.dart';
@@ -38,6 +39,7 @@ import '../components/snackbar_storybook/snackbars.dart';
 import '../components/dropdown_storybook/dropdowns.dart';
 import '../components/image_storybook/images.dart';
 import '../components/toast_storybook/toasts.dart';
+import '../components/spacer_storybook/spacers.dart';
 
 /// Model for component information displayed on home page and stories
 class ComponentInfo {
@@ -60,7 +62,7 @@ class ComponentInfo {
 
 /// Central registry for all components (used for both home and stories)
 final List<ComponentInfo> allComponents = [
-    ComponentInfo(
+  ComponentInfo(
     name: 'Align',
     description: 'Alignment widget for precise positioning control',
     icon: Icons.align_horizontal_center,
@@ -140,7 +142,7 @@ final List<ComponentInfo> allComponents = [
     color: Colors.blueGrey,
     storyPath: StoryConfig.buildComponentStoryName('Chips'),
     getStories: getAllChipStories,
-  ),  
+  ),
   ComponentInfo(
     name: 'ClipRRect',
     description: 'Clip child with rounded corners for beautiful UI elements',
@@ -157,6 +159,15 @@ final List<ComponentInfo> allComponents = [
     color: Colors.teal,
     storyPath: StoryConfig.buildComponentStoryName('Collapse'),
     getStories: getAllCollapseStories,
+  ),
+  ComponentInfo(
+    name: 'Column',
+    description:
+        'Vertical layout component with flexible alignment and spacing options',
+    icon: Icons.view_column,
+    color: Colors.indigo,
+    storyPath: StoryConfig.buildComponentStoryName('Column'),
+    getStories: getAllColumnStories,
   ),
   ComponentInfo(
     name: 'Containers',
@@ -258,15 +269,6 @@ final List<ComponentInfo> allComponents = [
     getStories: getAllProgressStories,
   ),
   ComponentInfo(
-    name: 'Row',
-    description:
-        'Horizontal layout component with flexible alignment and spacing options',
-    icon: Icons.view_stream,
-    color: Colors.indigo,
-    storyPath: StoryConfig.buildComponentStoryName('Row'),
-    getStories: getAllRowStories,
-  ),
-  ComponentInfo(
     name: 'Radio Buttons',
     description: 'Selection controls for single choice',
     icon: Icons.radio_button_checked,
@@ -282,6 +284,15 @@ final List<ComponentInfo> allComponents = [
     color: Colors.deepPurple,
     storyPath: StoryConfig.buildComponentStoryName('RichText'),
     getStories: getAllRichTextStories,
+  ),
+  ComponentInfo(
+    name: 'Row',
+    description:
+        'Horizontal layout component with flexible alignment and spacing options',
+    icon: Icons.view_stream,
+    color: Colors.indigo,
+    storyPath: StoryConfig.buildComponentStoryName('Row'),
+    getStories: getAllRowStories,
   ),
   ComponentInfo(
     name: 'Searchbars',
@@ -309,7 +320,16 @@ final List<ComponentInfo> allComponents = [
     storyPath: StoryConfig.buildComponentStoryName('Snackbars'),
     getStories: getAllSnackbarStories,
   ),
-    ComponentInfo(
+  ComponentInfo(
+    name: 'Spacer',
+    description:
+        'Flexible space that expands to fill available space in Row or Column',
+    icon: Icons.space_bar,
+    color: Colors.indigo,
+    storyPath: StoryConfig.buildComponentStoryName('Spacer'),
+    getStories: getAllSpacerStories,
+  ),
+  ComponentInfo(
     name: 'Stack',
     description:
         'Layered widget positioning component for overlapping elements',
