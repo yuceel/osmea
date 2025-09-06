@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:core/core.dart';
 import 'package:api_explorer/services/api_service_registry.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:apis/apis.dart';
 import 'package:apis/services/wizard_helper.dart';
 import 'package:apis/dio_config/dio_client/api_dio_client.dart';
@@ -12,6 +13,7 @@ import 'di/config/config_di.dart';
 /// 🚀 Main entry point of the API Explorer application
 Future<void> main() async {
   // 🪄🧵 Ensures Flutter bindings are initialized
+  usePathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
 
   // 🌐 Configure web URL strategy to use paths instead of hash (#)
