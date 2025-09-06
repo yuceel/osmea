@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
+import '../widgets/info_chip_widget.dart';
 
 /// **Spacer Header Section**
 ///
 /// Header component for Spacer stories
 class SpacerHeaderSection extends StatelessWidget {
-  const SpacerHeaderSection({super.key});
+  final String title;
+  final String subtitle;
+  final Map<String, String> infoChips;
+
+  const SpacerHeaderSection({
+    super.key,
+    required this.title,
+    required this.subtitle,
+    required this.infoChips,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +58,7 @@ class SpacerHeaderSection extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Spacer',
+                      title,
                       style:
                           Theme.of(context).textTheme.headlineSmall?.copyWith(
                                 fontWeight: FontWeight.bold,
@@ -57,7 +67,7 @@ class SpacerHeaderSection extends StatelessWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Flexible space that expands to fill available space in Row or Column',
+                      subtitle,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             color: Colors.grey[600],
                           ),
@@ -66,6 +76,17 @@ class SpacerHeaderSection extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+          const SizedBox(height: 16),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: infoChips.entries.map((entry) {
+              return InfoChipWidget(
+                label: entry.key,
+                value: entry.value,
+              );
+            }).toList(),
           ),
         ],
       ),

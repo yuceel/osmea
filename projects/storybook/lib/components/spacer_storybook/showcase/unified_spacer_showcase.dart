@@ -26,7 +26,7 @@ List<Story> getUnifiedSpacerShowcase() {
               .toList(),
         );
 
-        final flexValue = 1; // Fixed default flex; UI controls removed
+        const flexValue = 1; // Fixed default flex; UI controls removed
 
         // Get spacer position from knobs
         final spacerPosition = context.knobs.options(

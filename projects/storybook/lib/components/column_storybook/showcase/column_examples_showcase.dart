@@ -27,10 +27,10 @@ List<Story> getColumnExamplesShowcase() {
               ColumnExampleWidget(
                 title: 'Start Alignment',
                 description: 'Children aligned to the start of the main axis',
-                children: ColumnBuilder.buildSampleChildren('basic'),
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
+                children: ColumnBuilder.buildSampleChildren('basic'),
               ),
 
               const SizedBox(height: 16),
@@ -38,10 +38,10 @@ List<Story> getColumnExamplesShowcase() {
               ColumnExampleWidget(
                 title: 'Center Alignment',
                 description: 'Children centered on the main axis',
-                children: ColumnBuilder.buildSampleChildren('basic'),
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
+                children: ColumnBuilder.buildSampleChildren('basic'),
               ),
 
               const SizedBox(height: 16),
@@ -49,10 +49,10 @@ List<Story> getColumnExamplesShowcase() {
               ColumnExampleWidget(
                 title: 'Space Between',
                 description: 'Children distributed with space between them',
-                children: ColumnBuilder.buildSampleChildren('basic'),
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
+                children: ColumnBuilder.buildSampleChildren('basic'),
               ),
 
               const SizedBox(height: 16),
@@ -61,10 +61,10 @@ List<Story> getColumnExamplesShowcase() {
                 title: 'Space Evenly',
                 description:
                     'Children distributed with equal space around them',
-                children: ColumnBuilder.buildSampleChildren('basic'),
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
+                children: ColumnBuilder.buildSampleChildren('basic'),
               ),
             ],
           ),
@@ -87,6 +87,9 @@ List<Story> getColumnExamplesShowcase() {
               ColumnExampleWidget(
                 title: 'Start Cross Alignment',
                 description: 'Children aligned to the start of the cross axis',
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
                 children: [
                   Container(
                       width: 100, height: 30, color: Colors.blue.shade200),
@@ -94,14 +97,14 @@ List<Story> getColumnExamplesShowcase() {
                       width: 150, height: 30, color: Colors.green.shade200),
                   Container(width: 80, height: 30, color: Colors.red.shade200),
                 ],
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
               ),
               const SizedBox(height: 16),
               ColumnExampleWidget(
                 title: 'Center Cross Alignment',
                 description: 'Children centered on the cross axis',
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
                 children: [
                   Container(
                       width: 100, height: 30, color: Colors.blue.shade200),
@@ -109,14 +112,14 @@ List<Story> getColumnExamplesShowcase() {
                       width: 150, height: 30, color: Colors.green.shade200),
                   Container(width: 80, height: 30, color: Colors.red.shade200),
                 ],
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
               ),
               const SizedBox(height: 16),
               ColumnExampleWidget(
                 title: 'End Cross Alignment',
                 description: 'Children aligned to the end of the cross axis',
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisSize: MainAxisSize.max,
                 children: [
                   Container(
                       width: 100, height: 30, color: Colors.blue.shade200),
@@ -124,22 +127,19 @@ List<Story> getColumnExamplesShowcase() {
                       width: 150, height: 30, color: Colors.green.shade200),
                   Container(width: 80, height: 30, color: Colors.red.shade200),
                 ],
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisSize: MainAxisSize.max,
               ),
               const SizedBox(height: 16),
               ColumnExampleWidget(
                 title: 'Stretch Cross Alignment',
                 description: 'Children stretched to fill the cross axis',
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.max,
                 children: [
                   Container(height: 30, color: Colors.blue.shade200),
                   Container(height: 30, color: Colors.green.shade200),
                   Container(height: 30, color: Colors.red.shade200),
                 ],
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisSize: MainAxisSize.max,
               ),
             ],
           ),
@@ -164,15 +164,15 @@ List<Story> getColumnExamplesShowcase() {
               ColumnExampleWidget(
                 title: 'Navigation Menu',
                 description: 'Vertical navigation with icons and labels',
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.max,
                 children: [
                   _buildNavItem(Icons.home, 'Home', true),
                   _buildNavItem(Icons.person, 'Profile', false),
                   _buildNavItem(Icons.settings, 'Settings', false),
                   _buildNavItem(Icons.help, 'Help', false),
                 ],
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisSize: MainAxisSize.max,
               ),
 
               const SizedBox(height: 16),
@@ -181,10 +181,10 @@ List<Story> getColumnExamplesShowcase() {
               ColumnExampleWidget(
                 title: 'Card Stack',
                 description: 'Stacked content cards with spacing',
-                children: ColumnBuilder.buildSampleChildren('cards'),
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
+                children: ColumnBuilder.buildSampleChildren('cards'),
               ),
 
               const SizedBox(height: 16),
@@ -193,6 +193,9 @@ List<Story> getColumnExamplesShowcase() {
               ColumnExampleWidget(
                 title: 'Form Layout',
                 description: 'Vertical form elements with proper spacing',
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.max,
                 children: [
                   _buildFormField('Name', 'Enter your name'),
                   _buildFormField('Email', 'Enter your email'),
@@ -202,9 +205,6 @@ List<Story> getColumnExamplesShowcase() {
                     child: const Text('Submit'),
                   ),
                 ],
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisSize: MainAxisSize.max,
               ),
 
               const SizedBox(height: 16),
@@ -213,15 +213,15 @@ List<Story> getColumnExamplesShowcase() {
               ColumnExampleWidget(
                 title: 'Status Panel',
                 description: 'Status indicators and information display',
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
                 children: [
                   _buildStatusItem('Online', Colors.green, Icons.circle),
                   _buildStatusItem('Away', Colors.orange, Icons.schedule),
                   _buildStatusItem(
                       'Offline', Colors.grey, Icons.circle_outlined),
                 ],
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
               ),
             ],
           ),

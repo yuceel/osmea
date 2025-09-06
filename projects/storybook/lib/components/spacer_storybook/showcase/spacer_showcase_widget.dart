@@ -291,7 +291,7 @@ class SpacerGridPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.orange.shade200.withOpacity(0.3)
+      ..color = Colors.orange.shade200.withAlpha((0.3 * 255).toInt())
       ..style = PaintingStyle.fill;
 
     // Draw diagonal stripes to indicate flexible areas
