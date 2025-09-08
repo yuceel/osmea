@@ -55,6 +55,14 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^5.0.0
 
+  # ────────────────────────────────
+  # CODE GENERATION
+  # ────────────────────────────────
+  injectable_generator: ^2.6.2     # Generates code for injectable (DI)
+  build_runner: ^2.5.4            # Core tool for running code generation
+  slang_build_runner: ^4.7.0      # Code generator for slang localization
+  flutter_gen_runner: any         # Generator for flutter_gen (assets, colors, fonts, etc.)
+
   flutter_launcher_icons: "^0.14.4" # App icon generation
 
 # ────────────────────────────────
@@ -67,13 +75,7 @@ flutter_launcher_icons:
   remove_alpha_ios: true           # Remove alpha channel for iOS
 
 
-   # ────────────────────────────────
-  # CODE GENERATION
-  # ────────────────────────────────
-  injectable_generator: ^2.6.2     # Generates code for injectable (DI)
-  build_runner: ^2.5.4            # Core tool for running code generation
-  slang_build_runner: ^4.7.0      # Code generator for slang localization
-  flutter_gen_runner: any         # Generator for flutter_gen (assets, colors, fonts, etc.)
+
 
 # ═══════════════════════════════════════════════════════════════════════════════
 # FLUTTER GEN CONFIGURATION
