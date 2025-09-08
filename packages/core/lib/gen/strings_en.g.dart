@@ -39,10 +39,45 @@ class Translations implements BaseTranslations<AppLocale, Translations> {
 	Translations $copyWith({TranslationMetadata<AppLocale, Translations>? meta}) => Translations(meta: meta ?? this.$meta);
 
 	// Translations
+
+	/// en: 'en_US'
 	String get localLanguageCode => 'en_US';
+
+	/// en: 'OSMEA App'
 	String get appTitle => 'OSMEA App';
+
+	/// en: ''
 	String get emptyText => '';
+
+	/// en: 'Cancel'
 	String get cancel => 'Cancel';
+
+	/// en: 'Loading...'
+	String get loading => 'Loading...';
+
+	/// en: 'An error occurred.'
+	String get error => 'An error occurred.';
+
+	/// en: 'Maintenance mode.'
+	String get maintenance => 'Maintenance mode.';
+
+	/// en: 'No data available.'
+	String get empty => 'No data available.';
+
+	/// en: 'Unauthorized access.'
+	String get unauthorized => 'Unauthorized access.';
+
+	/// en: 'Request timed out.'
+	String get timeout => 'Request timed out.';
+
+	/// en: 'Undo'
+	String get undo => 'Undo';
+
+	/// en: 'WebView'
+	String get webview => 'WebView';
+
+	/// en: 'An unexpected error occurred. Please try again later.'
+	String get defaultMessage => 'An unexpected error occurred. Please try again later.';
 }
 
 /// Flat map(s) containing all translations.
@@ -54,6 +89,15 @@ extension on Translations {
 			case 'appTitle': return 'OSMEA App';
 			case 'emptyText': return '';
 			case 'cancel': return 'Cancel';
+			case 'loading': return 'Loading...';
+			case 'error': return 'An error occurred.';
+			case 'maintenance': return 'Maintenance mode.';
+			case 'empty': return 'No data available.';
+			case 'unauthorized': return 'Unauthorized access.';
+			case 'timeout': return 'Request timed out.';
+			case 'undo': return 'Undo';
+			case 'webview': return 'WebView';
+			case 'defaultMessage': return 'An unexpected error occurred. Please try again later.';
 			default: return null;
 		}
 	}
