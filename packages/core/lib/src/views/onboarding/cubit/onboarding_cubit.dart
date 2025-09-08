@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:core/src/base/base_view_model_cubit.dart';
 import 'package:core/src/models/onboarding_models.dart';
 import 'package:core/src/helper/onboarding_helper.dart';
 import 'package:core/src/helper/asset_config_helper.dart';
@@ -15,24 +16,38 @@ import 'package:core/src/views/onboarding/cubit/onboarding_state.dart';
 /// {@category ViewModels}
 /// {@subCategory OnboardingCubit}
 
-class OnboardingCubit extends Cubit<OnboardingState> {
+class OnboardingCubit extends BaseViewModelCubit<OnboardingState> {
   OnboardingCubit() : super(const OnboardingState());
 
   final OnboardingStorageHelper _storageHelper = OnboardingStorageHelper();
   final AssetConfigHelper _configHelper = AssetConfigHelper();
 
+  PageController? _pageController;
+
+  /// 🎮 Initialize PageController
+  void initializePageController(PageController pageController) {
+    _pageController = pageController;
+  }
+
+  /// 🎮 Dispose PageController
+  void disposePageController() {
+    _pageController?.dispose();
+    _pageController = null;
+  }
+
   /// 📱 Load onboarding data
   Future<void> loadOnboardingData() async {
     try {
-      emit(state.copyWith(status: OnboardingStatus.loading));
+      stateChanger(state.copyWith(status: OnboardingStatus.loading));
 
       debugPrint("📱 Loading onboarding data...");
 
       // Load app config (project-specific first, then core fallback)
-      final configLoaded = await _configHelper.loadConfig('assets/app_config.json');
+      final configLoaded =
+          await _configHelper.loadConfig('assets/app_config.json');
       if (!configLoaded) {
         debugPrint("❌ Failed to load configuration file");
-        emit(state.copyWith(
+        stateChanger(state.copyWith(
           status: OnboardingStatus.error,
           errorMessage: "Configuration file could not be loaded",
         ));
@@ -41,10 +56,10 @@ class OnboardingCubit extends Cubit<OnboardingState> {
 
       // Get onboarding data from app config
       final configData = _configHelper.getAllConfig();
-      
+
       if (configData == null) {
         debugPrint("❌ Configuration data not found");
-        emit(state.copyWith(
+        stateChanger(state.copyWith(
           status: OnboardingStatus.error,
           errorMessage: "Configuration data could not be loaded",
         ));
@@ -55,7 +70,7 @@ class OnboardingCubit extends Cubit<OnboardingState> {
       final onboardingData = configData['onboarding_configuration'];
       if (onboardingData == null) {
         debugPrint("❌ Onboarding configuration not found");
-        emit(state.copyWith(
+        stateChanger(state.copyWith(
           status: OnboardingStatus.error,
           errorMessage: "Onboarding configuration not found",
         ));
@@ -63,24 +78,24 @@ class OnboardingCubit extends Cubit<OnboardingState> {
       }
 
       final onboardingConfig = OnboardingConfigModel.fromJson(onboardingData);
-      
+
       // Check onboarding seen status
       final hasSeenOnboarding = await _storageHelper.hasSeenOnboarding();
 
-      debugPrint("✅ Onboarding data loaded successfully. Page count: ${onboardingConfig.pages.length}");
+      debugPrint(
+          "✅ Onboarding data loaded successfully. Page count: ${onboardingConfig.pages.length}");
       debugPrint("👁️ Onboarding seen status: $hasSeenOnboarding");
 
-      emit(state.copyWith(
+      stateChanger(state.copyWith(
         status: OnboardingStatus.ready,
         config: onboardingConfig,
         currentPageIndex: 0,
         hasSeenOnboarding: hasSeenOnboarding,
         totalPages: onboardingConfig.pages.length,
       ));
-
     } catch (e) {
       debugPrint("❌ Error occurred while loading onboarding data: $e");
-      emit(state.copyWith(
+      stateChanger(state.copyWith(
         status: OnboardingStatus.error,
         errorMessage: "Failed to load data: ${e.toString()}",
       ));
@@ -92,10 +107,10 @@ class OnboardingCubit extends Cubit<OnboardingState> {
     if (state.config == null) return;
 
     final nextIndex = state.currentPageIndex + 1;
-    
+
     if (nextIndex < state.config!.pages.length) {
       debugPrint("➡️ Moving to next page: $nextIndex");
-      emit(state.copyWith(currentPageIndex: nextIndex));
+      stateChanger(state.copyWith(currentPageIndex: nextIndex));
     } else {
       debugPrint("✅ Last page, finishing onboarding");
       finishOnboarding();
@@ -107,7 +122,7 @@ class OnboardingCubit extends Cubit<OnboardingState> {
     if (state.currentPageIndex > 0) {
       final prevIndex = state.currentPageIndex - 1;
       debugPrint("⬅️ Moving to previous page: $prevIndex");
-      emit(state.copyWith(currentPageIndex: prevIndex));
+      stateChanger(state.copyWith(currentPageIndex: prevIndex));
     }
   }
 
@@ -117,7 +132,17 @@ class OnboardingCubit extends Cubit<OnboardingState> {
 
     if (pageIndex >= 0 && pageIndex < state.config!.pages.length) {
       debugPrint("🎯 Going to page $pageIndex");
-      emit(state.copyWith(currentPageIndex: pageIndex));
+      stateChanger(state.copyWith(currentPageIndex: pageIndex));
+
+      // Animate PageController if available
+      if (_pageController != null && _pageController!.hasClients) {
+        _pageController!.animateToPage(
+          pageIndex,
+          duration:
+              Duration(milliseconds: state.config?.animationDuration ?? 300),
+          curve: Curves.easeInOut,
+        );
+      }
     }
   }
 
@@ -131,20 +156,19 @@ class OnboardingCubit extends Cubit<OnboardingState> {
   Future<void> finishOnboarding() async {
     try {
       debugPrint("✅ Finishing onboarding...");
-      
+
       // Mark onboarding as seen
       await _storageHelper.markOnboardingSeen();
-      
-      emit(state.copyWith(
+
+      stateChanger(state.copyWith(
         status: OnboardingStatus.completed,
         hasSeenOnboarding: true,
       ));
 
       debugPrint("🎉 Onboarding completed successfully!");
-
     } catch (e) {
       debugPrint("❌ Error while finishing onboarding: $e");
-      emit(state.copyWith(
+      stateChanger(state.copyWith(
         status: OnboardingStatus.error,
         errorMessage: "Could not complete onboarding: ${e.toString()}",
       ));
@@ -156,17 +180,16 @@ class OnboardingCubit extends Cubit<OnboardingState> {
     if (kDebugMode) {
       try {
         debugPrint("🔄 Resetting onboarding (DEV)...");
-        
+
         await _storageHelper.resetOnboardingStatus();
-        
-        emit(state.copyWith(
+
+        stateChanger(state.copyWith(
           status: OnboardingStatus.ready,
           currentPageIndex: 0,
           hasSeenOnboarding: false,
         ));
 
         debugPrint("✅ Onboarding reset successfully!");
-
       } catch (e) {
         debugPrint("❌ Error while resetting onboarding: $e");
       }
@@ -177,11 +200,10 @@ class OnboardingCubit extends Cubit<OnboardingState> {
   Future<void> checkOnboardingStatus() async {
     try {
       final hasSeenOnboarding = await _storageHelper.hasSeenOnboarding();
-      
-      emit(state.copyWith(hasSeenOnboarding: hasSeenOnboarding));
-      
+
+      stateChanger(state.copyWith(hasSeenOnboarding: hasSeenOnboarding));
+
       debugPrint("📊 Onboarding status checked: $hasSeenOnboarding");
-      
     } catch (e) {
       debugPrint("❌ Error while checking onboarding status: $e");
     }
@@ -189,11 +211,11 @@ class OnboardingCubit extends Cubit<OnboardingState> {
 
   /// 🎮 Start auto advance
   void startAutoAdvance() {
-    if (state.config?.autoAdvanceSeconds != null && 
+    if (state.config?.autoAdvanceSeconds != null &&
         state.config!.autoAdvanceSeconds! > 0) {
-      
-      debugPrint("🎮 Starting auto advance: ${state.config!.autoAdvanceSeconds} seconds");
-      
+      debugPrint(
+          "🎮 Starting auto advance: ${state.config!.autoAdvanceSeconds} seconds");
+
       Future.delayed(Duration(seconds: state.config!.autoAdvanceSeconds!), () {
         if (!isClosed && state.status == OnboardingStatus.ready) {
           nextPage();
@@ -206,7 +228,7 @@ class OnboardingCubit extends Cubit<OnboardingState> {
   OnboardingPageModel? get currentPage {
     if (state.config == null) return null;
     if (state.currentPageIndex >= state.config!.pages.length) return null;
-    
+
     return state.config!.pages[state.currentPageIndex];
   }
 
@@ -231,7 +253,7 @@ class OnboardingCubit extends Cubit<OnboardingState> {
   Future<Map<String, dynamic>> getDebugInfo() async {
     if (kDebugMode) {
       final storageDebug = await _storageHelper.getOnboardingDebugInfo();
-      
+
       return {
         'cubit_state': {
           'status': state.status.toString(),
