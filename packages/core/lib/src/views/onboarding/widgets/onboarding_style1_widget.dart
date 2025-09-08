@@ -17,7 +17,6 @@ import 'package:osmea_components/osmea_components.dart';
 /// {@subCategory OnboardingStyle1}
 
 class OnboardingStyle1Widget extends StatelessWidget {
-  final PageController pageController;
   final Function(int) onPageChanged;
   final VoidCallback onNext;
   final VoidCallback onPrevious;
@@ -26,7 +25,6 @@ class OnboardingStyle1Widget extends StatelessWidget {
 
   const OnboardingStyle1Widget({
     super.key,
-    required this.pageController,
     required this.onPageChanged,
     required this.onNext,
     required this.onPrevious,
@@ -43,18 +41,19 @@ class OnboardingStyle1Widget extends StatelessWidget {
         }
 
         return OsmeaComponents.container(
-          color: state.currentPage?.getBackgroundColor() ?? OsmeaColors.paperWhite,
+          color:
+              state.currentPage?.getBackgroundColor() ?? OsmeaColors.paperWhite,
           child: SafeArea(
             child: OsmeaComponents.column(
               children: [
                 // 📱 Top section - Skip button
                 _buildTopSection(context, state),
-                
+
                 // 📄 Page content (expandable)
                 Expanded(
                   child: _buildPageContent(context, state),
                 ),
-                
+
                 // 📊 Bottom section - Indicators and navigation buttons
                 _buildBottomSection(context, state),
               ],
@@ -92,7 +91,6 @@ class OnboardingStyle1Widget extends StatelessWidget {
   Widget _buildPageContent(BuildContext context, OnboardingState state) {
     return OsmeaComponents.container(
       child: PageView.builder(
-        controller: pageController,
         onPageChanged: onPageChanged,
         itemCount: state.config!.pages.length,
         itemBuilder: (context, index) {
@@ -104,7 +102,8 @@ class OnboardingStyle1Widget extends StatelessWidget {
   }
 
   /// 📄 Individual page item
-  Widget _buildPageItem(BuildContext context, OnboardingPageModel page, OnboardingState state) {
+  Widget _buildPageItem(
+      BuildContext context, OnboardingPageModel page, OnboardingState state) {
     return OsmeaComponents.container(
       padding: context.paddingNormal,
       child: OsmeaComponents.column(
@@ -112,9 +111,9 @@ class OnboardingStyle1Widget extends StatelessWidget {
         children: [
           // 🖼️ Image or icon
           _buildPageVisual(context, page),
-          
+
           OsmeaComponents.sizedBox(height: context.spacing32),
-          
+
           // 📝 Title
           OsmeaComponents.text(
             page.title,
@@ -123,9 +122,9 @@ class OnboardingStyle1Widget extends StatelessWidget {
             fontWeight: FontWeight.bold,
             textAlign: TextAlign.center,
           ),
-          
+
           OsmeaComponents.sizedBox(height: context.spacing16),
-          
+
           // 📖 Description
           OsmeaComponents.text(
             page.description,
@@ -155,7 +154,8 @@ class OnboardingStyle1Widget extends StatelessWidget {
                 width: context.dynamicWidth(0.4),
                 height: context.dynamicWidth(0.4),
                 decoration: BoxDecoration(
-                  color: (page.getTextColor() ?? OsmeaColors.nordicBlue).withOpacity(0.1),
+                  color: (page.getTextColor() ?? OsmeaColors.nordicBlue)
+                      .withOpacity(0.1),
                   shape: BoxShape.circle,
                 ),
                 child: OsmeaComponents.center(
@@ -179,9 +179,9 @@ class OnboardingStyle1Widget extends StatelessWidget {
           // 📊 Page indicators
           if (state.shouldShowPageIndicator)
             _buildPageIndicator(context, state),
-          
+
           OsmeaComponents.sizedBox(height: context.spacing24),
-          
+
           // 🔘 Navigation buttons (new layout)
           _buildNavigationButtons(context, state),
         ],
@@ -201,14 +201,17 @@ class OnboardingStyle1Widget extends StatelessWidget {
   }
 
   /// 🔘 Individual indicator dot
-  Widget _buildIndicatorDot(BuildContext context, OnboardingState state, int index) {
+  Widget _buildIndicatorDot(
+      BuildContext context, OnboardingState state, int index) {
     final isActive = index == state.currentPageIndex;
-    final primaryColor = state.config?.getPrimaryColor() ?? OsmeaColors.nordicBlue;
-    
+    final primaryColor =
+        state.config?.getPrimaryColor() ?? OsmeaColors.nordicBlue;
+
     return OsmeaComponents.container(
       margin: EdgeInsets.symmetric(horizontal: context.spacing4),
       child: AnimatedContainer(
-        duration: Duration(milliseconds: state.config?.animationDuration ?? 300),
+        duration:
+            Duration(milliseconds: state.config?.animationDuration ?? 300),
         width: isActive ? 24 : 8,
         height: 8,
         decoration: BoxDecoration(
@@ -226,7 +229,7 @@ class OnboardingStyle1Widget extends StatelessWidget {
       children: [
         // ⬅️ Back button (left side)
         _buildBackButton(context, state),
-        
+
         // ➡️ Next/Finish button (right side)
         _buildNextFinishButton(context, state),
       ],
@@ -253,8 +256,9 @@ class OnboardingStyle1Widget extends StatelessWidget {
   /// ➡️ Next/Finish button (right side)
   Widget _buildNextFinishButton(BuildContext context, OnboardingState state) {
     final isLastPage = state.isLastPage;
-    final primaryColor = state.config?.getPrimaryColor() ?? OsmeaColors.nordicBlue;
-    
+    final primaryColor =
+        state.config?.getPrimaryColor() ?? OsmeaColors.nordicBlue;
+
     if (isLastPage) {
       // Finish button
       return OsmeaComponents.button(

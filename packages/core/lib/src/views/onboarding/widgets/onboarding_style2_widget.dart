@@ -17,7 +17,6 @@ import 'package:osmea_components/osmea_components.dart';
 /// {@subCategory OnboardingStyle2}
 
 class OnboardingStyle2Widget extends StatelessWidget {
-  final PageController pageController;
   final Function(int) onPageChanged;
   final VoidCallback onNext;
   final VoidCallback onPrevious;
@@ -26,7 +25,6 @@ class OnboardingStyle2Widget extends StatelessWidget {
 
   const OnboardingStyle2Widget({
     super.key,
-    required this.pageController,
     required this.onPageChanged,
     required this.onNext,
     required this.onPrevious,
@@ -43,7 +41,8 @@ class OnboardingStyle2Widget extends StatelessWidget {
         }
 
         return OsmeaComponents.container(
-          color: state.currentPage?.getBackgroundColor() ?? OsmeaColors.paperWhite,
+          color:
+              state.currentPage?.getBackgroundColor() ?? OsmeaColors.paperWhite,
           child: SafeArea(
             child: OsmeaComponents.container(
               padding: EdgeInsets.symmetric(
@@ -54,15 +53,15 @@ class OnboardingStyle2Widget extends StatelessWidget {
                 children: [
                   // 📱 Top section - Skip button (minimal)
                   _buildTopSection(context, state),
-                  
+
                   // 📊 Progress line indicator
                   _buildProgressIndicator(context, state),
-                  
+
                   // 📄 Page content (centered, text-focused)
                   Expanded(
                     child: _buildPageContent(context, state),
                   ),
-                  
+
                   // 🔘 Bottom navigation (clean buttons)
                   _buildBottomNavigation(context, state),
                 ],
@@ -73,8 +72,6 @@ class OnboardingStyle2Widget extends StatelessWidget {
       },
     );
   }
-
-
 
   /// 📱 Ultra-minimal top section
   Widget _buildTopSection(BuildContext context, OnboardingState state) {
@@ -101,7 +98,7 @@ class OnboardingStyle2Widget extends StatelessWidget {
   Widget _buildProgressIndicator(BuildContext context, OnboardingState state) {
     final progress = (state.currentPageIndex + 1) / state.config!.pages.length;
     final primaryColor = state.config?.getPrimaryColor() ?? OsmeaColors.thunder;
-    
+
     return OsmeaComponents.container(
       margin: EdgeInsets.symmetric(vertical: context.spacing24),
       child: OsmeaComponents.column(
@@ -125,7 +122,7 @@ class OnboardingStyle2Widget extends StatelessWidget {
               ),
             ),
           ),
-          
+
           // Progress text
           OsmeaComponents.sizedBox(height: context.spacing8),
           OsmeaComponents.text(
@@ -142,7 +139,6 @@ class OnboardingStyle2Widget extends StatelessWidget {
   Widget _buildPageContent(BuildContext context, OnboardingState state) {
     return OsmeaComponents.container(
       child: PageView.builder(
-        controller: pageController,
         onPageChanged: onPageChanged,
         itemCount: state.config!.pages.length,
         itemBuilder: (context, index) {
@@ -168,10 +164,10 @@ class OnboardingStyle2Widget extends StatelessWidget {
             fontWeight: FontWeight.w500,
             textAlign: TextAlign.center,
           ),
-          
+
           // Minimal spacing
           OsmeaComponents.sizedBox(height: context.spacing24),
-          
+
           // 📖 Description - clean and readable
           OsmeaComponents.container(
             constraints: BoxConstraints(
@@ -180,7 +176,8 @@ class OnboardingStyle2Widget extends StatelessWidget {
             child: OsmeaComponents.text(
               page.description,
               variant: OsmeaTextVariant.bodyLarge,
-              color: page.getTextColor()?.withOpacity(0.8) ?? OsmeaColors.pewter,
+              color:
+                  page.getTextColor()?.withOpacity(0.8) ?? OsmeaColors.pewter,
               textAlign: TextAlign.center,
             ),
           ),
@@ -189,13 +186,11 @@ class OnboardingStyle2Widget extends StatelessWidget {
     );
   }
 
-
-
   /// 🔘 Ultra-clean bottom navigation (error handling style)
   Widget _buildBottomNavigation(BuildContext context, OnboardingState state) {
     final buttons = <Widget>[];
     final primaryColor = state.config?.getPrimaryColor() ?? OsmeaColors.thunder;
-    
+
     // Back button (text-only, like error handling)
     if (state.shouldShowBackButton) {
       buttons.add(
@@ -236,12 +231,14 @@ class OnboardingStyle2Widget extends StatelessWidget {
     }
 
     return OsmeaComponents.column(
-      children: buttons.map((button) => 
-        OsmeaComponents.container(
-          margin: EdgeInsets.only(bottom: context.spacing12),
-          child: button,
-        ),
-      ).toList(),
+      children: buttons
+          .map(
+            (button) => OsmeaComponents.container(
+              margin: EdgeInsets.only(bottom: context.spacing12),
+              child: button,
+            ),
+          )
+          .toList(),
     );
   }
 }
