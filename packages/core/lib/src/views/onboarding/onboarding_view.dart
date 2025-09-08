@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:core/src/base/base_view_cubit.dart';
 import 'package:core/src/models/onboarding_models.dart';
 import 'package:core/src/views/onboarding/cubit/onboarding_cubit.dart';
 import 'package:core/src/views/onboarding/cubit/onboarding_state.dart';
@@ -13,17 +13,19 @@ import 'package:osmea_components/osmea_components.dart';
 /// https://github.com/masterfabric-mobile/osmea/tree/dev/packages/core
 ///
 /// Main onboarding view - supports 2 different styles
+/// Uses BaseViewCubit for lifecycle management
+/// UI only - no state management
 ///
 /// {@category Views}
 /// {@subCategory OnboardingView}
 
-class OnboardingView extends StatefulWidget {
+class OnboardingView extends StatelessWidget {
   /// Callback to be called when onboarding is completed
   final VoidCallback? onCompleted;
-  
+
   /// Callback to be called when onboarding is skipped
   final VoidCallback? onSkipped;
-  
+
   /// Callback to be called when an error occurs
   final Function(String error)? onError;
 
@@ -35,92 +37,36 @@ class OnboardingView extends StatefulWidget {
   });
 
   @override
-  State<OnboardingView> createState() => _OnboardingViewState();
-}
-
-class _OnboardingViewState extends State<OnboardingView>
-    with TickerProviderStateMixin {
-  
-  late PageController _pageController;
-  late AnimationController _animationController;
-  late Animation<double> _fadeAnimation;
-
-  @override
-  void initState() {
-    super.initState();
-    _initializeControllers();
-    _loadOnboardingData();
-  }
-
-  /// 🎮 Initialize controllers
-  void _initializeControllers() {
-    _pageController = PageController();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 300),
-    );
-    _fadeAnimation = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeInOut,
-    ));
-  }
-
-  /// 📱 Load onboarding data
-  void _loadOnboardingData() {
-    context.read<OnboardingCubit>().loadOnboardingData();
-  }
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    _animationController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return BlocConsumer<OnboardingCubit, OnboardingState>(
-      listener: _handleStateChanges,
-      builder: (context, state) {
+    return BaseViewCubit<OnboardingCubit, OnboardingState>(
+      onViewModelReady: (cubit) {
+        cubit.loadOnboardingData();
+      },
+      onStateListener: (context, state) {
+        if (state == null) return;
+        switch (state.status) {
+          case OnboardingStatus.completed:
+            onCompleted?.call();
+            break;
+          case OnboardingStatus.error:
+            onError?.call(state.errorMessage ?? 'Unknown error');
+            break;
+          default:
+            break;
+        }
+      },
+      builder: (cubit, context, state) {
         return Scaffold(
           backgroundColor: _getBackgroundColor(context, state),
-          body: _buildBody(context, state),
+          body: _buildBody(context, state, cubit),
         );
       },
     );
   }
 
-  /// 🎯 Listen to state changes
-  void _handleStateChanges(BuildContext context, OnboardingState state) {
-    switch (state.status) {
-      case OnboardingStatus.ready:
-        _animationController.forward();
-        break;
-      case OnboardingStatus.completed:
-        widget.onCompleted?.call();
-        break;
-      case OnboardingStatus.error:
-        widget.onError?.call(state.errorMessage ?? 'Unknown error');
-        break;
-      default:
-        break;
-    }
-
-    // Synchronize page changes with PageController
-    if (state.hasCurrentPage && _pageController.hasClients) {
-      _pageController.animateToPage(
-        state.currentPageIndex,
-        duration: Duration(milliseconds: state.config?.animationDuration ?? 300),
-        curve: Curves.easeInOut,
-      );
-    }
-  }
-
   /// 🎨 Determine background color
-  Color _getBackgroundColor(BuildContext context, OnboardingState state) {
+  static Color _getBackgroundColor(
+      BuildContext context, OnboardingState state) {
     // Use current page color if available
     final currentPageColor = state.currentPage?.getBackgroundColor();
     if (currentPageColor != null) return currentPageColor;
@@ -134,21 +80,22 @@ class _OnboardingViewState extends State<OnboardingView>
   }
 
   /// 🏗️ Build main body
-  Widget _buildBody(BuildContext context, OnboardingState state) {
+  static Widget _buildBody(
+      BuildContext context, OnboardingState state, OnboardingCubit cubit) {
     switch (state.status) {
       case OnboardingStatus.loading:
         return _buildLoadingView(context);
       case OnboardingStatus.error:
-        return _buildErrorView(context, state);
+        return _buildErrorView(context, state, cubit);
       case OnboardingStatus.ready:
-        return _buildOnboardingContent(context, state);
+        return _buildOnboardingContent(context, state, cubit);
       default:
         return _buildLoadingView(context);
     }
   }
 
   /// ⏳ Loading view using OSMEA components
-  Widget _buildLoadingView(BuildContext context) {
+  static Widget _buildLoadingView(BuildContext context) {
     return OsmeaComponents.container(
       padding: context.paddingNormal,
       child: OsmeaComponents.column(
@@ -173,7 +120,8 @@ class _OnboardingViewState extends State<OnboardingView>
   }
 
   /// ❌ Error view using OSMEA components
-  Widget _buildErrorView(BuildContext context, OnboardingState state) {
+  static Widget _buildErrorView(
+      BuildContext context, OnboardingState state, OnboardingCubit cubit) {
     return OsmeaComponents.container(
       padding: context.paddingNormal,
       child: OsmeaComponents.column(
@@ -202,7 +150,7 @@ class _OnboardingViewState extends State<OnboardingView>
           OsmeaComponents.sizedBox(height: context.spacing16),
           OsmeaComponents.button(
             text: 'Try Again',
-            onPressed: _loadOnboardingData,
+            onPressed: () => cubit.loadOnboardingData(),
             variant: ButtonVariant.primary,
             size: ButtonSize.medium,
             backgroundColor: OsmeaColors.nordicBlue,
@@ -214,100 +162,63 @@ class _OnboardingViewState extends State<OnboardingView>
   }
 
   /// 📱 Onboarding content
-  Widget _buildOnboardingContent(BuildContext context, OnboardingState state) {
+  static Widget _buildOnboardingContent(
+      BuildContext context, OnboardingState state, OnboardingCubit cubit) {
     if (!state.hasConfig || !state.hasPages) {
-      return _buildErrorView(context, state.copyWith(
-        status: OnboardingStatus.error,
-        errorMessage: 'Onboarding data not found',
-      ));
+      return _buildErrorView(
+        context,
+        state.copyWith(
+          status: OnboardingStatus.error,
+          errorMessage: 'Onboarding data not found',
+        ),
+        cubit,
+      );
     }
 
-    return FadeTransition(
-      opacity: _fadeAnimation,
-      child: _buildOnboardingByStyle(context, state),
-    );
+    return _buildOnboardingByStyle(context, state, cubit);
   }
 
   /// 🎨 Build onboarding based on style type
-  Widget _buildOnboardingByStyle(BuildContext context, OnboardingState state) {
+  static Widget _buildOnboardingByStyle(
+      BuildContext context, OnboardingState state, OnboardingCubit cubit) {
     final style = state.config!.style;
 
     switch (style) {
       case OnboardingStyle.style1:
         return OnboardingStyle1Widget(
-          pageController: _pageController,
-          onPageChanged: _onPageChanged,
-          onNext: _onNext,
-          onPrevious: _onPrevious,
-          onSkip: _onSkip,
-          onFinish: _onFinish,
+          onPageChanged: (pageIndex) => cubit.goToPage(pageIndex),
+          onNext: () => cubit.nextPage(),
+          onPrevious: () => cubit.previousPage(),
+          onSkip: () {
+            cubit.skipOnboarding();
+            // onSkipped callback will be handled by the cubit
+          },
+          onFinish: () => cubit.finishOnboarding(),
         );
       case OnboardingStyle.style2:
         return OnboardingStyle2Widget(
-          pageController: _pageController,
-          onPageChanged: _onPageChanged,
-          onNext: _onNext,
-          onPrevious: _onPrevious,
-          onSkip: _onSkip,
-          onFinish: _onFinish,
+          onPageChanged: (pageIndex) => cubit.goToPage(pageIndex),
+          onNext: () => cubit.nextPage(),
+          onPrevious: () => cubit.previousPage(),
+          onSkip: () {
+            cubit.skipOnboarding();
+            // onSkipped callback will be handled by the cubit
+          },
+          onFinish: () => cubit.finishOnboarding(),
         );
     }
-  }
-
-  /// 📄 When page changes
-  void _onPageChanged(int pageIndex) {
-    context.read<OnboardingCubit>().goToPage(pageIndex);
-  }
-
-  /// ➡️ Next page
-  void _onNext() {
-    context.read<OnboardingCubit>().nextPage();
-  }
-
-  /// ⬅️ Previous page
-  void _onPrevious() {
-    context.read<OnboardingCubit>().previousPage();
-  }
-
-  /// ⏭️ Skip
-  void _onSkip() {
-    context.read<OnboardingCubit>().skipOnboarding();
-    widget.onSkipped?.call();
-  }
-
-  /// ✅ Finish
-  void _onFinish() {
-    context.read<OnboardingCubit>().finishOnboarding();
-  }
-}
-
-/// 🎯 Onboarding Provider Widget
-/// This widget provides OnboardingCubit and wraps the view
-class OnboardingProvider extends StatelessWidget {
-  final Widget child;
-
-  const OnboardingProvider({
-    super.key,
-    required this.child,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => OnboardingCubit(),
-      child: child,
-    );
   }
 }
 
 /// 🚀 Ready-to-use widget for easy implementation
+/// Uses BaseViewCubit for dependency injection and lifecycle management
 class OnboardingScreen extends StatelessWidget {
   /// Callback to be called when onboarding is completed
   final VoidCallback? onCompleted;
-  
+
   /// Callback to be called when onboarding is skipped
   final VoidCallback? onSkipped;
-  
+
   /// Callback to be called when an error occurs
   final Function(String error)? onError;
 
@@ -320,12 +231,10 @@ class OnboardingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OnboardingProvider(
-      child: OnboardingView(
-        onCompleted: onCompleted,
-        onSkipped: onSkipped,
-        onError: onError,
-      ),
+    return OnboardingView(
+      onCompleted: onCompleted,
+      onSkipped: onSkipped,
+      onError: onError,
     );
   }
 }
