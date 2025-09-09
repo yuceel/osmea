@@ -2,28 +2,28 @@
 name: core
 description: "Core utilities, base classes, and shared logic for the OSMEA Flutter project."
 version: 0.0.1
-
+ 
 # Environment Constraints
 environment:
   sdk: ^3.6.1
   flutter: ">=1.17.0"
-
+ 
 # -------------------------------
 # Regular dependencies
 # -------------------------------
 dependencies:
   flutter:
     sdk: flutter
-  flutter_bloc: ^9.1.0      # State management
-  equatable: ^2.0.7         # Value equality
+  flutter_bloc: ^9.1.0 # State management
+  equatable: ^2.0.7 # Value equality
   go_router: ^15.1.1 # Routing
-  injectable: ^2.5.0        # Dependency injection
-  logger: ^2.5.0            # Logging utility
-  slang: ^4.7.1
+  injectable: ^2.3.2 # Dependency injection
+  logger: ^2.5.0 # Logging utility
+  slang: ^4.8.1
   flutter_localizations: # add this
     sdk: flutter
   intl: ^0.20.0
-  slang_flutter: ^4.7.0 # Localization
+  slang_flutter: ^4.8.0 # Localization
   sqflite: ^2.4.2 # Database
   shared_preferences: ^2.5.3 # Shared preferences
   firebase_analytics: ^11.4.5 # Analytics
@@ -34,20 +34,23 @@ dependencies:
   url_launcher: ^6.3.1 # URL launcher for support links
   osmea_components:
     path: ../components # osmea UI kit
-
+ 
 # -------------------------------
 # Development dependencies
 # -------------------------------
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  build_runner: 2.4.13           # Code generation
-  injectable_generator: 2.6.2    # Injectable code generator
-  slang_build_runner: ^4.7.0
-
+  build_runner: ^2.8.0 # Code generation
+  injectable_generator: ^2.8.1 # Injectable code generator
+  slang_build_runner: ^4.8.0
+ 
+dependency_overrides:
+  build: ^4.0.0
+ 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-
+ 
 # The following section is specific to Flutter packages.
 flutter:
   assets:
