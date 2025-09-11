@@ -5,6 +5,7 @@ import 'package:core/src/views/onboarding/cubit/onboarding_cubit.dart';
 import 'package:core/src/views/onboarding/cubit/onboarding_state.dart';
 import 'package:core/src/views/onboarding/widgets/onboarding_startup_widget.dart';
 import 'package:core/src/views/onboarding/widgets/onboarding_space_widget.dart';
+import 'package:core/src/views/onboarding/widgets/onboarding_enterprise_widget.dart';
 import 'package:osmea_components/osmea_components.dart';
 
 /// 🎯 **OSMEA Onboarding View**
@@ -12,7 +13,7 @@ import 'package:osmea_components/osmea_components.dart';
 /// Copyright (c) 2025, OSMEA Team
 /// https://github.com/masterfabric-mobile/osmea/tree/dev/packages/core
 ///
-/// Main onboarding view - supports 2 different styles (basic and modern)
+/// Main onboarding view - supports 3 different styles (basic, space, and enterprise)
 /// Uses BaseViewCubit for lifecycle management
 /// UI only - no state management
 ///
@@ -197,6 +198,17 @@ class OnboardingView extends StatelessWidget {
         );
       case OnboardingStyle.space:
         return OnboardingSpaceWidget(
+          onPageChanged: (pageIndex) => cubit.goToPage(pageIndex),
+          onNext: () => cubit.nextPage(),
+          onPrevious: () => cubit.previousPage(),
+          onSkip: () {
+            cubit.skipOnboarding();
+            // onSkipped callback will be handled by the cubit
+          },
+          onFinish: () => cubit.finishOnboarding(),
+        );
+      case OnboardingStyle.enterprise:
+        return OnboardingEnterpriseWidget(
           onPageChanged: (pageIndex) => cubit.goToPage(pageIndex),
           onNext: () => cubit.nextPage(),
           onPrevious: () => cubit.previousPage(),

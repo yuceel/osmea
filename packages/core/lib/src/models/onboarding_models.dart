@@ -98,7 +98,16 @@ class OnboardingPageModel {
     try {
       String hex = colorString.replaceAll('#', '');
       if (hex.length == 6) {
-        hex = 'FF$hex'; // Add alpha value
+        hex = 'FF$hex'; // Add alpha value for 6-digit hex (ARGB format)
+      } else if (hex.length == 8) {
+        // 8-digit hex: Convert from RRGGBBAA to AARRGGBB (Flutter's ARGB format)
+        String r = hex.substring(0, 2);
+        String g = hex.substring(2, 4);
+        String b = hex.substring(4, 6);
+        String a = hex.substring(6, 8);
+        hex = a + r + g + b; // Reorder to ARGB
+      } else {
+        return null; // Invalid hex length
       }
       return Color(int.parse(hex, radix: 16));
     } catch (e) {
@@ -222,7 +231,16 @@ class OnboardingConfigModel {
     try {
       String hex = colorString.replaceAll('#', '');
       if (hex.length == 6) {
-        hex = 'FF$hex'; // Add alpha value
+        hex = 'FF$hex'; // Add alpha value for 6-digit hex (ARGB format)
+      } else if (hex.length == 8) {
+        // 8-digit hex: Convert from RRGGBBAA to AARRGGBB (Flutter's ARGB format)
+        String r = hex.substring(0, 2);
+        String g = hex.substring(2, 4);
+        String b = hex.substring(4, 6);
+        String a = hex.substring(6, 8);
+        hex = a + r + g + b; // Reorder to ARGB
+      } else {
+        return null; // Invalid hex length
       }
       return Color(int.parse(hex, radix: 16));
     } catch (e) {
@@ -243,6 +261,9 @@ enum OnboardingStyle {
 
   /// Space style - Text over full screen visual
   space,
+
+  /// Enterprise style - Professional card-based layout with corporate design
+  enterprise,
 }
 
 /// 📱 Onboarding state
