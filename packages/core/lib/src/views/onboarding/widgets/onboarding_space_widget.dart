@@ -5,7 +5,7 @@ import 'package:core/src/views/onboarding/cubit/onboarding_state.dart';
 import 'package:core/src/models/onboarding_models.dart';
 import 'package:osmea_components/osmea_components.dart';
 
-/// 🎨 **OSMEA Onboarding Style 2 Widget**
+/// 🎨 **OSMEA Onboarding Space Widget**
 ///
 /// Copyright (c) 2025, OSMEA Team
 /// https://github.com/masterfabric-mobile/osmea/tree/dev/packages/core
@@ -14,16 +14,16 @@ import 'package:osmea_components/osmea_components.dart';
 /// Clean typography-focused layout with progress line indicator
 ///
 /// {@category Widgets}
-/// {@subCategory OnboardingStyle2}
+/// {@subCategory OnboardingSpace}
 
-class OnboardingStyle2Widget extends StatelessWidget {
+class OnboardingSpaceWidget extends StatelessWidget {
   final Function(int) onPageChanged;
   final VoidCallback onNext;
   final VoidCallback onPrevious;
   final VoidCallback onSkip;
   final VoidCallback onFinish;
 
-  const OnboardingStyle2Widget({
+  const OnboardingSpaceWidget({
     super.key,
     required this.onPageChanged,
     required this.onNext,
@@ -41,8 +41,7 @@ class OnboardingStyle2Widget extends StatelessWidget {
         }
 
         return OsmeaComponents.container(
-          color:
-              state.currentPage?.getBackgroundColor() ?? OsmeaColors.paperWhite,
+          color: OsmeaColors.white, // Pure white background
           child: SafeArea(
             child: OsmeaComponents.container(
               padding: EdgeInsets.symmetric(
@@ -51,18 +50,18 @@ class OnboardingStyle2Widget extends StatelessWidget {
               ),
               child: OsmeaComponents.column(
                 children: [
-                  // 📱 Top section - Skip button (minimal)
+                  // 📱 Top section - Skip button (ultra minimal)
                   _buildTopSection(context, state),
 
-                  // 📊 Progress line indicator
+                  // 📊 Progress bar (minimal)
                   _buildProgressIndicator(context, state),
 
-                  // 📄 Page content (centered, text-focused)
+                  // 📄 Page content (centered, ultra minimal)
                   Expanded(
                     child: _buildPageContent(context, state),
                   ),
 
-                  // 🔘 Bottom navigation (clean buttons)
+                  // 🔘 Bottom navigation (centered, minimal)
                   _buildBottomNavigation(context, state),
                 ],
               ),
@@ -75,8 +74,13 @@ class OnboardingStyle2Widget extends StatelessWidget {
 
   /// 📱 Ultra-minimal top section
   Widget _buildTopSection(BuildContext context, OnboardingState state) {
+    // Get text color from config, fallback to default color
+    final skipTextColor = state.currentPage?.getTextColor()?.withOpacity(0.6) ??
+        OsmeaColors.steel;
+
     return OsmeaComponents.container(
-      height: 48,
+      height: context.height40,
+      margin: EdgeInsets.only(bottom: context.spacing16),
       child: OsmeaComponents.row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
@@ -85,8 +89,9 @@ class OnboardingStyle2Widget extends StatelessWidget {
               onTap: onSkip,
               child: OsmeaComponents.text(
                 state.currentPage?.skipText ?? 'Skip',
-                variant: OsmeaTextVariant.bodyMedium,
-                color: OsmeaColors.pewter,
+                variant: OsmeaTextVariant.bodySmall,
+                color: skipTextColor,
+                fontWeight: context.normal,
               ),
             ),
         ],
@@ -94,22 +99,27 @@ class OnboardingStyle2Widget extends StatelessWidget {
     );
   }
 
-  /// 📊 Progress line indicator (single line with progress)
+  /// 📊 Progress bar (ultra minimal)
   Widget _buildProgressIndicator(BuildContext context, OnboardingState state) {
     final progress = (state.currentPageIndex + 1) / state.config!.pages.length;
-    final primaryColor = state.config?.getPrimaryColor() ?? OsmeaColors.thunder;
+    final primaryColor =
+        state.config?.getPrimaryColor() ?? OsmeaColors.nordicBlue;
+    // Get text color from config, fallback to default color
+    final progressTextColor =
+        state.currentPage?.getTextColor()?.withOpacity(0.5) ??
+            OsmeaColors.steel;
 
     return OsmeaComponents.container(
-      margin: EdgeInsets.symmetric(vertical: context.spacing24),
+      margin: EdgeInsets.only(bottom: context.height64),
       child: OsmeaComponents.column(
         children: [
-          // Progress line
+          // Progress bar - full width, minimal
           OsmeaComponents.container(
-            height: 2,
+            height: context.height4,
             width: double.infinity,
             decoration: BoxDecoration(
-              color: primaryColor.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(1),
+              color: OsmeaColors.silver.withOpacity(context.alpha30),
+              borderRadius: BorderRadius.circular(context.radiusLow),
             ),
             child: FractionallySizedBox(
               alignment: Alignment.centerLeft,
@@ -117,25 +127,26 @@ class OnboardingStyle2Widget extends StatelessWidget {
               child: OsmeaComponents.container(
                 decoration: BoxDecoration(
                   color: primaryColor,
-                  borderRadius: BorderRadius.circular(1),
+                  borderRadius: BorderRadius.circular(context.radiusLow),
                 ),
               ),
             ),
           ),
 
           // Progress text
-          OsmeaComponents.sizedBox(height: context.spacing8),
+          OsmeaComponents.sizedBox(height: context.spacing12),
           OsmeaComponents.text(
-            '${state.currentPageIndex + 1} / ${state.config!.pages.length}',
+            '${state.currentPageIndex + 1} of ${state.config!.pages.length}',
             variant: OsmeaTextVariant.bodySmall,
-            color: OsmeaColors.pewter,
+            color: progressTextColor,
+            fontWeight: context.medium,
           ),
         ],
       ),
     );
   }
 
-  /// 📄 Pure text-focused page content (error handling style)
+  /// 📄 Ultra minimal page content
   Widget _buildPageContent(BuildContext context, OnboardingState state) {
     return OsmeaComponents.container(
       child: PageView.builder(
@@ -149,96 +160,76 @@ class OnboardingStyle2Widget extends StatelessWidget {
     );
   }
 
-  /// 📄 Ultra-minimalist page item (like error handling)
+  /// 📄 Ultra-minimalist page item
   Widget _buildPageItem(BuildContext context, OnboardingPageModel page) {
+    // Get text color from config, fallback to default colors
+    final textColor = page.getTextColor() ?? OsmeaColors.thunder;
+    final descriptionColor =
+        page.getTextColor()?.withOpacity(0.7) ?? OsmeaColors.steel;
+
     return OsmeaComponents.container(
+      padding: EdgeInsets.symmetric(horizontal: context.spacing16),
       child: OsmeaComponents.column(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // 📝 Title - clean and prominent
+          // 📝 Title - justified, ultra minimal
           OsmeaComponents.text(
             page.title,
-            variant: OsmeaTextVariant.headlineMedium,
-            color: page.getTextColor() ?? OsmeaColors.thunder,
-            fontWeight: FontWeight.w500,
+            variant: OsmeaTextVariant.headlineLarge,
+            color: textColor,
+            fontWeight: context.bold,
             textAlign: TextAlign.center,
+            lineHeight: context.lineHeightTight,
           ),
 
-          // Minimal spacing
-          OsmeaComponents.sizedBox(height: context.spacing24),
+          // Spacing
+          OsmeaComponents.sizedBox(height: context.spacing32),
 
-          // 📖 Description - clean and readable
-          OsmeaComponents.container(
-            constraints: BoxConstraints(
-              maxWidth: context.dynamicWidth(0.8),
-            ),
-            child: OsmeaComponents.text(
-              page.description,
-              variant: OsmeaTextVariant.bodyLarge,
-              color:
-                  page.getTextColor()?.withOpacity(0.8) ?? OsmeaColors.pewter,
-              textAlign: TextAlign.center,
-            ),
+          // 📖 Description - justified, minimal
+          OsmeaComponents.text(
+            page.description,
+            variant: OsmeaTextVariant.bodyLarge,
+            color: descriptionColor,
+            textAlign: TextAlign.justify,
+            lineHeight: context.lineHeightRelaxed,
+            maxLines: 4,
+            overflow: TextOverflow.ellipsis,
           ),
         ],
       ),
     );
   }
 
-  /// 🔘 Ultra-clean bottom navigation (error handling style)
+  /// 🔘 Ultra-minimal bottom navigation (right aligned)
   Widget _buildBottomNavigation(BuildContext context, OnboardingState state) {
-    final buttons = <Widget>[];
-    final primaryColor = state.config?.getPrimaryColor() ?? OsmeaColors.thunder;
+    final primaryColor =
+        state.config?.getPrimaryColor() ?? OsmeaColors.nordicBlue;
 
-    // Back button (text-only, like error handling)
-    if (state.shouldShowBackButton) {
-      buttons.add(
-        GestureDetector(
-          onTap: onPrevious,
-          child: OsmeaComponents.text(
-            'Back',
-            variant: OsmeaTextVariant.bodyMedium,
-            color: OsmeaColors.pewter,
-          ),
-        ),
-      );
-    }
-
-    // Next/Finish button (minimal, like error handling)
-    if (state.isLastPage) {
-      buttons.add(
-        OsmeaComponents.button(
-          text: state.currentPage?.buttonText ?? 'Get Started',
-          onPressed: onFinish,
-          variant: ButtonVariant.primary,
-          size: ButtonSize.large,
-          backgroundColor: primaryColor,
-          textColor: OsmeaColors.white,
-        ),
-      );
-    } else {
-      buttons.add(
-        OsmeaComponents.button(
-          text: state.currentPage?.nextText ?? 'Next',
-          onPressed: onNext,
-          variant: ButtonVariant.primary,
-          size: ButtonSize.large,
-          backgroundColor: primaryColor,
-          textColor: OsmeaColors.white,
-        ),
-      );
-    }
-
-    return OsmeaComponents.column(
-      children: buttons
-          .map(
-            (button) => OsmeaComponents.container(
-              margin: EdgeInsets.only(bottom: context.spacing12),
-              child: button,
-            ),
-          )
-          .toList(),
+    return OsmeaComponents.container(
+      margin: EdgeInsets.only(top: context.height40),
+      child: OsmeaComponents.row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          state.isLastPage
+              ? OsmeaComponents.button(
+                  text: state.currentPage?.buttonText ?? 'Get Started',
+                  onPressed: onFinish,
+                  variant: ButtonVariant.ghost,
+                  size: ButtonSize.medium,
+                  backgroundColor: primaryColor,
+                  textColor: primaryColor,
+                )
+              : OsmeaComponents.button(
+                  text: state.currentPage?.nextText ?? 'Next',
+                  onPressed: onNext,
+                  variant: ButtonVariant.ghost,
+                  size: ButtonSize.medium,
+                  backgroundColor: primaryColor,
+                  textColor: primaryColor,
+                ),
+        ],
+      ),
     );
   }
 }

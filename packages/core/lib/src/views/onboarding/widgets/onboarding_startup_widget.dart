@@ -5,25 +5,25 @@ import 'package:core/src/views/onboarding/cubit/onboarding_state.dart';
 import 'package:core/src/models/onboarding_models.dart';
 import 'package:osmea_components/osmea_components.dart';
 
-/// 🎨 **OSMEA Onboarding Style 1 Widget**
-///
+/// 🎨 **OSMEA Onboarding Startup Widget**
+
 /// Copyright (c) 2025, OSMEA Team
 /// https://github.com/masterfabric-mobile/osmea/tree/dev/packages/core
 ///
-/// Classic onboarding style - Visual on top, text and buttons on bottom
+/// Basic onboarding style - Visual on top, text and buttons on bottom
 /// New layout: Skip on top-right, indicators above buttons, back (left) and next/finish (right)
 ///
 /// {@category Widgets}
-/// {@subCategory OnboardingStyle1}
+/// {@subCategory OnboardingStartup}
 
-class OnboardingStyle1Widget extends StatelessWidget {
+class OnboardingStartupWidget extends StatelessWidget {
   final Function(int) onPageChanged;
   final VoidCallback onNext;
   final VoidCallback onPrevious;
   final VoidCallback onSkip;
   final VoidCallback onFinish;
 
-  const OnboardingStyle1Widget({
+  const OnboardingStartupWidget({
     super.key,
     required this.onPageChanged,
     required this.onNext,
